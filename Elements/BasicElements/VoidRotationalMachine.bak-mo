@@ -1,0 +1,66 @@
+within PropulsionSystem.Elements.BasicElements;
+
+model VoidRotationalMachine
+
+  extends PropulsionSystem.BaseClasses.PartialElementTwoPortsTwoShafts;
+  
+  import Modelica.Constants;
+  
+  /********************************************************
+    Declaration
+  ********************************************************/
+  //********** Package **********
+  //##### none #####
+  //********** Parameters **********
+  parameter Modelica.SIunits.MassFlowRate WcDes= 1.0 
+    annotation(Dialog(group = "Characteristics"));
+  parameter Real PRdes= 20 "pressure ratio at design point" 
+    annotation(Dialog(group = "Characteristics"));
+  
+  parameter Modelica.SIunits.Pressure Pstd= 101.315*1000;
+  parameter Modelica.SIunits.Temperature Tstd= 288.15;
+
+//********** Internal variables **********
+  Real PR(start = PRdes) "pressure ratio";
+  Modelica.SIunits.MassFlowRate Wc(start = WcDes);
+  //********** Interfaces **********
+
+//##### none #####
+  //********** Initialization **********
+
+//##### none #####
+  //********** Protected objects **********
+  //##### none #####
+  /********************************************************
+  Model coding
+********************************************************/
+equation
+//********** Geometries **********
+//##### none #####
+//********** Connections, interface <-> internal variables **********
+//##### none #####
+//********** Eqns describing physics **********
+  Wc = WcDes;
+//Wc= abs(port_a.m_flow)*sqrt(fluid_I.T/Tstd)/(fluid_I.p/Pstd);
+  PR = PRdes;
+  PR = fluid_O.p / fluid_I.p;
+  fluid_O.h = Medium.isentropicEnthalpy(fluid_O.p, fluid_I.state);
+//-- mass conservation --
+  port_a.m_flow + port_b.m_flow = 0;
+  fluid_O.Xi= fluid_I.Xi;
+//-- energy conservation --
+  trq = flange_a.tau + flange_b.tau;
+  pwr = (port_a.m_flow * fluid_I.h) + (port_b.m_flow * fluid_O.h);
+  der(phi) = omega;
+  omega*trq = pwr;
+  Nmech = Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
+  
+  
+/********************************************************
+  Graphics
+********************************************************/
+
+  annotation(
+    Icon(graphics = {Polygon(origin = {2, 36}, fillColor = {0, 85, 255}, fillPattern = FillPattern.Solid, points = {{-62, -38}, {-62, -96}, {58, -96}, {58, 26}, {-62, 26}, {-62, -38}}), Rectangle(origin = {-99, 8}, fillPattern = FillPattern.Solid, extent = {{-1, 2}, {39, -18}}), Rectangle(origin = {91, 2}, fillPattern = FillPattern.Solid, extent = {{-31, 8}, {9, -12}}), Rectangle(origin = {63, 86}, rotation = 180, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 24}, {7, -14}}), Text(origin = {-23, 15}, lineColor = {255, 255, 255}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-27, 23}, {73, -47}}, textString = "VoidRotationalMachine"), Rectangle(origin = {-94, 95}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{1, 12}, {5, -36}}), Rectangle(origin = {82, 93}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 26}, {7, -18}}),  Text(origin = {-26, -73}, extent = {{-40, 7}, {72, -17}}, textString = "%name"), Rectangle(origin = {-53, 86}, rotation = 180, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 24}, {7, -14}})}, coordinateSystem(initialScale = 0.1)));
+
+end VoidRotationalMachine;

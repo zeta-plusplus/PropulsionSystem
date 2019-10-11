@@ -1,0 +1,78 @@
+within PropulsionSystem.Elements.BasicElements;
+
+model def_Nmech
+  import Modelica.Constants;
+  /********************************************************
+     Declaration
+  ********************************************************/
+  //********** Package **********
+  //##### none #####
+  //********** Parameters **********
+  parameter Boolean use_NmechDes_in=false
+    "" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true));
+  
+  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes= 3000.0
+    "mechanical rotation speed at design point"
+    annotation(
+    Dialog(group = "Characteristics"));
+  
+  
+  //********** Internal variables **********
+  //Modelica.SIunits.Power pwr "power via shaft, positive if fluid generates power";
+  //Modelica.SIunits.Torque trq(start= 1.0) "trq via shaft";
+  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech(start=NmechDes) "mechanical rotation speed, rpm";
+  Modelica.SIunits.AngularVelocity omega "mechanical rotation speed, rad/sec";
+  Modelica.SIunits.Angle phi "mechanical rotation displacement, rad";
+  
+  
+  //********** Interfaces **********
+  Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_a annotation(
+    Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_b annotation(
+    Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput NmechDes_in if use_NmechDes_in annotation(
+    Placement(visible = true, transformation(origin = {-80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {-50, -66}, extent = {{-6, -6}, {6, 6}}, rotation = 90)));
+  
+  
+  //********** Initialization **********
+  //##### none #####
+  //********** Protected objects **********
+  //##### none #####
+  
+  /********************************************************
+      Model coding
+  ********************************************************/
+equation
+  //********** Geometries **********
+  //##### none #####
+  
+  
+  //********** Connections, interface <-> internal variables **********
+  if (use_NmechDes_in==true) then
+    Nmech= NmechDes_in;
+  else
+    Nmech= NmechDes;
+  end if;
+  
+  phi = flange_a.phi;
+  phi = flange_b.phi;
+  flange_a.tau + flange_b.tau = 0;
+  
+  //********** Eqns describing physics **********
+  Nmech = Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
+  der(phi) = omega;
+  //omega * trq = pwr;
+  
+  
+/********************************************************
+  Graphics
+********************************************************/
+  
+annotation(
+    Icon(graphics = {Rectangle(origin = {1, 1}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-101, 9}, {99, -11}}), Rectangle(origin = {0, -1}, fillPattern = FillPattern.Solid, extent = {{-60, 61}, {60, -59}}), Text(origin = {-23, 21}, lineColor = {255, 255, 255}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-33, 13}, {77, -57}}, textString = "def_NmechDes"), Text(origin = {17, -78}, extent = {{-35, 14}, {67, -12}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)));
+  
+
+end def_Nmech;

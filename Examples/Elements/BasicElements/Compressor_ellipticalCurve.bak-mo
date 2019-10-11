@@ -1,0 +1,5 @@
+within PropulsionSystem.Examples.Elements.BasicElements;
+
+model Compressor_ellipticalCurve
+  extends Modelica.Icons.Example;
+end Compressor_ellipticalCurve;

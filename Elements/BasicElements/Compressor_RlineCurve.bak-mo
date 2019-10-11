@@ -1,0 +1,46 @@
+within PropulsionSystem.Elements.BasicElements;
+
+model Compressor_RlineCurve
+  extends PropulsionSystem.Elements.BasicElements.Compressor;
+  
+  import Modelica.Constants;
+  import PropulsionSystem.Types.switches;
+  import PropulsionSystem.Subelements;
+  /********************************************************
+     Declaration
+  ********************************************************/
+  //********** Package **********
+  outer replaceable package Medium= Modelica.Media.Interfaces.PartialMedium;
+  //********** Parameters **********
+  //##### none #####
+  //********** Internal variables **********
+  //##### none #####
+  
+  //********** Internal model **********
+  PropulsionSystem.Subelements.CompressorRlineCurve model_compressorRlineCurve_1
+    (
+      redeclare package Medium= Medium
+    )
+    annotation(
+    Placement(visible = true, transformation(origin = {0, 10}, extent = {{-60, -60}, {60, 60}}, rotation = 0)));
+  
+  
+  //********** Interfaces **********
+  inner Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech;
+  
+  
+  
+  //********** Initialization **********
+  //##### none #####
+  //********** Protected objects **********
+  //##### none #####
+algorithm
+  //##### none #####
+equation
+  //##### none #####
+/********************************************************
+  Graphics
+********************************************************/
+//identical to "Compressor"
+  
+end Compressor_RlineCurve;

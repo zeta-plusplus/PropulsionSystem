@@ -1,0 +1,4 @@
+within PropulsionSystem.Types.switches;
+
+type switch_CompressorEff_model
+end switch_CompressorEff_model;

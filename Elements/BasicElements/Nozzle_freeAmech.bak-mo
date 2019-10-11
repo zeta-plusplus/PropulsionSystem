@@ -1,0 +1,168 @@
+within PropulsionSystem.Elements.BasicElements;
+
+model Nozzle_freeAmech
+  extends PropulsionSystem.BaseClasses.PartialElementTwoPorts;
+  import Modelica.Constants;
+  /********************************************************
+     Declaration
+  ********************************************************/
+  //********** Package **********
+  //##### none #####
+  
+  
+  //********** Type definitions, only valid in this class **********
+  type switch_Nozzle_Subelement= enumeration
+    (
+      NoSubelement "",
+      curve_PR ""
+    )
+    annotation (Documentation(info=
+    "<html>
+    </html>"));
+  
+  
+  //********** Parameters **********
+  parameter Real CdThDes = 0.99
+    ""
+    annotation(
+    Dialog(group = "Characteristics"));
+  
+  parameter Real CvDes = 0.99
+    ""
+    annotation(
+    Dialog(group = "Characteristics"));
+  
+  parameter Modelica.SIunits.Area Amech_th= 1.0 
+    annotation(Dialog(group = "Geometry"));
+    
+  //----- switches -----
+  parameter PropulsionSystem.Types.switches.switch_parameter_input switchInput_CdTh
+      =PropulsionSystem.Types.switches.switch_parameter_input.use_desValue
+   ""
+    annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching= true,   
+    Evaluate = true,
+    HideResult = true
+    );
+  
+  parameter PropulsionSystem.Types.switches.switch_parameter_input switchInput_Cv
+      =PropulsionSystem.Types.switches.switch_parameter_input.use_desValue
+   ""
+    annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching= true,   
+    Evaluate = true,
+    HideResult = true
+    );
+  
+  parameter switch_Nozzle_Subelement switchSubelement_CdTh
+    = switch_Nozzle_Subelement.NoSubelement
+    ""
+    annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching= true,   
+    Evaluate = true,
+    HideResult = true
+    );
+  
+  parameter switch_Nozzle_Subelement switchSubelement_Cv
+    = switch_Nozzle_Subelement.NoSubelement
+    ""
+    annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching= true,   
+    Evaluate = true,
+    HideResult = true
+    );
+  
+  
+  //********** Internal variables **********
+  Medium.BaseProperties fluid_2Tot "flow station of outlet, total";
+  //Medium.BaseProperties fluid_th "flow station of throat";
+  //Modelica.SIunits.Area A_th(start= Amech_th);
+  Modelica.SIunits.Velocity V_2(start= 10);
+  Modelica.SIunits.Velocity V_2is(start= 10);
+  //Modelica.SIunits.Velocity V_th(start= 10);
+  Real PR(start=1);
+  Real CdTh(start = CdThDes);
+  Real Cv(start = CvDes);
+  
+  Modelica.SIunits.SpecificEnthalpy h_2is "";
+  
+  Modelica.SIunits.Force Fg "";
+  
+  
+  //********** Internal model **********
+  //##### none #####
+  
+  
+  //********** Interfaces **********
+  Modelica.Blocks.Interfaces.RealInput CdTh_in
+    if (switchInput_CdTh== PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal)
+    "" annotation(
+    Placement(visible = true, transformation(origin = {-80, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {-70, -85}, extent = {{-8, -8}, {8, 8}}, rotation = 90)));
+  
+  Modelica.Blocks.Interfaces.RealInput Cv_in
+    if (switchInput_Cv== PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal)
+    "" annotation(
+    Placement(visible = true, transformation(origin = {-40, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {-40, -77}, extent = {{-8, -8}, {8, 8}}, rotation = 90)));
+  
+  Modelica.Blocks.Interfaces.RealOutput Fg_out annotation(
+    Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {53, 0}, extent = {{-7, -7}, {7, 7}}, rotation = 0)));
+  
+  
+  //********** Initialization **********
+  //##### none #####
+  //********** Protected objects **********
+  //##### none #####
+algorithm
+  //##### none #####
+equation
+  //********** Geometries **********
+  //##### none #####
+  //********** Connections, interface <-> internal variables **********
+  //--- CdTh ---
+  if (switchInput_CdTh == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue) then
+    CdTh = CdThDes;
+  elseif (switchInput_CdTh == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal) then
+    CdTh = CdTh_in;
+  end if;
+  
+  //--- Cv ---
+  if (switchInput_Cv == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue) then
+    Cv = CvDes;
+  elseif (switchInput_Cv == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal) then
+    Cv = Cv_in;
+  end if;
+  
+  Fg_out= Fg;
+  
+  
+  //********** Eqns describing physics **********
+  fluid_2Tot.p = fluid_1.p;
+  PR= fluid_1.p / fluid_2.p;
+  //-- mass conservation --
+  port_1.m_flow + port_2.m_flow = 0;
+  fluid_2.Xi= fluid_1.Xi;
+  
+  //-- full expansion --
+  fluid_1.h = h_2is + V_2is ^ 2.0 / 2.0;
+  h_2is = Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
+  
+  V_2 = Cv*V_2is;
+  fluid_1.h = fluid_2.h + V_2^2.0 / 2.0;
+  
+  //-- energy conservation --
+  (port_1.m_flow*fluid_1.h) + (port_2.m_flow*fluid_2Tot.h) = 0;
+//-- performance characteristics --
+  Fg = (-1) * port_2.m_flow * V_2;
+  
+/********************************************************
+  Graphics
+********************************************************/
+
+  annotation(
+    Icon(graphics = {Polygon(origin = {0, 10}, fillColor = {208, 208, 208}, fillPattern = FillPattern.Solid, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-4, -76}, extent = {{-18, 10}, {42, -14}}, textString = "%name"), Text(origin = {-18, -1}, extent = {{-40, 13}, {40, -13}}, textString = "Nzl"), Rectangle(origin = {-94, 100}, fillColor = {112, 112, 112}, fillPattern = FillPattern.Solid, extent = {{-6, 2}, {18, -2}}), Rectangle(origin = {-74, 110}, fillColor = {112, 112, 112}, fillPattern = FillPattern.Solid, extent = {{-6, -8}, {-2, -32}}),  Text(origin = {82, 85}, extent = {{-16, 11}, {8, 1}}, textString = "*static"), Line(origin = {81.88, 37.0395}, points = {{-23, 2}, {17, 2}, {17, 60}}, pattern = LinePattern.Dot, thickness = 0.5), Line(origin = {63.9695, -50.1462}, points = {{-7, 9}, {-7, -39}, {21, -39}}, thickness = 0.5)}, coordinateSystem(initialScale = 0.1)));
+
+end Nozzle_freeAmech;

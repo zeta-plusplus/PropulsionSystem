@@ -1,0 +1,25 @@
+within PropulsionSystem.Examples.Elements.BasicElements;
+
+model HeatInjector_001
+  extends Modelica.Icons.Example;
+  //-----
+  PropulsionSystem.Sources.MassFlowSource massFlowSource1(redeclare package Medium = Modelica.Media.Air.DryAirNasa, m_flow = -10)  annotation(
+    Placement(visible = true, transformation(origin = {4, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+  Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = Modelica.Media.Air.DryAirNasa, T = 600, nPorts = 1, p = 50 * 101.3 * 1000)  annotation(
+    Placement(visible = true, transformation(origin = {-70, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.HeatInjector heatInjector1(redeclare package Medium = Modelica.Media.Air.DryAirNasa) annotation(
+    Placement(visible = true, transformation(origin = {-30, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.CombustFuel combustFuel1 annotation(
+    Placement(visible = true, transformation(origin = {-50, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+equation
+  connect(combustFuel1.HeatPort_b, heatInjector1.HeatPort_1) annotation(
+    Line(points = {{-40, 72}, {-30, 72}, {-30, 40}}, color = {191, 0, 0}));
+  connect(heatInjector1.port_2, massFlowSource1.port_b) annotation(
+    Line(points = {{-20, 40}, {-6, 40}, {-6, 40}, {-6, 40}}, color = {0, 127, 255}));
+  connect(boundary.ports[1], heatInjector1.port_1) annotation(
+    Line(points = {{-60, 40}, {-40, 40}, {-40, 40}, {-40, 40}}, color = {0, 127, 255}));
+  annotation(
+    uses(Modelica(version = "3.2.2")),
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"));
+
+end HeatInjector_001;

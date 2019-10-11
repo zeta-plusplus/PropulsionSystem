@@ -1,0 +1,77 @@
+within PropulsionSystem.Elements.BasicElements;
+
+model def_dm
+  extends PropulsionSystem.BaseClasses.PartialElementTwoPorts;
+  import Modelica.Constants;
+  /********************************************************
+     Declaration
+  ********************************************************/
+  //********** Package **********
+  //##### none #####
+  //********** Parameters **********
+  parameter Boolean use_dm_in = false
+    ""
+    annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true));
+  
+  parameter Modelica.SIunits.MassFlowRate dm_UI = 1.0
+    ""
+    annotation(
+    Dialog(group = "Characteristics"));
+  
+  
+  //********** Internal variables **********
+  Modelica.SIunits.MassFlowRate dm "";
+  
+  
+  //********** Interfaces **********
+  Modelica.Blocks.Interfaces.RealInput dm_in if use_dm_in "" annotation(
+    Placement(visible = true, transformation(origin = {-80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {-40, -45}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
+  
+  
+  //********** Initialization **********
+  //##### none #####
+  //********** Protected objects **********
+  //##### none #####
+  /********************************************************
+    Model coding
+  ********************************************************/
+  
+equation
+  //********** Geometries **********
+  //##### none #####
+  
+  
+  //********** Connections, interface <-> internal variables **********
+  if (use_dm_in==true) then
+    dm = dm_in;
+  else
+    dm = dm_UI;
+  end if;
+  
+  
+  //********** Eqns describing physics **********
+  port_a.m_flow = dm;
+  
+  //-- pressure --
+  fluid_O.p = fluid_I.p;
+  
+  //-- mass conservation --
+  port_a.m_flow + port_b.m_flow= 0;
+  fluid_O.Xi= fluid_I.Xi;
+  
+  //-- energy conservation --
+  (port_a.m_flow*fluid_I.h) + (port_b.m_flow*fluid_O.h)=0;
+  
+  
+/********************************************************
+  Graphics
+********************************************************/
+  
+annotation(
+    Icon(graphics = {Rectangle(origin = {-10, 10}, fillPattern = FillPattern.Solid, extent = {{-50, 30}, {70, -50}}), Rectangle(origin = {-58, 71}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 29}, {2, -31}}), Rectangle(origin = {-98, 71}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 29}, {42, 25}}), Rectangle(origin = {58, 71}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 29}, {2, -31}}), Rectangle(origin = {58, 71}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 29}, {42, 25}}), Text(origin = {-20, 7}, lineColor = {255, 255, 255}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-26, 15}, {68, -27}}, textString = "define dm"), Text(origin = {30, -79}, extent = {{-48, 13}, {48, -13}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)));
+
+
+end def_dm;

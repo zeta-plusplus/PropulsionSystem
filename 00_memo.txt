@@ -1,0 +1,55 @@
+----------
+Author: Tomonobu Aozasa
+Date: 2019/10/12
+		
+----------	
+Examples::Engines::
+	
+	TurboJet001
+		DesignPoint::
+			_001
+			_002	
+		OffDesignSim::
+			_003
+			_004
+			_005
+				1st transient model runnning successfully, only shaft inertia causes transient response
+			_006
+				ClosedVolume added downstream of turbine
+			_007
+			_008
+			_009
+			_010
+			_011
+			_012
+		
+	TurboFan001
+		DesignPoint::
+			_001
+				design point calc model. Brn036.fluid_2.T input.
+			_002
+				design point calc model for parametric study.
+				user inputs: BPR, tgt-thrust
+				as calculated: Brn036.fluid_2.T			
+			_004
+				design point calc model for parametric study.
+				user inputs: Brn036.fluid_2.T, Trb041.effDes, Trb046.effDes	
+		OffDesignSim::
+			_003
+				model for off-design simulaion.
+				operable
+			_005
+				shafts are removed from _003
+				NOT operable
+			
+	MSZ006A1_engine001
+		DesignPoint::
+			_001
+			_002
+			
+	MSZ006A1_engine002
+		DesignPoint::
+			_001
+			_002
+			
+----------

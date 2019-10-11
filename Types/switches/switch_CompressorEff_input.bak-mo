@@ -1,0 +1,4 @@
+within PropulsionSystem.Types.switches;
+
+type switch_CompressorEff_input
+end switch_CompressorEff_input;

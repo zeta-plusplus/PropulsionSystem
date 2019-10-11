@@ -1,0 +1,14 @@
+within PropulsionSystem.Types.switches;
+
+type switch_BPR_input= enumeration
+(
+  use_inputSignal "",
+  use_desValue "",
+  calc_internalModel ""
+)
+annotation (Documentation(info=
+"<html>
+
+</html>"));
+
+//end switch_BPR_input;

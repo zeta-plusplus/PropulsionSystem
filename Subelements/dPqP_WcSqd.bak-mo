@@ -1,0 +1,65 @@
+within PropulsionSystem.Subelements;
+
+model dPqP_WcSqd
+  import Modelica.Constants;
+  
+  /********************************************************
+   Declaration
+  ********************************************************/
+  //********** Package **********
+  outer replaceable package Medium= Modelica.Media.Interfaces.PartialMedium;
+  
+  
+  //********** Parameters **********
+  //##### none #####
+  
+  
+  //********** Internal variables **********
+  Modelica.SIunits.MassFlowRate Wc;
+  Real dPqP_internal;
+  
+  outer Real k_dPqP;
+  outer Modelica.SIunits.MassFlowRate dm;
+  outer Medium.BaseProperties fluid_I "flow station of inlet";
+  
+  constant Modelica.SIunits.Temperature Tstd= 288.15;
+  constant Modelica.SIunits.AbsolutePressure pStd= 101.315*1000;
+  
+  
+  //********** Interfaces **********
+  //##### none #####
+  
+  
+  //********** Initialization **********
+  //##### none #####
+  
+  
+//********** Protected objects **********
+//##### none #####
+
+
+/********************************************************
+  Model coding
+********************************************************/
+equation
+  //********** Geometries **********
+  //##### none #####
+  
+  
+  //********** Connections, interface <-> internal variables **********
+  //##### none #####
+  
+  //********** Eqns describing physics **********
+  Wc= dm* sqrt(fluid_I.T/Tstd) / (fluid_I.p/pStd);
+  dPqP_internal= k_dPqP* Wc^2.0;
+  
+  
+/********************************************************
+  Graphics
+********************************************************/
+  
+  annotation(
+    Diagram,
+    Icon(graphics = {Rectangle(pattern = LinePattern.Dash, lineThickness = 1, extent = {{-80, 60}, {80, -60}}), Text(origin = {-3, -81}, extent = {{-39, 15}, {39, -15}}, textString = "%name")}));
+  
+end dPqP_WcSqd;

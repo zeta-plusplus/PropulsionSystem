@@ -1,0 +1,71 @@
+within PropulsionSystem.Elements.BasicElements;
+
+model Inlets
+  extends PropulsionSystem.BaseClasses.PartialElementTwoPorts;
+  import Modelica.Constants;
+  /********************************************************
+       Declaration
+  ********************************************************/
+  //********** Package **********
+  //##### none #####
+  //********** Parameters **********
+  parameter Boolean use_effRam_in = false
+    "" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true));
+  
+  parameter Real effRamDes = 1.0
+    "ram pressure recovery factor"
+    annotation(
+    Dialog(group = "Characteristics"));
+  
+  
+  //********** Internal variables **********
+  Real effRam(start = effRamDes);
+  //********** Interfaces **********
+  Modelica.Blocks.Interfaces.RealInput effRam_in if use_effRam_in
+    "" annotation(
+    Placement(visible = true, transformation(origin = {0, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-60, -62}, extent = {{-8, -8}, {8, 8}}, rotation = 90)));
+  
+  //********** Initialization **********
+  //##### none #####
+  //********** Protected objects **********
+  //##### none #####
+  /********************************************************
+      Model coding
+  ********************************************************/
+equation
+//********** Geometries **********
+//##### none #####
+//********** Connections, interface <-> internal variables **********
+  if use_effRam_in== true then
+    effRam = effRam_in;
+  else
+    effRam = effRamDes;
+  end if;
+  
+//********** Eqns describing physics **********
+  //-- pressure --
+  fluid_O.p = effRam * fluid_I.p;
+  
+  //-- mass conservation --
+  port_a.m_flow + port_b.m_flow= 0;
+  fluid_O.Xi= fluid_I.Xi;
+  
+  //-- energy conservation --
+  (port_a.m_flow*fluid_I.h) + (port_b.m_flow*fluid_O.h)=0;
+  
+  
+/********************************************************
+  Graphics
+********************************************************/
+//##### none #####
+
+  annotation(
+    Diagram(coordinateSystem(initialScale = 0.1)),
+    Icon(graphics = {Polygon(fillColor = {206, 206, 206}, fillPattern = FillPattern.Solid, lineThickness = 1, points = {{-80, 50}, {-80, -50}, {80, -80}, {80, 80}, {80, 80}, {-80, 50}}), Text(origin = {-10, 7}, extent = {{-28, 3}, {44, -21}}, textString = "Inlt"), Rectangle(origin = {-78, 75}, fillColor = {139, 139, 139}, fillPattern = FillPattern.Solid, extent = {{-2, 25}, {2, -25}}), Rectangle(origin = {-75, 100}, rotation = -90, fillColor = {139, 139, 139}, fillPattern = FillPattern.Solid, extent = {{-2, -1}, {2, -25}}), Rectangle(origin = {105, 99}, rotation = -90, fillColor = {139, 139, 139}, fillPattern = FillPattern.Solid, extent = {{-2, -1}, {2, -25}}), Rectangle(origin = {78, 76}, fillColor = {139, 139, 139}, fillPattern = FillPattern.Solid, extent = {{-2, 25}, {2, 3}}),  Text(origin = {-16, -87}, extent = {{-36, 9}, {36, -9}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)),
+    Dialog(group = "Characteristics"));
+
+
+end Inlets;

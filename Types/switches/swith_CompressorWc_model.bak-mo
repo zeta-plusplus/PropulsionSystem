@@ -1,0 +1,4 @@
+within PropulsionSystem.Types.switches;
+
+type swith_CompressorWc_model
+end swith_CompressorWc_model;

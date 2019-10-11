@@ -1,0 +1,82 @@
+within PropulsionSystem.Elements.BasicElements;
+
+model Splitter
+  extends PropulsionSystem.BaseClasses.PartialElementJunctionThreeFluids;
+  
+  import Modelica.Constants;
+  import PropulsionSystem.Types.switches;
+  
+  /********************************************************
+   Declaration
+  ********************************************************/
+  //********** Package **********
+  //##### none #####
+  //********** Type definitions, only valid in this class **********
+  //##### none #####
+  //********** Parameters **********
+  parameter Real BPRdes= 2.0
+    "Bypass ratio, dm3/dm2 at design point"
+    annotation(
+    Dialog(group = "Characteristics"));
+  //----- switches -----
+  parameter PropulsionSystem.Types.switches.switch_parameter_input switchInput_BPR
+      =PropulsionSystem.Types.switches.switch_parameter_input.use_desValue
+   ""
+    annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching= true,   
+    Evaluate = true,
+    HideResult = true
+    );
+  //********** Internal variables **********
+  Real BPR(start= BPRdes);
+  //********** Internal model **********
+
+//##### none #####
+  //********** Interfaces **********
+  //##### none #####
+  //********** Initialization **********
+
+//##### none #####
+  //********** Protected objects **********
+
+//##### none #####
+  /********************************************************
+  Model coding
+********************************************************/
+equation
+//********** Geometries **********
+//##### none #####
+//********** Connections, interface <-> internal variables **********
+  if switchInput_BPR == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue then
+    BPR = BPRdes;
+  end if;
+//********** Eqns describing physics **********
+  BPR = port_3.m_flow / port_2.m_flow;
+  connect(port_1, port_2);
+  connect(port_1, port_3);
+//-- pressure --
+/*
+  fluid_1.p = fluid_2.p;
+  fluid_2.p = fluid_3.p;
+  */
+//-- mass conservation --
+/*
+  port_1.m_flow + port_2.m_flow + port_3.m_flow = 0.0;
+  port_1.Xi_outflow + port_2.Xi_outflow + port_3.Xi_outflow = 0.0;
+  */
+//-- energy conservation --
+/*
+  port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2.h + port_3.m_flow * fluid_3.h = 0.0;
+  */
+  
+  
+/********************************************************
+  Graphics
+********************************************************/
+//##### none #####
+
+annotation(
+Icon(graphics = {Rectangle(origin = {-69, 55}, fillColor = {178, 178, 178}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-31, 27}, {169, -13}}), Rectangle(origin = {-189, -87}, fillColor = {178, 178, 178}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{109, 27}, {189, -13}}), Rectangle(origin = {-189, 27}, fillColor = {178, 178, 178}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{109, 35}, {149, -109}}), Line(origin = {19.942, 65.518}, points = {{-57.9915, -0.991381}, {38.0085, -0.99138}}, thickness = 1, arrow = {Arrow.None, Arrow.Filled}, arrowSize = 4), Line(origin = {-59.5274, -16.5274}, points = {{0, 63}, {0, -53}}, thickness = 1, arrow = {Arrow.None, Arrow.Filled}, arrowSize = 4), Text(origin = {18, -18}, fillPattern = FillPattern.Solid, extent = {{-38, 18}, {82, -2}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)));
+
+end Splitter;

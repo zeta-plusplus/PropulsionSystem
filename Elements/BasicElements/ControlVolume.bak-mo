@@ -1,0 +1,38 @@
+within PropulsionSystem.Elements.BasicElements;
+
+model ControlVolume
+  extends PropulsionSystem.BaseClasses.BasicElements.ControlVolume_Base;
+  
+  /********************************************************
+        imports
+  ********************************************************/
+  import Modelica.Constants;
+  
+  //********** Package **********
+  //##### none #####
+  
+  //********** Type definitions, only valid in this class **********
+  //##### none #####
+  
+  //********** Parameters **********
+  //##### none #####
+  
+  //********** Internal variables **********
+  //##### none #####
+  
+  //********** Interfaces **********
+  //##### none #####
+  
+  
+algorithm
+  //##### none #####  
+equation
+  //##### none #####
+  
+  
+/********************************************************
+  Graphics
+********************************************************/
+//identical to "ControlVolume_Base"
+  
+end ControlVolume;

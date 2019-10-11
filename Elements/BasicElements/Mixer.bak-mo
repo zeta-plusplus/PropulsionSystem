@@ -1,0 +1,47 @@
+within PropulsionSystem.Elements.BasicElements;
+
+model Mixer
+  extends PropulsionSystem.BaseClasses.PartialElementJunctionThreeFluids;
+  
+  import Modelica.Constants;
+  
+  /********************************************************
+   Declaration
+  ********************************************************/
+  //********** Package **********
+  //##### none #####
+  //********** Type definitions, only valid in this class **********
+
+//##### none #####
+  //********** Parameters **********
+
+//##### none #####
+  //********** Internal variables **********
+  //##### none #####
+  //********** Internal model **********
+
+//##### none #####
+  //********** Interfaces **********
+
+//##### none #####
+  //********** Initialization **********
+  //##### none #####
+  //********** Protected objects **********
+
+//##### none #####
+  /********************************************************
+  Model coding
+********************************************************/
+equation
+//********** Geometries **********
+//##### none #####
+//********** Connections, interface <-> internal variables **********
+//##### none #####
+//********** Eqns describing physics **********
+//##### none #####
+/********************************************************
+  Graphics
+********************************************************/
+//##### none #####
+  annotation(
+    Icon(graphics = {Rectangle(origin = {0, 60}, fillColor = {182, 182, 182}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-100, 20}, {100, -20}}), Rectangle(origin = {-18, -66}, fillColor = {182, 182, 182}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{18, 6}, {78, -34}}), Rectangle(origin = {2, -48}, fillColor = {182, 182, 182}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{18, 108}, {58, -32}}), Line(origin = {-0.0239992, 59.968}, points = {{-43, 0}, {43, 0}}, thickness = 1, arrow = {Arrow.None, Arrow.Filled}, arrowSize = 4), Line(origin = {-0.9722, 44.6707}, points = {{43, -104}, {43, 0}}, thickness = 1, arrow = {Arrow.None, Arrow.Filled}, arrowSize = 4), Text(origin = {-52, -14}, extent = {{-48, 14}, {52, -6}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)));end Mixer;

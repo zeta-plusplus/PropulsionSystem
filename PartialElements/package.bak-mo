@@ -1,0 +1,5 @@
+within PropulsionSystem;
+
+package PartialElements
+  extends Modelica.Icons.BasesPackage;
+end PartialElements;

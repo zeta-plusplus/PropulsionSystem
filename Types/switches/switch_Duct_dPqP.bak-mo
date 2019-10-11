@@ -1,0 +1,14 @@
+within PropulsionSystem.Types.switches;
+
+type switch_Duct_dPqP= enumeration
+(
+  use_inputSignal "",
+  use_desValue "",
+  calc_internalModel ""
+)
+annotation (Documentation(info=
+"<html>
+
+</html>"));
+
+//end switchParameter_Duct_WcSqd;

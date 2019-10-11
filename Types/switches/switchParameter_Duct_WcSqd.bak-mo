@@ -1,0 +1,9 @@
+within PropulsionSystem.Types.switches;
+
+type switchParameter_Duct_WcSqd= enumeration
+(
+  a,
+  b
+);
+
+//end switchParameter_Duct_WcSqd;

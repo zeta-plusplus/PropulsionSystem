@@ -1,0 +1,14 @@
+within PropulsionSystem.Types.switches;
+
+type switch_Duct_model= enumeration
+(
+  Wc2ndOrder "",
+  MN2ndOrder "",
+  DynPressure1stOrder ""
+)
+annotation (Documentation(info=
+"<html>
+
+</html>"));
+
+//end switch_Duct_model;

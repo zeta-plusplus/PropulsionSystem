@@ -1,0 +1,86 @@
+within PropulsionSystem;
+
+model System
+  extends Modelica.Fluid.System;
+  
+  //********** Package **********
+  //##### none #####
+  
+  //********** Type definitions, only valid in this class **********
+  //##### none #####
+  
+  //********** Parameters **********
+  parameter Modelica.SIunits.Temperature Tstd= PropulsionSystem.Constants.constants_earth.Tstd
+    ""
+    annotation(
+    Dialog(group = "System-wide constants"));
+  
+  parameter Modelica.SIunits.Pressure pStd= PropulsionSystem.Constants.constants_earth.pStd
+    ""
+    annotation(
+    Dialog(group = "System-wide constants"));
+  
+  parameter Modelica.SIunits.Acceleration gravity= PropulsionSystem.Constants.constants_earth.gravity
+    ""
+    annotation(
+    Dialog(group = "System-wide constants"));
+  
+  //----- switches -----
+  
+  
+
+/********************************************************
+  Graphics
+********************************************************/
+  
+annotation (
+    defaultComponentName="system",
+    defaultComponentPrefixes="inner",
+    missingInnerMessage="
+Your model is using an outer \"system\" component but
+an inner \"system\" component is not defined.
+For simulation drag Modelica.Fluid.System into your model
+to specify system properties.",
+    Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
+            100}}), graphics={
+        Rectangle(
+          extent={{-100,100},{100,-100}},
+          lineColor={0,0,255},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Text(
+          extent={{-150,150},{150,110}},
+          lineColor={0,0,255},
+          textString="%name"),
+        Line(points={{-86,-30},{82,-30}}),
+        Line(points={{-82,-68},{-52,-30}}),
+        Line(points={{-48,-68},{-18,-30}}),
+        Line(points={{-14,-68},{16,-30}}),
+        Line(points={{22,-68},{52,-30}}),
+        Line(points={{74,84},{74,14}}),
+        Polygon(
+          points={{60,14},{88,14},{74,-18},{60,14}},
+          lineColor={0,0,0},
+          fillColor={0,0,0},
+          fillPattern=FillPattern.Solid),
+        Text(
+          extent={{16,20},{60,-18}},
+          lineColor={0,0,0},
+          textString="g"),
+        Text(
+          extent={{-90,82},{74,50}},
+          lineColor={0,0,0},
+          textString="defaults"),
+        Line(
+          points={{-82,14},{-42,-20},{2,30}},
+          thickness=0.5),
+        Ellipse(
+          extent={{-10,40},{12,18}},
+          pattern=LinePattern.None,
+          lineColor={0,0,0},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid)}),
+    Documentation(info="<html>
+            </html>"));
+
+end System;

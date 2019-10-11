@@ -1,0 +1,14 @@
+within PropulsionSystem.Types.switches;
+
+type switch_scaleDes= enumeration
+(
+  directInput "",
+  calcByDesStates ""
+)
+annotation (Documentation(info=
+"<html>
+
+</html>"));
+
+
+//end switch_Parameter_input;

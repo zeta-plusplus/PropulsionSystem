@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Blocks="http://www.eclipse.org/papyrus/sysml/1.4/SysML/Blocks" xmlns:DeprecatedElements="http://www.eclipse.org/papyrus/sysml/1.4/SysML/DeprecatedElements" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http://www.eclipse.org/papyrus/sysml/1.4/SysML/Blocks http://www.eclipse.org/papyrus/sysml/1.4/SysML#//blocks http://www.eclipse.org/papyrus/sysml/1.4/SysML/DeprecatedElements http://www.eclipse.org/papyrus/sysml/1.4/SysML#//deprecatedelements">
+  <uml:Model xmi:id="_c6KCYN0SEeitk_XPDAbkhQ" name="ModelicaPropulsionSystemLibSpec">
+    <packageImport xmi:type="uml:PackageImport" xmi:id="_dH6xkN0SEeitk_XPDAbkhQ">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packageImport xmi:type="uml:PackageImport" xmi:id="_dIlf8N0SEeitk_XPDAbkhQ">
+      <importedPackage xmi:type="uml:Package" href="pathmap://SysML14_LIBRARIES/SysML-Standard-Library.uml#SysML.package_packagedElement_Libraries"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Class" xmi:id="_8VGmUN0SEeitk_XPDAbkhQ" name="ElementFrame_2FluidPorts_2ShaftPorts">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_h03CQOs-Eei7O7psuqqsDw" name="Define interface of physical state variables"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_xFAVoN0TEeitk_XPDAbkhQ" name="Compressor_Base">
+      <generalization xmi:type="uml:Generalization" xmi:id="_0KHP8N0UEeitk_XPDAbkhQ" general="_8VGmUN0SEeitk_XPDAbkhQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_-EENEN0TEeitk_XPDAbkhQ" name="Turbine_Base">
+      <generalization xmi:type="uml:Generalization" xmi:id="_7tVJwN0UEeitk_XPDAbkhQ" general="_8VGmUN0SEeitk_XPDAbkhQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_ZK73QN0VEeitk_XPDAbkhQ" name="Compressor">
+      <generalization xmi:type="uml:Generalization" xmi:id="_zmgXIN0VEeitk_XPDAbkhQ" general="_xFAVoN0TEeitk_XPDAbkhQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_0lcEkN0VEeitk_XPDAbkhQ" name="Turbine">
+      <generalization xmi:type="uml:Generalization" xmi:id="_4Y5vIN0VEeitk_XPDAbkhQ" general="_-EENEN0TEeitk_XPDAbkhQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_7g4MsN0VEeitk_XPDAbkhQ" name="Compressor_EllipticalCurve">
+      <generalization xmi:type="uml:Generalization" xmi:id="_keFxEN0WEeitk_XPDAbkhQ" general="_ZK73QN0VEeitk_XPDAbkhQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_Hb3_EN0WEeitk_XPDAbkhQ" name="Compressor_Map_WcPReff">
+      <generalization xmi:type="uml:Generalization" xmi:id="_mk00EN0WEeitk_XPDAbkhQ" general="_ZK73QN0VEeitk_XPDAbkhQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_r0W0AN0WEeitk_XPDAbkhQ" name="Turbine_ExponentialCurve">
+      <generalization xmi:type="uml:Generalization" xmi:id="_xHgIoN0WEeitk_XPDAbkhQ" general="_0lcEkN0VEeitk_XPDAbkhQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_hbuW0N0XEeitk_XPDAbkhQ" name="Engine" isActive="true">
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_zT8MgOpzEeiQ0IWj3_CXeQ" name="Fl_fuel" aggregation="composite"/>
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_-0JgUOpzEeiQ0IWj3_CXeQ" name="thrust" visibility="public" aggregation="composite"/>
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_0IsYUOp1EeiQ0IWj3_CXeQ" name="fuelBurn" aggregation="composite"/>
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_2otBgOp2EeiQ0IWj3_CXeQ" name="MN_flt" aggregation="composite"/>
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_6Cqm8Op2EeiQ0IWj3_CXeQ" name="alt_flt" aggregation="composite"/>
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_GTYKoOp3EeiQ0IWj3_CXeQ" name="dTamb" aggregation="composite"/>
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_sNa48Op3EeiQ0IWj3_CXeQ" name="powerExt" aggregation="composite"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_N6ioQOHPEeiZn4yK8M8q9Q" name="ElementFrame_2FluidPorts"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_qG95gOoZEeiQ0IWj3_CXeQ" name="Block23">
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_uocGsOpzEeiQ0IWj3_CXeQ" name="FlowPort1" aggregation="composite"/>
+    </packagedElement>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_dHhwAN0SEeitk_XPDAbkhQ">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_dHpr0N0SEeitk_XPDAbkhQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/papyrus/sysml/1.4/SysML#/"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://SysML14_PROFILES/SysML.profile.uml#SysML"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_dHvLYN0SEeitk_XPDAbkhQ">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_dHvLYd0SEeitk_XPDAbkhQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/papyrus/sysml/1.4/SysML#//activities"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_Activities"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_dH0q8N0SEeitk_XPDAbkhQ">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_dH0q8d0SEeitk_XPDAbkhQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/papyrus/sysml/1.4/SysML#//allocations"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_Allocations"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_dH1SAN0SEeitk_XPDAbkhQ">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_dH15EN0SEeitk_XPDAbkhQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/papyrus/sysml/1.4/SysML#//blocks"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_Blocks"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_dH15Ed0SEeitk_XPDAbkhQ">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_dH2gIN0SEeitk_XPDAbkhQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/papyrus/sysml/1.4/SysML#//constraintblocks"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_ConstraintBlocks"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_dH2gId0SEeitk_XPDAbkhQ">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_dH3HMN0SEeitk_XPDAbkhQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/papyrus/sysml/1.4/SysML#//deprecatedelements"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_DeprecatedElements"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_dH3HMd0SEeitk_XPDAbkhQ">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_dH3HMt0SEeitk_XPDAbkhQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/papyrus/sysml/1.4/SysML#//modelelements"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_ModelElements"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_dH3uQN0SEeitk_XPDAbkhQ">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_dH3uQd0SEeitk_XPDAbkhQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/papyrus/sysml/1.4/SysML#//portsandflows"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_Ports_u0026Flows"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_dH4VUN0SEeitk_XPDAbkhQ">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_dH4VUd0SEeitk_XPDAbkhQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/papyrus/sysml/1.4/SysML#//requirements"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_Requirements"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_dH48YN0SEeitk_XPDAbkhQ">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_dH5jcN0SEeitk_XPDAbkhQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard#/"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
+    </profileApplication>
+  </uml:Model>
+  <Blocks:Block xmi:id="_8ZNDMN0SEeitk_XPDAbkhQ" base_Class="_8VGmUN0SEeitk_XPDAbkhQ"/>
+  <Blocks:Block xmi:id="_xFI4gN0TEeitk_XPDAbkhQ" base_Class="_xFAVoN0TEeitk_XPDAbkhQ"/>
+  <Blocks:Block xmi:id="_-EK6wN0TEeitk_XPDAbkhQ" base_Class="_-EENEN0TEeitk_XPDAbkhQ"/>
+  <Blocks:Block xmi:id="_ZLCk8N0VEeitk_XPDAbkhQ" base_Class="_ZK73QN0VEeitk_XPDAbkhQ"/>
+  <Blocks:Block xmi:id="_0lg9EN0VEeitk_XPDAbkhQ" base_Class="_0lcEkN0VEeitk_XPDAbkhQ"/>
+  <Blocks:Block xmi:id="_7g-TUN0VEeitk_XPDAbkhQ" base_Class="_7g4MsN0VEeitk_XPDAbkhQ"/>
+  <Blocks:Block xmi:id="_Hb7pcN0WEeitk_XPDAbkhQ" base_Class="_Hb3_EN0WEeitk_XPDAbkhQ"/>
+  <Blocks:Block xmi:id="_r0c6oN0WEeitk_XPDAbkhQ" base_Class="_r0W0AN0WEeitk_XPDAbkhQ"/>
+  <Blocks:Block xmi:id="_hbxaIN0XEeitk_XPDAbkhQ" base_Class="_hbuW0N0XEeitk_XPDAbkhQ"/>
+  <Blocks:Block xmi:id="_N61jMOHPEeiZn4yK8M8q9Q" base_Class="_N6ioQOHPEeiZn4yK8M8q9Q"/>
+  <Blocks:Block xmi:id="_qpnTkOoZEeiQ0IWj3_CXeQ" base_Class="_qG95gOoZEeiQ0IWj3_CXeQ"/>
+  <DeprecatedElements:FlowPort xmi:id="_upOw4OpzEeiQ0IWj3_CXeQ" base_Port="_uocGsOpzEeiQ0IWj3_CXeQ"/>
+  <DeprecatedElements:FlowPort xmi:id="_zU2ygOpzEeiQ0IWj3_CXeQ" base_Port="_zT8MgOpzEeiQ0IWj3_CXeQ" direction="in"/>
+  <DeprecatedElements:FlowPort xmi:id="_-0s58OpzEeiQ0IWj3_CXeQ" base_Port="_-0JgUOpzEeiQ0IWj3_CXeQ" direction="out"/>
+  <DeprecatedElements:FlowPort xmi:id="_0JJEQOp1EeiQ0IWj3_CXeQ" base_Port="_0IsYUOp1EeiQ0IWj3_CXeQ" direction="out"/>
+  <DeprecatedElements:FlowPort xmi:id="_2qM2UOp2EeiQ0IWj3_CXeQ" base_Port="_2otBgOp2EeiQ0IWj3_CXeQ" direction="in"/>
+  <DeprecatedElements:FlowPort xmi:id="_6DCaYOp2EeiQ0IWj3_CXeQ" base_Port="_6Cqm8Op2EeiQ0IWj3_CXeQ" direction="in"/>
+  <DeprecatedElements:FlowPort xmi:id="_GT1doOp3EeiQ0IWj3_CXeQ" base_Port="_GTYKoOp3EeiQ0IWj3_CXeQ" direction="in"/>
+  <DeprecatedElements:FlowPort xmi:id="_sN6BIOp3EeiQ0IWj3_CXeQ" base_Port="_sNa48Op3EeiQ0IWj3_CXeQ" direction="out"/>
+</xmi:XMI>

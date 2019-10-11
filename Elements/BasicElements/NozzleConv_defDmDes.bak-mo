@@ -1,0 +1,262 @@
+within PropulsionSystem.Elements.BasicElements;
+
+model NozzleConv_defDmDes
+extends PropulsionSystem.BaseClasses.PartialElementTwoPorts;
+  import Modelica.Constants;
+  import PropulsionSystem.FluidFunctions;
+  /********************************************************
+     Declaration
+  ********************************************************/
+  //********** Package **********
+  //##### none #####
+  //********** Type definitions, only valid in this class **********
+  type switch_Nozzle_Subelement= enumeration
+    (
+      NoSubelement "",
+      curve_PR ""
+    )
+    annotation (Documentation(info=
+    "<html>
+    </html>"));
+  
+  /*
+  type switch_Nozzle_defAmech_th= enumeration
+    (
+      Amech_th,
+      dmThDes
+    )
+    annotation (Documentation(info=
+    "<html>
+    </html>"));
+  */
+  //********** Parameters **********
+  parameter Real CdThDes = 0.98
+    ""
+    annotation(
+    Dialog(group = "Characteristics"));
+  
+  parameter Real CvDes = 0.99
+    ""
+    annotation(
+    Dialog(group = "Characteristics"));
+  
+  parameter Modelica.SIunits.Area Amech_th_in= 1.0
+    annotation(
+    Dialog(group = "Geometry"));
+  
+  /*
+  parameter Modelica.SIunits.MassFlowRate dmThDes_in=100.0;
+    annotation(
+    Dialog(group = "Geometry"));
+  */
+    //----- switches -----
+  parameter PropulsionSystem.Types.switches.switch_parameter_input switchInput_CdTh
+      =PropulsionSystem.Types.switches.switch_parameter_input.use_desValue
+   ""
+    annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching= true,   
+    Evaluate = true,
+    HideResult = true
+    );
+  
+  parameter PropulsionSystem.Types.switches.switch_parameter_input switchInput_Cv
+      =PropulsionSystem.Types.switches.switch_parameter_input.use_desValue
+   ""
+    annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching= true,   
+    Evaluate = true,
+    HideResult = true
+    );
+  
+  parameter switch_Nozzle_Subelement switchSubelement_CdTh
+    = switch_Nozzle_Subelement.NoSubelement
+    ""
+    annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching= true,   
+    Evaluate = true,
+    HideResult = true
+    );
+  
+  parameter switch_Nozzle_Subelement switchSubelement_Cv
+    = switch_Nozzle_Subelement.NoSubelement
+    ""
+    annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching= true,   
+    Evaluate = true,
+    HideResult = true
+    );
+  
+  /*
+  parameter switch_Nozzle_defAmech_th switchDef_Amech_th
+    = switch_Nozzle_defAmech_th.dmThDes
+    ""
+    annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching= true,   
+    Evaluate = true,
+    HideResult = true
+    );
+  */
+  //********** Internal variables **********
+  Medium.BaseProperties fluid_2Tot "flow station of outlet, total";
+  Modelica.SIunits.Velocity V_2(start= 10);
+  Modelica.SIunits.Velocity V_2is(start= 10);
+  Modelica.SIunits.SpecificEnthalpy h_2is "";
+  
+  Modelica.SIunits.Force Fg "";
+  
+  Real PR(start=1);
+  Real CdTh(start = CdThDes);
+  Real Cv(start = CvDes);
+  //---
+  Modelica.SIunits.MassFlowRate dmTh(start=10.0);
+  Modelica.SIunits.Area AeTh;
+  Modelica.SIunits.Velocity V_th(start= 10);
+  Real MNth;
+  Medium.BaseProperties fluidStat_th "static flow station of throat";
+  //---
+  /*
+          Modelica.SIunits.MassFlowRate dmThDes;
+          Modelica.SIunits.Area AeThDes;
+          Modelica.SIunits.Velocity V_thDes(start= 10);
+          Real MNthDes;
+          Medium.BaseProperties fluidStat_thDes "static flow station of throat";
+          */
+  //---
+  Modelica.SIunits.Area Amech_th;
+  //********** Internal model **********
+  //##### none #####
+  //********** Interfaces **********
+  Modelica.Blocks.Interfaces.RealInput CdTh_in
+    if (switchInput_CdTh== PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal)
+    "" annotation(
+    Placement(visible = true, transformation(origin = {-80, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {-70, -85}, extent = {{-8, -8}, {8, 8}}, rotation = 90)));
+  
+  Modelica.Blocks.Interfaces.RealInput Cv_in
+    if (switchInput_Cv== PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal)
+    "" annotation(
+    Placement(visible = true, transformation(origin = {-40, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {-40, -77}, extent = {{-8, -8}, {8, 8}}, rotation = 90)));
+  
+  Modelica.Blocks.Interfaces.RealOutput Fg_out annotation(
+    Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {53, 0}, extent = {{-7, -7}, {7, 7}}, rotation = 0)));
+  //********** Initialization **********
+
+//##### none #####
+protected   
+//********** Protected objects **********
+  //##### none #####
+initial equation
+  port_1.m_flow=dmTh;
+  port_2.m_flow=-dmTh;
+  
+  /*
+  //-- pressure --
+  fluid_2Tot.p = fluid_1.p;
+  PR= fluid_1.p / fluid_2.p;
+  //-- mass conservation --
+  port_1.m_flow + port_2.m_flow = 0;
+  fluid_2.Xi= fluid_1.Xi;
+  */
+//*****************************************************************
+/* calculation to figure out Amech_th */
+//*****************************************************************
+/*
+  if(switchDef_Amech_th==switch_Nozzle_defAmech_th.Amech_th)then
+    
+    Amech_th= Amech_th_in;
+    
+  elseif(switchDef_Amech_th==switch_Nozzle_defAmech_th.dmThDes)then
+    
+    fluidStat_th.p= fluid_2.p;
+    
+    //***** temporary *****
+    fluidStat_th.h= Medium.isentropicEnthalpy(fluidStat_th.p, fluid_1.state);
+    V_th= sqrt( 2.0*(fluid_1.h - fluidStat_th.h ));
+    MNth= V_th / Medium.velocityOfSound(fluidStat_th.state);
+    
+    //--- evaluate choked or not and throat velocity
+    //### not yet ###
+    
+    
+    //---
+    dmTh= dmThDes_in;
+    
+    dmTh= fluidStat_th.d * V_th * AeTh;
+    AeTh= Amech_th*CdThDes;
+    
+  end if;
+  */
+/*
+  //-- full expansion --
+  fluid_1.h = h_2is + V_2is ^ 2.0 / 2.0;
+  h_2is = Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
+  
+  V_2 = Cv*V_2is;
+  fluid_1.h = fluid_2.h + V_2^2.0 / 2.0;
+  
+  //-- energy conservation --
+  (port_1.m_flow*fluid_1.h) + (port_2.m_flow*fluid_2Tot.h) = 0;
+  //-- performance characteristics --
+  Fg = (-1) * port_2.m_flow * V_2;
+  */
+algorithm
+//##### none #####
+equation
+//********** Geometries **********
+  Amech_th = Amech_th_in;
+//********** Connections, interface <-> internal variables **********
+//--- CdTh ---
+  if switchInput_CdTh == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue then
+    CdTh = CdThDes;
+  elseif switchInput_CdTh == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal then
+    CdTh = CdTh_in;
+  end if;
+//--- Cv ---
+  if switchInput_Cv == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue then
+    Cv = CvDes;
+  elseif switchInput_Cv == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal then
+    Cv = Cv_in;
+  end if;
+  
+  Fg_out= Fg;
+//********** Eqns describing physics **********
+//-- pressure --
+  fluid_2Tot.p = fluid_1.p;
+  PR= fluid_1.p / fluid_2.p;
+//-- mass conservation --
+  port_1.m_flow + port_2.m_flow = 0;
+  fluid_2.Xi= fluid_1.Xi;
+//--- throat ---
+  fluidStat_th.p = fluid_2.p;
+  
+  fluidStat_th.h= Medium.isentropicEnthalpy(fluidStat_th.p, fluid_1.state);
+  V_th= sqrt( 2.0*(fluid_1.h - fluidStat_th.h ));
+  MNth= V_th / Medium.velocityOfSound(fluidStat_th.state);
+  
+  dmTh= abs(port_1.m_flow);
+  dmTh= fluidStat_th.d*V_th*AeTh;
+  AeTh= Amech_th*CdTh;
+//-- full expansion --
+  fluid_1.h = h_2is + V_2is ^ 2.0 / 2.0;
+  h_2is = Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
+  
+  V_2 = Cv*V_2is;
+  fluid_1.h = fluid_2.h + V_2^(2.0) / 2.0;
+//-- energy conservation --
+  port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2Tot.h = 0;
+//-- performance characteristics --
+  Fg = (-1) * port_2.m_flow * V_2;
+  
+/********************************************************
+  Graphics
+********************************************************/
+
+  annotation(
+    Icon(graphics = {Polygon(origin = {0, 10}, fillColor = {255, 221, 96}, fillPattern = FillPattern.Solid, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-28, 2}, extent = {{-52, 8}, {68, -14}}, textString = "%name"), Rectangle(origin = {-94, 80}, fillColor = {112, 112, 112}, fillPattern = FillPattern.Solid, extent = {{-6, 2}, {14, -2}}), Text(origin = {86, 49}, extent = {{-16, 11}, {8, 1}}, textString = "*static"), Line(origin = {81.88, 37.0395}, points = {{-23, 2}, {17, 2}, {17, 40}}, pattern = LinePattern.Dot, thickness = 0.5), Line(origin = {59.68, -65.688}, points = {{-10, 23}, {10, -23}})}, coordinateSystem(initialScale = 0.1)));
+
+
+end NozzleConv_defDmDes;

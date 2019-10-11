@@ -1,0 +1,105 @@
+within PropulsionSystem.BaseClasses.BasicElements;
+
+partial model ControlVolume_Base
+  extends PropulsionSystem.Interfaces.ElementFrames.ElementFrame_2FluidPorts;
+  
+  /********************************************************
+        imports
+  ********************************************************/
+  import Modelica.Constants;
+  import Modelica.Math;
+  
+  //********** Package **********
+  //##### none #####
+  
+  
+  //********** Type definitions, only valid in this class **********
+  //##### none #####
+  
+  
+  //********** Parameters **********
+  parameter Modelica.SIunits.Volume vol=1.0
+    ""
+    annotation(
+    Dialog(group = "Geometry"));
+  
+  
+  //********** Internal variables **********
+  Medium.BaseProperties fluid_vol "flow states of fluid inside volume";
+  Modelica.SIunits.Mass m_vol "";
+  Modelica.SIunits.InternalEnergy U_vol "";
+  Modelica.SIunits.Entropy S_vol "";
+  Modelica.SIunits.MassFlowRate dm_1_abs "";
+  Modelica.SIunits.MassFlowRate dm_2_abs "";
+  Modelica.SIunits.EnthalpyFlowRate dmh_1_abs "";
+  Modelica.SIunits.EnthalpyFlowRate dmh_2_abs "";
+  Modelica.SIunits.EntropyFlowRate dms_1_abs "";
+  Modelica.SIunits.EntropyFlowRate dms_2_abs "";
+  
+  
+  //********** Interfaces **********
+  //##### none #####
+  
+  
+algorithm
+  //##### none #####
+  
+initial equation
+  der(m_vol)=0.0;
+  der(U_vol)=0.0;
+  der(S_vol)=0.0;
+  
+  //fluid_1.h=fluid_vol.h;
+  //fluid_2.h=fluid_vol.h;
+  
+equation
+  //********** Geometries **********
+  //##### none #####
+  //********** Connections, interface <-> internal variables **********
+  dm_1_abs= abs(port_1.m_flow);
+  dm_2_abs= abs(port_2.m_flow);
+  dmh_1_abs= abs(dm_1_abs*fluid_1.h);
+  dmh_2_abs= abs(dm_2_abs*fluid_2.h);
+  dms_1_abs= abs(dm_1_abs*fluid_1.specificEntropy(fluid_1.state));
+  dms_2_abs= abs(dm_2_abs*fluid_2.specificEntropy(fluid_2.state));
+  
+    
+  //********** Eqns describing physics **********
+  //-- mass conservation --
+  m_vol= fluid_vol.d * vol; //
+  der(m_vol)= port_1.m_flow + port_2.m_flow;
+  
+  
+  //-- energy conservation --
+  U_vol= m_vol*fluid_vol.u;
+  der(U_vol)= (port_1.m_flow * fluid_1.h) + (port_2.m_flow * fluid_2.h);
+  
+  
+  S_vol= m_vol*fluid_vol.specificEntropy(fluid_vol.state);
+  
+  
+  
+  //-- pressure --
+  
+  
+  fluid_vol.d= fluid_1.d;
+  fluid_vol.d= fluid_2.d;
+  
+  //fluid_1.d= fluid_2.d;
+  
+  
+  //-- isentropic --
+  fluid_1.specificEntropy(fluid_1.state)=fluid_2.specificEntropy(fluid_2.state);
+  
+  //der(fluid_vol.d)= 1.0/fluid_vol.T * ( 1.0/fluid_vol.R*der(fluid_vol.p) - fluid_vol.d * der(fluid_vol.T) );  //
+  
+  
+  
+/********************************************************
+  Graphics
+********************************************************/
+  
+  annotation(
+    Icon(graphics = {Rectangle(origin = {-74, 80}, fillColor = {164, 164, 164}, fillPattern = FillPattern.Solid, extent = {{-26, 2}, {14, -2}}), Rectangle(origin = {86, 80}, fillColor = {164, 164, 164}, fillPattern = FillPattern.Solid, extent = {{-26, 2}, {14, -2}}), Rectangle(origin = {-60, 56}, rotation = -90, fillColor = {164, 164, 164}, fillPattern = FillPattern.Solid, extent = {{-26, 2}, {4, -2}}), Rectangle(origin = {60, 56}, rotation = -90, fillColor = {164, 164, 164}, fillPattern = FillPattern.Solid, extent = {{-26, 2}, {4, -2}}), Ellipse(origin = {-28, 29}, fillColor = {0, 174, 255}, fillPattern = FillPattern.VerticalCylinder, extent = {{-52, 51}, {108, -109}}, endAngle = 360), Text(origin = {-9, 90}, fillPattern = FillPattern.Solid, extent = {{-51, -12}, {69, 8}}, textString = "%name"), Text(origin = {-9, -88}, fillPattern = FillPattern.Solid, extent = {{-51, -12}, {69, 8}}, textString = "vol=%vol")}, coordinateSystem(initialScale = 0.1)));
+  
+end ControlVolume_Base;

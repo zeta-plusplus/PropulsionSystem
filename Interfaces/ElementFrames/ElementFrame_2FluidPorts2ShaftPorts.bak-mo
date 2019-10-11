@@ -1,0 +1,4 @@
+within PropulsionSystem.Interfaces.ElementFrames;
+
+partial model ElementFrame_2FluidPorts2ShaftPorts
+end ElementFrame_2FluidPorts2ShaftPorts;

@@ -1,0 +1,58 @@
+within PropulsionSystem.Elements.BasicElements;
+
+model Turbine_Map_WcEffPR
+  extends PropulsionSystem.Elements.BasicElements.Turbine(
+      switchInput_Wc_1= PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement,
+      switchInput_PR= PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement,
+      switchInput_eff= PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement
+    );
+  
+  //----- imports -----
+  import Modelica.Constants;
+  import PropulsionSystem.Types.switches;
+  
+  /********************************************************
+     Declaration
+  ********************************************************/
+  //********** Package **********
+  //##### none #####
+  
+  //********** Parameters **********
+  //----- inner-connected  -----
+  
+  //----- switches -----
+  
+  //----- string -----
+  
+  //--- inner-connected ---
+  
+  //********** Internal variables **********
+  //##### none #####
+  
+  //********** Internal model **********
+  
+  //********** Interfaces **********
+  //##### none #####
+  
+  //********** Initialization **********
+  //##### none #####
+
+protected
+  //********** Protected objects **********
+  //##### none #####
+  
+algorithm
+  //##### none #####
+  
+  
+equation
+  //--- Wc_1 ---
+  
+  
+  //--- PR ---
+  
+  
+  //--- eff ---
+  
+    
+end Turbine_Map_WcEffPR;
