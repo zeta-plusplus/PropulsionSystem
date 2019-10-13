@@ -12,28 +12,16 @@ model TurboFan001_002
     Placement(visible = true, transformation(origin = {-20, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.constrain_dm constrain_dm2(redeclare package Medium = engineAir, dmDes = 10, switchInput_dm = PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal) annotation(
     Placement(visible = true, transformation(origin = {-20, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.Duct Duct023(redeclare package Medium = engineAir, dPqPdes = 0.02) annotation(
-    Placement(visible = true, transformation(origin = {100, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.Duct Duct030(redeclare package Medium = engineAir, dPqPdes = 0.05) annotation(
-    Placement(visible = true, transformation(origin = {160, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.HeatInjector Brn036(redeclare package Medium = engineAir, TtOutletDes(displayUnit = "K") = 1800, switchInput_TtOutlet = PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal) annotation(
     Placement(visible = true, transformation(origin = {190, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CombustFuel MainComb annotation(
     Placement(visible = true, transformation(origin = {170, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.constrain_Nmech Constrain_NH(NmechDes = 9000) annotation(
     Placement(visible = true, transformation(origin = {160, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.Duct Duct045(redeclare package Medium = engineAir, dPqPdes = 0.03) annotation(
-    Placement(visible = true, transformation(origin = {250, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Components.Inertia ShH(J = 200) annotation(
     Placement(visible = true, transformation(origin = {190, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.Duct Duct125(redeclare package Medium = engineAir, dPqPdes = 0.01) annotation(
-    Placement(visible = true, transformation(origin = {80, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.Duct Duct130(redeclare package Medium = engineAir, dPqPdes = 0.02) annotation(
-    Placement(visible = true, transformation(origin = {270, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.NozzleConv Noz170(redeclare package Medium = engineAir, CdThDes = 0.98, CvDes = 0.995) annotation(
     Placement(visible = true, transformation(origin = {300, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.Duct Duct055(redeclare package Medium = engineAir, dPqPdes = 0.02) annotation(
-    Placement(visible = true, transformation(origin = {310, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.NozzleConv Noz070(redeclare package Medium = engineAir, CdThDes = 0.98, CvDes = 0.995) annotation(
     Placement(visible = true, transformation(origin = {340, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Components.Inertia ShL(J = 1000) annotation(
@@ -75,6 +63,16 @@ model TurboFan001_002
   Modelica.Blocks.Sources.Ramp ramp_dmTotal(duration = 5, height = 0, offset = 110, startTime = 5) annotation(
     Placement(visible = true, transformation(origin = {-80, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(Trb049.port_2, Noz070.port_1) annotation(
+    Line(points = {{290, -52}, {330, -52}, {330, -52}, {330, -52}}, color = {0, 127, 255}));
+  connect(Trb041.port_2, Trb049.port_1) annotation(
+    Line(points = {{230, -52}, {270, -52}, {270, -52}, {270, -52}}, color = {0, 127, 255}));
+  connect(Cmp025.port_2, Brn036.port_1) annotation(
+    Line(points = {{140, -52}, {180, -52}, {180, -52}, {180, -52}}, color = {0, 127, 255}));
+  connect(Cmp020.port_2, Cmp025.port_1) annotation(
+    Line(points = {{80, -52}, {120, -52}, {120, -52}, {120, -52}}, color = {0, 127, 255}));
+  connect(Cmp120.port_2, Noz170.port_1) annotation(
+    Line(points = {{50, -12}, {290, -12}, {290, -12}, {290, -12}}, color = {0, 127, 255}));
   connect(ramp_dmTotal.y, splitFlow_by_BPR1.flow_total) annotation(
     Line(points = {{-68, 30}, {-62, 30}, {-62, 30}, {-60, 30}}, color = {0, 0, 127}));
   connect(setIndependent1.independent_out, Brn036.TtOutlet_in) annotation(
@@ -97,44 +95,22 @@ equation
     Line(points = {{305, -20}, {328.5, -20}, {328.5, -20}, {354, -20}, {354, -124}, {358, -124}}, color = {0, 0, 127}));
   connect(Noz070.Fg_out, calc_engineFg.u2) annotation(
     Line(points = {{345, -60}, {350, -60}, {350, -136}, {358, -136}}, color = {0, 0, 127}));
-  connect(Duct055.port_2, Noz070.port_1) annotation(
-    Line(points = {{320, -52}, {328, -52}}, color = {0, 127, 255}));
   connect(flightToEngine1.port_fluidAmb, Noz070.port_2) annotation(
     Line(points = {{-90, -50}, {-90, -42}, {350, -42}, {350, -52}}, color = {0, 127, 255}));
-  connect(Trb049.port_2, Duct055.port_1) annotation(
-    Line(points = {{290, -52}, {300, -52}, {300, -52}, {300, -52}}, color = {0, 127, 255}));
-  connect(Duct030.port_2, Brn036.port_1) annotation(
-    Line(points = {{170, -52}, {175, -52}, {175, -54}, {180, -54}}, color = {0, 127, 255}));
   connect(MainComb.HeatPort_b, Brn036.HeatPort_1) annotation(
     Line(points = {{180, -30}, {190, -30}, {190, -52}}, color = {191, 0, 0}));
   connect(Brn036.port_2, Trb041.port_1) annotation(
     Line(points = {{200, -54}, {205, -54}, {205, -56}, {210, -56}}, color = {0, 127, 255}));
-  connect(Duct045.port_2, Trb049.port_1) annotation(
-    Line(points = {{260, -54}, {270, -54}, {270, -54}, {270, -54}}, color = {0, 127, 255}));
-  connect(Trb041.port_2, Duct045.port_1) annotation(
-    Line(points = {{230, -52}, {234, -52}, {234, -50}, {238, -50}}, color = {0, 127, 255}));
   connect(Constrain_NH.flange_b, ShH.flange_a) annotation(
     Line(points = {{170, -90}, {180, -90}}));
   connect(ShH.flange_b, Trb041.flange_1) annotation(
     Line(points = {{200, -92}, {206, -92}, {206, -62}, {210, -62}}));
-  connect(Duct125.port_2, Duct130.port_1) annotation(
-    Line(points = {{90, -12}, {258, -12}}, color = {0, 127, 255}));
-  connect(Duct130.port_2, Noz170.port_1) annotation(
-    Line(points = {{280, -14}, {290, -14}}, color = {0, 127, 255}));
   connect(flightToEngine1.port_fluidAmb, Noz170.port_2) annotation(
     Line(points = {{-90, -50}, {-90, -4}, {310, -4}, {310, -12}}, color = {0, 127, 255}));
   connect(ShL.flange_b, Trb049.flange_1) annotation(
     Line(points = {{150, -110}, {264, -110}, {264, -60}, {270, -60}}));
-  connect(Cmp025.port_2, Duct030.port_1) annotation(
-    Line(points = {{140, -52}, {148, -52}}, color = {0, 127, 255}));
   connect(Cmp025.flange_2, Constrain_NH.flange_a) annotation(
     Line(points = {{140, -60}, {144, -60}, {144, -90}, {150, -90}, {150, -90}}));
-  connect(Duct023.port_2, Cmp025.port_1) annotation(
-    Line(points = {{110, -54}, {120, -54}, {120, -54}, {120, -54}}, color = {0, 127, 255}));
-  connect(Cmp020.port_2, Duct023.port_1) annotation(
-    Line(points = {{80, -52}, {92, -52}}, color = {0, 127, 255}));
-  connect(Cmp120.port_2, Duct125.port_1) annotation(
-    Line(points = {{50, -12}, {72, -12}}, color = {0, 127, 255}));
   connect(constrain_NL.flange_b, ShL.flange_a) annotation(
     Line(points = {{120, -110}, {130, -110}}));
   connect(Cmp020.flange_2, constrain_NL.flange_a) annotation(
