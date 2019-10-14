@@ -1,0 +1,5 @@
+within PropulsionSystem.BaseClasses;
+
+package DetailedElements
+  extends Modelica.Icons.BasesPackage;
+end DetailedElements;
