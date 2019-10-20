@@ -63,6 +63,24 @@ model AxCmpRotor_meanLine
     Dialog(group = "Geometry"));
   
   
+  //********** Initialization Parameters **********
+  //--- fluidStat_1 ---
+  parameter Modelica.SIunits.Pressure pStat_1_init(displayUnit="Pa")= p1_init "" annotation(
+    Dialog(tab="Initialization", group="fluidStat_1"));
+  parameter Modelica.SIunits.Temperature TStat_1_init(displayUnit="K")= T1_init "" annotation(
+    Dialog(tab="Initialization", group="fluidStat_1"));
+  parameter Modelica.SIunits.SpecificEnthalpy hStat_1_init(displayUnit="J/kg")= h1_init "" annotation(
+    Dialog(tab="Initialization", group="fluidStat_1"));
+  
+  //--- fluidStat_2 ---
+  parameter Modelica.SIunits.Pressure pStat_2_init(displayUnit="Pa")= p2_init "" annotation(
+    Dialog(tab="Initialization", group="fluidStat_2"));
+  parameter Modelica.SIunits.Temperature TStat_2_init(displayUnit="K")= T2_init "" annotation(
+    Dialog(tab="Initialization", group="fluidStat_2"));
+  parameter Modelica.SIunits.SpecificEnthalpy hStat_2_init(displayUnit="J/kg")= h2_init "" annotation(
+    Dialog(tab="Initialization", group="fluidStat_2"));
+  
+  
   //********** Internal variables **********
   Modelica.SIunits.Length rMean "mean radius of blade";
   Modelica.SIunits.Length rTip_1 "tip radius, LE";
@@ -141,8 +159,23 @@ model AxCmpRotor_meanLine
   Modelica.SIunits.SpecificEnthalpy dht "rise in specific enthalpy across rotor";
   
   Medium.BaseProperties fluidStat_1
+  (
+    p.start= pStat_1_init,
+    T.start= TStat_1_init,
+    state.p.start= pStat_1_init,
+    state.T.start= TStat_1_init,
+    h.start= hStat_1_init
+  )
     "static flow station, 1";
+    
   Medium.BaseProperties fluidStat_2
+  (
+    p.start= pStat_2_init,
+    T.start= TStat_2_init,
+    state.p.start= pStat_2_init,
+    state.T.start= TStat_2_init,
+    h.start= hStat_2_init
+  )
     "static flow station, 2";
   
   //********** Interfaces **********
@@ -155,6 +188,8 @@ model AxCmpRotor_meanLine
   AircraftDynamics.Aerodynamics.BaseClasses.AirfoilSimple00 airfoilSimple001 annotation(
     Placement(visible = true, transformation(origin = {-10.25, 20.2}, extent = {{-49.75, -39.8}, {49.75, 39.8}}, rotation = 0)));
   
+  
+initial algorithm
   
 algorithm
   //********** Geometries **********
@@ -177,6 +212,11 @@ algorithm
   Fdrag:= FdragSingle*numBlade;
   Ftheta:= FthetaSingle*numBlade;
   Fax:= FaxSingle*numBlade;
+  
+initial equation
+  //********** Geometries **********
+  //xi.start= xi_def;
+  
   
 equation
   //********** interface **********
@@ -239,7 +279,7 @@ equation
   fluid_2.h= fluidStat_2.h + 1.0/2.0*(sign(c2)*abs(c2)^(2.0));
   fluidStat_2.h= Medium.isentropicEnthalpy(fluidStat_2.p, fluid_2.state);
   Vsound_2= Medium.velocityOfSound(fluidStat_2.state);
-  (-1.0)*port_2.m_flow= fluid_2.d*c2*AeffAbs_2;
+  port_1.m_flow= fluid_2.d*c2*AeffAbs_2;
   
   //***** mach numbers *****
   cx1= MnAx_1*Vsound_1;
