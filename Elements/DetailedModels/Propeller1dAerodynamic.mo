@@ -154,23 +154,25 @@ model Propeller1dAerodynamic
     )
     "static flow station, 2";
     */
+  //
   //********** Interfaces **********
+  Modelica.Blocks.Interfaces.RealInput u_flowSpeed annotation(
+    Placement(visible = true, transformation(origin = {-120, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_flowAngle "incoming flow angle" annotation(
     Placement(visible = true, transformation(origin = {-120, 50}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_bladeAngle "0 deg: chord alines with center line, 90 deg: chord alines with disk plane" annotation(
     Placement(visible = true, transformation(origin = {-30, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {50, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));  
   Modelica.Blocks.Interfaces.RealOutput y_Fg "thrust by propeller" annotation(
     Placement(visible = true, transformation(origin = {110, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  //
   //********** internal objects **********
   AircraftDynamics.Aerodynamics.BaseClasses.AirfoilSimple00 airfoilSimple001 annotation(
     Placement(visible = true, transformation(origin = {-30.25, 40.2}, extent = {{-49.75, -39.8}, {49.75, 39.8}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_flowSpeed annotation(
-    Placement(visible = true, transformation(origin = {-120, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     
 initial algorithm
 
 algorithm
-//********** Geometries **********
+  //********** Geometries, defined by parameter **********
   rTip_1 := rTip_1_def;
   rHub_1 := rHub_1_def;
   rTip_2 := rTip_2_def;
@@ -178,13 +180,16 @@ algorithm
   lAxial := lAxial_def;
   Sblade := Sblade_def;
   numBlade := numBlade_def;
-//********** interface, input **********
+  
+  //********** interface, input **********
   alpha1 := u_flowAngle;
   xi := u_bladeAngle;
   c1:= u_flowSpeed;
   
+  //***** temporary *****
   m_flow_single:= port_1.m_flow/numBlade;
-//********** temp **********
+  
+  //********** geometry **********
   rMean := (rTip_1 + rHub_1 + rTip_2 + rHub_2) / 4.0;
   BR_1:= rHub_1 / rTip_1;
   BR_2:= rHub_2 / rTip_2;
@@ -196,7 +201,8 @@ algorithm
   diamDisk_2:= 2*rTip_2;
   AeffAx_1 := Modelica.Constants.pi * (rTip_1 ^ 2.0 - rHub_1 ^ 2.0);
   AeffAbs_1:= AeffAx_1/cos(alpha1);
-    
+  
+  //********** velocities **********
   Umean:= rMean*omega;
   cx1:= cos(alpha1)*c1;
   cTheta1:= sqrt(c1^2.0-cx1^2.0);
@@ -206,50 +212,51 @@ algorithm
   inci1:= beta1 - xi;
   phi1:= Modelica.Constants.pi/2.0-beta1;
   
+  /*
   airfoilSimple001.signalBus1.alpha:= inci1;
-  
   CL := airfoilSimple001.signalBus2.Cl;
   CD := airfoilSimple001.signalBus2.Cd;
+  */
   
+  //********** Forces **********
   FliftSingle:= CL * Sblade * 1.0 / 2.0 * fluid_1.d * w1 ^ 2.0;
   FdragSingle:= CD * Sblade * 1.0 / 2.0 * fluid_1.d * w1 ^ 2.0;
-  
   FthetaSingle:= FliftSingle * sin(phi1) + FdragSingle * cos(phi1);
   FaxSingle:= FliftSingle * cos(phi1) - FdragSingle * sin(phi1);
-  
+    
+  //********** component characteristics, etc **********
   trqSingle := FthetaSingle * rMean;
   pwrSingle := trqSingle * omega;
   trq := trqSingle * numBlade;
   pwr := pwrSingle * numBlade;
-//port_1.m_flow := m_flow_single * numBlade;
-  Nmech := Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
-//y_flowAngle := alpha2;
-//********** others **********
+  
   Flift := FliftSingle * numBlade;
   Fdrag := FdragSingle * numBlade;
   Ftheta := FthetaSingle * numBlade;
   Fax := FaxSingle * numBlade;
   
   pwrPropulsive:= Fax*c1;
-  
+  Nmech := Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
   FliftqFdrag:= Flift/Fdrag;
   FaxqFtheta:= Fax/Ftheta;
   effPropeller:= pwrPropulsive/pwr;
-//********** interface, output **********
+  
+  //********** interface, output **********
   y_Fg := Fax;
+  //y_flowAngle := alpha2;
+  
 initial equation
   
 equation
 //********** interface **********
-/*
+/**/
   connect(inci1, airfoilSimple001.signalBus1.alpha) annotation(
     Line);
-  
   CL = airfoilSimple001.signalBus2.Cl;
   CD = airfoilSimple001.signalBus2.Cd;
-  */
+  
 //********** Geometries **********
-/*
+  /*
   rMean = (rTip_1 + rHub_1 + rTip_2 + rHub_2) / 4.0;
   BR_1 = rHub_1 / rTip_1;
   BR_2 = rHub_2 / rTip_2;
@@ -257,18 +264,20 @@ equation
   height_2 = rTip_2 - rHub_2;
   hBlade = (height_1 + height_2) / 2;
   AR = 2*hBlade / lAxial;
-  dDisk_1=2*rTip_1;
-  dDisk_2=2*rTip_2;
+  diamDisk_1=2*rTip_1;
+  diamDisk_2=2*rTip_2;
   AeffAx_1 = Modelica.Constants.pi * (rTip_1 ^ 2.0 - rHub_1 ^ 2.0);
   AeffAx_1 = AeffAbs_1 * cos(alpha1);
-  
   */
+  
 //AeffAx_2 = Modelica.Constants.pi * (rTip_2 ^ 2.0 - rHub_2 ^ 2.0);
 //AeffAx_2 = AeffAbs_2 * cos(alpha2);
 //********** eqns describing physics **********
-/*
+  /*
   Umean= rMean*omega;
+  
   //***** velocity triangle, LE *****
+  
   cx1 = cos(alpha1) * c1;
   c1 ^ 2.0 = cx1 ^ 2.0 + cTheta1 ^ 2.0;
   wTheta1 = Umean - cTheta1;
@@ -277,6 +286,7 @@ equation
   beta1 = xi + inci1;
   phi1 + beta1 = Modelica.Constants.pi / 2.0;
   */
+    
 //***** velocity triangle, TE *****
 /*
   beta2 + epsiron2 = beta1;
@@ -288,10 +298,10 @@ equation
   phi2 + beta2 = Modelica.Constants.pi / 2.0;
   */
 //***** momentum conservation across rotor blade *****
-/*
-  FliftSingle = CL * Sblade * 1.0 / 2.0 * fluid_1.d * w1 ^ 2.0;
-  FdragSingle = CD * Sblade * 1.0 / 2.0 * fluid_1.d * w1 ^ 2.0;
-  */
+/**/
+  //FliftSingle = CL * Sblade * 1.0 / 2.0 * fluid_1.d * w1 ^ 2.0;
+  //FdragSingle = CD * Sblade * 1.0 / 2.0 * fluid_1.d * w1 ^ 2.0;
+  
   FliftSingle = m_flow_single * (w2 * sin(epsiron2));
   FdragSingle = m_flow_single * (w2 * cos(epsiron2) - w1);
 //***** forces *****
@@ -325,18 +335,22 @@ equation
 //port_1.m_flow = m_flow_single * numBlade;
 //***** performance *****
 //dht = h_2 - fluid_1.h;
+
 /*
   trqSingle = FthetaSingle * rMean;
   pwrSingle = trqSingle * omega;
+
   trq = trqSingle * numBlade;
   pwr = pwrSingle * numBlade;
-  */
+
+*/  
 //-- energy conservation --
-//pwr = -1.0 * (port_1.m_flow * fluid_1.h + (-1.0)*port_1.m_flow * h_2);
-//omega * trq = pwr;
   trq = flange_1.tau + flange_2.tau;
   pwr= omega * trq;
   der(phi) = omega;
+//pwr = -1.0 * (port_1.m_flow * fluid_1.h + (-1.0)*port_1.m_flow * h_2);
+//omega * trq = pwr;
+  
 //Nmech = Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
 /*
   
