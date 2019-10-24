@@ -75,17 +75,26 @@ model Propeller1dAerodynamic
   Modelica.SIunits.Velocity c1 "abs-V, LE";
   Modelica.SIunits.Velocity cx1 "axial-V, LE";
   Modelica.SIunits.Velocity cTheta1 "tangential component, abs-V, LE";
-  Modelica.SIunits.Velocity w1 "rel-V, LE";
+  Modelica.SIunits.Velocity w1(start=100.0) "rel-V, LE";
   Modelica.SIunits.Velocity wTheta1 "tangential component, rel-V, LE";
-  Modelica.SIunits.Velocity w2 "rel-V, TE";
+  Modelica.SIunits.Velocity c2 "abs-V, TE";
+  Modelica.SIunits.Velocity cx2 "axial-V, TE";
+  Modelica.SIunits.Velocity cTheta2 "tangential component, abs-V, TE";
+  Modelica.SIunits.Velocity w2(start=100.0) "rel-V, TE";
+  Modelica.SIunits.Velocity wTheta2 "tangential component, rel-V, TE";
   Modelica.SIunits.Velocity Umean "tangential velocity, mean r";
   Modelica.SIunits.Angle alpha1 "flow angle, abs, LE";
   Modelica.SIunits.Angle beta1 "flow angle, rel, LE";
   Modelica.SIunits.Angle phi1 "angle btwn rel-V and disk plane, LE";
+  Modelica.SIunits.Angle alpha2 "flow angle, abs, TE";
+  Modelica.SIunits.Angle beta2 "flow angle, rel, TE";
+  Modelica.SIunits.Angle phi2 "angle btwn rel-V and disk plane, TE";
   Modelica.SIunits.Angle inci1 "incident angle(AoA for airfoil), LE";
   Modelica.SIunits.Angle xi "angle of blade chord line";
   Modelica.SIunits.Angle epsiron2 "downwash angle, TE";
-  Modelica.SIunits.MassFlowRate m_flow_single "m_flow, single blade";
+  //Modelica.SIunits.MassFlowRate m_flow_single "m_flow, single blade";
+  Modelica.SIunits.MassFlowRate m_flow "m_flow, entire disk";
+  
   Real CL "lift coefficient";
   Real CD "drag coefficient";
   Modelica.SIunits.Force FthetaSingle "aero-force, tangential direction, single blade";
@@ -103,7 +112,7 @@ model Propeller1dAerodynamic
   Real FaxqFtheta "axial-force/tangential force";
   Real effPropeller "propeller efficiency, =pwrPropulsive/pwr";
   //Modelica.SIunits.SpecificEnthalpy dht "rise in specific enthalpy across rotor";
-  //Modelica.SIunits.SpecificEnthalpy h_2 "";
+  Modelica.SIunits.SpecificEnthalpy h_2 "";
   
   //********** Interfaces **********
   Modelica.Blocks.Interfaces.RealInput u_flowSpeed "" annotation(
@@ -138,7 +147,7 @@ algorithm
   c1:= u_flowSpeed;
   
   //***** temporary *****
-  m_flow_single:= port_1.m_flow/numBlade;
+  m_flow:=port_1.m_flow;
   
   //********** geometry **********
   rMean := (rTip_1 + rHub_1 + rTip_2 + rHub_2) / 4.0;
@@ -168,7 +177,10 @@ algorithm
   FdragSingle:= CD * Sblade * 1.0 / 2.0 * fluid_1.d * w1 ^ 2.0;
   FthetaSingle:= FliftSingle * sin(phi1) + FdragSingle * cos(phi1);
   FaxSingle:= FliftSingle * cos(phi1) - FdragSingle * sin(phi1);
-    
+  
+  
+  
+  
   //********** component characteristics, etc **********
   trqSingle := FthetaSingle * rMean;
   pwrSingle := trqSingle * omega;
@@ -179,6 +191,20 @@ algorithm
   Fdrag := FdragSingle * numBlade;
   Ftheta := FthetaSingle * numBlade;
   Fax := FaxSingle * numBlade;
+  
+  cx2:= Fax/m_flow + cx1 ;
+  
+  beta2:= acos(cx2/w2);
+  if(Modelica.Constants.pi/2.0<beta2)then
+    beta2:= beta2-Modelica.Constants.pi;
+  end if;
+  
+  wTheta2:= w2*cos(beta2);
+  cTheta2:= Umean-wTheta2;
+  c2:=sqrt(cx2^2.0+cTheta2^2.0);
+  alpha2:= acos(cx2/c2);
+  phi2:= Modelica.Constants.pi/2.0-beta2;
+  
   
   pwrPropulsive:= Fax*c1;
   Nmech := Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
@@ -200,17 +226,19 @@ equation
   CL = airfoilSimple001.signalBus2.Cl;
   CD = airfoilSimple001.signalBus2.Cd;
   
+  //m_flow_single= port_1.m_flow/numBlade;
+  
   //***** momentum conservation across rotor blade *****
-  FliftSingle = m_flow_single * (w2 * sin(epsiron2));
-  FdragSingle = m_flow_single * (w2 * cos(epsiron2) - w1);
+  //Fax= m_flow*(cx2-cx1);
+  Flift= m_flow * (w2 * sin(epsiron2));
+  Fdrag= m_flow * (w2 * cos(epsiron2) - w1);
   
   //-- energy conservation --
   trq = flange_1.tau + flange_2.tau;
   pwr= omega * trq;
   der(phi) = omega;
-//pwr = -1.0 * (port_1.m_flow * fluid_1.h + (-1.0)*port_1.m_flow * h_2);
-//omega * trq = pwr;
-  
+  pwr= m_flow*(h_2-fluid_1.h);
+    
   
   annotation(
     Icon(graphics = {Rectangle(origin = {40, -2}, fillPattern = FillPattern.Solid, extent = {{-66, 6}, {52, -2}}), Polygon(origin = {-13, 46}, fillColor = {0, 0, 127}, fillPattern = FillPattern.Solid, points = {{-3, 54}, {-7, -42}, {13, -42}, {9, 54}, {-3, 54}}), Line(origin = {-39.7738, -9.94116}, points = {{26, 10}, {-60, 10}}, pattern = LinePattern.Dot, thickness = 1.5), Line(origin = {98.77, -10.2247}, points = {{0, 10}, {-104, 10}}, pattern = LinePattern.Dot, thickness = 1.5), Polygon(origin = {-13, -58}, fillColor = {0, 0, 127}, fillPattern = FillPattern.Solid, points = {{-7, 54}, {-3, -42}, {9, -42}, {13, 54}, {-7, 54}}), Ellipse(origin = {-22, 20}, pattern = LinePattern.DashDot, lineThickness = 0.5, extent = {{-20, 80}, {36, -120}}, endAngle = 360), Line(origin = {45.8, 54.8}, points = {{4.1963, 45.1963}, {4.1963, -34.8037}, {-45.8036, -50.8037}}, pattern = LinePattern.Dash, thickness = 1.5), Text(origin = {-70, 92}, extent = {{-20, 8}, {20, -12}}, textString = "Amb"), Text(origin = {74, 97}, extent = {{-14, 3}, {16, -17}}, textString = "pitch")}, coordinateSystem(initialScale = 0.1)),
