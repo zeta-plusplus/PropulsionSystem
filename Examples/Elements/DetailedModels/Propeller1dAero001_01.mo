@@ -24,7 +24,7 @@ model Propeller1dAero001_01
   Modelica.Blocks.Sources.Ramp ramp_bladeAngle(duration = 10, height = 5 * Modelica.Constants.pi / 180, offset = 20 * Modelica.Constants.pi / 180, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {10, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
-  connect(boundary.ports[1], propeller1dAerodynamic1.port_1) annotation(
+  connect(boundary.ports[1], propeller1dAerodynamic1.port_amb) annotation(
     Line(points = {{-40, 50}, {-32, 50}, {-32, 36}, {-20, 36}, {-20, 36}}, color = {0, 127, 255}));
   connect(propeller1dAerodynamic1.flange_2, speed1.flange) annotation(
     Line(points = {{20, 20}, {40, 20}}));
