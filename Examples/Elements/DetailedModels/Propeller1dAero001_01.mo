@@ -24,18 +24,18 @@ model Propeller1dAero001_01
   Modelica.Blocks.Sources.Ramp ramp_bladeAngle(duration = 10, height = 5 * Modelica.Constants.pi / 180, offset = 20 * Modelica.Constants.pi / 180, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {10, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
-  connect(ramp_bladeAngle.y, propeller1dAerodynamic1.u_bladeAngle) annotation(
-    Line(points = {{10, 59}, {10, 42}}, color = {0, 0, 127}));
-  connect(ramp_flowSpeed.y, propeller1dAerodynamic1.u_flowSpeed) annotation(
-    Line(points = {{-39, -20}, {-28, -20}, {-28, 26}, {-22, 26}}, color = {0, 0, 127}));
-  connect(speed1.w_ref, const_omega.y) annotation(
-    Line(points = {{62, 20}, {80, 20}, {80, 20}, {80, 20}}, color = {0, 0, 127}));
-  connect(const_flowAngle.y, propeller1dAerodynamic1.u_flowAngle) annotation(
-    Line(points = {{-39, 20}, {-34, 20}, {-34, 32}, {-22, 32}}, color = {0, 0, 127}));
+  connect(boundary.ports[1], propeller1dAerodynamic1.port_1) annotation(
+    Line(points = {{-40, 50}, {-32, 50}, {-32, 36}, {-20, 36}, {-20, 36}}, color = {0, 127, 255}));
   connect(propeller1dAerodynamic1.flange_2, speed1.flange) annotation(
     Line(points = {{20, 20}, {40, 20}}));
-  connect(boundary.ports[1], propeller1dAerodynamic1.port_1) annotation(
-    Line(points = {{-40, 50}, {-28, 50}, {-28, 36}, {-20, 36}}, color = {0, 127, 255}));
+  connect(const_flowAngle.y, propeller1dAerodynamic1.u_flowAngle) annotation(
+    Line(points = {{-39, 20}, {-34, 20}, {-34, 32}, {-22, 32}}, color = {0, 0, 127}));
+  connect(ramp_flowSpeed.y, propeller1dAerodynamic1.u_flowSpeed) annotation(
+    Line(points = {{-39, -20}, {-28, -20}, {-28, 26}, {-22, 26}}, color = {0, 0, 127}));
+  connect(ramp_bladeAngle.y, propeller1dAerodynamic1.u_bladeAngle) annotation(
+    Line(points = {{10, 59}, {10, 42}}, color = {0, 0, 127}));
+  connect(speed1.w_ref, const_omega.y) annotation(
+    Line(points = {{62, 20}, {80, 20}, {80, 20}, {80, 20}}, color = {0, 0, 127}));
   annotation(
     experiment(StartTime = 0, StopTime = 30, Tolerance = 1e-6, Interval = 0.01),__OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
     

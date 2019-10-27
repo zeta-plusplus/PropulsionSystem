@@ -7,7 +7,7 @@ partial model ElementFrame_1FluidPort_2ShaftPorts
   import Modelica.Constants;
   /********************************************************
           Declaration
-        ********************************************************/
+  ********************************************************/
   //********** Package **********
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation(
     choicesAllMatching = true);
@@ -94,7 +94,7 @@ equation
 //********** Connections, interface <-> internal variables **********
 //-- fluidPort_1 --
   fluid_1.p = port_1.p;
-  port_1.h_outflow = fluid_1.h;
+  //port_1.h_outflow = fluid_1.h;
   fluid_1.h = actualStream(port_1.h_outflow);
   fluid_1.Xi = actualStream(port_1.Xi_outflow);
 //-- shaft-front, flange_a --
