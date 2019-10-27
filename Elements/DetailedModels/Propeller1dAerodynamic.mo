@@ -1,7 +1,6 @@
 within PropulsionSystem.Elements.DetailedModels;
 
 model Propeller1dAerodynamic
-  //extends PropulsionSystem.Interfaces.ElementFrames.ElementFrame_1FluidPort_2ShaftPorts;
   /********************************************************
       imports
   ********************************************************/
@@ -18,7 +17,6 @@ model Propeller1dAerodynamic
   //##### none #####
   
   //********** Parameters **********
-  //parameter Modelica.SIunits.Angle xi_def(displayUnit = "deg") = 30.0 * Modelica.Constants.pi / 180 "angle of blade chord line" annotation(
   //  Dialog(group = "Geometry"));
   parameter Modelica.SIunits.Length rTip_1_def = 1.0 "tip radius of blade, LE" annotation(
     Dialog(group = "Geometry"));
@@ -85,8 +83,10 @@ model Propeller1dAerodynamic
   Real BR_1 "boss ratio, leading";
   Real BR_2 "boss ratio, trailing edge";
   Real numBlade "num. of blades";
-  Modelica.SIunits.Area AeffAx_1 "mech. area, flow cross section, axial, LE";
-  Modelica.SIunits.Area AeffAbs_1 "mech. area, flow cross section, abs, LE";
+  Modelica.SIunits.Area AmechAx_1 "";
+  Modelica.SIunits.Area AmechAbs_1 "";
+  Modelica.SIunits.Area AeffAx_1 "eff. rep. area, flow cross section, axial, LE, NOT mech area";
+  Modelica.SIunits.Area AeffAbs_1 "eff. rep. area, flow cross section, abs, LE, NOT mech area";
   Modelica.SIunits.Velocity c1 "abs-V, LE";
   Modelica.SIunits.Velocity cx1 "axial-V, LE";
   Modelica.SIunits.Velocity cTheta1 "tangential component, abs-V, LE";
@@ -173,6 +173,11 @@ algorithm
   Sblade := Sblade_def;
   numBlade := numBlade_def;
   
+  //********** interface, input **********
+  alpha1 := u_flowAngle;
+  xi := u_bladeAngle;
+  c1:= u_flowSpeed;
+  
   //********** geometry **********
   rMean := (rTip_1 + rHub_1 + rTip_2 + rHub_2) / 4.0;
   BR_1:= rHub_1 / rTip_1;
@@ -183,14 +188,8 @@ algorithm
   AR:= 2*hBlade / lAxial;
   diamDisk_1:= 2*rTip_1;
   diamDisk_2:= 2*rTip_2;
-  AeffAx_1 := Modelica.Constants.pi * (rTip_1 ^ 2.0 - rHub_1 ^ 2.0);
-  
-  //********** interface, input **********
-  alpha1 := u_flowAngle;
-  xi := u_bladeAngle;
-  c1:= u_flowSpeed;
-  
-  AeffAbs_1:= AeffAx_1/cos(alpha1);
+  AmechAx_1 := Modelica.Constants.pi * (rTip_1 ^ 2.0 - rHub_1 ^ 2.0);
+  AmechAbs_1:= AeffAx_1/cos(alpha1);
   
   //***** temporary *****
   //m_flow:= fluid_1.d*c1*AeffAbs_1;
@@ -228,6 +227,7 @@ algorithm
   phi2:= Modelica.Constants.pi/2.0-beta2;
   
   //********** component characteristics, etc **********
+  
   h_2:= fluid_1.h + (1.0/2.0*c2^2.0 - 1.0/2.0*c1^2.0);
   trqSingle := FthetaSingle * rMean;
   pwrSingle := trqSingle * omega;
@@ -239,6 +239,10 @@ algorithm
   FliftqFdrag:= Flift/Fdrag;
   FaxqFtheta:= Fax/Ftheta;
   effPropeller:= pwrPropulsive/pwr;
+  
+  AeffAbs_1:= m_flow/(fluid_1.d * c1);
+  AeffAx_1:= AeffAbs_1*cos(alpha1);
+  
   
   //********** interface, output **********
   y_Fg := Fax;
@@ -277,6 +281,9 @@ equation
   Ftheta= m_flow*(cTheta2-cTheta1);
   //cx2= Fax/m_flow + cx1;
   //cTheta2= Ftheta/m_flow + cTheta1;
+  
+  //AmechAx_1 := Modelica.Constants.pi * (rTip_1 ^ 2.0 - rHub_1 ^ 2.0);
+  //AmechAbs_1:= AeffAx_1/cos(alpha1);
   
   
   annotation(
