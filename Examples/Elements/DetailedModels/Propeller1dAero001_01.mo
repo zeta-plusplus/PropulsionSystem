@@ -15,21 +15,21 @@ model Propeller1dAero001_01
     Placement(visible = true, transformation(origin = {-50, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const_flowAngle(k = 0)  annotation(
     Placement(visible = true, transformation(origin = {-50, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const_bladeAngle(k = 30 * Modelica.Constants.pi / 180) annotation(
-    Placement(visible = true, transformation(origin = {10, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.Rotational.Sources.Speed speed1 annotation(
     Placement(visible = true, transformation(origin = {50, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const_omega(k = 1000 * 2 * Modelica.Constants.pi / 60) annotation(
     Placement(visible = true, transformation(origin = {90, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_flowSpeed(duration = 10, height = 5, offset = 100, startTime = 10)  annotation(
+  Modelica.Blocks.Sources.Ramp ramp_flowSpeed(duration = 10, height = 0, offset = 100, startTime = 10)  annotation(
     Placement(visible = true, transformation(origin = {-50, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_bladeAngle(duration = 10, height = 5 * Modelica.Constants.pi / 180, offset = 20 * Modelica.Constants.pi / 180, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {10, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
+  connect(ramp_bladeAngle.y, propeller1dAerodynamic1.u_bladeAngle) annotation(
+    Line(points = {{10, 59}, {10, 42}}, color = {0, 0, 127}));
   connect(ramp_flowSpeed.y, propeller1dAerodynamic1.u_flowSpeed) annotation(
     Line(points = {{-39, -20}, {-28, -20}, {-28, 26}, {-22, 26}}, color = {0, 0, 127}));
   connect(speed1.w_ref, const_omega.y) annotation(
     Line(points = {{62, 20}, {80, 20}, {80, 20}, {80, 20}}, color = {0, 0, 127}));
-  connect(const_bladeAngle.y, propeller1dAerodynamic1.u_bladeAngle) annotation(
-    Line(points = {{10, 60}, {10, 42}}, color = {0, 0, 127}));
   connect(const_flowAngle.y, propeller1dAerodynamic1.u_flowAngle) annotation(
     Line(points = {{-39, 20}, {-34, 20}, {-34, 32}, {-22, 32}}, color = {0, 0, 127}));
   connect(propeller1dAerodynamic1.flange_2, speed1.flange) annotation(

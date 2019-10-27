@@ -91,7 +91,7 @@ model Propeller1dAerodynamic
   Modelica.SIunits.Angle phi2 "angle btwn rel-V and disk plane, TE";
   Modelica.SIunits.Angle inci1 "incident angle(AoA for airfoil), LE";
   Modelica.SIunits.Angle xi "angle of blade chord line";
-  Modelica.SIunits.Angle epsiron2 "downwash angle, TE";
+  //Modelica.SIunits.Angle epsiron2 "downwash angle, TE";
   //Modelica.SIunits.MassFlowRate m_flow_single "m_flow, single blade";
   Modelica.SIunits.MassFlowRate m_flow "m_flow, entire disk";
   
@@ -162,6 +162,7 @@ algorithm
   AeffAx_1 := Modelica.Constants.pi * (rTip_1 ^ 2.0 - rHub_1 ^ 2.0);
   AeffAbs_1:= AeffAx_1/cos(alpha1);
   
+  
   //********** velocities **********
   Umean:= rMean*omega;
   cx1:= cos(alpha1)*c1;
@@ -172,39 +173,43 @@ algorithm
   inci1:= beta1 - xi;
   phi1:= Modelica.Constants.pi/2.0-beta1;
   
+  
   //********** Forces **********
   FliftSingle:= CL * Sblade * 1.0 / 2.0 * fluid_1.d * w1 ^ 2.0;
   FdragSingle:= CD * Sblade * 1.0 / 2.0 * fluid_1.d * w1 ^ 2.0;
   FthetaSingle:= FliftSingle * sin(phi1) + FdragSingle * cos(phi1);
   FaxSingle:= FliftSingle * cos(phi1) - FdragSingle * sin(phi1);
   
+  Flift := FliftSingle * numBlade;
+  Fdrag := FdragSingle * numBlade;
+  Ftheta := FthetaSingle * numBlade;
+  Fax := FaxSingle * numBlade;
   
   
+  
+  //********** velocities **********
+  cx2:= Fax/m_flow + cx1;
+  cTheta2:= Ftheta/m_flow + cTheta1;
+  
+  wTheta2:= Umean -cTheta2;
+  w2:=sqrt(cx2^2.0+wTheta2^2.0);
+  
+  beta2:= atan(wTheta2/cx2);
+  /*
+  beta2:= acos(cx2/w2);
+  if(Modelica.Constants.pi/2.0<beta2)then
+    beta2:= beta2-Modelica.Constants.pi;
+  end if;
+  */
+  c2:=sqrt(cx2^2.0+cTheta2^2.0);
+  alpha2:= acos(cx2/c2);
+  phi2:= Modelica.Constants.pi/2.0-beta2;
   
   //********** component characteristics, etc **********
   trqSingle := FthetaSingle * rMean;
   pwrSingle := trqSingle * omega;
   trq := trqSingle * numBlade;
   pwr := pwrSingle * numBlade;
-  
-  Flift := FliftSingle * numBlade;
-  Fdrag := FdragSingle * numBlade;
-  Ftheta := FthetaSingle * numBlade;
-  Fax := FaxSingle * numBlade;
-  
-  cx2:= Fax/m_flow + cx1 ;
-  
-  beta2:= acos(cx2/w2);
-  if(Modelica.Constants.pi/2.0<beta2)then
-    beta2:= beta2-Modelica.Constants.pi;
-  end if;
-  
-  wTheta2:= w2*cos(beta2);
-  cTheta2:= Umean-wTheta2;
-  c2:=sqrt(cx2^2.0+cTheta2^2.0);
-  alpha2:= acos(cx2/c2);
-  phi2:= Modelica.Constants.pi/2.0-beta2;
-  
   
   pwrPropulsive:= Fax*c1;
   Nmech := Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
@@ -230,8 +235,9 @@ equation
   
   //***** momentum conservation across rotor blade *****
   //Fax= m_flow*(cx2-cx1);
-  Flift= m_flow * (w2 * sin(epsiron2));
-  Fdrag= m_flow * (w2 * cos(epsiron2) - w1);
+  //Ftheta= m_flow*(cTheta2-cTheta1);
+  //Flift= m_flow * (w2 * sin(epsiron2));
+  //Fdrag= m_flow * (w2 * cos(epsiron2) - w1);
   
   //-- energy conservation --
   trq = flange_1.tau + flange_2.tau;
