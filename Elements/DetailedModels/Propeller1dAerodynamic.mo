@@ -126,9 +126,9 @@ model Propeller1dAerodynamic
   Modelica.SIunits.SpecificEnthalpy h_2 "enthalpy, total state";
   Modelica.SIunits.Power pwr "power via shaft, positive if fluid generates power";
   Modelica.SIunits.Torque trq(start = 1.0) "trq via shaft";
-  Modelica.SIunits.AngularVelocity omega(start = 1.0) "mechanical rotation speed, rad/sec";
+  Modelica.SIunits.AngularVelocity omega(start = 100.0) "mechanical rotation speed, rad/sec";
   Modelica.SIunits.Angle phi(start = 0.0) "mechanical rotation displacement, rad";
-  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech(start = 2500) "mechanical rotation speed, rpm";
+  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech(start = 1000) "mechanical rotation speed, rpm";
   
   Boolean flagBladeStall(start=false) "flag, prop. blade is stalled or not";
   
