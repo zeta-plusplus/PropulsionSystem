@@ -111,10 +111,12 @@ model Propeller1dAerodynamic
   Modelica.SIunits.Force FaxSingle "aero-force, axial direction, single blade";
   Modelica.SIunits.Force FliftSingle "lift, single blade";
   Modelica.SIunits.Force FdragSingle "drag, single blade";
+  Modelica.SIunits.Force FresultantSingle "resultant force, single blade";
   Modelica.SIunits.Force Ftheta "aero-force, tangential direction, total of blades";
   Modelica.SIunits.Force Fax "aero-force, axial direction, total of blades";
   Modelica.SIunits.Force Flift "lift, total of blades";
   Modelica.SIunits.Force Fdrag "drag, total of blades";
+  Modelica.SIunits.Force Fresultant "resulttant force, total of blades";
   Modelica.SIunits.Torque trqSingle "torque, by single blade";
   Modelica.SIunits.Power pwrSingle "power, by single blade";
   Modelica.SIunits.Power pwrPropulsive "power of propulsion, =thrust*flowSpeed";
@@ -122,6 +124,11 @@ model Propeller1dAerodynamic
   Real FaxqFtheta "axial-force/tangential force";
   Real effPropeller "propeller efficiency, =pwrPropulsive/pwr";
   Modelica.SIunits.SpecificEnthalpy dht "rise in specific enthalpy across rotor";
+  Real aeroLoading "dht/U^2";
+  Real ratioAdv "propeller advance ratio";
+  Real cThrust "";
+  Real cTorque "";
+  Real cPower "";
   Modelica.SIunits.SpecificEnthalpy h_1 "enthalpy, total state";
   Modelica.SIunits.SpecificEnthalpy h_2 "enthalpy, total state";
   Modelica.SIunits.Power pwr "power via shaft, positive if fluid generates power";
@@ -201,11 +208,13 @@ algorithm
   FdragSingle:= CD * Sblade * 1.0 / 2.0 * fluid_amb.d * w1 ^ 2.0;
   FthetaSingle:= FliftSingle * sin(phi1) + FdragSingle * cos(phi1);
   FaxSingle:= FliftSingle * cos(phi1) - FdragSingle * sin(phi1);
+  FresultantSingle:= sign(FliftSingle)*sqrt(FliftSingle^2.0 + FdragSingle^2.0);
   
   Flift := FliftSingle * numBlade;
   Fdrag := FdragSingle * numBlade;
   Ftheta := FthetaSingle * numBlade;
   Fax := FaxSingle * numBlade;
+  Fresultant:= FresultantSingle*numBlade;
   
   //********** velocities **********
   wTheta2 := Umean - cTheta2;
@@ -231,6 +240,17 @@ algorithm
   h_1:= fluid_amb.h+1.0/2.0*c1^2;
   h_2:= fluid_amb.h+1.0/2.0*c2^2;
   dht:= h_2-h_1;
+  
+  if(Umean<>0.0)then
+    aeroLoading:= dht/Umean^2.0;
+  else
+    aeroLoading:= 0.0;
+  end if;
+  
+  ratioAdv:= cx1/(diamDisk_1*(Nmech/60.0));
+  cThrust:= Fax/(fluid_amb.d*(Nmech/60.0)^2.0*diamDisk_1^4.0);
+  cTorque:= trq/(fluid_amb.d*(Nmech/60.0)^2.0*diamDisk_1^5.0);
+  cPower:= 2.0*Modelica.Constants.pi*cTorque;
   
   //********** interface, output **********
   y_Fg := Fax;
