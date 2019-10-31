@@ -19,11 +19,11 @@ model Propeller1dAero001_01
     Placement(visible = true, transformation(origin = {50, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_flowSpeed(duration = 10, height = 0, offset = 100, startTime = 10)  annotation(
     Placement(visible = true, transformation(origin = {-70, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_bladeAngle(duration = 10, height = 0 * Modelica.Constants.pi / 180, offset = 20 * Modelica.Constants.pi / 180, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_bladeAngle(duration = 10, height = 0 * Modelica.Constants.pi / 180, offset = 30 * Modelica.Constants.pi / 180, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-10, 50}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 1)  annotation(
     Placement(visible = true, transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_omega(duration = 10, height = -500 * 2 * Modelica.Constants.pi / 60, offset = 1100 * 2 * Modelica.Constants.pi / 60, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_omega(duration = 10, height = -400 * 2 * Modelica.Constants.pi / 60, offset = 1100 * 2 * Modelica.Constants.pi / 60, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {90, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 equation
   connect(speed1.w_ref, ramp_omega.y) annotation(
