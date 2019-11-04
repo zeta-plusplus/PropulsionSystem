@@ -15,8 +15,8 @@ Duct
 Duct_Wc2ndOrder
 FlightToEngine
 EnginePerformance
-Propeller_ActuatorDisk
 constrain_Nmech
 constrain_T
 constrain_dm
 extractPwr
+PropellerActDisk

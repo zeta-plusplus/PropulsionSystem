@@ -23,7 +23,7 @@ model Propeller1dAero001_02
     Placement(visible = true, transformation(origin = {-10, 50}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.Rotational.Sources.Torque torque1 annotation(
     Placement(visible = true, transformation(origin = {50, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 0.1, w(fixed = true, start = 104))  annotation(
+  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 0.1, w(fixed = true, start = 104)) annotation(
     Placement(visible = true, transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(ramp_bladeAngle.y, propeller1dAerodynamic1.u_bladeAngle) annotation(
@@ -41,7 +41,6 @@ equation
   connect(inertia1.flange_b, torque1.flange) annotation(
     Line(points = {{30, 0}, {40, 0}, {40, 0}, {40, 0}}));
   annotation(
-    experiment(StartTime = 0, StopTime = 30, Tolerance = 1e-6, Interval = 0.01),
+    experiment(StartTime = 0, StopTime = 30, Tolerance = 1e-06, Interval = 0.01),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
-    
 end Propeller1dAero001_02;
