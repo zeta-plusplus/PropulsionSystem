@@ -91,8 +91,8 @@ equation
     Line(points = {{70, 20}, {75, 20}, {75, 18}, {80, 18}}, color = {0, 127, 255}));
   annotation(
     uses(Modelica(version = "3.2.2")),
-    Diagram(coordinateSystem(extent = {{-100, -140}, {200, 100}})),
-    Icon(coordinateSystem(extent = {{-100, -140}, {200, 100}})),
+    Diagram(coordinateSystem(extent = {{-100, -140}, {280, 100}})),
+    Icon(coordinateSystem(extent = {{-100, -140}, {280, 100}})),
     version = "",
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 30, Tolerance = 1e-06, Interval = 0.01),

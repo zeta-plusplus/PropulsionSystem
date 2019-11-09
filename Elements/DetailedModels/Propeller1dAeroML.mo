@@ -1,6 +1,6 @@
 within PropulsionSystem.Elements.DetailedModels;
 
-model Propeller1dAerodynamic
+model Propeller1dAeroML
   /********************************************************
       imports
   ********************************************************/
@@ -68,6 +68,8 @@ model Propeller1dAerodynamic
   Modelica.SIunits.Length rHub_2 "hub radius, TE";
   Modelica.SIunits.Length diamDisk_1;
   Modelica.SIunits.Length diamDisk_2;
+  Modelica.SIunits.Length diamEffTip_1;
+  Modelica.SIunits.Length rEffTip_1;
   Modelica.SIunits.Length lAxial "axial length of blade";
   Modelica.SIunits.Length height_1 "blade height, LE";
   Modelica.SIunits.Length height_2 "blade height, TE";
@@ -91,6 +93,8 @@ model Propeller1dAerodynamic
   Modelica.SIunits.Velocity cTheta2 "tangential component, abs-V, TE";
   Modelica.SIunits.Velocity w2(start=100.0) "rel-V, TE";
   Modelica.SIunits.Velocity wTheta2 "tangential component, rel-V, TE";
+  Modelica.SIunits.Velocity Utip_1 "tangential velocity, tip, LE";
+  Modelica.SIunits.Velocity Utip_2 "tangential velocity, tip, TE";
   Modelica.SIunits.Velocity Umean "tangential velocity, mean r";
   Modelica.SIunits.Angle alpha1 "flow angle, abs, LE";
   Modelica.SIunits.Angle beta1 "flow angle, rel, LE";
@@ -101,11 +105,11 @@ model Propeller1dAerodynamic
   Modelica.SIunits.Angle inci1 "incident angle(AoA for airfoil), LE";
   Modelica.SIunits.Angle xi "angle of blade chord line";
   Modelica.SIunits.Angle epsiron2 "downwash angle, TE";
-  Modelica.SIunits.MassFlowRate m_flow_single "m_flow, single blade";
-  Modelica.SIunits.MassFlowRate m_flow(start=m_flow1_init) "m_flow, entire disk";
+  Modelica.SIunits.MassFlowRate m_flow_single(min=0.0, start=m_flow1_init/numBlade_def) "m_flow, single blade";
+  Modelica.SIunits.MassFlowRate m_flow(min=0.0, start=m_flow1_init) "m_flow, entire disk";
   
-  Real CL "lift coefficient";
-  Real CD "drag coefficient";
+  Real CL(start=1.0) "lift coefficient";
+  Real CD(start=0.01) "drag coefficient";
   Modelica.SIunits.Force FthetaSingle "aero-force, tangential direction, single blade";
   Modelica.SIunits.Force FaxSingle "aero-force, axial direction, single blade";
   Modelica.SIunits.Force FliftSingle "lift, single blade";
@@ -166,7 +170,10 @@ model Propeller1dAerodynamic
     Placement(visible = true, transformation(origin = {-30.25, 40.2}, extent = {{-49.75, -39.8}, {49.75, 39.8}}, rotation = 0)));
 initial algorithm
 // NONE
+  
 algorithm
+  
+  
 //********** Geometries, defined by parameter **********
   rTip_1 := rTip_1_def;
   rHub_1 := rHub_1_def;
@@ -195,9 +202,11 @@ algorithm
   
   //********** velocities **********
   Umean := rMean * omega;
+  Utip_1:= rTip_1*omega;
+  Utip_2:= rTip_2*omega;
   cx1:= cos(alpha1)*c1;
   cTheta1:= sqrt(c1^2.0-cx1^2.0);
-  wTheta1:= Umean-cTheta1;
+  wTheta1:= Umean - cTheta1;
   w1:= sqrt(cx1^2.0+wTheta1^2.0);
   beta1:= acos(cx1/w1);
   inci1:= beta1 - xi;
@@ -215,6 +224,19 @@ algorithm
   Fax := FaxSingle * numBlade;
   Fresultant:= FresultantSingle*numBlade;
   
+  /*
+  if(m_flow==0)then
+    cx2:= cx1;
+    cTheta2:= cTheta1;
+  elseif(m_flow<0)then
+    cx2:= cx1 + Fax/(-1*m_flow);
+    cTheta2:= cTheta1 + Ftheta/(-1*m_flow);
+  elseif(0<m_flow)then
+    cx2:= cx1 + Fax/(m_flow);
+    cTheta2:= cTheta1 + Ftheta/(m_flow);
+  end if;
+  */
+  
   //********** velocities **********
   wTheta2 := Umean - cTheta2;
   w2:=sqrt(cx2^2.0+wTheta2^2.0);
@@ -223,6 +245,7 @@ algorithm
   c2:=sqrt(cx2^2.0+cTheta2^2.0);
   alpha2:= acos(cx2/c2);
   phi2:= Modelica.Constants.pi/2.0-beta2;
+  epsiron2:= beta1-beta2;
   
   //********** component characteristics, etc **********
   trqSingle := FthetaSingle * rMean;
@@ -255,19 +278,26 @@ algorithm
   y_Fg := Fax;
   y_flowAngle:= alpha2;
   y_flowSpeed:= c2;
+  
+  
 initial equation
 // NONE
 equation
-//********** interface **********
-//-- fluidPort_1 --
+  //********** reinit invalid state variables **********
+  when(m_flow<0.0)then
+    reinit(m_flow, -1.0*m_flow);
+  end when;
+  
+  //********** interface **********
+  //-- fluidPort_1 --
   fluid_amb.p = port_amb.p;
   port_amb.h_outflow = fluid_amb.h;
   fluid_amb.h = actualStream(port_amb.h_outflow);
   fluid_amb.Xi = actualStream(port_amb.Xi_outflow);
   port_amb.m_flow = 1;
-//-- shaft-front, flange_a --
+  //-- shaft-front, flange_a --
   flange_1.phi = phi;
-//-- shaft-front, flange_b --
+  //-- shaft-front, flange_b --
   flange_2.phi = phi;
   
   //-- internal components --
@@ -279,15 +309,16 @@ equation
 //-- energy conservation --
   trq = flange_1.tau + flange_2.tau;
   der(phi) = omega;
-  pwr= m_flow*(1.0/2.0*c2^2.0 - 1.0/2.0*c1^2.0);
+  //pwr= m_flow*(1.0/2.0*sign(c2)*c2^2.0 - 1.0/2.0*sign(c1)*c1^2.0);
+  pwr=m_flow*(h_2-h_1);
   
   //----- momentum conservation -----
-  Fax = m_flow * (cx2 - cx1);
-  Ftheta= m_flow*(cTheta2-cTheta1);
+  Fax = 1.0*m_flow * (cx2 - cx1);
+  Ftheta= 1.0*m_flow*(cTheta2-cTheta1); 
   
   m_flow= m_flow_single*numBlade;
-  epsiron2= beta1-beta2;
   
+  //-----  component characteristics, etc -----
   if(c1==0)then
     AeffAbs_1=0.0;
   else
@@ -295,6 +326,10 @@ equation
   end if;
   
   AeffAx_1= AeffAbs_1*cos(alpha1);
+  
+  AeffAx_1= Modelica.Constants.pi/4.0*(diamEffTip_1^2.0 - (2.0*rHub_1)^2.0);
+  rEffTip_1= diamEffTip_1/2.0;
+  
   
   //********** flag variables **********
   if(alpha4ClmaxDes<airfoilSimple001.signalBus1.alpha)then
@@ -306,9 +341,10 @@ equation
   end if;
   
   
+  
   annotation(
     Icon(graphics = {Rectangle(origin = {40, -4}, fillPattern = FillPattern.Solid, extent = {{-66, 10}, {52, -2}}), Polygon(origin = {-13, 46}, fillColor = {0, 0, 127}, fillPattern = FillPattern.Solid, points = {{-3, 54}, {-7, -40}, {13, -40}, {9, 54}, {-3, 54}}), Line(origin = {-39.77, -9.94}, points = {{26, 10}, {-60, 10}}, pattern = LinePattern.Dot, thickness = 1.5), Line(origin = {98.77, -10.2247}, points = {{0, 10}, {-104, 10}}, pattern = LinePattern.Dot, thickness = 1.5), Polygon(origin = {-13, -58}, fillColor = {0, 0, 127}, fillPattern = FillPattern.Solid, points = {{-7, 52}, {-3, -42}, {9, -42}, {13, 52}, {-7, 52}}), Ellipse(origin = {-22, 20}, pattern = LinePattern.DashDot, lineThickness = 0.5, extent = {{-28, 80}, {42, -120}}, endAngle = 360), Line(origin = {45.8, 56.5356}, points = {{4.1963, 45.1963}, {4.1963, -34.8037}, {-45.8036, -50.8037}}, pattern = LinePattern.Dash, thickness = 1.5), Text(origin = {-70, 92}, extent = {{-20, 8}, {20, -12}}, textString = "Amb"), Text(origin = {74, 97}, extent = {{-14, 3}, {16, -17}}, textString = "pitch")}, coordinateSystem(initialScale = 0.1)),
     __OpenModelica_commandLineOptions = "");
   
   
-end Propeller1dAerodynamic;
+end Propeller1dAeroML;
