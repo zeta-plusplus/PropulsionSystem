@@ -37,7 +37,7 @@ model TurboProp001_001
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(origin = {-70, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.Turbine Trb046(redeclare package Medium = engineAir, effDes = 0.8) annotation(
-    Placement(visible = true, transformation(origin = {160, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {170, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.constrain_Nmech constrain_N_ShLP(NmechDes = 9000)  annotation(
     Placement(visible = true, transformation(origin = {90, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Components.Inertia ShLP(J = 100) annotation(
@@ -59,6 +59,18 @@ model TurboProp001_001
   Modelica.Mechanics.Rotational.Components.Inertia ShProp(J = 100) annotation(
     Placement(visible = true, transformation(origin = {-2, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(Cmp020.flange_2, constrain_Nmech1.flange_a) annotation(
+    Line(points = {{10, 10}, {15, 10}, {15, -20}, {20, -20}}));
+  connect(Cmp020.port_2, Duct030.port_1) annotation(
+    Line(points = {{10, 18}, {20, 18}}, color = {0, 127, 255}));
+  connect(Inlt010.port_2, Cmp020.port_1) annotation(
+    Line(points = {{-20, 20}, {-15, 20}, {-15, 18}, {-10, 18}}, color = {0, 127, 255}));
+  connect(Duct045.port_2, Trb046.port_1) annotation(
+    Line(points = {{130, 18}, {160, 18}}, color = {0, 127, 255}));
+  connect(Trb046.port_2, pressure2.port) annotation(
+    Line(points = {{180, 18}, {190, 18}}, color = {0, 127, 255}));
+  connect(ShLP.flange_b, Trb046.flange_1) annotation(
+    Line(points = {{130, -80}, {144, -80}, {144, 10}, {160, 10}}));
   connect(flightToEngine1.V_tot_out, propellerActDisk1.u_flowSpeed) annotation(
     Line(points = {{-79, 6}, {-76, 6}, {-76, -74}, {-62, -74}}, color = {0, 0, 127}));
   connect(flightToEngine1.port_fluid2Eng, constrain_dm1.port_1) annotation(
@@ -75,8 +87,6 @@ equation
     Line(points = {{54, -80}, {80, -80}, {80, -80}, {80, -80}}));
   connect(constrain_N_ShLP.flange_b, ShLP.flange_a) annotation(
     Line(points = {{100, -80}, {110, -80}}));
-  connect(ShLP.flange_b, Trb046.flange_1) annotation(
-    Line(points = {{130, -80}, {144, -80}, {144, 10}, {150, 10}}));
   connect(propellerActDisk1.y_Fg, add1.u2) annotation(
     Line(points = {{-18, -96}, {228, -96}, {228, -26}, {238, -26}}, color = {0, 0, 127}));
   connect(add1.y, perf001.Fg_in) annotation(
@@ -93,26 +103,16 @@ equation
     Line(points = {{214, 34}, {220, 34}, {220, 18}}, color = {0, 127, 255}));
   connect(pressure2.port, Nzl070.port_1) annotation(
     Line(points = {{190, 18}, {200, 18}}, color = {0, 127, 255}));
-  connect(Trb046.port_2, pressure2.port) annotation(
-    Line(points = {{170, 18}, {190, 18}}, color = {0, 127, 255}));
   connect(Inlt010.Fram_out, perf001.Fram_in) annotation(
     Line(points = {{-23, 8}, {-17, 8}, {-17, -38}, {279, -38}}, color = {0, 0, 127}));
   connect(combustFuel1.dm_fuel_out, perf001.dm_fuel_in) annotation(
     Line(points = {{51, 38}, {106, 38}, {106, -46}, {279, -46}}, color = {0, 0, 127}));
-  connect(Duct045.port_2, Trb046.port_1) annotation(
-    Line(points = {{130, 18}, {150, 18}}, color = {0, 127, 255}));
   connect(ramp_TIT.y, Brn036.TtOutlet_in) annotation(
     Line(points = {{51, 72}, {73, 72}, {73, 16}, {69, 16}, {69, 16}}, color = {0, 0, 127}));
   connect(combustFuel1.HeatPort_b, Brn036.HeatPort_1) annotation(
     Line(points = {{50, 42}, {58, 42}, {58, 22}}, color = {191, 0, 0}));
   connect(constrain_dm1.port_2, Inlt010.port_1) annotation(
     Line(points = {{-50, 18}, {-45, 18}, {-45, 16}, {-40, 16}}, color = {0, 127, 255}));
-  connect(Inlt010.port_2, Cmp020.port_1) annotation(
-    Line(points = {{-20, 20}, {-15, 20}, {-15, 22}, {-10, 22}}, color = {0, 127, 255}));
-  connect(Cmp020.port_2, Duct030.port_1) annotation(
-    Line(points = {{10, 20}, {15, 20}, {15, 18}, {20, 18}}, color = {0, 127, 255}));
-  connect(Cmp020.flange_2, constrain_Nmech1.flange_a) annotation(
-    Line(points = {{10, 12}, {15, 12}, {15, -20}, {20, -20}}));
   connect(Duct030.port_2, Brn036.port_1) annotation(
     Line(points = {{40, 20}, {45, 20}, {45, 22}, {50, 22}}, color = {0, 127, 255}));
   connect(Brn036.port_2, Trb041.port_1) annotation(
