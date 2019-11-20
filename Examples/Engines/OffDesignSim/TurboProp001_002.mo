@@ -25,7 +25,7 @@ model TurboProp001_002
     Placement(visible = true, transformation(origin = {90, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.Compressor_Map_WcPReff Cmp020(redeclare package Medium = engineAir, NmechDes = 9000, PRdes = 20, Tdes_1(displayUnit = "K") = 288.16, dmDes_1 = 10, effDes = 0.80, pDes_1 = 96257.5, pathName_tableFile = "./tableData/table_Cmp_theta_NcqNcDes_001.txt", switchDef_s_PR_CurveDes = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchSmoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, switchUseMapDataFile_PR = true, switchUseMapDataFile_Wc = true, switchUseMapDataFile_eff = true, thetaCurveDes = 3.14 / 4) annotation(
     Placement(visible = true, transformation(origin = {-20, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 20, height = 100, offset = 1600, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 20, height = 200, offset = 1600, startTime = 300) annotation(
     Placement(visible = true, transformation(origin = {40, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-90, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -33,21 +33,21 @@ model TurboProp001_002
     Placement(visible = true, transformation(origin = {-70, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.Turbine_Map_WcEff Trb046(redeclare package Medium = engineAir, NmechDes = 9000, PRdes = 4.43071, Tdes_1(displayUnit = "K") = 1352.18, WcDes_1_def = 10, dmDes_1 = 10, effDes = 0.8, pDes_1 = 295466, pathName_tableFile = "./tableData/table_Trb_PR_NcqNcDes_001.txt", switchDef_NcDes_1 = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchDef_WcDes_1 = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchDef_s_PR_CurveDes = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchDef_s_Wc_CurveDes = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchDef_s_eff_CurveDes = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchInput_PR = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchInput_Wc_1 = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchInput_eff = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchSmoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, switchUseMapDataFile_Wc = true, switchUseMapDataFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {200, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.DetailedModels.Propeller1dAeroTip propeller1dAeroTip1(redeclare package Medium = engineAir, CdfDes = 0.001, alpha_CdpMinDes(displayUnit = ""), kCdpDes = 0.1, lAxial_def = 0.05, rTip_1_def = 0.5, rTip_2_def = 0.5) annotation(
+  PropulsionSystem.Elements.DetailedModels.Propeller1dAeroTip propeller1dAeroTip1(redeclare package Medium = engineAir, CdfDes = 0.001, alpha_CdpMinDes(displayUnit = ""), lAxial_def = 0.05, rHub_1_def = 0.05, rHub_2_def = 0.05, rTip_1_def = 0.4, rTip_2_def = 0.4) annotation(
     Placement(visible = true, transformation(origin = {20, -140}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Components.Inertia ShProp(J = 50, a(fixed = false, start = 0), w(fixed = true, start = 9000 / 2 * (2 * Modelica.Constants.pi / 60)))  annotation(
+  Modelica.Mechanics.Rotational.Components.Inertia ShProp(J = 1, a(fixed = false, start = 0), w(fixed = true, start = 1 / 1 * 2 *9000 * (2 * Modelica.Constants.pi / 60)))  annotation(
     Placement(visible = true, transformation(origin = {70, -140}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Add add1 annotation(
     Placement(visible = true, transformation(origin = {260, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const(k = 0)  annotation(
     Placement(visible = true, transformation(origin = {-50, -160}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const_bladeAngle(k = 30)  annotation(
+  Modelica.Blocks.Sources.Constant const_bladeAngle(k = 75)  annotation(
     Placement(visible = true, transformation(origin = {-30, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Components.Inertia ShH(J = 100, a(fixed = true, start = 0), w(fixed = false, start = 11000)) annotation(
+  Modelica.Mechanics.Rotational.Components.Inertia ShH(J = 1, a(fixed = true, start = 0), w(fixed = false, start = 11000)) annotation(
     Placement(visible = true, transformation(origin = {36, -32}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 50, a(fixed = false, start = 0), w(fixed = true, start = 9000 * (2 * Modelica.Constants.pi / 60)))  annotation(
+  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 1, a(fixed = false, start = 0), w(fixed = true, start = 2 *9000 * (2 * Modelica.Constants.pi / 60)))  annotation(
     Placement(visible = true, transformation(origin = {160, -140}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Components.IdealGear idealGear1(ratio = 1 / 2)  annotation(
+  Modelica.Mechanics.Rotational.Components.IdealGear idealGear1(ratio = 1 / 1)  annotation(
     Placement(visible = true, transformation(origin = {110, -140}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain1(k = Modelica.Constants.pi / 180)  annotation(
     Placement(visible = true, transformation(origin = {10, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -114,7 +114,7 @@ equation
     Icon(coordinateSystem(extent = {{-100, -100}, {200, 100}})),
     version = "",
     __OpenModelica_commandLineOptions = "",
-    experiment(StartTime = 0, StopTime = 120, Tolerance = 1e-06, Interval = 0.04),
+    experiment(StartTime = 0, StopTime = 600, Tolerance = 1e-06, Interval = 0.1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
 
 end TurboProp001_002;

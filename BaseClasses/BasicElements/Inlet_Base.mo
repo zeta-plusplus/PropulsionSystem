@@ -84,7 +84,7 @@ equation
   
   annotation(
     Diagram(coordinateSystem(initialScale = 0.1)),
-    Icon(graphics = {Polygon(origin = {-20, 0}, fillColor = {170, 255, 255}, fillPattern = FillPattern.Solid, points = {{-40, 50}, {-40, -50}, {80, -80}, {80, 80}, {80, 80}, {-40, 50}}), Rectangle(origin = {-58, 75}, fillColor = {139, 139, 139}, fillPattern = FillPattern.Solid, extent = {{-2, 7}, {2, -25}}), Rectangle(origin = {-75, 80}, rotation = -90, fillColor = {139, 139, 139}, fillPattern = FillPattern.Solid, extent = {{-2, 19}, {2, -25}}), Rectangle(origin = {109, 79}, rotation = -90, fillColor = {139, 139, 139}, fillPattern = FillPattern.Solid, extent = {{-2, -9}, {2, -49}}), Text(origin = {-44, 31}, extent = {{-16, -21}, {104, -43}}, textString = "%name"),  Line(origin = {-10, 20}, points = {{-30, 0}, {30, 0}}, thickness = 0.5, arrow = {Arrow.None, Arrow.Filled}, arrowSize = 5)}, coordinateSystem(initialScale = 0.1)),
+    Icon(graphics = {Polygon(origin = {-20, 0}, fillColor = {170, 255, 255}, fillPattern = FillPattern.Solid, points = {{-40, 50}, {-40, -50}, {80, -80}, {80, 80}, {80, 80}, {-40, 50}}), Rectangle(origin = {-58, 75}, fillColor = {139, 139, 139}, fillPattern = FillPattern.Solid, extent = {{-2, 7}, {2, -25}}), Rectangle(origin = {-75, 80}, rotation = -90, fillColor = {139, 139, 139}, fillPattern = FillPattern.Solid, extent = {{-2, 19}, {2, -25}}), Rectangle(origin = {109, 79}, rotation = -90, fillColor = {139, 139, 139}, fillPattern = FillPattern.Solid, extent = {{-2, -9}, {2, -49}}), Text(origin = {-64, 121}, extent = {{-16, -21}, {144, -41}}, textString = "%name"), Text(origin = {-44, 41}, extent = {{-16, -21}, {104, -61}}, textString = "Inlt")}, coordinateSystem(initialScale = 0.1)),
     Dialog(group = "Characteristics"));
 
 

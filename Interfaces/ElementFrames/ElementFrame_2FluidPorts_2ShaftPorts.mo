@@ -53,6 +53,10 @@ partial model ElementFrame_2FluidPorts_2ShaftPorts
   Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of outlet";
   Modelica.SIunits.Power pwr "power via shaft, positive if fluid generates power";
   Modelica.SIunits.Torque trq(start = 1.0) "trq via shaft";
+
+  Modelica.SIunits.Power pwr_inv "power via shaft";
+  Modelica.SIunits.Torque trq_inv(start = 1.0) "trq via shaft";
+
   Modelica.SIunits.AngularVelocity omega(start = 1.0) "mechanical rotation speed, rad/sec";
   Modelica.SIunits.Angle phi(start = 0.0) "mechanical rotation displacement, rad";
   Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech(start = NmechDes) "mechanical rotation speed, rpm";
@@ -141,6 +145,10 @@ equation
   when fluid_2.p <= 0.0 then
     reinit(fluid_2.p, -1.0 * fluid_2.p);
   end when;
+  
+  pwr_inv= -1*pwr;
+  trq_inv= -1*trq;
+  
 /********************************************************
   Graphics
 ********************************************************/

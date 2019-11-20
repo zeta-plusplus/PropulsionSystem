@@ -93,7 +93,7 @@ equation
 ********************************************************/
   
 annotation(
-    Icon(graphics = {Rectangle(origin = {1, 1}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-101, 9}, {99, -11}}), Rectangle(origin = {0, -1}, fillPattern = FillPattern.Solid, extent = {{-80, 61}, {80, -59}}), Text(origin = {-53, 95}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-27, -5}, {133, -25}}, textString = "def. Nmech", fontSize = 40), Text(origin = {-45, 6}, lineColor = {255, 255, 255}, extent = {{-35, 4}, {125, -16}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Rectangle(origin = {1, 1}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-101, 9}, {99, -11}}), Rectangle(origin = {0, -1}, fillPattern = FillPattern.Solid, extent = {{-80, 61}, {80, -59}}), Text(origin = {-53, 25}, lineColor = {255, 255, 255}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-27, -5}, {133, -45}}, textString = "Nmech", fontSize = 30), Text(origin = {-45, 96}, extent = {{-35, 4}, {125, -16}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)));
   
 
 end constrain_Nmech;

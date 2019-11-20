@@ -4,11 +4,8 @@ model Utilities
   extends Modelica.Icons.UtilitiesPackage;
 
   model SetIndependent
-    
     //********** internal variables **********
     Real independent(start= independent_init);
-    
-    
     //********** initialization parameters **********
     parameter Real independent_init= 1.0
       ""
@@ -29,7 +26,7 @@ model Utilities
   ********************************************************/
   
     annotation(
-      Icon(graphics = {Rectangle(origin = {0, -1}, fillColor = {225, 225, 225}, fillPattern = FillPattern.Solid, extent = {{-100, 101}, {100, -99}}), Text(origin = {-12, -95}, extent = {{-88, 15}, {112, -5}}, textString = "%name"), Text(origin = {-9, 62}, extent = {{-91, 18}, {109, -22}}, textString = "Set as", fontSize = 25), Text(origin = {-9, 32}, extent = {{-91, 18}, {109, -22}}, textString = "independent", fontSize = 25), Text(origin = {-9, 2}, extent = {{-91, 18}, {109, -22}}, textString = "variable", fontSize = 25)}, coordinateSystem(initialScale = 0.1)));
+      Icon(graphics = {Rectangle(origin = {0, -1}, fillColor = {225, 225, 225}, fillPattern = FillPattern.Solid, extent = {{-100, 101}, {100, -99}}), Text(origin = {-12, -95}, extent = {{-88, 15}, {112, -5}}, textString = "%name"), Text(origin = {-9, 22}, extent = {{-91, 18}, {109, -62}}, textString = "Free to Vary", fontSize = 26)}, coordinateSystem(initialScale = 0.1)));
   
   end SetIndependent;
 
@@ -38,15 +35,11 @@ model Utilities
 
 
   model SetDependent
-    
-    
     //********** Parameters **********
     parameter Real tgtVal
       ""
       annotation(
       Dialog(group = "Characteristics"));
-    
-    
     //----- switches -----
     parameter PropulsionSystem.Types.switches.switch_parameter_input switchInput_tgtVal
         =PropulsionSystem.Types.switches.switch_parameter_input.use_desValue
@@ -57,8 +50,6 @@ model Utilities
       Evaluate = true,
       HideResult = true
       );
-    
-    
     //********** Interfaces **********
     Modelica.Blocks.Interfaces.RealInput dependent_in
       annotation(
@@ -89,7 +80,7 @@ model Utilities
     
     annotation(
       Diagram,
-      Icon(graphics = {Rectangle(fillColor = {39, 39, 39}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {-3, -83}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "%name"), Text(origin = {-3, 87}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -37}}, textString = "Set as", fontSize = 25), Text(origin = {-3, 47}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "Dependent", fontSize = 25), Text(origin = {-3, 17}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "Variable", fontSize = 25), Text(origin = {-3, -43}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "%tgtVal"), Text(origin = {-3, -23}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "Tgt. val. =", horizontalAlignment = TextAlignment.Left)}, coordinateSystem(initialScale = 0.1)));
+      Icon(graphics = {Rectangle(fillColor = {39, 39, 39}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {-3, -83}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "%name"), Text(origin = {-3, 37}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -57}}, textString = "Constraint", fontSize = 28), Text(origin = {-3, -43}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "%tgtVal"), Text(origin = {-3, -23}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "Tgt. val. =", horizontalAlignment = TextAlignment.Left)}, coordinateSystem(initialScale = 0.1)));
     
     
   end SetDependent;
@@ -104,14 +95,11 @@ model Utilities
 
 
   block SplitFlow_by_BPR
-    
-    
     //********** Parameters **********
     parameter Real BPRdes=10
       ""
       annotation(
       Dialog(group = "Characteristics"));
-    
     //----- switches -----
     parameter PropulsionSystem.Types.switches.switch_parameter_input switchInput_BPR
         =PropulsionSystem.Types.switches.switch_parameter_input.use_desValue
@@ -125,7 +113,6 @@ model Utilities
     
     
     Real BPR;
-    
     //********** Interfaces **********
     Modelica.Blocks.Interfaces.RealInput flow_total annotation(
       Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -152,14 +139,10 @@ model Utilities
     elseif (switchInput_BPR== PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal)then
       BPR=BPR_in;
     end if;
-    
-    //##### none #####
-    
-    
-  /********************************************************
+//##### none #####
+/********************************************************
     Graphics
   ********************************************************/
-  
   annotation(
       Icon(graphics = {Rectangle(fillColor = {209, 209, 209}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {43, 41}, extent = {{-7, 14}, {57, -16}}, textString = "Sec.", fontSize = 25, horizontalAlignment = TextAlignment.Right), Text(origin = {41, -33}, extent = {{-5, 6}, {57, -16}}, textString = "Pri.", fontSize = 25, horizontalAlignment = TextAlignment.Right), Text(origin = {-93, 5}, extent = {{-7, 14}, {65, -24}}, textString = "Total", fontSize = 25, horizontalAlignment = TextAlignment.Right), Line(origin = {6, 27}, points = {{-30, -25}, {-6, -25}, {-6, 15}, {26, 15}}, thickness = 0.5, arrow = {Arrow.None, Arrow.Open}, arrowSize = 5), Line(origin = {17.09, -22.51}, points = {{-17, 25}, {-17, -17}, {15, -17}}, thickness = 0.5, arrow = {Arrow.None, Arrow.Open}, arrowSize = 5), Text(origin = {2, -83}, extent = {{-102, 13}, {98, -7}}, textString = "%name"), Text(origin = {2, 87}, extent = {{-102, 13}, {98, -7}}, textString = "BPR= %BPR")}));
   

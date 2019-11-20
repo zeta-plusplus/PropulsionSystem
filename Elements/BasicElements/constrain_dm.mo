@@ -41,9 +41,9 @@ equation
 //##### none #####
 //********** Connections, interface <-> internal variables **********
 //--- dm ---
-  if (switchInput_dm == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue) then
+  if switchInput_dm == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue then
     dm = dmDes;
-  elseif (switchInput_dm == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal) then
+  elseif switchInput_dm == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal then
     dm = dm_in;
   end if;
   if (switchConstraint == switch_executeConstraint.Execute) then
@@ -62,5 +62,5 @@ equation
   Graphics
 ********************************************************/
   annotation(
-    Icon(graphics = {Rectangle(origin = {-10, 10}, fillPattern = FillPattern.Solid, extent = {{-50, 30}, {70, -50}}), Rectangle(origin = {-58, 71}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 11}, {2, -31}}), Rectangle(origin = {-98, 53}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 29}, {42, 25}}), Rectangle(origin = {58, 71}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 11}, {2, -31}}), Rectangle(origin = {58, 53}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 29}, {42, 25}}), Text(origin = {-24, 85}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-26, 15}, {74, -5}}, textString = "def. dm", fontSize = 40), Text(origin = {-20, 7}, lineColor = {255, 255, 255}, extent = {{-40, 3}, {80, -17}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Rectangle(origin = {-10, 10}, fillPattern = FillPattern.Solid, extent = {{-50, 30}, {70, -50}}), Rectangle(origin = {-58, 71}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 11}, {2, -31}}), Rectangle(origin = {-98, 53}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 29}, {42, 25}}), Rectangle(origin = {58, 71}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 11}, {2, -31}}), Rectangle(origin = {58, 53}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 29}, {42, 25}}), Text(origin = {-34, 5}, lineColor = {255, 255, 255}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-26, 15}, {94, -25}}, textString = "m_flow", fontSize = 40), Text(origin = {-40, 97}, extent = {{-40, 3}, {120, -17}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)));
 end constrain_dm;

@@ -46,6 +46,12 @@ model Propeller1dAeroTip
     Dialog(group = "Characteristics, airfoil"));
   inner parameter Real pwrCdpDes = 4.0 "" annotation(
     Dialog(group = "Characteristics, airfoil"));
+  
+  inner parameter Real kCdp_1_des = 0.5 "" annotation(
+    Dialog(group = "Characteristics, airfoil"));
+  inner parameter Real pwrCdp_1_des = 4.0 "" annotation(
+    Dialog(group = "Characteristics, airfoil"));
+  
   //********** Initialization Parameters **********
   //--- fluid_amb, port_1 ---
   parameter Modelica.SIunits.MassFlowRate m_flow1_init(displayUnit = "kg/s") = 1.0 "" annotation(
