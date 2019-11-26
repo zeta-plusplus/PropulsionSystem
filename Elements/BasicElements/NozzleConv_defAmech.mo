@@ -64,7 +64,7 @@ equation
   Graphics
 ********************************************************/
   annotation(
-    Icon(graphics = {Polygon(origin = {0, 10}, fillColor = {255, 221, 96}, fillPattern = FillPattern.Solid, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-62, 10}, extent = {{-18, 0}, {102, -20}}, textString = "%name"), Line(origin = {60.02, 77.5}, points = {{0, 22}, {0, -38}}), Line(origin = {-9.1298, 20.1221}, points = {{-30, 0}, {30, 0}}, thickness = 0.5, arrow = {Arrow.None, Arrow.Filled}, arrowSize = 5)}, coordinateSystem(initialScale = 0.1)),
+    Icon(graphics = {Polygon(origin = {0, 10}, fillColor = {255, 221, 96}, fillPattern = FillPattern.Solid, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-62, 10}, extent = {{-18, 10}, {102, -30}}, textString = "Nzl"), Line(origin = {60.02, 77.5}, points = {{0, 22}, {0, -38}})}, coordinateSystem(initialScale = 0.1)),
     experiment(StartTime = 0, StopTime = 2, Tolerance = 1e-06, Interval = 0.01));
 
 end NozzleConv_defAmech;

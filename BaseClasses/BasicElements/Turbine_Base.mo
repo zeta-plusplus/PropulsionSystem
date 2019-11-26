@@ -41,7 +41,7 @@ partial model Turbine_Base
     HideResult = true);
   //********** Internal variables **********
   Modelica.SIunits.MassFlowRate Wc_1(start = WcDes_1_def) "corrected mass flow rate";
-  Real PR(start=1.1) "pressure ratio";
+  Real PR(start=4.0) "pressure ratio";
   Real eff(start=0.8) "adiabatic efficiency";
   Modelica.SIunits.SpecificEnthalpy dht_is "specific enthalpy change in isentropic compression";
   Modelica.SIunits.SpecificEnthalpy dht "specific enthalpy change in non-isentropic compression";

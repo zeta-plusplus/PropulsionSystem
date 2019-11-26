@@ -26,7 +26,7 @@ model TurboFan001_003
     Placement(visible = true, transformation(origin = {-10, -52}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   Modelica.Blocks.Math.Division calc_BPR annotation(
     Placement(visible = true, transformation(origin = {10, -130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 5, height = -200, offset = 1800, startTime = 5)  annotation(
+  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 5, height = -200, offset = 1600, startTime = 5)  annotation(
     Placement(visible = true, transformation(origin = {160, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.Compressor_Map_WcPReff Cmp120(redeclare package Medium = engineAir, NmechDes = 3000, PRdes = 1.4, Tdes_1(displayUnit = "K") = 251.938, dmDes_1 = 100, effDes = 0.8, pDes_1 = 39499.9, pathName_tableFile = "./tableData/table_Cmp_theta_NcqNcDes_001.txt", switchInput_PR = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchInput_Wc_1 = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchInput_eff = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchSmoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, switchUseMapDataFile_PR = true, switchUseMapDataFile_Wc = true, switchUseMapDataFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {0, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -44,7 +44,7 @@ model TurboFan001_003
     Placement(visible = true, transformation(origin = {330, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 10, a(fixed = true, start = 0))  annotation(
     Placement(visible = true, transformation(origin = {170, -88}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Components.Inertia inertia2(J = 20, a(fixed = true, start = 0))  annotation(
+  Modelica.Mechanics.Rotational.Components.Inertia inertia2(J = 10, a(fixed = true, start = 0))  annotation(
     Placement(visible = true, transformation(origin = {150, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(Cmp120.flange_2, Cmp020.flange_1) annotation(
@@ -109,6 +109,6 @@ equation
     version = "",
     uses(Modelica(version = "3.2.2")),
     __OpenModelica_commandLineOptions = "",
-    experiment(StartTime = 0, StopTime = 60, Tolerance = 1e-06, Interval = 0.001),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"));
+    experiment(StartTime = 0, StopTime = 60, Tolerance = 1e-06, Interval = 0.02),
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
 end TurboFan001_003;

@@ -44,7 +44,7 @@ equation
 //********** Geometries **********
 //##### none #####
 //********** Connections, interface <-> internal variables **********
-  (-1) * HeatPort_1.Q_flow = dqInjected;
+  (1) * HeatPort_1.Q_flow = dqInjected;
 //********** Eqns describing physics **********
   fluid_2.p = fluid_1.p;
 //no pressure drop

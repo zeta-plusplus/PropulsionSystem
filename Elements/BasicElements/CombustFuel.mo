@@ -100,7 +100,7 @@ equation
   end if;
 //--
   dm_fuel_out = dm_fuel;
-  HeatPort_b.Q_flow = dq;
+  (-1)*HeatPort_b.Q_flow = dq;
 //********** Eqns describing physics **********
   dq = dm_fuel * LHV_fuel * effBurn;
 /********************************************************
