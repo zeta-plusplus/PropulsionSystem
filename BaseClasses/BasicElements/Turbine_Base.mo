@@ -86,6 +86,7 @@ equation
   h_Ois = Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
   */
   
+  //h_2is= Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
   
   dht_is = fluid_1.h - h_2is;
   eff = dht / dht_is;
@@ -105,7 +106,8 @@ algorithm
   assert(PR < 0.0,
       getInstanceName()+", PR got less than 0"+", fluid_1.p="+String(fluid_1.p)+", fluid_2.p="+String(fluid_2.p),
       AssertionLevel.warning);
-//--- isentropic expansion ---
+  //--- isentropic expansion ---
+  
   if((0.0<fluid_2.p)and(0.0<fluid_1.state.p))then
     
     h_2is:= Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);

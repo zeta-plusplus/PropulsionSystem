@@ -133,6 +133,7 @@ equation
 //********** Eqns describing physics **********
   NqNdes = Nmech / NmechDes;
 //********** reinit invalid state variables **********
+  
   when fluid_1.state.p <= 0.0 then
     reinit(fluid_1.state.p, -1.0 * fluid_1.state.p);
   end when;
@@ -146,6 +147,7 @@ equation
     reinit(fluid_2.p, -1.0 * fluid_2.p);
   end when;
   
+
   pwr_inv= -1*pwr;
   trq_inv= -1*trq;
   

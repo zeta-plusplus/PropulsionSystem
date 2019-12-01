@@ -186,6 +186,7 @@ equation
   //##### none #####
     
   //********** reinit invalid state variables **********
+  
   when(fluid_1.state.p<=0.0)then
     reinit(fluid_1.state.p, -1.0*fluid_1.state.p);
   end when;
@@ -202,7 +203,6 @@ equation
   when(fluid_2.p<=0.0)then
     reinit(fluid_2.p, -1.0*fluid_2.p);
   end when;
-  
   
 
 /********************************************************

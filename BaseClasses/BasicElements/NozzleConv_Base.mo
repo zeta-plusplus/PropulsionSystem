@@ -227,6 +227,7 @@ equation
     Fg = Cv * V_th * dmTh + (fluidStat_th.p - fluid_2.p) * AeTh;
   end if;
 //********** reinit invalid state variables **********
+  
   when fluidStat_th_fullExp.p <= 0.0 then
     reinit(fluidStat_th_fullExp.p, -1.0 * fluidStat_th_fullExp.p);
   end when;

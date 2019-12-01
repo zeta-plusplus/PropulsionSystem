@@ -1,6 +1,6 @@
-within PropulsionSystem.Examples.OpenCAEsymposium2019.OffDesign;
+within PropulsionSystem.Examples.temp;
 
-model NukeTurbojet
+model NukeTurbojet_02
   extends Modelica.Icons.Example;
   package engineAir = Modelica.Media.Air.DryAirNasa;
   //-----
@@ -8,20 +8,16 @@ model NukeTurbojet
     Placement(visible = true, transformation(origin = {-90, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.Inlet Inlt010(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-60, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.Duct Duct030(redeclare package Medium = engineAir, dPqPdes = 0.02) annotation(
-    Placement(visible = true, transformation(origin = {0, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.HeatInjector Brn036(redeclare package Medium = engineAir, T1_init = 700, T2_init = 1600, T_wall_1(displayUnit = "K"), TtOutletDes(displayUnit = "K") = 1600, h1_init = 700 * 1000, h2_init = 1600 * 1000, p1_init = 20 * 101.3 * 1000, p2_init = 20 * 101.3 * 1000, switchInput_TtOutlet = PropulsionSystem.Types.switches.switch_parameter_input.asCalculated) annotation(
     Placement(visible = true, transformation(origin = {30, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.Duct Duct045(redeclare package Medium = engineAir, dPqPdes = 0.03) annotation(
-    Placement(visible = true, transformation(origin = {120, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.NozzleConv_defAmech Nzl070(redeclare package Medium = engineAir, Amech_th_def = 0.0195384) annotation(
     Placement(visible = true, transformation(origin = {150, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.EnginePerformance perf001 annotation(
     Placement(visible = true, transformation(origin = {180, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //-----
-  PropulsionSystem.Elements.BasicElements.Turbine_exponentialCurve Trb041(redeclare package Medium = engineAir, PRdes = 2.42403, Tdes_1(displayUnit = "K") = 1600, dmDes_1 = 10, pDes_1 = 1.8e6, switchDef_NcDes_1 = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchDef_WcDes_1 = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchDef_s_PR_CurveDes = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchDef_s_Wc_CurveDes = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchDef_s_eff_CurveDes = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchInput_PR = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchInput_Wc_1 = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchInput_eff = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement) annotation(
+  PropulsionSystem.Elements.BasicElements.Turbine_Map_WcEff Trb041(redeclare package Medium = engineAir, NmechDes = 9000, PRdes = 5, Tdes_1(displayUnit = "K") = 1000, WcDes_1_def = 10, dmDes_1 = 10, effDes = 0.9, pDes_1 = 8e5, pathName_tableFile = "./tableData/table_Trb_PR_NcqNcDes_001.txt", s_eff_CurveDes_in = 1.5, switchDef_NcDes_1 = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchDef_WcDes_1 = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchDef_s_PR_CurveDes = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchDef_s_Wc_CurveDes = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchDef_s_eff_CurveDes = PropulsionSystem.Types.switches.switch_defineDesValue.directInput, switchInput_PR = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchInput_Wc_1 = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchInput_eff = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchSmoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, switchUseMapDataFile_Wc = true, switchUseMapDataFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {90, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.Compressor_Map_WcPReff Cmp020(redeclare package Medium = engineAir, NmechDes = 9000, PRdes = 20, Tdes_1(displayUnit = "K") = 288.16, dmDes_1 = 10, effDes = 0.80, pDes_1 = 96257.5, pathName_tableFile = "./tableData/table_Cmp_theta_NcqNcDes_001.txt", switchDef_s_PR_CurveDes = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchInput_eff = PropulsionSystem.Types.switches.switch_parameter_input.use_desValue, switchSmoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, switchUseMapDataFile_PR = true, switchUseMapDataFile_Wc = true, switchUseMapDataFile_eff = true, thetaCurveDes = 3.14 / 4) annotation(
+  PropulsionSystem.Elements.BasicElements.Compressor_Map_WcPReff Cmp020(redeclare package Medium = engineAir, NmechDes = 9000, PRdes = 20, Tdes_1(displayUnit = "K") = 288.16, dmDes_1 = 10, effDes = 0.80, pDes_1 = 96257.5, pathName_tableFile = "./tableData/table_Cmp_theta_NcqNcDes_001.txt", switchDef_s_PR_CurveDes = PropulsionSystem.Types.switches.switch_defineDesValue.calcByDesStates, switchInput_eff = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchSmoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, switchUseMapDataFile_PR = true, switchUseMapDataFile_Wc = true, switchUseMapDataFile_eff = true, thetaCurveDes = 3.14 / 4) annotation(
     Placement(visible = true, transformation(origin = {-30, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-90, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -138,33 +134,43 @@ model NukeTurbojet
     Placement(visible = true, transformation(origin = {40, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_m_flow_fuel(duration = 10, height = 0, offset = 10, startTime = 40) annotation(
     Placement(visible = true, transformation(origin = {10, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant dmy_const_dmFuel annotation(
+  Modelica.Blocks.Sources.Constant dmy_const_dmFuel(k = 1) annotation(
     Placement(visible = true, transformation(origin = {138, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp1(duration = 10, height = -1600, offset = 1600, startTime = 10) annotation(
-    Placement(visible = true, transformation(origin = {110, 30}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_Qassist(duration = 5, height = 1e3, offset = -1e3, startTime = 2) annotation(
+    Placement(visible = true, transformation(origin = {70, 60}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   Modelica.Fluid.Sensors.TemperatureTwoPort temperature(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {60, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_rho_control(duration = 10, height = 2000, offset = -2000, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {10, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.extractPwr pwrSupport(switchInput_pwr = PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal) annotation(
+    Placement(visible = true, transformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_pwrAssist(duration = 5, height = 1e2, offset = -1e2, startTime = 2) annotation(
+    Placement(visible = true, transformation(origin = {-30, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow1 annotation(
+    Placement(visible = true, transformation(origin = {70, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
+  connect(Cmp020.port_2, Brn036.port_1) annotation(
+    Line(points = {{-20, -2}, {20, -2}, {20, -2}, {20, -2}}, color = {0, 127, 255}));
+  connect(Trb041.port_2, Nzl070.port_1) annotation(
+    Line(points = {{100, -2}, {140, -2}, {140, -2}, {140, -2}}, color = {0, 127, 255}));
+  connect(Cmp020.flange_2, Trb041.flange_1) annotation(
+    Line(points = {{-20, -10}, {-10, -10}, {-10, -30}, {74, -30}, {74, -10}, {80, -10}, {80, -10}}));
+  connect(ramp_Qassist.y, prescribedHeatFlow1.Q_flow) annotation(
+    Line(points = {{70, 50}, {70, 50}, {70, 40}, {70, 40}}, color = {0, 0, 127}));
+  connect(Brn036.HeatPort_1, prescribedHeatFlow1.port) annotation(
+    Line(points = {{30, 0}, {30, 0}, {30, 12}, {70, 12}, {70, 20}, {70, 20}}, color = {191, 0, 0}));
+  connect(moltenSaltReactor1.port_b, Brn036.HeatPort_1) annotation(
+    Line(points = {{40, 20}, {40, 14}, {30, 14}, {30, 0}}, color = {191, 0, 0}));
+  connect(ramp_pwrAssist.y, pwrSupport.u_pwrExtr) annotation(
+    Line(points = {{-18, -70}, {-6, -70}, {-6, -68}, {-6, -68}}, color = {0, 0, 127}));
+  connect(Cmp020.flange_2, pwrSupport.flange_a) annotation(
+    Line(points = {{-20, -10}, {-16, -10}, {-16, -60}, {-10, -60}, {-10, -60}}));
   connect(ramp_rho_control.y, moltenSaltReactor1.u_rho_control) annotation(
     Line(points = {{22, 70}, {24, 70}, {24, 34}, {30, 34}, {30, 34}}, color = {0, 0, 127}));
-  connect(Cmp020.flange_2, Trb041.flange_1) annotation(
-    Line(points = {{-20, -10}, {-14, -10}, {-14, -32}, {76, -32}, {76, -10}, {80, -10}}));
   connect(Brn036.port_2, temperature.port_a) annotation(
     Line(points = {{40, -2}, {50, -2}, {50, -2}, {50, -2}}, color = {0, 127, 255}));
   connect(temperature.port_b, Trb041.port_1) annotation(
     Line(points = {{70, -2}, {80, -2}, {80, -2}, {80, -2}}, color = {0, 127, 255}));
-  connect(Duct030.port_2, Brn036.port_1) annotation(
-    Line(points = {{10, -2}, {20, -2}}, color = {0, 127, 255}));
-  connect(moltenSaltReactor1.port_b, Brn036.HeatPort_1) annotation(
-    Line(points = {{40, 20}, {40, 10}, {30, 10}, {30, 0}}, color = {191, 0, 0}));
-  connect(Cmp020.port_2, Duct030.port_1) annotation(
-    Line(points = {{-20, -2}, {-10, -2}}, color = {0, 127, 255}));
-  connect(Trb041.port_2, Duct045.port_1) annotation(
-    Line(points = {{100, -2}, {110, -2}}, color = {0, 127, 255}));
-  connect(Duct045.port_2, Nzl070.port_1) annotation(
-    Line(points = {{130, -2}, {140, -2}}, color = {0, 127, 255}));
   connect(Nzl070.Fg_out, perf001.Fg_in) annotation(
     Line(points = {{155, -10}, {163.3, -10}, {163.3, -41}, {169, -41}}, color = {0, 0, 127}));
   connect(flightToEngine1.port_fluidAmb, Nzl070.port_2) annotation(
@@ -189,4 +195,4 @@ equation
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 100, Tolerance = 1e-06, Interval = 1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
-end NukeTurbojet;
+end NukeTurbojet_02;
