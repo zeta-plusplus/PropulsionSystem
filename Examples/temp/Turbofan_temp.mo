@@ -1,8 +1,7 @@
-within PropulsionSystem.Examples.OpenCAEsymposium2019.OffDesign;
+within PropulsionSystem.Examples.temp;
 
-model Turbofan
+model Turbofan_temp
   extends Modelica.Icons.Example;
-  //-----
   package engineAir = Modelica.Media.Air.DryAirNasa;
   //-----
   PropulsionSystem.Elements.BasicElements.FlightToEngine flightToEngine1(redeclare package Medium = engineAir, MN = 0.8, alt = 10000) annotation(
@@ -48,62 +47,7 @@ model Turbofan
   Modelica.Mechanics.Rotational.Components.Inertia inertia2(J = 10, a(fixed = true, start = 0)) annotation(
     Placement(visible = true, transformation(origin = {150, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(flightToEngine1.port_fluidAmb, Nzl170.port_2) annotation(
-    Line(points = {{-90, -30}, {-90, 40}, {200, 40}, {200, 20}}, color = {0, 127, 255}));
-  connect(flightToEngine1.port_fluidAmb, Nzl070.port_2) annotation(
-    Line(points = {{-90, -30}, {-90, 44}, {240, 44}, {240, -32}}, color = {0, 127, 255}));
-  connect(ramp_TIT.y, Brn036.TtOutlet_in) annotation(
-    Line(points = {{121, 70}, {135, 70}, {135, -38}, {129, -38}, {129, -37}}, color = {0, 0, 127}));
-  connect(flightToEngine1.V_tot_out, inlt010.V_tot_in) annotation(
-    Line(points = {{-79, -44}, {-67, -44}}, color = {0, 0, 127}));
-  connect(flightToEngine1.port_fluid2Eng, inlt010.port_1) annotation(
-    Line(points = {{-80, -32}, {-70, -32}}, color = {0, 127, 255}));
-  connect(inlt010.port_2, massFlowRate_Cmp020.port_a) annotation(
-    Line(points = {{-50, -32}, {-28, -32}}, color = {0, 127, 255}));
-  connect(inlt010.port_2, massFlowRate_Cmp120.port_a) annotation(
-    Line(points = {{-50, -32}, {-46, -32}, {-46, 20}, {-40, 20}}, color = {0, 127, 255}));
-  connect(inlt010.Fram_out, Perf001.Fram_in) annotation(
-    Line(points = {{-53, -44}, {-44, -44}, {-44, -128}, {299, -128}}, color = {0, 0, 127}));
-  connect(massFlowRate_Cmp120.m_flow, calc_BPR.u1) annotation(
-    Line(points = {{-30, 9}, {-30, -74}, {-2, -74}}, color = {0, 0, 127}));
-  connect(massFlowRate_Cmp120.port_b, Cmp120.port_1) annotation(
-    Line(points = {{-20, 20}, {-10, 20}}, color = {0, 127, 255}));
-  connect(Cmp120.port_2, Nzl170.port_1) annotation(
-    Line(points = {{10, 20}, {180, 20}}, color = {0, 127, 255}));
-  connect(Cmp120.flange_2, Cmp020.flange_1) annotation(
-    Line(points = {{10, 12}, {14, 12}, {14, -40}, {20, -40}}));
-  connect(Nzl170.Fg_out, calc_engineFg.u2) annotation(
-    Line(points = {{195, 12}, {255, 12}, {255, -116}, {268, -116}}, color = {0, 0, 127}));
-  connect(MainComb.dm_fuel_out, Perf001.dm_fuel_in) annotation(
-    Line(points = {{111, -14}, {262, -14}, {262, -136}, {299, -136}}, color = {0, 0, 127}));
-  connect(MainComb.HeatPort_b, Brn036.HeatPort_1) annotation(
-    Line(points = {{110, -10}, {120, -10}, {120, -32}}, color = {191, 0, 0}));
-  connect(massFlowRate_Cmp020.m_flow, calc_BPR.u2) annotation(
-    Line(points = {{-18, -43}, {-18, -86}, {-2, -86}}, color = {0, 0, 127}));
-  connect(massFlowRate_Cmp020.port_b, Cmp020.port_1) annotation(
-    Line(points = {{-8, -32}, {20, -32}}, color = {0, 127, 255}));
-  connect(Trb041.port_1, Brn036.port_2) annotation(
-    Line(points = {{150, -32}, {130, -32}}, color = {0, 127, 255}));
-  connect(Cmp025.port_2, Brn036.port_1) annotation(
-    Line(points = {{80, -32}, {110, -32}}, color = {0, 127, 255}));
-  connect(Cmp020.flange_2, inertia2.flange_a) annotation(
-    Line(points = {{40, -40}, {48, -40}, {48, -90}, {140, -90}}));
-  connect(Cmp020.port_2, Cmp025.port_1) annotation(
-    Line(points = {{40, -32}, {60, -32}}, color = {0, 127, 255}));
-  connect(Cmp025.flange_2, inertia1.flange_a) annotation(
-    Line(points = {{80, -40}, {86, -40}, {86, -68}, {110, -68}}));
-  connect(inertia1.flange_b, Trb041.flange_1) annotation(
-    Line(points = {{130, -68}, {144, -68}, {144, -40}, {150, -40}}));
-  connect(Trb041.port_2, Trb046.port_1) annotation(
-    Line(points = {{170, -32}, {190, -32}}, color = {0, 127, 255}));
-  connect(inertia2.flange_b, Trb046.flange_1) annotation(
-    Line(points = {{160, -90}, {184, -90}, {184, -40}, {190, -40}}));
-  connect(Trb046.port_2, Nzl070.port_1) annotation(
-    Line(points = {{210, -32}, {220, -32}}, color = {0, 127, 255}));
-  connect(Nzl070.Fg_out, calc_engineFg.u1) annotation(
-    Line(points = {{235, -40}, {247, -40}, {247, -104}, {268, -104}}, color = {0, 0, 127}));
-  connect(calc_engineFg.y, Perf001.Fg_in) annotation(
-    Line(points = {{291, -110}, {296, -110}, {296, -124}, {299, -124}}, color = {0, 0, 127}));
+
   annotation(
     Diagram(coordinateSystem(extent = {{-100, -140}, {320, 100}})),
     Icon(coordinateSystem(extent = {{-100, -200}, {420, 100}})),
@@ -112,4 +56,4 @@ equation
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 60, Tolerance = 1e-06, Interval = 0.02),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
-end Turbofan;
+end Turbofan_temp;
