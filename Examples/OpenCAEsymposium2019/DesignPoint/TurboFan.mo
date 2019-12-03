@@ -12,7 +12,7 @@ model Turbofan
     Placement(visible = true, transformation(origin = {-20, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.constrain_dm constrain_dm2(redeclare package Medium = engineAir, dmDes = 10, switchInput_dm = PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal) annotation(
     Placement(visible = true, transformation(origin = {-20, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.HeatInjector Brn036(redeclare package Medium = engineAir, TtOutletDes(displayUnit = "K") = 1800, switchInput_TtOutlet = PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal) annotation(
+  PropulsionSystem.Elements.BasicElements.HeatInjector Brn036(redeclare package Medium = engineAir, TtOutletDes(displayUnit = "K") = 1600, switchInput_TtOutlet = PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal) annotation(
     Placement(visible = true, transformation(origin = {190, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CombustFuel MainComb annotation(
     Placement(visible = true, transformation(origin = {170, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -46,31 +46,23 @@ model Turbofan
     Placement(visible = true, transformation(origin = {-70, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-90, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Sensors.MassFlowRate massFlowRate_Cmp120(redeclare package Medium = engineAir) annotation(
+  Modelica.Fluid.Sensors.MassFlowRate massFlowRate_Cmp120(redeclare package Medium=engineAir) annotation(
     Placement(visible = true, transformation(origin = {10, -10}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
-  Modelica.Fluid.Sensors.MassFlowRate massFlowRate_Cmp020(redeclare package Medium = engineAir) annotation(
+  Modelica.Fluid.Sensors.MassFlowRate massFlowRate_Cmp020(redeclare package Medium=engineAir) annotation(
     Placement(visible = true, transformation(origin = {30, -50}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   Modelica.Blocks.Math.Division calc_BPR annotation(
     Placement(visible = true, transformation(origin = {30, -130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Utilities.SplitFlow_by_BPR splitFlow_by_BPR1(switchInput_BPR = PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal) annotation(
-    Placement(visible = true, transformation(origin = {-50, 18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_BPR(duration = 5, height = -5, offset = 10, startTime = 5) annotation(
+  PropulsionSystem.Utilities.SplitFlow_by_BPR splitFlow_by_BPR1(switchInput_BPR = PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal)  annotation(
+    Placement(visible = true, transformation(origin = {-50, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_BPR(duration = 5, height = 0, offset = 10, startTime = 5) annotation(
     Placement(visible = true, transformation(origin = {-80, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_dmTotal(duration = 5, height = 0, offset = 110, startTime = 5) annotation(
-    Placement(visible = true, transformation(origin = {-80, 18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 5, height = -5, offset = 10, startTime = 5) annotation(
-    Placement(visible = true, transformation(origin = {170, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-80, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp1(duration = 10, height = 100, offset = 1600, startTime = 20) annotation(
+    Placement(visible = true, transformation(origin = {180, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(ramp_dmTotal.y, splitFlow_by_BPR1.flow_total) annotation(
-    Line(points = {{-69, 18}, {-63, 18}, {-63, 18}, {-61, 18}}, color = {0, 0, 127}));
-  connect(splitFlow_by_BPR1.flow_secondary, constrain_dm1.dm_in) annotation(
-    Line(points = {{-39, 22}, {-34, 22}, {-34, -34.5}, {-24, -34.5}, {-24, -25}}, color = {0, 0, 127}));
-  connect(splitFlow_by_BPR1.flow_primary, constrain_dm2.dm_in) annotation(
-    Line(points = {{-39, 14}, {-36, 14}, {-36, -70}, {-24, -70}, {-24, -65}}, color = {0, 0, 127}));
-  connect(ramp_BPR.y, splitFlow_by_BPR1.BPR_in) annotation(
-    Line(points = {{-68, 60}, {-58, 60}, {-58, 29}}, color = {0, 0, 127}));
-  connect(ramp_TIT.y, Brn036.TtOutlet_in) annotation(
-    Line(points = {{182, 20}, {202, 20}, {202, -58}, {200, -58}, {200, -56}}, color = {0, 0, 127}));
+  connect(ramp1.y, Brn036.TtOutlet_in) annotation(
+    Line(points = {{191, 10}, {202, 10}, {202, -56}, {200, -56}}, color = {0, 0, 127}));
   connect(Trb049.port_2, Noz070.port_1) annotation(
     Line(points = {{290, -52}, {330, -52}, {330, -52}, {330, -52}}, color = {0, 127, 255}));
   connect(Trb041.port_2, Trb049.port_1) annotation(
@@ -81,6 +73,14 @@ equation
     Line(points = {{80, -52}, {120, -52}, {120, -52}, {120, -52}}, color = {0, 127, 255}));
   connect(Cmp120.port_2, Noz170.port_1) annotation(
     Line(points = {{50, -12}, {290, -12}, {290, -12}, {290, -12}}, color = {0, 127, 255}));
+  connect(ramp_dmTotal.y, splitFlow_by_BPR1.flow_total) annotation(
+    Line(points = {{-68, 30}, {-62, 30}, {-62, 30}, {-60, 30}}, color = {0, 0, 127}));
+  connect(ramp_BPR.y, splitFlow_by_BPR1.BPR_in) annotation(
+    Line(points = {{-68, 60}, {-58, 60}, {-58, 42}, {-58, 42}}, color = {0, 0, 127}));
+  connect(splitFlow_by_BPR1.flow_primary, constrain_dm2.dm_in) annotation(
+    Line(points = {{-39, 26}, {-36, 26}, {-36, -70}, {-24, -70}, {-24, -65}}, color = {0, 0, 127}));
+  connect(splitFlow_by_BPR1.flow_secondary, constrain_dm1.dm_in) annotation(
+    Line(points = {{-39, 34}, {-34, 34}, {-34, -34.5}, {-24, -34.5}, {-24, -25}}, color = {0, 0, 127}));
   connect(inlt010.Fram_out, Perf001.Fram_in) annotation(
     Line(points = {{-53, -64}, {-44, -64}, {-44, -148}, {389, -148}}, color = {0, 0, 127}));
   connect(calc_engineFg.y, Perf001.Fg_in) annotation(
@@ -139,6 +139,7 @@ equation
     version = "",
     uses(Modelica(version = "3.2.2")),
     __OpenModelica_commandLineOptions = "",
-    experiment(StartTime = 0, StopTime = 60, Tolerance = 1e-06, Interval = 0.001),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"));
+    experiment(StartTime = 0, StopTime = 100, Tolerance = 1e-06, Interval = 0.00166667),
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
+
 end Turbofan;

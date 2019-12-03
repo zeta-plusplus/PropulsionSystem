@@ -47,7 +47,8 @@ model Turbofan_temp
   Modelica.Mechanics.Rotational.Components.Inertia inertia2(J = 10, a(fixed = true, start = 0)) annotation(
     Placement(visible = true, transformation(origin = {150, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-
+  connect(Cmp020.flange_2, Cmp025.port_1) annotation(
+    Line(points = {{40, -40}, {48, -40}, {48, -32}, {60, -32}, {60, -32}}));
   annotation(
     Diagram(coordinateSystem(extent = {{-100, -140}, {320, 100}})),
     Icon(coordinateSystem(extent = {{-100, -200}, {420, 100}})),
