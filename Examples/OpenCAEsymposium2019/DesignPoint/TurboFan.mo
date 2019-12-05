@@ -58,7 +58,7 @@ model Turbofan
     Placement(visible = true, transformation(origin = {-80, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_dmTotal(duration = 5, height = 0, offset = 110, startTime = 5) annotation(
     Placement(visible = true, transformation(origin = {-80, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp1(duration = 10, height = 100, offset = 1600, startTime = 20) annotation(
+  Modelica.Blocks.Sources.Ramp ramp1(duration = 10, height = 100, offset = 1600, startTime = 40) annotation(
     Placement(visible = true, transformation(origin = {180, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(ramp1.y, Brn036.TtOutlet_in) annotation(

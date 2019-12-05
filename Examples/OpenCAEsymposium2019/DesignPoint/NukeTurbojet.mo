@@ -142,9 +142,9 @@ model NukeTurbojet
       __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
   end MoltenSaltReactor;
 
-  Modelica.Blocks.Sources.Ramp ramp_rho_control(duration = 10, height = 1500, offset = -2000, startTime = 20) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_rho_control(duration = 10, height = 1000, offset = 0, startTime = 40) annotation(
     Placement(visible = true, transformation(origin = {-10, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_m_flow_fuelsalt(duration = 10, height = 10, offset = 10, startTime = 40) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_m_flow_fuelsalt(duration = 10, height = 0, offset = 10, startTime = 40) annotation(
     Placement(visible = true, transformation(origin = {10, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.HeatInjector heatInjector1(redeclare package Medium = engineAir, T1_init = 700, T2_init = 1600, TtOutletDes(displayUnit = "K") = 1600, h1_init = 700 * 1000, h2_init = 1600 * 1000, p1_init = 20 * 101.3 * 1000, switchInput_TtOutlet = PropulsionSystem.Types.switches.switch_parameter_input.asCalculated) annotation(
     Placement(visible = true, transformation(origin = {50, -12}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
