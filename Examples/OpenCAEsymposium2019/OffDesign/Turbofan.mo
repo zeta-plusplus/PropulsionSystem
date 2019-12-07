@@ -27,7 +27,7 @@ model Turbofan
     Placement(visible = true, transformation(origin = {-18, -32}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   Modelica.Blocks.Math.Division calc_BPR annotation(
     Placement(visible = true, transformation(origin = {10, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 5, height = -200, offset = 1600, startTime = 5) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 10, height = 100, offset = 1600, startTime = 20) annotation(
     Placement(visible = true, transformation(origin = {110, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.Compressor_Map_WcPReff Cmp120(redeclare package Medium = engineAir, NmechDes = 3000, PRdes = 1.4, Tdes_1(displayUnit = "K") = 251.938, dmDes_1 = 100, effDes = 0.8, pDes_1 = 39499.9, pathName_tableFile = "./tableData/table_Cmp_theta_NcqNcDes_001.txt", switchInput_PR = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchInput_Wc_1 = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchInput_eff = PropulsionSystem.Types.switches.switch_parameter_input.calc_Subelement, switchSmoothness = Modelica.Blocks.Types.Smoothness.ContinuousDerivative, switchUseMapDataFile_PR = true, switchUseMapDataFile_Wc = true, switchUseMapDataFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {0, 12}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -110,6 +110,6 @@ equation
     version = "",
     uses(Modelica(version = "3.2.2")),
     __OpenModelica_commandLineOptions = "",
-    experiment(StartTime = 0, StopTime = 60, Tolerance = 1e-06, Interval = 0.02),
+    experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.01),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
 end Turbofan;
