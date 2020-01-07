@@ -19,15 +19,19 @@ model Propeller1dAero002_02
     Placement(visible = true, transformation(origin = {90, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_flowSpeed(duration = 10, height = 0, offset = 240, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-70, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_bladeAngle(duration = 10, height = 0 * Modelica.Constants.pi / 180, offset = 20 * Modelica.Constants.pi / 180, startTime = 10) annotation(
-    Placement(visible = true, transformation(origin = {-10, 50}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Blocks.Sources.Ramp ramp_bladeAngle(duration = 10, height = -5, offset = 25, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {-10, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.Rotational.Sources.Torque torque1 annotation(
     Placement(visible = true, transformation(origin = {50, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 0.1, a(fixed = false, start = 0), w(fixed = true, start = 104)) annotation(
     Placement(visible = true, transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Gain gain1(k = Modelica.Constants.pi / 180) annotation(
+    Placement(visible = true, transformation(origin = {-10, 40}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
-  connect(ramp_bladeAngle.y, propeller1dAeroTip1.u_bladeAngle) annotation(
-    Line(points = {{-10, 39}, {-10, 22}}, color = {0, 0, 127}));
+  connect(gain1.y, propeller1dAeroTip1.u_bladeAngle) annotation(
+    Line(points = {{-10, 28}, {-10, 28}, {-10, 22}, {-10, 22}}, color = {0, 0, 127}));
+  connect(ramp_bladeAngle.y, gain1.u) annotation(
+    Line(points = {{-10, 60}, {-10, 60}, {-10, 52}, {-10, 52}}, color = {0, 0, 127}));
   connect(boundary.ports[1], propeller1dAeroTip1.port_amb) annotation(
     Line(points = {{-60, 30}, {-52, 30}, {-52, 16}, {-40, 16}, {-40, 16}}, color = {0, 127, 255}));
   connect(const_flowAngle.y, propeller1dAeroTip1.u_flowAngle) annotation(
