@@ -90,7 +90,9 @@ model Propeller1dAeroTip
   Modelica.SIunits.Length diamDisk_1;
   Modelica.SIunits.Length diamDisk_2;
   Modelica.SIunits.Length diamEffTip_1(start=1);
+  Modelica.SIunits.Length diamEffTip_2(start=1);
   Modelica.SIunits.Length rEffTip_1;
+  Modelica.SIunits.Length rEffTip_2;
   Modelica.SIunits.Length lAxial "axial length of blade";
   Modelica.SIunits.Length height_1 "blade height, LE";
   Modelica.SIunits.Length height_2 "blade height, TE";
@@ -105,7 +107,9 @@ model Propeller1dAeroTip
   
   Modelica.SIunits.Area AmechAbs_1 "";
   Modelica.SIunits.Area AeffAx_1 "eff. rep. area, flow cross section, axial, LE, NOT mech area";
+  Modelica.SIunits.Area AeffAx_2 "eff. rep. area, flow cross section, axial, TE, NOT mech area";
   Modelica.SIunits.Area AeffAbs_1 "eff. rep. area, flow cross section, abs, LE, NOT mech area";
+  Modelica.SIunits.Area AeffAbs_2 "eff. rep. area, flow cross section, abs, TE, NOT mech area";
   Modelica.SIunits.Velocity c1 "abs-V, LE";
   Modelica.SIunits.Velocity cx1 "axial-V, LE";
   Modelica.SIunits.Velocity cTheta1 "tangential component, abs-V, LE";
@@ -149,9 +153,9 @@ model Propeller1dAeroTip
   Real FaxqFtheta "axial-force/tangential force";
   Real effPropeller "propeller efficiency, =pwrPropulsive/pwr";
   Modelica.SIunits.SpecificEnthalpy dht "rise in specific enthalpy across rotor";
-  //Modelica.SIunits.SpecificEnthalpy dhtIs "rise in specific enthalpy across rotor, isentropic";
+  Modelica.SIunits.SpecificEnthalpy dhtIs "rise in specific enthalpy across rotor, isentropic";
   Real PR "ratio of total pressure";
-  //Real effAdiab "adiabatic efficiency";
+  Real effAdiab "adiabatic efficiency";
   Real aeroLoading "dht/U^2";
   Real ratioAdv "propeller advance ratio";
   Real cThrust "";
@@ -159,7 +163,7 @@ model Propeller1dAeroTip
   Real cPower "";
   Modelica.SIunits.SpecificEnthalpy h_1 "enthalpy, total state, fluid St.1";
   Modelica.SIunits.SpecificEnthalpy h_2 "enthalpy, total state, fluid St.2";
-  //Modelica.SIunits.SpecificEnthalpy h_2is "enthalpy, total state, fluid St.2, isentropic compression";
+  Modelica.SIunits.SpecificEnthalpy h_2is "enthalpy, total state, fluid St.2, isentropic compression";
   Modelica.SIunits.Power pwr "power via shaft, positive if fluid generates power";
   Modelica.SIunits.Torque trq(start = 1.0) "trq via shaft";
   Modelica.SIunits.AngularVelocity omega(start = 100.0) "mechanical rotation speed, rad/sec";
@@ -206,11 +210,24 @@ model Propeller1dAeroTip
     h.start=h2_init
   ) "fluid station of outlet";
   
+  Medium.BaseProperties fluid_2stat
+  (
+    p.start = pAmb_init, T.start = Tamb_init, state.p.start = pAmb_init,
+    state.T.start = Tamb_init, h.start = hAmb_init
+  ) "fluid station of outlet, static";
+  
   Medium.BaseProperties fluid_amb
   (
     p.start = pAmb_init, T.start = Tamb_init, state.p.start = pAmb_init,
     state.T.start = Tamb_init, h.start = hAmb_init
   ) "fluid station of ambient";
+  
+  Modelica.SIunits.SpecificEntropy s_fluid_amb "specific entropy of fluid st.Amb";
+  Modelica.SIunits.SpecificEntropy s_fluid_1 "specific entropy of fluid st.1";
+  Modelica.SIunits.SpecificEntropy s_fluid_2 "specific entropy of fluid st.2";
+  Modelica.SIunits.SpecificEntropy s_fluid_2stat "specific entropy of fluid st.2";
+  Modelica.SIunits.SpecificEntropy s_fluid_2is "specific entropy of fluid st.2is";
+  
   
   AircraftDynamics.Aerodynamics.BaseClasses.AirfoilSimple00 airfoilSimple001 annotation(
     Placement(visible = true, transformation(origin = {-30.25, 40.2}, extent = {{-49.75, -39.8}, {49.75, 39.8}}, rotation = 0)));
@@ -316,16 +333,28 @@ equation
   fluid_amb.h = actualStream(port_amb.h_outflow);
   fluid_amb.Xi = actualStream(port_amb.Xi_outflow);
   port_amb.m_flow = 1;
+  s_fluid_amb= Medium.specificEntropy(fluid_amb.state);
   
   //-- fluid_1 --
   fluid_1.Xi= fluid_amb.Xi;
   fluid_1.h= h_1;
   fluid_1.h= Medium.isentropicEnthalpy(fluid_1.p, fluid_amb.state);
+  s_fluid_1= Medium.specificEntropy(fluid_1.state);
   
   //-- fluid_2 --
-  fluid_2.p*AmechAx_2= fluid_1.p*AmechAx_1 + Fax;
+  fluid_2.p*AeffAx_1= fluid_1.p*AeffAx_1 + Fax;
   fluid_2.h= h_2;
   fluid_2.Xi=fluid_1.Xi;
+  s_fluid_2= Medium.specificEntropy(fluid_2.state);
+  
+  //-- fluid_2stat --
+  fluid_2stat.Xi= fluid_2.Xi;
+  fluid_2stat.h= fluid_amb.h;
+  fluid_2stat.h= Medium.isentropicEnthalpy(fluid_2stat.p, fluid_2.state);
+  s_fluid_2stat=s_fluid_2;
+  
+  //-- fluid_2is --
+  s_fluid_2is=s_fluid_1;
   
 //-- shaft-front, flange_a --
   flange_1.phi = phi;
@@ -340,7 +369,6 @@ equation
 //-- energy conservation --
   trq = flange_1.tau + flange_2.tau;
   der(phi) = omega;
-//pwr= m_flow*(1.0/2.0*sign(c2)*c2^2.0 - 1.0/2.0*sign(c1)*c1^2.0);
   pwr = m_flow * (h_2 - h_1);
 //----- momentum conservation -----
   Fax = 1.0 * m_flow * (cx2 - cx1);
@@ -348,32 +376,43 @@ equation
   m_flow = m_flow_single * numBlade;
   
   //-----  component characteristics, etc -----
-  if c1 == 0 then
+  if (c1 == 0) then
     AeffAbs_1 = 0.0;
   else
     AeffAbs_1 * (fluid_amb.d * c1) = m_flow;
   end if;
+  
+  if (c2 == 0) then
+    AeffAbs_2 = 0.0;
+  else
+    AeffAbs_2 * (fluid_2stat.d * c2) = m_flow;
+  end if;
+  
   AeffAx_1 = AeffAbs_1 * cos(alpha1);
+  AeffAx_2 = AeffAbs_2 * cos(alpha2);
   
   AeffAx_1= Modelica.Constants.pi/4.0*(diamEffTip_1^2.0 - (2.0*rHub_1)^2.0);
+  AeffAx_2= Modelica.Constants.pi/4.0*(diamEffTip_2^2.0 - (2.0*rHub_2)^2.0);
+  
   rEffTip_1= diamEffTip_1/2.0;
+  rEffTip_2= diamEffTip_2/2.0;
   
   PR= fluid_2.p/fluid_1.p;
-  //h_2is= Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
-  //dhtIs= h_2is-h_1;
+  h_2is= Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
+  dhtIs= h_2is-h_1;
   
   if(1<PR)then
     flagPosPR= true;
-    //dhtIs= effAdiab*dht;
+    dhtIs= effAdiab*dht;
   else
     flagPosPR=false;
-    //effAdiab= 0;
+    effAdiab= 0;
   end if;
   
 //********** flag **********
-  if alpha4ClmaxDes < airfoilSimple001.signalBus1.alpha then
+  if (alpha4ClmaxDes < airfoilSimple001.signalBus1.alpha) then
     flagBladeStall = true;
-  elseif airfoilSimple001.signalBus1.alpha < alpha4ClminDes then
+  elseif (airfoilSimple001.signalBus1.alpha < alpha4ClminDes) then
     flagBladeStall = true;
   else
     flagBladeStall = false;

@@ -46,5 +46,5 @@ equation
     Line(points = {{30, 0}, {40, 0}, {40, 0}, {40, 0}}));
   annotation(
     experiment(StartTime = 0, StopTime = 30, Tolerance = 1e-06, Interval = 0.01),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "csv", s = "dassl"));
 end Propeller1dAero002_01;
