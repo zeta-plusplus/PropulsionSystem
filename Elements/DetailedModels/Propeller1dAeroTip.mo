@@ -295,6 +295,7 @@ equation
   h_1 = fluid_amb.h + 1.0 / 2.0 * c1 ^ 2;
   h_2 = h_2stat + 1.0 / 2.0 * c2 ^ 2;
   
+  
 //-- shaft-front, flange_a --
   flange_1.phi = phi;
 //-- shaft-front, flange_b --
