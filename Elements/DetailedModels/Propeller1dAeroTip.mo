@@ -248,9 +248,10 @@ algorithm
   epsiron2 := beta1 - beta2;
   
   //********** component characteristics, etc **********
-  trqSingle := FthetaSingle * rTip_1;
+  //trqSingle := FthetaSingle * rTip_1;
+  //trq := trqSingle * numBlade;
+  
   pwrSingle := trqSingle * omega;
-  trq := trqSingle * numBlade;
   pwr := pwrSingle * numBlade;
   pwrPropulsive := Fax * cx1;
   Nmech := Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
@@ -314,8 +315,11 @@ equation
   m_flow = m_flow_single * numBlade;
   p1stat= fluid_amb.p;
   Fax = 1.0 * m_flow * (cx2 - cx1) + (p2stat*AmechAx_2 - p1stat*AmechAx_1);
-  Ftheta = 1.0 * m_flow * (cTheta2 - cTheta1);
-  pwr= m_flow*(Utip_2*cTheta2 - Utip_1*cTheta1); // euler equation
+  //Ftheta = 1.0 * m_flow * (cTheta2 - cTheta1);
+  Ftheta = 1.0 * m_flow * (-1.0*wTheta2 - (-1.0)*wTheta1);
+  
+  trq= m_flow*(rTip_2*cTheta2 - rTip_1*cTheta1); // euler equation
+  trq = trqSingle * numBlade;
   
   //-----  component characteristics, etc -----
   if c1 == 0 then
