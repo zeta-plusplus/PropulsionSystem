@@ -139,6 +139,7 @@ model Propeller1dAeroTip
   Real cPower "";
   Modelica.SIunits.SpecificEnthalpy h_1 "enthalpy, total state";
   Modelica.SIunits.SpecificEnthalpy h_2 "enthalpy, total state";
+  Modelica.SIunits.SpecificEnthalpy h_2stat "enthalpy, static state";
   Modelica.SIunits.Power pwr "power via shaft, positive if fluid generates power";
   Modelica.SIunits.Torque trq(start = 1.0) "trq via shaft";
   Modelica.SIunits.AngularVelocity omega(start = 100.0) "mechanical rotation speed, rad/sec";
@@ -256,8 +257,7 @@ algorithm
   FliftqFdrag := Flift / Fdrag;
   FaxqFtheta := Fax / Ftheta;
   effPropeller := pwrPropulsive / pwr;
-  h_1 := fluid_amb.h + 1.0 / 2.0 * c1 ^ 2;
-  h_2 := fluid_amb.h + 1.0 / 2.0 * c2 ^ 2;
+  
   dht := h_2 - h_1;
   if (Utip_1 <> 0.0) then
     aeroLoading := dht / Utip_1 ^ 2.0;
@@ -290,6 +290,10 @@ equation
   fluid_amb.h = actualStream(port_amb.h_outflow);
   fluid_amb.Xi = actualStream(port_amb.Xi_outflow);
   port_amb.m_flow = 1;
+  
+  h_1 = fluid_amb.h + 1.0 / 2.0 * c1 ^ 2;
+  h_2 = h_2stat + 1.0 / 2.0 * c2 ^ 2;
+  
 //-- shaft-front, flange_a --
   flange_1.phi = phi;
 //-- shaft-front, flange_b --
