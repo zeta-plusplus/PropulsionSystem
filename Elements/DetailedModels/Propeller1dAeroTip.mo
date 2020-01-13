@@ -91,7 +91,7 @@ model Propeller1dAeroTip
   Modelica.SIunits.Velocity w1(start = 100.0) "rel-V, LE";
   Modelica.SIunits.Velocity wTheta1 "tangential component, rel-V, LE";
   Modelica.SIunits.Velocity c2 "abs-V, TE";
-  Modelica.SIunits.Velocity cx2 "axial-V, TE";
+  Modelica.SIunits.Velocity cx2(start= 100.0) "axial-V, TE";
   Modelica.SIunits.Velocity cTheta2 "tangential component, abs-V, TE";
   Modelica.SIunits.Velocity w2(start = 100.0) "rel-V, TE";
   Modelica.SIunits.Velocity wTheta2 "tangential component, rel-V, TE";
@@ -135,7 +135,9 @@ model Propeller1dAeroTip
   Real cPower "";
   Modelica.SIunits.SpecificEnthalpy h_1 "enthalpy, total state";
   Modelica.SIunits.SpecificEnthalpy h_2 "enthalpy, total state";
-  Modelica.SIunits.Power pwr "power via shaft, positive if fluid generates power";
+  Modelica.SIunits.SpecificEnthalpy h_1stat(start= hAmb_init) "enthalpy, static state";
+  Modelica.SIunits.SpecificEnthalpy h_2stat(start= hAmb_init) "enthalpy, static state";
+  Modelica.SIunits.Power pwr(start= 100) "power via shaft, positive if fluid generates power";
   Modelica.SIunits.Torque trq(start = 1.0) "trq via shaft";
   Modelica.SIunits.AngularVelocity omega(start = 100.0) "mechanical rotation speed, rad/sec";
   Modelica.SIunits.Angle phi(start = 0.0) "mechanical rotation displacement, rad";
@@ -255,7 +257,8 @@ algorithm
   FaxqFtheta := Fax / Ftheta;
   effPropeller := pwrPropulsive / pwr;
   
-  h_1 := fluid_amb.h + 1.0 / 2.0 * c1 ^ 2;
+  //h_1 := fluid_amb.h + 1.0 / 2.0 * c1 ^ 2.0;
+  h_1 := h_1stat + 1.0 / 2.0 * c1 ^ 2.0;
   rothalpy1:= h_1 - Utip_1*cTheta1;
   rothalpy2:= rothalpy1;
   h_2:= rothalpy2 + Utip_2*cTheta2;
@@ -290,6 +293,11 @@ equation
   fluid_amb.h = actualStream(port_amb.h_outflow);
   fluid_amb.Xi = actualStream(port_amb.Xi_outflow);
   port_amb.m_flow = 1;
+  
+  h_1stat= fluid_amb.h;
+  h_2stat= h_2 - 1.0/2.0*c2^2.0;
+  
+  
 //-- shaft-front, flange_a --
   flange_1.phi = phi;
 //-- shaft-front, flange_b --
