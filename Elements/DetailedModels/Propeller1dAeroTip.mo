@@ -173,7 +173,16 @@ model Propeller1dAeroTip
   Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {70, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {70, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********** internal objects **********
-  Medium.BaseProperties fluid_amb(p.start = pAmb_init, T.start = Tamb_init, state.p.start = pAmb_init, state.T.start = Tamb_init, h.start = hAmb_init) "flow station of inlet";
+  Medium.BaseProperties fluid_amb
+  (
+    p.start = pAmb_init, T.start = Tamb_init, state.p.start = pAmb_init, state.T.start = Tamb_init, h.start = hAmb_init
+  ) "flow station of inlet";
+  
+  Medium.BaseProperties fluid_1
+  (
+    p.start = pAmb_init, T.start = Tamb_init, state.p.start = pAmb_init, state.T.start = Tamb_init, h.start = hAmb_init
+  ) "flow station 1";
+  
   AircraftDynamics.Aerodynamics.BaseClasses.AirfoilSimple00 airfoilSimple001 annotation(
     Placement(visible = true, transformation(origin = {-30.25, 40.2}, extent = {{-49.75, -39.8}, {49.75, 39.8}}, rotation = 0)));
 initial algorithm
@@ -304,6 +313,9 @@ equation
   
   p1stat= fluid_amb.p;
   p2stat= p1stat;
+  
+  fluid_1.h= Medium.isentropicEnthalpy(fluid_1.p, fluid_amb.state);
+  fluid_1.h= fluid_amb.h + 1.0/2.0*c1^2;
   
 //-- shaft-front, flange_a --
   flange_1.phi = phi;
