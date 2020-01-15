@@ -145,6 +145,8 @@ model Propeller1dAeroTip
   Boolean flagBladeStall(start = false) "flag, prop. blade is stalled or not";
   Modelica.SIunits.SpecificEnthalpy rothalpy1 "";
   Modelica.SIunits.SpecificEnthalpy rothalpy2 "";
+  Modelica.SIunits.Pressure p1stat "";
+  Modelica.SIunits.Pressure p2stat "";
   
   //********** Interfaces **********
   Modelica.Blocks.Interfaces.RealInput u_flowSpeed "" annotation(
@@ -257,12 +259,14 @@ algorithm
   FaxqFtheta := Fax / Ftheta;
   effPropeller := pwrPropulsive / pwr;
   
-  //h_1 := fluid_amb.h + 1.0 / 2.0 * c1 ^ 2.0;
+  h_1stat:= fluid_amb.h;
   h_1 := h_1stat + 1.0 / 2.0 * c1 ^ 2.0;
-  rothalpy1:= h_1 - Utip_1*cTheta1;
+  //rothalpy1:= h_1 - (Utip_1)*cTheta1;
+  rothalpy1:= h_1 - (rEffTip_1*omega)*cTheta1;
   rothalpy2:= rothalpy1;
-  h_2:= rothalpy2 + Utip_2*cTheta2;
-  //h_2 := fluid_amb.h + 1.0 / 2.0 * c2 ^ 2;
+  //h_2:= rothalpy2 + (Utip_1)*cTheta2;
+  h_2:= rothalpy2 + (rEffTip_1*omega)*cTheta2;
+  h_2stat:= h_2 - 1.0/2.0*c2^2.0;
   
   dht := h_2 - h_1;
   
@@ -294,9 +298,8 @@ equation
   fluid_amb.Xi = actualStream(port_amb.Xi_outflow);
   port_amb.m_flow = 1;
   
-  h_1stat= fluid_amb.h;
-  h_2stat= h_2 - 1.0/2.0*c2^2.0;
-  
+  p1stat= fluid_amb.p;
+  p2stat= p1stat;
   
 //-- shaft-front, flange_a --
   flange_1.phi = phi;
@@ -314,7 +317,7 @@ equation
 //pwr= m_flow*(1.0/2.0*sign(c2)*c2^2.0 - 1.0/2.0*sign(c1)*c1^2.0);
   pwr = m_flow * (h_2 - h_1);
 //----- momentum conservation -----
-  Fax = 1.0 * m_flow * (cx2 - cx1);
+  Fax = 1.0 * m_flow * (cx2 - cx1) +(p2stat*AmechAx_1- p1stat*AmechAx_1);
   Ftheta = 1.0 * m_flow * (cTheta2 - cTheta1);
   m_flow = m_flow_single * numBlade;
   
