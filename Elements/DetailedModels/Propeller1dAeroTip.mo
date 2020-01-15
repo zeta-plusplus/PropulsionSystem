@@ -82,9 +82,12 @@ model Propeller1dAeroTip
   Real BR_2 "boss ratio, trailing edge";
   Real numBlade "num. of blades";
   Modelica.SIunits.Area AmechAx_1 "";
+  Modelica.SIunits.Area AmechAx_2 "";
   Modelica.SIunits.Area AmechAbs_1 "";
   Modelica.SIunits.Area AeffAx_1 "eff. rep. area, flow cross section, axial, LE, NOT mech area";
+  Modelica.SIunits.Area AeffAx_2 "eff. rep. area, flow cross section, axial, TE, NOT mech area";
   Modelica.SIunits.Area AeffAbs_1 "eff. rep. area, flow cross section, abs, LE, NOT mech area";
+  Modelica.SIunits.Area AeffAbs_2 "eff. rep. area, flow cross section, abs, TE, NOT mech area";
   Modelica.SIunits.Velocity c1 "abs-V, LE";
   Modelica.SIunits.Velocity cx1 "axial-V, LE";
   Modelica.SIunits.Velocity cTheta1 "tangential component, abs-V, LE";
@@ -199,6 +202,7 @@ algorithm
   diamDisk_1 := 2 * rTip_1;
   diamDisk_2 := 2 * rTip_2;
   AmechAx_1 := Modelica.Constants.pi * (rTip_1 ^ 2.0 - rHub_1 ^ 2.0);
+  AmechAx_2 := Modelica.Constants.pi * (rTip_2 ^ 2.0 - rHub_2 ^ 2.0);
   AmechAbs_1 := AmechAx_1 / cos(alpha1);
 //********** velocities **********
   Umean := rMean * omega;
@@ -317,7 +321,9 @@ equation
 //pwr= m_flow*(1.0/2.0*sign(c2)*c2^2.0 - 1.0/2.0*sign(c1)*c1^2.0);
   pwr = m_flow * (h_2 - h_1);
 //----- momentum conservation -----
-  Fax = 1.0 * m_flow * (cx2 - cx1) +(p2stat*AmechAx_1- p1stat*AmechAx_1);
+  //Fax = 1.0 * m_flow * (cx2 - cx1) +(p2stat*AeffAx_2- p1stat*AeffAx_1);
+  Fax = 1.0 * m_flow * (cx2 - cx1);
+  
   Ftheta = 1.0 * m_flow * (cTheta2 - cTheta1);
   m_flow = m_flow_single * numBlade;
   
@@ -327,7 +333,15 @@ equation
   else
     AeffAbs_1 * (fluid_amb.d * c1) = m_flow;
   end if;
+  
+  if (c2 == 0) then
+    AeffAbs_2 = 0.0;
+  else
+    AeffAbs_2 * (fluid_amb.d * c2) = m_flow;
+  end if;
+  
   AeffAx_1 = AeffAbs_1 * cos(alpha1);
+  AeffAx_2 = AeffAbs_2 * cos(alpha2);
   
   AeffAx_1= Modelica.Constants.pi/4.0*(diamEffTip_1^2.0 - (2.0*rHub_1)^2.0);
   rEffTip_1= diamEffTip_1/2.0;
