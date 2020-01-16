@@ -134,7 +134,9 @@ model Propeller1dAeroTip
   Real cTorque "";
   Real cPower "";
   Modelica.SIunits.SpecificEnthalpy h_1 "enthalpy, total state";
+  Modelica.SIunits.SpecificEnthalpy h_1rel "enthalpy, total state, relative";
   Modelica.SIunits.SpecificEnthalpy h_2 "enthalpy, total state";
+  Modelica.SIunits.SpecificEnthalpy h_2rel "enthalpy, total state, relative";
   Modelica.SIunits.SpecificEnthalpy h_1stat(start= hAmb_init) "enthalpy, static state";
   Modelica.SIunits.SpecificEnthalpy h_2stat(start= hAmb_init) "enthalpy, static state";
   Modelica.SIunits.Power pwr(start= 100) "power via shaft, positive if fluid generates power";
@@ -259,9 +261,13 @@ algorithm
   
   //h_1 := fluid_amb.h + 1.0 / 2.0 * c1 ^ 2.0;
   h_1 := h_1stat + 1.0 / 2.0 * c1 ^ 2.0;
+  h_1rel:= h_1stat+ 1.0/2.0*w1^2.0;
   rothalpy1:= h_1 - Utip_1*cTheta1;
   rothalpy2:= rothalpy1;
   h_2:= rothalpy2 + Utip_2*cTheta2;
+  h_2stat:= h_2 - 1.0/2.0*c2^2.0;
+  h_2rel:= h_2stat+1.0/2.0*w2^2.0;
+  
   //h_2 := fluid_amb.h + 1.0 / 2.0 * c2 ^ 2;
   
   dht := h_2 - h_1;
@@ -295,7 +301,6 @@ equation
   port_amb.m_flow = 1;
   
   h_1stat= fluid_amb.h;
-  h_2stat= h_2 - 1.0/2.0*c2^2.0;
   
   
 //-- shaft-front, flange_a --
