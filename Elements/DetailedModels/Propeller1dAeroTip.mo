@@ -71,9 +71,7 @@ model Propeller1dAeroTip
   Modelica.SIunits.Length diamDisk_1;
   Modelica.SIunits.Length diamDisk_2;
   Modelica.SIunits.Length diamEffTip_1;
-  Modelica.SIunits.Length diamEffTip_2;
   Modelica.SIunits.Length rEffTip_1;
-  Modelica.SIunits.Length rEffTip_2;
   Modelica.SIunits.Length lAxial "axial length of blade";
   Modelica.SIunits.Length height_1 "blade height, LE";
   Modelica.SIunits.Length height_2 "blade height, TE";
@@ -84,12 +82,9 @@ model Propeller1dAeroTip
   Real BR_2 "boss ratio, trailing edge";
   Real numBlade "num. of blades";
   Modelica.SIunits.Area AmechAx_1 "";
-  Modelica.SIunits.Area AmechAx_2 "";
   Modelica.SIunits.Area AmechAbs_1 "";
   Modelica.SIunits.Area AeffAx_1 "eff. rep. area, flow cross section, axial, LE, NOT mech area";
-  Modelica.SIunits.Area AeffAx_2 "eff. rep. area, flow cross section, axial, TE, NOT mech area";
   Modelica.SIunits.Area AeffAbs_1 "eff. rep. area, flow cross section, abs, LE, NOT mech area";
-  Modelica.SIunits.Area AeffAbs_2 "eff. rep. area, flow cross section, abs, TE, NOT mech area";
   Modelica.SIunits.Velocity c1 "abs-V, LE";
   Modelica.SIunits.Velocity cx1 "axial-V, LE";
   Modelica.SIunits.Velocity cTheta1 "tangential component, abs-V, LE";
@@ -127,7 +122,7 @@ model Propeller1dAeroTip
   Modelica.SIunits.Force Fdrag "drag, total of blades";
   Modelica.SIunits.Force Fresultant "resulttant force, total of blades";
   Modelica.SIunits.Torque trqSingle "torque, by single blade";
-  Modelica.SIunits.Power pwrSingle(start=100.0) "power, by single blade";
+  Modelica.SIunits.Power pwrSingle "power, by single blade";
   Modelica.SIunits.Power pwrPropulsive "power of propulsion, =thrust*flowSpeed";
   Real FliftqFdrag "lift/drag of mean line blade";
   Real FaxqFtheta "axial-force/tangential force";
@@ -142,7 +137,7 @@ model Propeller1dAeroTip
   Modelica.SIunits.SpecificEnthalpy h_2 "enthalpy, total state";
   Modelica.SIunits.SpecificEnthalpy h_1stat(start= hAmb_init) "enthalpy, static state";
   Modelica.SIunits.SpecificEnthalpy h_2stat(start= hAmb_init) "enthalpy, static state";
-  Modelica.SIunits.Power pwr(start= 1000.0) "power via shaft, positive if fluid generates power";
+  Modelica.SIunits.Power pwr(start= 100) "power via shaft, positive if fluid generates power";
   Modelica.SIunits.Torque trq(start = 1.0) "trq via shaft";
   Modelica.SIunits.AngularVelocity omega(start = 100.0) "mechanical rotation speed, rad/sec";
   Modelica.SIunits.Angle phi(start = 0.0) "mechanical rotation displacement, rad";
@@ -150,14 +145,6 @@ model Propeller1dAeroTip
   Boolean flagBladeStall(start = false) "flag, prop. blade is stalled or not";
   Modelica.SIunits.SpecificEnthalpy rothalpy1 "";
   Modelica.SIunits.SpecificEnthalpy rothalpy2 "";
-  Modelica.SIunits.Pressure p1stat "";
-  Modelica.SIunits.Pressure p2stat "";
-  Modelica.SIunits.Pressure p1 "";
-  Modelica.SIunits.Pressure p2 "";
-  Modelica.SIunits.SpecificEntropy s1 "";
-  Modelica.SIunits.SpecificEntropy s2 "";
-  //Real PR(start=1.5) "";
-  
   
   //********** Interfaces **********
   Modelica.Blocks.Interfaces.RealInput u_flowSpeed "" annotation(
@@ -180,31 +167,8 @@ model Propeller1dAeroTip
     Placement(visible = true, transformation(origin = {110, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {70, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {70, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-  
   //********** internal objects **********
-  Medium.BaseProperties fluid_amb
-  (
-    p.start = pAmb_init, T.start = Tamb_init, state.p.start = pAmb_init, state.T.start = Tamb_init, h.start = hAmb_init
-  ) "flow station of inlet";
-  
-  Medium.BaseProperties fluid_1
-  (
-    p.start = pAmb_init, T.start = Tamb_init, state.p.start = pAmb_init, state.T.start = Tamb_init, h.start = hAmb_init
-  ) "flow station 1";
-  
-  Medium.BaseProperties fluid_2stat
-  (
-    p.start = pAmb_init, T.start = Tamb_init, state.p.start = pAmb_init, state.T.start = Tamb_init, h.start = hAmb_init
-  ) "flow station 2";
-  
-  
-  Medium.BaseProperties fluid_2
-  (
-    p.start = pAmb_init, T.start = Tamb_init, state.p.start = pAmb_init, state.T.start = Tamb_init, h.start = hAmb_init
-  ) "flow station 2";
-  
-  
+  Medium.BaseProperties fluid_amb(p.start = pAmb_init, T.start = Tamb_init, state.p.start = pAmb_init, state.T.start = Tamb_init, h.start = hAmb_init) "flow station of inlet";
   AircraftDynamics.Aerodynamics.BaseClasses.AirfoilSimple00 airfoilSimple001 annotation(
     Placement(visible = true, transformation(origin = {-30.25, 40.2}, extent = {{-49.75, -39.8}, {49.75, 39.8}}, rotation = 0)));
 initial algorithm
@@ -233,7 +197,6 @@ algorithm
   diamDisk_1 := 2 * rTip_1;
   diamDisk_2 := 2 * rTip_2;
   AmechAx_1 := Modelica.Constants.pi * (rTip_1 ^ 2.0 - rHub_1 ^ 2.0);
-  AmechAx_2 := Modelica.Constants.pi * (rTip_2 ^ 2.0 - rHub_2 ^ 2.0);
   AmechAbs_1 := AmechAx_1 / cos(alpha1);
 //********** velocities **********
   Umean := rMean * omega;
@@ -279,16 +242,11 @@ algorithm
   epsiron2 := beta1 - beta2;
   
   //********** component characteristics, etc **********
+  //trqSingle := FthetaSingle * rTip_1;
+  //trq := trqSingle * numBlade;
   trq:= m_flow*(rTip_2*cTheta2 - rTip_1*cTheta1); // euler equation
   trqSingle := trq/numBlade;
   
-  //PR:= p2/p1;
-    
-  h_1stat:= fluid_amb.h;
-  h_1 := h_1stat + 1.0 / 2.0 * c1 ^ 2.0;
-  rothalpy1:= h_1 - (rEffTip_1*omega)*cTheta1;
-  rothalpy2:= rothalpy1;
-  h_2:= rothalpy2 + (rEffTip_2*omega)*cTheta2;
   
   pwrSingle := trqSingle * omega;
   pwr := pwrSingle * numBlade;
@@ -299,8 +257,12 @@ algorithm
   FaxqFtheta := Fax / Ftheta;
   effPropeller := pwrPropulsive / pwr;
   
-  //rothalpy2 := h_2 - (rEffTip_2*omega)*cTheta2;
-  h_2stat:= h_2 - 1.0/2.0*c2^2.0;
+  //h_1 := fluid_amb.h + 1.0 / 2.0 * c1 ^ 2.0;
+  h_1 := h_1stat + 1.0 / 2.0 * c1 ^ 2.0;
+  rothalpy1:= h_1 - Utip_1*cTheta1;
+  rothalpy2:= rothalpy1;
+  h_2:= rothalpy2 + Utip_2*cTheta2;
+  //h_2 := fluid_amb.h + 1.0 / 2.0 * c2 ^ 2;
   
   dht := h_2 - h_1;
   
@@ -313,11 +275,6 @@ algorithm
   cThrust := Fax / (fluid_amb.d * (Nmech / 60.0) ^ 2.0 * diamDisk_1 ^ 4.0);
   cTorque := trq / (fluid_amb.d * (Nmech / 60.0) ^ 2.0 * diamDisk_1 ^ 5.0);
   cPower := 2.0 * Modelica.Constants.pi * cTorque;
-  
-  s1:= Medium.specificEntropy(fluid_1.state);
-  s2:= Medium.specificEntropy(fluid_2.state);
-  
-  
 //********** interface, output **********
   y_Fg := Fax;
   y_flowAngle := alpha2;
@@ -337,20 +294,9 @@ equation
   fluid_amb.Xi = actualStream(port_amb.Xi_outflow);
   port_amb.m_flow = 1;
   
-  p1stat= fluid_amb.p;
-  p2stat= p1stat;
+  h_1stat= fluid_amb.h;
+  h_2stat= h_2 - 1.0/2.0*c2^2.0;
   
-  fluid_1.h= Medium.isentropicEnthalpy(fluid_1.p, fluid_amb.state);
-  fluid_1.h= fluid_amb.h + 1.0/2.0*c1^2;
-  
-  fluid_2stat.p= p2stat;
-  fluid_2stat.h= h_2stat;
-  
-  fluid_2.h= h_2;
-  fluid_2.p= p2;
-  
-  p1= fluid_1.p;
-  Fax= p2*AeffAx_2 - p1*AeffAx_1;
   
 //-- shaft-front, flange_a --
   flange_1.phi = phi;
@@ -368,9 +314,7 @@ equation
 //pwr= m_flow*(1.0/2.0*sign(c2)*c2^2.0 - 1.0/2.0*sign(c1)*c1^2.0);
   pwr = m_flow * (h_2 - h_1);
 //----- momentum conservation -----
-  //Fax = 1.0 * m_flow * (cx2 - cx1) +(p2stat*AeffAx_2- p1stat*AeffAx_1);
   Fax = 1.0 * m_flow * (cx2 - cx1);
-  
   Ftheta = 1.0 * m_flow * (cTheta2 - cTheta1);
   m_flow = m_flow_single * numBlade;
   
@@ -380,21 +324,10 @@ equation
   else
     AeffAbs_1 * (fluid_amb.d * c1) = m_flow;
   end if;
-  
-  if (c2 == 0) then
-    AeffAbs_2 = 0.0;
-  else
-    AeffAbs_2 * (fluid_amb.d * c2) = m_flow;
-  end if;
-  
   AeffAx_1 = AeffAbs_1 * cos(alpha1);
-  AeffAx_2 = AeffAbs_2 * cos(alpha2);
   
   AeffAx_1= Modelica.Constants.pi/4.0*(diamEffTip_1^2.0 - (2.0*rHub_1)^2.0);
-  AeffAx_2= Modelica.Constants.pi/4.0*(diamEffTip_2^2.0 - (2.0*rHub_2)^2.0);
   rEffTip_1= diamEffTip_1/2.0;
-  rEffTip_2= diamEffTip_2/2.0;
-  
   
 //********** flag variables **********
   if alpha4ClmaxDes < airfoilSimple001.signalBus1.alpha then
