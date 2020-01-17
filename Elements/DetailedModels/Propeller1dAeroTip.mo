@@ -148,6 +148,11 @@ model Propeller1dAeroTip
   Modelica.SIunits.SpecificEnthalpy rothalpy1 "";
   Modelica.SIunits.SpecificEnthalpy rothalpy2 "";
   
+  //Modelica.SIunits.Pressure p1rel "";
+  //Modelica.SIunits.Pressure p2rel "";
+  //Modelica.SIunits.Pressure dpLoss "";
+  
+  
   //********** Interfaces **********
   Modelica.Blocks.Interfaces.RealInput u_flowSpeed "" annotation(
     Placement(visible = true, transformation(origin = {-120, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -174,7 +179,7 @@ model Propeller1dAeroTip
   AircraftDynamics.Aerodynamics.BaseClasses.AirfoilSimple00 airfoilSimple001 annotation(
     Placement(visible = true, transformation(origin = {-30.25, 40.2}, extent = {{-49.75, -39.8}, {49.75, 39.8}}, rotation = 0)));
 initial algorithm
-// NONE
+  // NONE
 algorithm
 //********** Geometries, defined by parameter **********
   rTip_1 := rTip_1_def;
@@ -253,6 +258,8 @@ algorithm
   pwrSingle := trqSingle * omega;
   pwr := pwrSingle * numBlade;
   
+  //dpLoss:= Fdrag/(AmechAx_1*cos(beta1));
+    
   pwrPropulsive := Fax * c1;
   Nmech := Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
   FliftqFdrag := Flift / Fdrag;
@@ -302,6 +309,7 @@ equation
   
   h_1stat= fluid_amb.h;
   
+  //p1=fluid_amb.p;
   
 //-- shaft-front, flange_a --
   flange_1.phi = phi;
@@ -311,7 +319,9 @@ equation
   connect(inci1, airfoilSimple001.signalBus1.alpha) annotation(
     Line);
   CL = airfoilSimple001.signalBus2.Cl;
+  //CD = airfoilSimple001.signalBus2.Cd;
   CD = airfoilSimple001.signalBus2.Cd;
+
 //********** physical equations **********
 //-- energy conservation --
   trq = flange_1.tau + flange_2.tau;
@@ -320,6 +330,7 @@ equation
   pwr = m_flow * (h_2 - h_1);
 //----- momentum conservation -----
   Fax = 1.0 * m_flow * (cx2 - cx1);
+  //cx2=cx1;
   Ftheta = 1.0 * m_flow * (cTheta2 - cTheta1);
   m_flow = m_flow_single * numBlade;
   
