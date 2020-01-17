@@ -205,7 +205,8 @@ algorithm
   diamDisk_2 := 2 * rTip_2;
   AmechAx_1 := Modelica.Constants.pi * (rTip_1 ^ 2.0 - rHub_1 ^ 2.0);
   AmechAbs_1 := AmechAx_1 / cos(alpha1);
-//********** velocities **********
+  
+  //********** velocities **********
   Umean := rMean * omega;
   Utip_1 := rTip_1 * omega;
   Utip_2 := rTip_2 * omega;
@@ -216,7 +217,8 @@ algorithm
   beta1 := acos(cx1 / w1);
   inci1 := beta1 - xi;
   phi1 := Modelica.Constants.pi / 2.0 - beta1;
-//********** Forces **********
+  
+  //********** Forces **********
   FliftSingle := CL * Sblade * 1.0 / 2.0 * fluid_amb.d * w1 ^ 2.0;
   FdragSingle := CD * Sblade * 1.0 / 2.0 * fluid_amb.d * w1 ^ 2.0;
   FthetaSingle := FliftSingle * sin(phi1) + FdragSingle * cos(phi1);
@@ -227,19 +229,8 @@ algorithm
   Ftheta := FthetaSingle * numBlade;
   Fax := FaxSingle * numBlade;
   Fresultant := FresultantSingle * numBlade;
-/*
-  if(m_flow==0)then
-    cx2:= cx1;
-    cTheta2:= cTheta1;
-  elseif(m_flow<0)then
-    cx2:= cx1 + Fax/(-1*m_flow);
-    cTheta2:= cTheta1 + Ftheta/(-1*m_flow);
-  elseif(0<m_flow)then
-    cx2:= cx1 + Fax/(m_flow);
-    cTheta2:= cTheta1 + Ftheta/(m_flow);
-  end if;
-  */
-//********** velocities **********
+
+  //********** velocities **********
   wTheta2 := Utip_1 - cTheta2;
   w2 := sqrt(cx2 ^ 2.0 + wTheta2 ^ 2.0);
   beta2 := atan(wTheta2 / cx2);
@@ -248,23 +239,14 @@ algorithm
   phi2 := Modelica.Constants.pi / 2.0 - beta2;
   epsiron2 := beta1 - beta2;
   
-  //********** component characteristics, etc **********
-  //trqSingle := FthetaSingle * rTip_1;
-  //trq := trqSingle * numBlade;
+  //********** energy and momentum **********
   trq:= m_flow*(rTip_2*cTheta2 - rTip_1*cTheta1); // euler equation
   trqSingle := trq/numBlade;
-  
   
   pwrSingle := trqSingle * omega;
   pwr := pwrSingle * numBlade;
   
   //dpLoss:= Fdrag/(AmechAx_1*cos(beta1));
-    
-  pwrPropulsive := Fax * c1;
-  Nmech := Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
-  FliftqFdrag := Flift / Fdrag;
-  FaxqFtheta := Fax / Ftheta;
-  effPropeller := pwrPropulsive / pwr;
   
   //h_1 := fluid_amb.h + 1.0 / 2.0 * c1 ^ 2.0;
   h_1 := h_1stat + 1.0 / 2.0 * c1 ^ 2.0;
@@ -278,6 +260,15 @@ algorithm
   //h_2 := fluid_amb.h + 1.0 / 2.0 * c2 ^ 2;
   
   dht := h_2 - h_1;
+  
+  
+  //********** component characteristics, etc **********
+  pwrPropulsive := Fax * c1;
+  Nmech := Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
+  FliftqFdrag := Flift / Fdrag;
+  FaxqFtheta := Fax / Ftheta;
+  effPropeller := pwrPropulsive / pwr;
+  
   
   if Utip_1 <> 0.0 then
     aeroLoading := dht / Utip_1 ^ 2.0;
