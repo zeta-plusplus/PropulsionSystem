@@ -1,0 +1,78 @@
+<html>
+<head>
+	<style type="text/css">
+		h3
+		{
+			line-height: 1em;
+			margin: 0.5em 0px;
+		}
+		
+		h4
+		{
+			line-height: 1em;
+			margin: 0.5em 0px;
+		}
+		
+		p
+		{
+			padding-left: 1em;
+			text-indent: 2em;
+			line-height: 1em;
+			margin: 0em 0px;
+		}
+		
+		p1
+		{
+			padding-left: 2em;
+			text-indent: 4em;
+			line-height: 1em;
+			margin: 0em 0px;
+		}
+		
+	</style>
+</head>
+
+<body>
+	<h3>PropulsionSystem</h3>
+		<p>
+		Library for modeling of aircraft propulsion and power systems. Main contents are elements composing gas turbine, ex. compressor, turbine, combustors.
+		</p>
+		<p>
+		Interfaces and Media in components in this lib are compatible with those of　Modlica Standard Library unless otherwise specified.
+		</p>
+		<p>
+		Please refer to "Examples" package first so as to learn how to use this library. There are lots of demo and test models.
+		</p>
+		<p>&emsp;</p>
+
+	<h4>Contents</h4>
+	<h4>&emsp;|__ EngineSimEnvironments</h4>
+		<p>
+		components which stores system-wide global parameters, ex, p of Earth's standard atmohere at sea level. All components call this as "outer", so it must be instantiated in any model.
+		</p>
+
+	<h4>&emsp;|__ Elements</h4>
+		<p>
+		contains elementary components of propulsion/power system, ex, compressors, turbines, and so on. Modelers mainly use contents here. It is divided into sub packages based on level of detail.
+		</p>
+	
+	<h4>&emsp;|__ Subelements</h4>
+		<p>
+		contains "sub" or internal parts of elements. For example, the compontent which calculates pressure ratio and adiabatic efficiency of compressor based on table data. The system modelers may NOT use components in this package unless developing new component having new calculation method.
+		</p>
+	
+	<h4>&emsp;|__ Sources</h4>
+		<p>
+		Do NOT use them. Components here are created and used in early development of this library.
+		</p>
+	
+	<h4>&emsp;|__ Interfaces</h4>
+		<p>
+		interface objects and frames, sets of interfaces for base of elements. The system modelers may NOT user components in this package unless developing new component.
+		</p>
+	
+	
+
+
+</body>
+</html>
