@@ -1,12 +1,18 @@
-# Modelica library for simulation of propulsion & power systems
+# Modelica library for propulsion & power systems
 
 ## License
 All library source cords and example models are licensed with GPL v3.
 
-## 
+## Purpose & Usage
+This is the library of thermo-fluid and thermodynamic calculation components mainly for modeling of aircraft's propulsion system. 
+Those components can be used not only in aircraft propulsion but also in other thermo-fluid/thermodynamic system such as turbocharger of automotive engine, air conditioning system, and so on.
 
-#----------
-# 自作Modelicaライブラリ
+## Documentation
+link to top-page of documentation (html)
+https://zeta-plusplus.github.io/PropulsionSystem/
+
+
+# 自作Modelicaライブラリ 推進・パワーシステム
 
 ## ライセンス
 すべてのライブラリソースコードおよびExampleモデルはGPL v3ライセンスを付与しています。
