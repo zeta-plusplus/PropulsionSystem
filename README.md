@@ -1,3 +1,11 @@
+# Modelica library for simulation of propulsion & power systems
+
+## License
+All library source cords and example models are licensed with GPL v3.
+
+## 
+
+#----------
 # 自作Modelicaライブラリ
 
 ## ライセンス
