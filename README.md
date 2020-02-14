@@ -8,9 +8,9 @@ This is the library of thermo-fluid and thermodynamic calculation components mai
 Those components can be used not only in aircraft propulsion but also in other thermo-fluid/thermodynamic system such as turbocharger of automotive engine, air conditioning system, and so on.
 
 ## Documentation
-link to top-page of documentation (html)
+link to top-page of documentation (html):
 https://zeta-plusplus.github.io/PropulsionSystem/
-
+Notice:
 
 # 自作Modelicaライブラリ 推進・パワーシステム
 
