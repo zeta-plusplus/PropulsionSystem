@@ -1,0 +1,7 @@
+within PropulsionSystem.Examples.ThermoCycleSystems;
+
+model AirCycleAirConditioner001_v01
+  extends Modelica.Icons.Example;
+equation
+
+end AirCycleAirConditioner001_v01;
