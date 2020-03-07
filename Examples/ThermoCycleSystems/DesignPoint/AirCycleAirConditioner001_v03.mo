@@ -110,7 +110,7 @@ equation
   connect(const.y, HX.u_eff) annotation(
     Line(points = {{-19, 47}, {0, 47}}, color = {0, 0, 127}));
   annotation(
-    Diagram(coordinateSystem(extent = {{-140, -100}, {140, 100}}), graphics = {Text(origin = {-20, 65}, extent = {{-14, 3}, {16, -5}}, textString = "outside air"), Text(origin = {38, -69}, extent = {{-14, 3}, {16, -5}}, textString = "room air"), Text(origin = {-18, -27}, extent = {{-14, 3}, {16, -5}}, textString = "exhaust to outside")}),
+    Diagram(coordinateSystem(extent = {{-140, -100}, {140, 100}}, initialScale = 0.1), graphics = {Text(origin = {-20, 65}, extent = {{-14, 3}, {16, -5}}, textString = "outside air"), Text(origin = {38, -69}, extent = {{-14, 3}, {16, -5}}, textString = "room air"), Text(origin = {-18, -27}, extent = {{-14, 3}, {16, -5}}, textString = "exhaust to outside"), Text(origin = {-84, 9}, extent = {{-14, 3}, {16, -3}}, textString = "cycle air")}),
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 10, Tolerance = 1e-06, Interval = 0.02),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
