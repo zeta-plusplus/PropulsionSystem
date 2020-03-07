@@ -1,6 +1,6 @@
 within PropulsionSystem.Examples.ThermoCycleSystems.DesignPoint;
 
-model AirCycleAirConditioner001_v02
+model AirCycleAirConditioner001_v03
   extends Modelica.Icons.Example;
   //-----
   package CycleFluid = Modelica.Media.Air.DryAirNasa;
@@ -14,7 +14,7 @@ model AirCycleAirConditioner001_v02
     Placement(visible = true, transformation(origin = {-70, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(origin = {-50, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.Compressor compressor1(redeclare package Medium = CycleFluid, PRdes = 2, dmDes_1 = 10, switchInput_PR = PropulsionSystem.Types.switches.switch_parameter_input.use_desValue, switchInput_Wc_1 = PropulsionSystem.Types.switches.switch_parameter_input.use_desValue) annotation(
+  PropulsionSystem.Elements.BasicElements.Compressor compressor1(redeclare package Medium = CycleFluid, PRdes = 2, dmDes_1 = 10, switchInput_PR = PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal, switchInput_Wc_1 = PropulsionSystem.Types.switches.switch_parameter_input.use_desValue) annotation(
     Placement(visible = true, transformation(origin = {-50, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.Turbine turbine1(redeclare package Medium = CycleFluid, effDes = 0.95) annotation(
     Placement(visible = true, transformation(origin = {70, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -40,8 +40,6 @@ model AirCycleAirConditioner001_v02
     Placement(visible = true, transformation(origin = {130, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.constrain_Nmech constrain_Nmech1(switchConstraint = PropulsionSystem.Elements.BasicElements.constrain_Nmech.switch_executeConstraint.Execute, switchInput_Nmech = PropulsionSystem.Types.switches.switch_parameter_input.use_desValue) annotation(
     Placement(visible = true, transformation(origin = {30, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Utilities.SetIndependent setIndependent1 annotation(
-    Placement(visible = true, transformation(origin = {135, -5}, extent = {{5, -5}, {-5, 5}}, rotation = 0)));
   Modelica.Fluid.Sensors.SpecificEnthalpy specificEnthalpy(redeclare package Medium = CycleFluid) annotation(
     Placement(visible = true, transformation(origin = {84, -12}, extent = {{-6, 6}, {6, -6}}, rotation = -90)));
   Modelica.Fluid.Sensors.Pressure pressure1(redeclare package Medium = CycleFluid) annotation(
@@ -58,7 +56,15 @@ model AirCycleAirConditioner001_v02
     Placement(visible = true, transformation(origin = {-120, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_m_flow_cycle(duration = 10, height = 0, offset = 10, startTime = 20)  annotation(
     Placement(visible = true, transformation(origin = {-130, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_pwr(duration = 10, height = 0, offset = -300 * 1000, startTime = 20) annotation(
+    Placement(visible = true, transformation(origin = {135, -5}, extent = {{5, -5}, {-5, 5}}, rotation = 0)));
+  PropulsionSystem.Utilities.SetIndependent setIndependent1 annotation(
+    Placement(visible = true, transformation(origin = {-35, -5}, extent = {{5, -5}, {-5, 5}}, rotation = 0)));
 equation
+  connect(compressor1.PR_in, setIndependent1.independent_out) annotation(
+    Line(points = {{-50, 4}, {-50, -5}, {-41, -5}}, color = {0, 0, 127}));
+  connect(extractPwr1.u_pwrExtr, ramp_pwr.y) annotation(
+    Line(points = {{124, 4}, {124, -6}, {129.5, -6}, {129.5, -5}}, color = {0, 0, 127}));
   connect(boundary5.ports[1], HX1.port_1_med2) annotation(
     Line(points = {{-34, -36}, {20, -36}, {20, -42}, {30, -42}}, color = {0, 127, 255}));
   connect(HX1.port_2_med1, volume.ports[1]) annotation(
@@ -87,8 +93,6 @@ equation
     Line(points = {{90, -12}, {90, -16}}, color = {0, 127, 255}));
   connect(turbine1.port_2, specificEnthalpy.port) annotation(
     Line(points = {{80, 18}, {90, 18}, {90, -12}}, color = {0, 127, 255}));
-  connect(setIndependent1.independent_out, extractPwr1.u_pwrExtr) annotation(
-    Line(points = {{129.5, -5}, {123.5, -5}, {123.5, 3}, {123.5, 3}}, color = {0, 0, 127}));
   connect(constrain_Nmech1.flange_b, turbine1.flange_1) annotation(
     Line(points = {{40, 10}, {60, 10}, {60, 10}, {60, 10}}));
   connect(inertia1.flange_b, constrain_Nmech1.flange_a) annotation(
@@ -110,4 +114,4 @@ equation
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 10, Tolerance = 1e-06, Interval = 0.02),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
-end AirCycleAirConditioner001_v02;
+end AirCycleAirConditioner001_v03;
