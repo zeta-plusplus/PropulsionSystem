@@ -1,5 +1,5 @@
 within PropulsionSystem.Examples;
 
 package Engines
-  extends Modelica.Icons.Package;
+  extends Modelica.Icons.ExamplesPackage;
 end Engines;

@@ -1,5 +1,5 @@
 within PropulsionSystem.Examples;
 
 package temp
-  extends Modelica.Icons.Package;
+  extends Modelica.Icons.ExamplesPackage;
 end temp;
