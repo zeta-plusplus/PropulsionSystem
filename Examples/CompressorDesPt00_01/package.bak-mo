@@ -1,0 +1,12 @@
+within PropulsionSystem.Examples;
+
+package CompressorDesPt00_01
+  extends Modelica.Icons.ExamplesPackage;
+  //-----
+  package engineAir = Modelica.Media.Air.DryAirNasa;
+  //redeclare package Medium = engineAir
+  //-----
+  
+  
+  
+end CompressorDesPt00_01;
