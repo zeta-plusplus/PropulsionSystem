@@ -1,6 +1,6 @@
-within PropulsionSystem.Examples.Tests;
+within PropulsionSystem.Examples.Elements.BasicElements;
 
-model CompressorDesPt00_01
+model CompressorDesPt00_ex01
   extends Modelica.Icons.Example;
   //-----
   package engineAir = Modelica.Media.Air.DryAirNasa;
@@ -12,15 +12,15 @@ model CompressorDesPt00_01
     Placement(visible = true, transformation(origin = {-30, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CompressorDesPt00 Cmp(redeclare package Medium = engineAir, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.param, switchDetermine_eff = PropulsionSystem.Types.switches.switchHowToDetVar.param) annotation(
     Placement(visible = true, transformation(origin = {-10, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = engineAir, T = 288.15, nPorts = 1, p = 101.325 * 1000)  annotation(
+  Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = engineAir, T = 288.15, nPorts = 1, p = 101.325 * 1000) annotation(
     Placement(visible = true, transformation(origin = {-50, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed1(w_fixed = 3000 * 2 * Modelica.Constants.pi / 60)  annotation(
+  Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed1(w_fixed = 3000 * 2 * Modelica.Constants.pi / 60) annotation(
     Placement(visible = true, transformation(origin = {30, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Fluid.Sources.MassFlowSource_T boundary1(redeclare package Medium = engineAir, T = 288.15, m_flow = -10, nPorts = 1)  annotation(
+  Modelica.Fluid.Sources.MassFlowSource_T boundary1(redeclare package Medium = engineAir, T = 288.15, m_flow = -10, nPorts = 1) annotation(
     Placement(visible = true, transformation(origin = {30, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  Modelica.Blocks.Sources.Ramp ramp_PR(duration = 10, height = 5, offset = 10, startTime = 10)  annotation(
+  Modelica.Blocks.Sources.Ramp ramp_PR(duration = 10, height = 5, offset = 10, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-30, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_eff(duration = 5, height = 0.1, offset = 0.8, startTime = 10)  annotation(
+  Modelica.Blocks.Sources.Ramp ramp_eff(duration = 5, height = 0.1, offset = 0.8, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-30, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(ramp_eff.y, Cmp.u_eff) annotation(
@@ -33,18 +33,11 @@ equation
     Line(points = {{0, 38}, {8, 38}, {8, 60}, {20, 60}}, color = {0, 127, 255}));
   connect(Cmp.flange_2, constantSpeed1.flange) annotation(
     Line(points = {{0, 30}, {10, 30}, {10, 20}, {20, 20}, {20, 20}}));
-annotation(
-    experiment(StartTime = 0, StopTime = 40, Tolerance = 1e-6, Interval = 0.08),
+  annotation(
+    experiment(StartTime = 0, StopTime = 40, Tolerance = 1e-06, Interval = 0.08),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
-  Documentation(info = "<html>
-  <a href=modelica://PropulsionSystem/docs/Elements/BasicElements/CompressorDesPt00.html> Document html page</a>
-  
-  <h4>example/demo models</h4>
-    <ul>
-    <li><a href=\"modelica://PropulsionSystem.Examples.Elements.BasicElements.CompressorDesPt00_v01\"> PropulsionSystem.Examples.Elements.BasicElements.CompressorDesPt00_v01 </a> </li>
-    </ul>
-    
-  <h4>classes which this component call (those in MSL are not listed) </h4>
-    <p> -> none </p>
+    Documentation(info = "<html>
+  <a href=modelica://> Document html page</a>
 
-</html>"));end CompressorDesPt00_01;
+</html>"));
+end CompressorDesPt00_ex01;

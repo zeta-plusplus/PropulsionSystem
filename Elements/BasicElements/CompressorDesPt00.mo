@@ -98,6 +98,18 @@ equation
 ********************************************************/
 
   annotation(
-  defaultComponentName="Cmp");
+  defaultComponentName = "Cmp",
+    Documentation(info = "<html>
+  <a href=modelica://PropulsionSystem/docs/Elements/BasicElements/CompressorDesPt00.html> Document html page</a>
+  
+  <h4>example/demo models</h4>
+    <ul>
+    <li><a href=\"modelica://PropulsionSystem.Examples.Elements.BasicElements.CompressorDesPt00_ex01\"> PropulsionSystem.Examples.BasicElements.CompressorDesPt00_ex01 </a> </li>
+    </ul>
+    
+  <h4>classes which this component call (those in MSL are not listed) </h4>
+    <p> -> none </p>
+
+</html>"));
   
 end CompressorDesPt00;
