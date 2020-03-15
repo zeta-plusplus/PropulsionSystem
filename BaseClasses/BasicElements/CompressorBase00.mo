@@ -67,6 +67,9 @@ partial model CompressorBase00
   Modelica.SIunits.SpecificEnthalpy dht "specific enthalpy change in non-isentropic compression";
   Modelica.SIunits.SpecificEnthalpy h_2is "";
   
+  Modelica.SIunits.MassFlowRate m_flow_max;
+  Modelica.SIunits.MassFlowRate m_flow_min;
+  
   //********** Design point variables **********
   Modelica.SIunits.MassFlowRate m_flow_des_1;
   Modelica.SIunits.Pressure pDes_1;
@@ -77,12 +80,8 @@ partial model CompressorBase00
   Real PRdes;
   Real effDes;
   
-  Modelica.SIunits.MassFlowRate m_flow_max;
-  Modelica.SIunits.MassFlowRate m_flow_min;
-  
-  
   //********** variables relative to design point **********
-  inner Real NcqNcDes_1 "";
+  inner Real NcqNcDes_1 "ratio of corrected rotational speed with respect to design pt. speed";
   Real NqNdes "ratio of mech. rotational speed with respect to design pt. speed";
   
   

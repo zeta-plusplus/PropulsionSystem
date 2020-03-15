@@ -1,100 +1,102 @@
 within PropulsionSystem.BaseClasses.BasicElements;
 
 partial model TurbineBase00
-  extends PropulsionSystem.Interfaces.ElementFrames.ElementFrame_2FluidPorts_2ShaftPorts;
   /********************************************************
         imports
-      ********************************************************/
+  ********************************************************/
   import Modelica.Constants;
   import Modelica.Utilities.Streams;
   import PropulsionSystem.Types.switches;
+  
   /********************************************************
                Declaration
-    ********************************************************/
-  //********** Package **********
-  //##### none #####
-  //********** Type definitions, only valid in this class **********
-  type switch_Turbine_Subelement = enumeration(NoSubelement "", curve_dhqT "", curve_PR "") annotation(
-    Documentation(info = "<html>
-    </html>"));
-  //********** Parameters **********
-  parameter Modelica.SIunits.MassFlowRate WcDes_1_def = 10.0 "" annotation(
-    Dialog(group = "Characteristics"));
-  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NcDes_1_def = 3000.0 "" annotation(
-    Dialog(group = "Characteristics"));
-  //----- inner-connected parameters -----
-  inner parameter Real effDes = 0.80 "" annotation(
-    Dialog(group = "Characteristics"));
-  inner parameter Real PRdes = 3.0 "" annotation(
-    Dialog(group = "Characteristics"));
-  //----- switches -----
-  parameter switches.switch_defineDesValue switchDef_WcDes_1 = switches.switch_defineDesValue.calcByDesStates "" annotation(
-    Dialog(group = "switch"),
-    choicesAllMatching = true,
-    Evaluate = true,
-    HideResult = true);
-  parameter switches.switch_defineDesValue switchDef_NcDes_1 = switches.switch_defineDesValue.calcByDesStates "" annotation(
-    Dialog(group = "switch"),
-    choicesAllMatching = true,
-    Evaluate = true,
-    HideResult = true);
-  //********** Internal variables **********
-  Modelica.SIunits.MassFlowRate Wc_1(start = WcDes_1_def) "corrected mass flow rate";
-  Real PR(start = 4.0) "pressure ratio";
-  Real eff(start = 0.8) "adiabatic efficiency";
+  ********************************************************/
+  /* ---------------------------------------------
+      Package
+  --------------------------------------------- */
+  replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation(
+    choicesAllMatching = true);
+  
+  
+  /* ---------------------------------------------
+      parameters
+  --------------------------------------------- */
+  //********** Initialization Parameters **********
+  //--- fluid_1, port_1 ---
+  parameter Modelica.SIunits.MassFlowRate m_flow1_init(displayUnit = "kg/s") = 1.0 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_1"));
+  parameter Modelica.SIunits.Pressure p1_init(displayUnit = "Pa") = 101.3 * 1000 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_1"));
+  parameter Modelica.SIunits.Temperature T1_init(displayUnit = "K") = 288.15 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_1"));
+  parameter Modelica.SIunits.SpecificEnthalpy h1_init(displayUnit = "J/kg") = 1.004 * 1000 * 288.15 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_1"));
+  //--- fluid_2, port_2 ---
+  parameter Modelica.SIunits.MassFlowRate m_flow2_init(displayUnit = "kg/s") = -1.0 * m_flow1_init "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_2"));
+  parameter Modelica.SIunits.Pressure p2_init(displayUnit = "Pa") = 101.3 * 1000 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_2"));
+  parameter Modelica.SIunits.Temperature T2_init(displayUnit = "K") = 288.15 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_2"));
+  parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = 1.004 * 1000 * 288.15 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_2"));
+  
+  
+  /* ---------------------------------------------
+      Internal variables
+  --------------------------------------------- */
+  inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
+  
+  Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
+  Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of outlet";
+  
+  Modelica.SIunits.Power pwr "power via shaft, positive if fluid generates power";
+  Modelica.SIunits.Torque trq "trq via shaft";
+  Modelica.SIunits.Power pwr_inv "power via shaft";
+  Modelica.SIunits.Torque trq_inv "trq via shaft";
+  
+  Modelica.SIunits.AngularVelocity omega "mechanical rotation speed, rad/sec";
+  Modelica.SIunits.Angle phi "mechanical rotation displacement, rad";
+  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech "mechanical rotation speed, rpm";
+  
+  Modelica.SIunits.MassFlowRate Wc_1 "corrected mass flow rate";
+  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1(start = NcDes_1_def) "corrected rotation speed, rpm";
+  Real PR "pressure ratio";
+  Real eff "adiabatic efficiency";
   Modelica.SIunits.SpecificEnthalpy dht_is "specific enthalpy change in isentropic compression";
   Modelica.SIunits.SpecificEnthalpy dht "specific enthalpy change in non-isentropic compression";
   Modelica.SIunits.SpecificEnthalpy h_2is "";
-  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1(start = NcDes_1_def) "corrected rotation speed, rpm";
-  //----- inner-connected variables -----
-  inner Real NcqNcDes_1(start = 1.0) "";
-  inner Modelica.SIunits.MassFlowRate WcDes_1(start = WcDes_1_def) "corrected mass flow rate";
-  inner Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NcDes_1(start = NcDes_1_def);
-  //----- outer-connected variables -----
-  //##### none #####
-  //----- inner-outer-connected variables -----
-  inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
-  //********** Internal model **********
-  //##### none #####
-equation
-//********** Geometries **********
-//##### none #####
-//********** Connections, interface <-> internal variables **********
-//--- NcDes_1---
-  if switchDef_NcDes_1 == switches.switch_defineDesValue.directInput then
-    NcDes_1 = NcDes_1_def;
-  elseif switchDef_NcDes_1 == switches.switch_defineDesValue.calcByDesStates then
-    NcDes_1 = NmechDes / sqrt(Tdes_1 / environment.Tstd);
-  end if;
-//--- Wc_1 ---
-  if switchDef_WcDes_1 == switches.switch_defineDesValue.directInput then
-    WcDes_1 = WcDes_1_def;
-  elseif switchDef_WcDes_1 == switches.switch_defineDesValue.calcByDesStates then
-    WcDes_1 = dmDes_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd);
-  end if;
-//********** Eqns describing physics **********
-  Wc_1 = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
-  Nc_1 = Nmech / sqrt(fluid_1.T / environment.Tstd);
-  NcqNcDes_1 = Nc_1 / NcDes_1;
-//-- pressure --
-  PR = fluid_1.p / fluid_2.p;
-/*
-  //-- enthalpy & entropy --
-  h_Ois = Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
-  */
-//h_2is= Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
-  dht_is = fluid_1.h - h_2is;
-  eff = dht / dht_is;
-  dht = fluid_1.h - fluid_2.h;
-//-- mass conservation --
-  port_1.m_flow + port_2.m_flow = 0;
-  fluid_2.Xi = fluid_1.Xi;
-//-- energy conservation --
-  trq = flange_1.tau + flange_2.tau;
-  pwr = -1.0 * (port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2.h);
-  der(phi) = omega;
-  omega * trq = pwr;
-  Nmech = Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
+  
+  //********** Design point variables **********
+  Modelica.SIunits.MassFlowRate m_flow_des_1;
+  Modelica.SIunits.Pressure pDes_1;
+  Modelica.SIunits.Temperature Tdes_1;
+  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes "mechanical rotation speed, rpm";
+  inner Modelica.SIunits.MassFlowRate WcDes_1 "corrected mass flow rate";
+  inner Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NcDes_1;
+  Real PRdes;
+  Real effDes;
+  
+  //********** variables relative to design point **********
+  inner Real NcqNcDes_1 "ratio of corrected rotational speed with respect to design pt. speed";
+  Real NqNdes "ratio of mech. rotational speed with respect to design pt. speed";
+  
+  
+  /* ---------------------------------------------
+      Interface
+  --------------------------------------------- */
+  Modelica.Fluid.Interfaces.FluidPort_a port_1(redeclare package Medium = Medium, m_flow(start = m_flow1_init), h_outflow.start = h1_init) "" annotation(
+    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Fluid.Interfaces.FluidPort_b port_2(redeclare package Medium = Medium, m_flow(start = m_flow2_init), h_outflow.start = h2_init) "" annotation(
+    Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1 "" annotation(
+    Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-98, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_2 "" annotation(
+    Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Types.ElementBus elementBus1 annotation(
+    Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  
 algorithm
   assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
 //--- isentropic expansion ---
@@ -105,6 +107,65 @@ algorithm
   else
     h_2is := Medium.isentropicEnthalpy(-1.0 * fluid_2.p, fluid_1.state);
   end if;
+
+equation
+  /* ---------------------------------------------
+  Connections, interface <-> internal variables
+  --------------------------------------------- */
+  //-- fluidPort_1 --
+  fluid_1.p = port_1.p;
+  fluid_1.h = actualStream(port_1.h_outflow);
+  fluid_1.Xi = actualStream(port_1.Xi_outflow);
+  
+  //-- fluidPort_2 --
+  fluid_2.p = port_2.p;
+  fluid_2.h = actualStream(port_2.h_outflow);
+  fluid_2.Xi = actualStream(port_2.Xi_outflow);
+  
+  // distinguish inlet side
+  m_flow_max= max(port_1.m_flow, port_2.m_flow);
+  m_flow_min= min(port_1.m_flow, port_2.m_flow);
+  
+  if(m_flow_max == port_1.m_flow)then
+    port_1.h_outflow= fluid_1.h;
+  elseif(m_flow_max == port_2.m_flow)then
+    port_2.h_outflow= fluid_2.h;
+  else
+    port_1.h_outflow= fluid_1.h;
+  end if;
+  
+  //-- shaft --
+  flange_1.phi = phi;
+  flange_2.phi = phi;
+  
+  
+  /* ---------------------------------------------
+  Eqns describing physics
+  --------------------------------------------- */
+  Wc_1 = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
+  Nc_1 = Nmech / sqrt(fluid_1.T / environment.Tstd);
+  
+  PR = fluid_1.p / fluid_2.p;
+  
+  //h_2is= Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
+  dht_is = fluid_1.h - h_2is;
+  eff = dht / dht_is;
+  dht = fluid_1.h - fluid_2.h;
+  
+  port_1.m_flow + port_2.m_flow = 0.0;
+  fluid_2.Xi = fluid_1.Xi;
+  
+  trq = flange_1.tau + flange_2.tau;
+  pwr = -1.0 * (port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2.h);
+  der(phi) = omega;
+  omega * trq = pwr;
+  Nmech = Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
+  
+  pwr_inv= -1*pwr;
+  trq_inv= -1*trq;
+  
+  
+  
 /********************************************************
   Graphics
 ********************************************************/

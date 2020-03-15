@@ -1,15 +1,15 @@
 within PropulsionSystem.Elements.BasicElements;
 
-model TurbineDesPt00
-  extends PropulsionSystem.BaseClasses.BasicElements.Turbine_Base;
+model TrbCharFixed00
+  extends PropulsionSystem.BaseClasses.BasicElements.TurbineBase00;
   /********************************************************
-      imports
-    ********************************************************/
+        imports
+      ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
   /********************************************************
-             Declaration
-    ********************************************************/
+               Declaration
+      ********************************************************/
   //********** Package **********
   //##### none #####
   //********** Type definitions, only valid in this class **********
@@ -83,4 +83,4 @@ equation
   end if;
 //********** Eqns describing physics **********
 //##### none #####
-end TurbineDesPt00;
+end TrbCharFixed00;

@@ -1,3 +1,5 @@
+CmpCharFixed00
+TrbCharFixed00
 Compressor
 Compressor_Map_WcPReff
 Compressor_ellipticalCurve
@@ -20,5 +22,3 @@ constrain_T
 constrain_dm
 extractPwr
 PropellerActDisk
-CompressorDesPt00
-TurbineDesPt00
