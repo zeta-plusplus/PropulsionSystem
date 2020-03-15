@@ -178,6 +178,22 @@ equation
   
   annotation(
     defaultComponentName="Cmp",
-    Icon(graphics = {Polygon(origin = {2, 36}, fillColor = {0, 85, 255}, fillPattern = FillPattern.Solid, points = {{-62, -38}, {-62, -116}, {58, -56}, {58, -16}, {-62, 44}, {-62, -38}}), Rectangle(origin = {-89, 6}, fillPattern = FillPattern.Solid, extent = {{-11, 4}, {29, -16}}), Rectangle(origin = {83, 2}, fillPattern = FillPattern.Solid, extent = {{-23, 8}, {17, -12}}), Rectangle(origin = {63, 86}, rotation = 180, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 66}, {7, 4}}), Rectangle(origin = {-94, 77}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{1, 6}, {5, -36}}), Rectangle(origin = {82, 75}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 26}, {7, -18}}), Text(origin = {-54, 99}, fillPattern = FillPattern.Solid, extent = {{-26, 1}, {134, -19}}, textString = "%name"), Text(origin = {-52, 11}, fillPattern = FillPattern.Solid, extent = {{-8, 9}, {112, -31}}, textString = "Cmp")}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Polygon(origin = {2, 36}, fillColor = {0, 85, 255}, fillPattern = FillPattern.Solid, points = {{-62, -38}, {-62, -116}, {58, -56}, {58, -16}, {-62, 44}, {-62, -38}}), Rectangle(origin = {-89, 6}, fillPattern = FillPattern.Solid, extent = {{-11, 4}, {29, -16}}), Rectangle(origin = {83, 2}, fillPattern = FillPattern.Solid, extent = {{-23, 8}, {17, -12}}), Rectangle(origin = {63, 86}, rotation = 180, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 66}, {7, 4}}), Rectangle(origin = {-94, 77}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{1, 6}, {5, -36}}), Rectangle(origin = {82, 75}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 26}, {7, -18}}), Text(origin = {-54, 99}, fillPattern = FillPattern.Solid, extent = {{-26, 1}, {134, -19}}, textString = "%name"), Text(origin = {-52, 11}, fillPattern = FillPattern.Solid, extent = {{-8, 9}, {112, -31}}, textString = "Cmp")}, coordinateSystem(initialScale = 0.1)),
+  Documentation(info = "<html>
+  <a href=modelica://PropulsionSystem/docs/BaseClasses/BasicElements/CompressorBase00.html> Document html page</a>
+  
+  <h4>example/demo models</h4>
+    <p> -> none, because this class partial </p>
+    
+  <h4>classes which this component call (those in MSL are not listed) </h4>
+    <p> -> none </p>
+    
+  <h4>classes which extends this component </h4>
+    <ul>
+    <li> <a href=modelica://PropulsionSystem.Elements.BasicElements.CompressorDesPt00> PropulsionSystem.Elements.BasicElements.CompressorDesPt00 </a> </li>
+    </ul>
+  
+
+</html>"));
   
 end CompressorBase00;

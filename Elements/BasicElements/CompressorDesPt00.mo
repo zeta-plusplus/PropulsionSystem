@@ -109,6 +109,11 @@ equation
     
   <h4>classes which this component call (those in MSL are not listed) </h4>
     <p> -> none </p>
+    
+  <h4>classes from which this component extend </h4>
+    <ul>
+    <li><a href=\"modelica://PropulsionSystem.BaseClasses.BasicElements.CompressorBase00\"> PropulsionSystem.BaseClasses.BasicElements.CompressorBase00 </a> </li>
+    </ul>
 
 </html>"));
   
