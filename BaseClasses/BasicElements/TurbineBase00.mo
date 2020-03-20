@@ -60,7 +60,7 @@ partial model TurbineBase00
   Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech "mechanical rotation speed, rpm";
   
   Modelica.SIunits.MassFlowRate Wc_1 "corrected mass flow rate";
-  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1(start = NcDes_1_def) "corrected rotation speed, rpm";
+  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1 "corrected rotation speed, rpm";
   Real PR "pressure ratio";
   Real eff "adiabatic efficiency";
   Modelica.SIunits.SpecificEnthalpy dht_is "specific enthalpy change in isentropic compression";
@@ -76,6 +76,10 @@ partial model TurbineBase00
   inner Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NcDes_1;
   Real PRdes;
   Real effDes;
+  
+  Modelica.SIunits.MassFlowRate m_flow_max;
+  Modelica.SIunits.MassFlowRate m_flow_min;
+  
   
   //********** variables relative to design point **********
   inner Real NcqNcDes_1 "ratio of corrected rotational speed with respect to design pt. speed";
@@ -99,14 +103,6 @@ partial model TurbineBase00
   
 algorithm
   assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
-//--- isentropic expansion ---
-  if 0.0 < fluid_2.p and 0.0 < fluid_1.state.p then
-    h_2is := Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
-  elseif fluid_2.p < 0.0 and fluid_1.state.p < 0.0 then
-    h_2is := Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
-  else
-    h_2is := Medium.isentropicEnthalpy(-1.0 * fluid_2.p, fluid_1.state);
-  end if;
 
 equation
   /* ---------------------------------------------
@@ -147,7 +143,7 @@ equation
   
   PR = fluid_1.p / fluid_2.p;
   
-  //h_2is= Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
+  h_2is= Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
   dht_is = fluid_1.h - h_2is;
   eff = dht / dht_is;
   dht = fluid_1.h - fluid_2.h;
@@ -164,6 +160,13 @@ equation
   pwr_inv= -1*pwr;
   trq_inv= -1*trq;
   
+  //-- Design point variables --
+  NcDes_1 = NmechDes / sqrt(Tdes_1 / environment.Tstd);
+  WcDes_1 = m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd);
+  
+  //-- variables relative to design point --
+  NqNdes = Nmech / NmechDes;
+  NcqNcDes_1 = Nc_1 / NcDes_1;
   
   
 /********************************************************

@@ -101,8 +101,7 @@ partial model CompressorBase00
   
   
 algorithm
-  assert(PR < 0.0, "PR of compressor element got less than 0", AssertionLevel.warning);
-  
+  assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
   
 equation
   /* ---------------------------------------------

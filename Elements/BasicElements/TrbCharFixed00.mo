@@ -2,85 +2,94 @@ within PropulsionSystem.Elements.BasicElements;
 
 model TrbCharFixed00
   extends PropulsionSystem.BaseClasses.BasicElements.TurbineBase00;
+  
   /********************************************************
         imports
-      ********************************************************/
+  ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
+  
+  
   /********************************************************
-               Declaration
-      ********************************************************/
-  //********** Package **********
-  //##### none #####
-  //********** Type definitions, only valid in this class **********
-  //##### none #####
-  //********** Parameters **********
-  //##### none #####
-  //----- inner-connected parameters -----
-  //##### none #####
-  //----- switches -----
-  parameter PropulsionSystem.Types.switches.switch_parameter_input switchInput_Wc_1 = PropulsionSystem.Types.switches.switch_parameter_input.asCalculated "" annotation(
+        Declaration
+    ********************************************************/
+  /* ---------------------------------------------
+        switches
+    --------------------------------------------- */
+  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.param "switch how to determine PR" annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = true);
-  parameter PropulsionSystem.Types.switches.switch_parameter_input switchInput_eff = PropulsionSystem.Types.switches.switch_parameter_input.use_desValue "" annotation(
+
+  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_eff = PropulsionSystem.Types.switches.switchHowToDetVar.param "switch how to determine eff" annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = true);
-  parameter PropulsionSystem.Types.switches.switch_parameter_input switchInput_PR = PropulsionSystem.Types.switches.switch_parameter_input.asCalculated "" annotation(
-    Dialog(group = "switch"),
-    choicesAllMatching = true,
-    Evaluate = true,
-    HideResult = true);
-  //********** Internal variables **********
-  Modelica.SIunits.MassFlowRate WcCalc_1(start = WcDes_1_def);
-  //----- inner-connected variables -----
-  //##### none #####
-  //----- outer-connected variables -----
-  //##### none #####
-  //----- inner-outer-connected variables -----
-  //##### none #####
-  //********** Internal model **********
-  //##### none #####
-  //********** Interfaces **********
-  Modelica.Blocks.Interfaces.RealInput Wc_1_in if switchInput_Wc_1 == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal "" annotation(
-    Placement(visible = true, transformation(origin = {-80, -112}, extent = {{-12, -12}, {12, 12}}, rotation = 90), iconTransformation(origin = {-8.88178e-16, -58}, extent = {{-8, -8}, {8, 8}}, rotation = 90)));
-  Modelica.Blocks.Interfaces.RealInput eff_in if switchInput_eff == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal "" annotation(
-    Placement(visible = true, transformation(origin = {-60, -112}, extent = {{-12, -12}, {12, 12}}, rotation = 90), iconTransformation(origin = {30, -73}, extent = {{-8, -8}, {8, 8}}, rotation = 90)));
-  //********** Initialization **********
-  //##### none #####
-  //********** Protected objects **********
-  //##### none #####
+  /* ---------------------------------------------
+        parameters
+    --------------------------------------------- */
+  inner parameter Real PRdes_paramInput = 5.0 "pressure ratio, value fixed through simulation" annotation(
+    Dialog(group = "Component characteristics"));
+
+  inner parameter Real effDes_paramInput = 0.80 "adiabatic efficiency, value fixed through simulation" annotation(
+    Dialog(group = "Component characteristics"));
+  /* ---------------------------------------------
+        Interface
+    --------------------------------------------- */
+  Modelica.Blocks.Interfaces.RealInput u_PR if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "PR input, valid only when switchDetermine_PR==viaRealInput" annotation(
+    Placement(visible = true, transformation(origin = {-60, -112}, extent = {{-12, -12}, {12, 12}}, rotation = 90), iconTransformation(origin = {-40, -36}, extent = {{-6, -6}, {6, 6}}, rotation = 90)));
+
+  Modelica.Blocks.Interfaces.RealInput u_eff if switchDetermine_eff == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "eff input, valid only when switchDetermine_eff==viaRealInput" annotation(
+    Placement(visible = true, transformation(origin = {-40, -112}, extent = {{-12, -12}, {12, 12}}, rotation = 90), iconTransformation(origin = {0, -56}, extent = {{-6, -6}, {6, 6}}, rotation = 90)));
+
+  
 algorithm
 //##### none #####
 equation
-//********** Geometries **********
-//##### none #####
-//********** Connections, interface <-> internal variables **********
-//--- Wc_1 ---
-  if switchInput_Wc_1 == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue then
-    WcCalc_1 = WcDes_1;
-    Wc_1 = WcCalc_1;
-  elseif switchInput_Wc_1 == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal then
-    WcCalc_1 = Wc_1_in;
-    Wc_1 = WcCalc_1;
-  elseif switchInput_Wc_1 == PropulsionSystem.Types.switches.switch_parameter_input.asCalculated then
-    Wc_1 = WcCalc_1;
+  m_flow_des_1 = port_1.m_flow;
+  pDes_1 = fluid_1.p;
+  Tdes_1 = fluid_1.T;
+  NmechDes = Nmech;
+  //--------------------
+  if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
+    PRdes = PRdes_paramInput;
+  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
+    PRdes = u_PR;
   end if;
-//--- eff ---
-  if switchInput_eff == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue then
-    eff = effDes;
-  elseif switchInput_eff == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal then
-    eff = eff_in;
+  
+  //--------------------
+  if switchDetermine_eff == PropulsionSystem.Types.switches.switchHowToDetVar.param then
+    effDes = effDes_paramInput;
+  elseif switchDetermine_eff == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
+    effDes = u_eff;
   end if;
-//--- PR ---
-  if switchInput_PR == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue then
-    PR = PRdes;
-  elseif switchInput_PR == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal then
-    PR = PR_in;
-  end if;
-//********** Eqns describing physics **********
-//##### none #####
+  //--------------------
+  PR = PRdes;
+  eff = effDes;
+  
+/********************************************************
+  Graphics
+********************************************************/
+  annotation(
+    defaultComponentName = "Trb",
+    Documentation(info = "<html>
+  <a href=modelica://PropulsionSystem/docs/Elements/BasicElements/TrbCharFixed00.html> Document html page</a>
+  
+  <h4>example/demo models</h4>
+    <ul>
+    <li><a href=\"modelica://PropulsionSystem.Examples.Elements.BasicElements.TrbCharFixed00_ex01\"> PropulsionSystem.Examples.BasicElements.TrbCharFixed00_ex01 </a> </li>
+    </ul>
+    
+  <h4>classes which this component call (those in MSL are not listed) </h4>
+    <p> -> none </p>
+    
+  <h4>classes from which this component extend </h4>
+    <ul>
+    <li><a href=\"modelica://PropulsionSystem.BaseClasses.BasicElements.TurbineBase00\"> PropulsionSystem.BaseClasses.BasicElements.TurbineBase00 </a> </li>
+    </ul>
+
+</html>"));
+
 end TrbCharFixed00;
