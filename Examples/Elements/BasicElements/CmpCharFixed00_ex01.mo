@@ -10,7 +10,7 @@ model CmpCharFixed00_ex01
     Placement(visible = true, transformation(origin = {-10, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(origin = {-30, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.CmpCharFixed00 Cmp(redeclare package Medium = engineAir, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.param, switchDetermine_eff = PropulsionSystem.Types.switches.switchHowToDetVar.param) annotation(
+  PropulsionSystem.Elements.BasicElements.CmpCharFixed00 Cmp(redeclare package Medium = engineAir, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput, switchDetermine_eff = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) annotation(
     Placement(visible = true, transformation(origin = {-10, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = engineAir, T = 288.15, nPorts = 1, p = 101.325 * 1000) annotation(
     Placement(visible = true, transformation(origin = {-50, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -20,7 +20,7 @@ model CmpCharFixed00_ex01
     Placement(visible = true, transformation(origin = {30, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Blocks.Sources.Ramp ramp_PR(duration = 10, height = 5, offset = 10, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-30, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_eff(duration = 5, height = 0.1, offset = 0.8, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_eff(duration = 5, height = 0, offset = 0.8, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-30, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(Cmp.flange_2, constantSpeed1.flange) annotation(
@@ -41,4 +41,5 @@ equation
 
 </html>"),
   Diagram(graphics = {Text(origin = {22, 11}, fillPattern = FillPattern.Solid, extent = {{-22, 7}, {6, 1}}, textString = "PR, eff are given"), Text(origin = {60, 9}, fillPattern = FillPattern.Solid, extent = {{-22, 7}, {28, -5}}, textString = "pwr, trq are calculated"), Line(origin = {30, 11}, points = {{-6, 1}, {6, -1}}, arrow = {Arrow.None, Arrow.Open})}));
+  
 end CmpCharFixed00_ex01;

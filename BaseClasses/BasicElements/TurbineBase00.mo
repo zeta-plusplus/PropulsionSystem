@@ -50,6 +50,9 @@ partial model TurbineBase00
   Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
   Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of outlet";
   
+  Modelica.SIunits.SpecificEntropy s_fluid_1 "specific entropy, fluid_1";
+  Modelica.SIunits.SpecificEntropy s_fluid_2 "specific entropy, fluid_2";
+  
   Modelica.SIunits.Power pwr "power via shaft, positive if fluid generates power";
   Modelica.SIunits.Torque trq "trq via shaft";
   Modelica.SIunits.Power pwr_inv "power via shaft";
@@ -159,6 +162,8 @@ equation
   
   pwr_inv= -1*pwr;
   trq_inv= -1*trq;
+  s_fluid_1= Medium.specificEntropy(fluid_1.state);
+  s_fluid_2= Medium.specificEntropy(fluid_2.state);
   
   //-- Design point variables --
   NcDes_1 = NmechDes / sqrt(Tdes_1 / environment.Tstd);

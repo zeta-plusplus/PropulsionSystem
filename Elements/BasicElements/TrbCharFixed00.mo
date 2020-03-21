@@ -52,20 +52,19 @@ equation
   pDes_1 = fluid_1.p;
   Tdes_1 = fluid_1.T;
   NmechDes = Nmech;
-  //--------------------
+//--------------------
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     PRdes = PRdes_paramInput;
   elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
     PRdes = u_PR;
   end if;
-  
-  //--------------------
+//--------------------
   if switchDetermine_eff == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     effDes = effDes_paramInput;
   elseif switchDetermine_eff == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
     effDes = u_eff;
   end if;
-  //--------------------
+//--------------------
   PR = PRdes;
   eff = effDes;
   
@@ -80,6 +79,7 @@ equation
   <h4>example/demo models</h4>
     <ul>
     <li><a href=\"modelica://PropulsionSystem.Examples.Elements.BasicElements.TrbCharFixed00_ex01\"> PropulsionSystem.Examples.BasicElements.TrbCharFixed00_ex01 </a> </li>
+    <li><a href=\"modelica://PropulsionSystem.Examples.Elements.BasicElements.TrbCharFixed00_ex02\"> PropulsionSystem.Examples.BasicElements.TrbCharFixed00_ex02 </a> </li>
     </ul>
     
   <h4>classes which this component call (those in MSL are not listed) </h4>

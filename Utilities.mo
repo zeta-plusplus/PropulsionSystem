@@ -36,41 +36,43 @@ model Utilities
 
   model SetDependent
     //********** Parameters **********
-    parameter Real tgtVal
+    parameter Real tgtValue_paramInput
       ""
       annotation(
       Dialog(group = "Characteristics"));
+    
     //----- switches -----
-    parameter PropulsionSystem.Types.switches.switch_parameter_input switchInput_tgtVal
-        =PropulsionSystem.Types.switches.switch_parameter_input.use_desValue
-     ""
-      annotation(
+    parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_targetVal 
+      = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput 
+      "switch how to determine target value" annotation(
       Dialog(group = "switch"),
-      choicesAllMatching= true,   
+      choicesAllMatching = true,
       Evaluate = true,
-      HideResult = true
-      );
+      HideResult = true);
+    
+    
     //********** Interfaces **********
-    Modelica.Blocks.Interfaces.RealInput dependent_in
+    Modelica.Blocks.Interfaces.RealInput u_variable
       annotation(
       Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     
-    Modelica.Blocks.Interfaces.RealInput tgtVal_in
-      if (switchInput_tgtVal== PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal)
+    Modelica.Blocks.Interfaces.RealInput u_targetValue
+      if (switchDetermine_targetVal
+          == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput)
       ""
       annotation(
       Placement(visible = true, transformation(origin = {120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 180), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
     
     
     
-    
-    
   equation
     
-    if(switchInput_tgtVal ==PropulsionSystem.Types.switches.switch_parameter_input.use_desValue)then
-      tgtVal= dependent_in;
-    elseif (switchInput_tgtVal== PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal)then
-      tgtVal_in= dependent_in;
+    if(switchDetermine_targetVal 
+          == PropulsionSystem.Types.switches.switchHowToDetVar.param)then
+      tgtValue_paramInput = u_variable;
+    elseif (switchDetermine_targetVal
+          == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput)then
+      u_targetValue = u_variable;
     end if;
     
     
@@ -80,7 +82,7 @@ model Utilities
     
     annotation(
       Diagram,
-      Icon(graphics = {Rectangle(fillColor = {39, 39, 39}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {-3, -83}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "%name"), Text(origin = {-3, 37}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -57}}, textString = "Constraint", fontSize = 28), Text(origin = {-3, -43}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "%tgtVal"), Text(origin = {-3, -23}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "Tgt. val. =", horizontalAlignment = TextAlignment.Left)}, coordinateSystem(initialScale = 0.1)));
+      Icon(graphics = {Rectangle(fillColor = {39, 39, 39}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {-3, -83}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "%name"), Text(origin = {-3, 37}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -77}}, textString = "Constraint", fontSize = 28)}, coordinateSystem(initialScale = 0.1)));
     
     
   end SetDependent;
@@ -148,6 +150,35 @@ model Utilities
   
   
   end SplitFlow_by_BPR;
+
+  model SetConstraint
+    //********** Parameters **********
+    parameter Real tgtValue_paramInput "target value ot constraint, valid only when switchDetermine_targetVal==param" annotation(
+      Dialog(group = "Characteristics"));
+    //----- switches -----
+    parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_targetVal = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "switch how to determine target value" annotation(
+      Dialog(group = "switch"),
+      choicesAllMatching = true,
+      Evaluate = true,
+      HideResult = true);
+    //********** Interfaces **********
+    Modelica.Blocks.Interfaces.RealInput u_variable annotation(
+      Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Interfaces.RealInput u_targetValue if (switchDetermine_targetVal == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) "" annotation(
+      Placement(visible = true, transformation(origin = {120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 180), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+  equation
+    if switchDetermine_targetVal == PropulsionSystem.Types.switches.switchHowToDetVar.param then
+      tgtValue_paramInput = u_variable;
+    elseif switchDetermine_targetVal == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
+      u_targetValue = u_variable;
+    end if;
+/********************************************************
+    Graphics
+  ********************************************************/
+    annotation(
+      Diagram,
+      Icon(graphics = {Rectangle(fillColor = {39, 39, 39}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {-3, -83}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "%name"), Text(origin = {-3, 37}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -77}}, textString = "Constraint", fontSize = 28)}, coordinateSystem(initialScale = 0.1)));
+  end SetConstraint;
 
 
 
