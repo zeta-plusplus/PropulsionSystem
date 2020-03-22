@@ -20,6 +20,8 @@ model TrbCharFixed00_ex01
     Placement(visible = true, transformation(origin = {-30, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_eff(duration = 10, height = 0, offset = 0.8, startTime = 10)  annotation(
     Placement(visible = true, transformation(origin = {-30, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  inner Modelica.Fluid.System system annotation(
+    Placement(visible = true, transformation(origin = {-30, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(ramp_eff.y, Trb1.u_eff) annotation(
     Line(points = {{-19, -60}, {-10, -60}, {-10, 4}}, color = {0, 0, 127}));

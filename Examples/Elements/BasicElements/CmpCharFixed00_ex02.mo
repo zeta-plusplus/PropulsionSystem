@@ -49,5 +49,5 @@ equation
   <a href=modelica://> Document html page</a>
 
 </html>"),
-  Diagram(graphics = {Text(origin = {26, 29}, extent = {{-12, 3}, {22, -11}}, textString = "pwr, trq are given"), Text(origin = {-19, 11}, extent = {{-7, 5}, {27, -11}}, textString = "PR is calculated"), Text(origin = {-63, 23}, extent = {{-7, 5}, {21, -7}}, textString = "eff is given"), Line(origin = {2, 20}, points = {{8, 4}, {-8, -8}}, arrow = {Arrow.None, Arrow.Open})}));
+  Diagram(graphics = {Text(origin = {26, 29}, extent = {{-12, 3}, {22, -11}}, textString = "pwr, trq are given"), Text(origin = {-19, 11}, extent = {{-7, 5}, {27, -11}}, textString = "PR is calculated"), Text(origin = {-63, 23}, extent = {{-5, 3}, {21, -7}}, textString = "eff is given"), Line(origin = {2, 20}, points = {{8, 4}, {-8, -8}}, arrow = {Arrow.None, Arrow.Open})}, coordinateSystem(initialScale = 0.1)));
 end CmpCharFixed00_ex02;

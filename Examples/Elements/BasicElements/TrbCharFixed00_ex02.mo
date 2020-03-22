@@ -24,6 +24,8 @@ model TrbCharFixed00_ex02
     Placement(visible = true, transformation(origin = {-52, -12}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Sources.Ramp ramp_pwr(duration = 10, height = 1000 * 1000, offset = 3000 * 1000, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-52, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  inner Modelica.Fluid.System system annotation(
+    Placement(visible = true, transformation(origin = {-30, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(powerSensor1.flange_a, Trb1.flange_1) annotation(
     Line(points = {{-50, 20}, {2.08615e-06, 20}, {2.08615e-06, 20}, {2.08615e-06, 20}}));
@@ -43,6 +45,6 @@ equation
 annotation(
     experiment(StartTime = 0, StopTime = 40, Tolerance = 1e-6, Interval = 0.08),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
-  Diagram(graphics = {Text(origin = {-34, 11}, extent = {{-12, 5}, {22, -3}}, textString = "pwr, trq are given"), Text(origin = {32, 1}, extent = {{-12, 5}, {22, -3}}, textString = "PR is calculated"), Text(origin = {18, -49}, extent = {{-12, 5}, {18, -1}}, textString = "eff is given"), Line(origin = {1, 1}, points = {{-13, 7}, {15, 1}}, arrow = {Arrow.None, Arrow.Open})}));
+  Diagram(graphics = {Text(origin = {-34, 11}, extent = {{-12, 5}, {22, -3}}, textString = "pwr, trq are given"), Text(origin = {32, 1}, extent = {{-12, 5}, {22, -3}}, textString = "PR is calculated"), Text(origin = {18, -49}, extent = {{-12, 5}, {14, -1}}, textString = "eff is given"), Line(origin = {1, 1}, points = {{-13, 7}, {15, 1}}, arrow = {Arrow.None, Arrow.Open})}, coordinateSystem(initialScale = 0.1)));
   
 end TrbCharFixed00_ex02;

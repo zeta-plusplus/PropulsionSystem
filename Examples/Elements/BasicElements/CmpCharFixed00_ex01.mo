@@ -40,6 +40,7 @@ equation
   <a href=modelica://> Document html page</a>
 
 </html>"),
-  Diagram(graphics = {Text(origin = {22, 11}, fillPattern = FillPattern.Solid, extent = {{-22, 7}, {6, 1}}, textString = "PR, eff are given"), Text(origin = {60, 9}, fillPattern = FillPattern.Solid, extent = {{-22, 7}, {28, -5}}, textString = "pwr, trq are calculated"), Line(origin = {30, 11}, points = {{-6, 1}, {6, -1}}, arrow = {Arrow.None, Arrow.Open})}));
+  Diagram(graphics = {Text(origin = {22, 11}, fillPattern = FillPattern.Solid, extent = {{-22, 7}, {6, 1}}, textString = "PR, eff are given"), Text(origin = {60, 9}, fillPattern = FillPattern.Solid, extent = {{-22, 7}, {28, -5}}, textString = "pwr, trq are calculated"), Line(origin = {30, 11}, points = {{-6, 1}, {6, -1}}, arrow = {Arrow.None, Arrow.Open})}, coordinateSystem(extent = {{-100, -60}, {100, 100}})),
+  __OpenModelica_commandLineOptions = "");
   
 end CmpCharFixed00_ex01;

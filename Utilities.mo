@@ -153,7 +153,7 @@ model Utilities
 
   model SetConstraint
     //********** Parameters **********
-    parameter Real tgtValue_paramInput "target value ot constraint, valid only when switchDetermine_targetVal==param" annotation(
+    parameter Real tgtValue_paramInput=1.0 "target value ot constraint, valid only when switchDetermine_targetVal==param" annotation(
       Dialog(group = "Characteristics"));
     //----- switches -----
     parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_targetVal = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "switch how to determine target value" annotation(
