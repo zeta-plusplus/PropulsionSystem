@@ -1,15 +1,15 @@
 within PropulsionSystem.BaseClasses.BasicElements;
 
-partial model TurbineBase00
+partial model HeatInjectorBase00
   /********************************************************
-        imports
+      imports
   ********************************************************/
   import Modelica.Constants;
-  import Modelica.Utilities.Streams;
   import PropulsionSystem.Types.switches;
   
+  
   /********************************************************
-               Declaration
+      Declaration
   ********************************************************/
   /* ---------------------------------------------
       Package
@@ -45,48 +45,15 @@ partial model TurbineBase00
   /* ---------------------------------------------
       Internal variables
   --------------------------------------------- */
-  inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
-  
   Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
   Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of outlet";
   
   Modelica.SIunits.SpecificEntropy s_fluid_1 "specific entropy, fluid_1";
   Modelica.SIunits.SpecificEntropy s_fluid_2 "specific entropy, fluid_2";
   
-  Modelica.SIunits.Power pwr "power via shaft, positive if fluid generates power";
-  Modelica.SIunits.Torque trq "trq via shaft";
-  Modelica.SIunits.Power pwr_inv "power via shaft";
-  Modelica.SIunits.Torque trq_inv "trq via shaft";
-  
-  Modelica.SIunits.AngularVelocity omega "mechanical rotation speed, rad/sec";
-  Modelica.SIunits.Angle phi "mechanical rotation displacement, rad";
-  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech "mechanical rotation speed, rpm";
-  
-  Modelica.SIunits.MassFlowRate Wc_1 "corrected mass flow rate";
-  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1 "corrected rotation speed, rpm";
-  Real PR "pressure ratio";
-  Real eff "adiabatic efficiency";
-  Modelica.SIunits.SpecificEnthalpy dht_is "specific enthalpy change in isentropic compression";
-  Modelica.SIunits.SpecificEnthalpy dht "specific enthalpy change in non-isentropic compression";
-  Modelica.SIunits.SpecificEnthalpy h_2is "";
-  
-  //********** Design point variables **********
-  Modelica.SIunits.MassFlowRate m_flow_des_1;
-  Modelica.SIunits.Pressure pDes_1;
-  Modelica.SIunits.Temperature Tdes_1;
-  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes "mechanical rotation speed, rpm";
-  inner Modelica.SIunits.MassFlowRate WcDes_1 "corrected mass flow rate";
-  inner Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NcDes_1;
-  Real PRdes;
-  Real effDes;
-  
   Modelica.SIunits.MassFlowRate m_flow_max;
   Modelica.SIunits.MassFlowRate m_flow_min;
   
-  
-  //********** variables relative to design point **********
-  inner Real NcqNcDes_1 "ratio of corrected rotational speed with respect to design pt. speed";
-  Real NqNdes "ratio of mech. rotational speed with respect to design pt. speed";
   
   
   /* ---------------------------------------------
@@ -96,24 +63,28 @@ partial model TurbineBase00
   (
     redeclare package Medium = Medium, m_flow(start = m_flow1_init), h_outflow.start = h1_init
   ) "" annotation(
-    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_b port_2
   (
     redeclare package Medium = Medium, m_flow(start = m_flow2_init), h_outflow.start = h2_init
   ) "" annotation(
-    Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1 "" annotation(
-    Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-98, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_2 "" annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a HeatPort_1
+    ""
+    annotation(
+    Placement(visible = true, transformation(origin = {0, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   
 algorithm
-  assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
+//##### none #####
+
+initial equation
+//##### none #####
 
 equation
+  
   /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
@@ -139,51 +110,28 @@ equation
     port_1.h_outflow= fluid_1.h;
   end if;
   
-  //-- shaft --
-  flange_1.phi = phi;
-  flange_2.phi = phi;
-  
   
   /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
-  Wc_1 = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
-  Nc_1 = Nmech / sqrt(fluid_1.T / environment.Tstd);
-  
-  PR = fluid_1.p / fluid_2.p;
-  
-  h_2is= Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
-  dht_is = fluid_1.h - h_2is;
-  eff = dht / dht_is;
-  dht = fluid_1.h - fluid_2.h;
-  
+  fluid_2.p = fluid_1.p;  //no pressure drop
+  //-- mass conservation --
   port_1.m_flow + port_2.m_flow = 0.0;
-  fluid_2.Xi = fluid_1.Xi;
+  fluid_1.Xi = fluid_2.Xi;
+  //-- energy conservation --
+  (port_1.m_flow * fluid_1.h) + HeatPort_1.Q_flow + (port_2.m_flow * fluid_2.h) = 0.0;
   
-  trq = flange_1.tau + flange_2.tau;
-  pwr = -1.0 * (port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2.h);
-  der(phi) = omega;
-  omega * trq = pwr;
-  Nmech = Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
+  //-- wall temperature --
+  HeatPort_1.T = fluid_2.T;
   
-  pwr_inv= -1*pwr;
-  trq_inv= -1*trq;
   s_fluid_1= Medium.specificEntropy(fluid_1.state);
   s_fluid_2= Medium.specificEntropy(fluid_2.state);
-  
-  //-- Design point variables --
-  NcDes_1 = NmechDes / sqrt(Tdes_1 / environment.Tstd);
-  WcDes_1 = m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd);
-  
-  //-- variables relative to design point --
-  NqNdes = Nmech / NmechDes;
-  NcqNcDes_1 = Nc_1 / NcDes_1;
   
   
 /********************************************************
   Graphics
 ********************************************************/
   annotation(
-    Icon(graphics = {Polygon(origin = {30, 0}, fillColor = {255, 157, 0}, fillPattern = FillPattern.Solid, points = {{-90, 0}, {-90, -20}, {30, -80}, {30, 80}, {-90, 20}, {-90, 0}}), Rectangle(origin = {84, 6}, fillPattern = FillPattern.Solid, extent = {{-24, 4}, {16, -16}}), Rectangle(origin = {-86, 6}, fillPattern = FillPattern.Solid, extent = {{-12, 4}, {26, -16}}), Text(origin = {-43, 95}, extent = {{-37, 5}, {123, -15}}, textString = "%name"), Rectangle(origin = {-57, 30}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 52}, {1, -10}}), Rectangle(origin = {-99, 16}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-1, 66}, {43, 62}}), Rectangle(origin = {63, 16}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 66}, {37, 62}}), Text(origin = {-37, 11}, extent = {{-23, 9}, {97, -31}}, textString = "Trb")}, coordinateSystem(initialScale = 0.1)),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"));
-end TurbineBase00;
+    Icon(graphics = {Text(origin = {-17, -51}, extent = {{-63, 11}, {97, -9}}, textString = "%name"), Rectangle(origin = {-51, 1}, rotation = -90, fillColor = {118, 118, 118}, fillPattern = FillPattern.Solid, extent = {{-2, -9}, {2, -49}}), Text(origin = {16, 78}, extent = {{0, 10}, {82, -30}}, textString = "Q_flow"), Rectangle(origin = {7, 0}, fillColor = {255, 0, 0}, fillPattern = FillPattern.Solid, extent = {{-67, 40}, {53, -40}}), Line(origin = {-0.119719, 70.9859}, points = {{0, 26}, {0, -70}}, thickness = 4, arrow = {Arrow.None, Arrow.Open}, arrowSize = 10), Rectangle(origin = {109, 0}, rotation = -90, fillColor = {118, 118, 118}, fillPattern = FillPattern.Solid, extent = {{-2, -9}, {2, -49}})}, coordinateSystem(initialScale = 0.1)),
+    Diagram(graphics = {Line(origin = {-3.37324, 53.9296}, points = {{0, 37}, {0, -27}}, thickness = 1, arrow = {Arrow.None, Arrow.Filled}), Text(origin = {30, 52}, extent = {{-22, 4}, {22, -4}}, textString = "heat injected into fluid")}, coordinateSystem(initialScale = 0.1)));
+end HeatInjectorBase00;

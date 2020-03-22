@@ -180,6 +180,41 @@ model Utilities
       Icon(graphics = {Rectangle(fillColor = {39, 39, 39}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {-3, -83}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "%name"), Text(origin = {-3, 37}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -77}}, textString = "Constraint", fontSize = 28)}, coordinateSystem(initialScale = 0.1)));
   end SetConstraint;
 
+  model SetSolverIndependent
+    
+    /* ---------------------------------------------
+        parameters
+    --------------------------------------------- */
+    //********** Initialization Parameters **********
+    parameter Real independent_init = 1.0 "" annotation(
+      Dialog(tab = "Initialization"));
+    
+    
+    /* ---------------------------------------------
+        Internal variables
+    --------------------------------------------- */
+    Real independent(start= independent_init);
+    
+    
+    /* ---------------------------------------------
+        Interface
+    --------------------------------------------- */
+    Modelica.Blocks.Interfaces.RealOutput y_independent "" annotation(
+      Placement(visible = true, transformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    
+        
+  equation
+    independent = y_independent;
+
+  /********************************************************
+    Graphics
+  ********************************************************/
+    
+    annotation(
+      Icon(graphics = {Rectangle(origin = {0, -1}, fillColor = {225, 225, 225}, fillPattern = FillPattern.Solid, extent = {{-100, 101}, {100, -99}}), Text(origin = {-12, -95}, extent = {{-88, 15}, {112, -5}}, textString = "%name"), Text(origin = {-37, 18}, extent = {{-63, 50}, {137, 10}}, textString = "Solver", fontSize = 26), Text(origin = {-37, -18}, extent = {{-63, 50}, {137, 10}}, textString = "Independent", fontSize = 26), Text(origin = {-37, -60}, extent = {{-63, 50}, {137, 10}}, textString = "Variable", fontSize = 26)}, coordinateSystem(initialScale = 0.1)));
+    
+  end SetSolverIndependent;
+
 
 
 
