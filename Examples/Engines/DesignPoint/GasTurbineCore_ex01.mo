@@ -1,0 +1,87 @@
+within PropulsionSystem.Examples.Engines.DesignPoint;
+
+model GasTurbineCore_ex01
+  extends Modelica.Icons.Example;
+  //-----
+  package engineAir = Modelica.Media.Air.DryAirNasa;
+  //redeclare package Medium = engineAir
+  //-----
+  inner PropulsionSystem.EngineSimEnvironment environment annotation(
+    Placement(visible = true, transformation(origin = {-10, 130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  inner Modelica.Fluid.System system annotation(
+    Placement(visible = true, transformation(origin = {-30, 130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.CmpCharFixed00 Cmp(redeclare package Medium = engineAir, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput, switchDetermine_eff = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) annotation(
+    Placement(visible = true, transformation(origin = {-80, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = engineAir, T = 288.15, nPorts = 1, p = 101.325 * 1000) annotation(
+    Placement(visible = true, transformation(origin = {-130, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_PR(duration = 10, height = 0, offset = 10, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {-110, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_Cmp_eff(duration = 5, height = 0, offset = 0.8, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {-100, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.TrbCharFixed00 Trb(redeclare package Medium = engineAir, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated, switchDetermine_eff = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) annotation(
+    Placement(visible = true, transformation(origin = {80, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Fluid.Sources.MassFlowSource_T boundary3(redeclare package Medium = engineAir, T = 288.15, m_flow = -10, nPorts = 1) annotation(
+    Placement(visible = true, transformation(origin = {130, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+  Modelica.Blocks.Sources.Ramp ramp_Trb_eff(duration = 5, height = 0, offset = 0.8, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {30, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Sensors.SpeedSensor speedSensor1 annotation(
+    Placement(visible = true, transformation(origin = {-20, -30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  PropulsionSystem.Utilities.SetConstraint setConstraint1 annotation(
+    Placement(visible = true, transformation(origin = {-20, -80}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Blocks.Sources.Ramp ramp_omega(duration = 10, height = 0, offset = 3000 * 2.0 * Modelica.Constants.pi / 60.0, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {-20, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  PropulsionSystem.Elements.BasicElements.HeatInjector00 HeatInjector(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {-20, 30}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Fluid.Sensors.Temperature temperature(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {30, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Utilities.SetConstraint setConstraint2 annotation(
+    Placement(visible = true, transformation(origin = {50, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow1 annotation(
+    Placement(visible = true, transformation(origin = {-20, 68}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  PropulsionSystem.Utilities.SetSolverIndependent setSolverIndependent1 annotation(
+    Placement(visible = true, transformation(origin = {-40, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 10, height = 100, offset = 1600, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {50, 90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+equation
+  connect(ramp_TIT.y, setConstraint2.u_targetValue) annotation(
+    Line(points = {{50, 79}, {50, 71}}, color = {0, 0, 127}));
+  connect(temperature.T, setConstraint2.u_variable) annotation(
+    Line(points = {{37, 40}, {50, 40}, {50, 49}}, color = {0, 0, 127}));
+  connect(temperature.port, Trb.port_1) annotation(
+    Line(points = {{30, 30}, {52, 30}, {52, -4}, {60, -4}}, color = {0, 127, 255}));
+  connect(HeatInjector.port_2, temperature.port) annotation(
+    Line(points = {{0, 30}, {30, 30}}, color = {0, 127, 255}));
+  connect(Cmp.port_2, HeatInjector.port_1) annotation(
+    Line(points = {{-60, -4}, {-50, -4}, {-50, 30}, {-40, 30}}, color = {0, 127, 255}));
+  connect(prescribedHeatFlow1.port, HeatInjector.HeatPort_1) annotation(
+    Line(points = {{-20, 58}, {-20, 50}}, color = {191, 0, 0}));
+  connect(setSolverIndependent1.y_independent, prescribedHeatFlow1.Q_flow) annotation(
+    Line(points = {{-29, 90}, {-20, 90}, {-20, 78}}, color = {0, 0, 127}));
+  connect(ramp_omega.y, setConstraint1.u_targetValue) annotation(
+    Line(points = {{-20, -99}, {-20, -99}, {-20, -93}, {-20, -93}}, color = {0, 0, 127}));
+  connect(ramp_Cmp_eff.y, Cmp.u_eff) annotation(
+    Line(points = {{-89, -100}, {-89, -100.5}, {-80, -100.5}, {-80, -31}}, color = {0, 0, 127}));
+  connect(ramp_Trb_eff.y, Trb.u_eff) annotation(
+    Line(points = {{41, -100}, {80, -100}, {80, -31}}, color = {0, 0, 127}));
+  connect(ramp_PR.y, Cmp.u_PR) annotation(
+    Line(points = {{-99, -70}, {-99, -71.5}, {-88, -71.5}, {-88, -35}}, color = {0, 0, 127}));
+  connect(speedSensor1.w, setConstraint1.u_variable) annotation(
+    Line(points = {{-20, -41}, {-20, -68}}, color = {0, 0, 127}));
+  connect(speedSensor1.flange, Trb.flange_1) annotation(
+    Line(points = {{-20, -20}, {60, -20}}));
+  connect(Cmp.flange_2, speedSensor1.flange) annotation(
+    Line(points = {{-60, -20}, {-20, -20}}));
+  connect(boundary.ports[1], Cmp.port_1) annotation(
+    Line(points = {{-120, 0}, {-100, 0}, {-100, -4}}, color = {0, 127, 255}));
+  connect(Trb.port_2, boundary3.ports[1]) annotation(
+    Line(points = {{100, -4}, {110, -4}, {110, 0}, {120, 0}}, color = {0, 127, 255}));
+  annotation(
+    experiment(StartTime = 0, StopTime = 40, Tolerance = 1e-06, Interval = 0.08),
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
+    Documentation(info = "<html>
+  <a href=modelica://> Document html page</a>
+
+</html>"),
+    Diagram(graphics = {Text(origin = {-54, -53}, fillPattern = FillPattern.Solid, extent = {{-22, 7}, {12, 1}}, textString = "PR, eff are given"), Text(origin = {78, -45}, fillPattern = FillPattern.Solid, extent = {{-26, 5}, {12, -3}}, textString = "PR is calculated"), Line(origin = {-30.22, -50.15}, points = {{-4, 1}, {78, 7}}, thickness = 0.5, arrow = {Arrow.None, Arrow.Open}, arrowSize = 5), Text(origin = {-32, -59}, fillPattern = FillPattern.Solid, extent = {{-22, 7}, {84, -1}}, textString = "Cmp's op. conditions determines Trb's op. conditions."), Text(origin = {32, 105}, fillPattern = FillPattern.Solid, extent = {{-26, 5}, {62, -5}}, textString = "Constrain turbine inlet temperature"), Text(origin = {-66, 59}, fillPattern = FillPattern.Solid, extent = {{-26, 5}, {30, -11}}, textString = "Heat injected is determined"), Line(origin = {37.6112, 72.5574}, points = {{-12, 25}, {-80, -9}}, thickness = 0.5, arrow = {Arrow.None, Arrow.Open}, arrowSize = 5), Text(origin = {-10, 7}, fillPattern = FillPattern.Solid, extent = {{-26, 5}, {30, -11}}, textString = "≒Combustion chamber")}, coordinateSystem(extent = {{-140, -140}, {140, 140}})),
+    __OpenModelica_commandLineOptions = "");
+end GasTurbineCore_ex01;
