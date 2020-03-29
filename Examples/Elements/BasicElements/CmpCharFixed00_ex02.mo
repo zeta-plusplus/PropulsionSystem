@@ -25,13 +25,13 @@ package engineAir = Modelica.Media.Air.DryAirNasa;
     Placement(visible = true, transformation(origin = {60, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed1(w_fixed = 3000 * 2 * Modelica.Constants.pi / 60)  annotation(
     Placement(visible = true, transformation(origin = {90, 30}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  PropulsionSystem.Utilities.SetConstraint setConstraint1(switchDetermine_targetVal = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput)  annotation(
+  FluidSystemComponents.Utilities.ConstrainVariable constrainVariable1 annotation(
     Placement(visible = true, transformation(origin = {52, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
-  connect(ramp_pwr.y, setConstraint1.u_targetValue) annotation(
-    Line(points = {{41, -20}, {52, -20}, {52, -11}}, color = {0, 0, 127}));
-  connect(powerSensor1.power, setConstraint1.u_variable) annotation(
-    Line(points = {{52, 19}, {52, 11}}, color = {0, 0, 127}));
+  connect(ramp_pwr.y, constrainVariable1.u_targetValue) annotation(
+    Line(points = {{42, -20}, {52, -20}, {52, -12}, {52, -12}}, color = {0, 0, 127}));
+  connect(powerSensor1.power, constrainVariable1.u_variable) annotation(
+    Line(points = {{52, 20}, {52, 20}, {52, 12}, {52, 12}}, color = {0, 0, 127}));
   connect(powerSensor1.flange_b, constantSpeed1.flange) annotation(
     Line(points = {{70, 30}, {80, 30}}));
   connect(Cmp.flange_2, powerSensor1.flange_a) annotation(

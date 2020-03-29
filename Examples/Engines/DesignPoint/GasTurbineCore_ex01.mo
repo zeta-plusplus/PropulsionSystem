@@ -26,27 +26,33 @@ model GasTurbineCore_ex01
     Placement(visible = true, transformation(origin = {30, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sensors.SpeedSensor speedSensor1 annotation(
     Placement(visible = true, transformation(origin = {-20, -30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  PropulsionSystem.Utilities.SetConstraint setConstraint1 annotation(
-    Placement(visible = true, transformation(origin = {-20, -80}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Sources.Ramp ramp_omega(duration = 10, height = 0, offset = 3000 * 2.0 * Modelica.Constants.pi / 60.0, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-20, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   PropulsionSystem.Elements.BasicElements.HeatInjector00 HeatInjector(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-20, 30}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Fluid.Sensors.Temperature temperature(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {30, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Utilities.SetConstraint setConstraint2 annotation(
-    Placement(visible = true, transformation(origin = {50, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow1 annotation(
     Placement(visible = true, transformation(origin = {-20, 68}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  PropulsionSystem.Utilities.SetSolverIndependent setSolverIndependent1 annotation(
-    Placement(visible = true, transformation(origin = {-40, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 10, height = 100, offset = 1600, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {50, 90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  FluidSystemComponents.Utilities.ConstrainVariable constrainVariable1 annotation(
+    Placement(visible = true, transformation(origin = {50, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  FluidSystemComponents.Utilities.ConstrainVariable constrainVariable2 annotation(
+    Placement(visible = true, transformation(origin = {-20, -80}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  FluidSystemComponents.Utilities.VariableBySolver variableBySolver1 annotation(
+    Placement(visible = true, transformation(origin = {-40, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(ramp_TIT.y, setConstraint2.u_targetValue) annotation(
-    Line(points = {{50, 79}, {50, 71}}, color = {0, 0, 127}));
-  connect(temperature.T, setConstraint2.u_variable) annotation(
-    Line(points = {{37, 40}, {50, 40}, {50, 49}}, color = {0, 0, 127}));
+  connect(variableBySolver1.y_independent, prescribedHeatFlow1.Q_flow) annotation(
+    Line(points = {{-28, 90}, {-20, 90}, {-20, 78}, {-20, 78}}, color = {0, 0, 127}));
+  connect(constrainVariable2.u_targetValue, ramp_omega.y) annotation(
+    Line(points = {{-20, -92}, {-20, -92}, {-20, -98}, {-20, -98}}, color = {0, 0, 127}));
+  connect(speedSensor1.w, constrainVariable2.u_variable) annotation(
+    Line(points = {{-20, -40}, {-20, -68}}, color = {0, 0, 127}));
+  connect(temperature.T, constrainVariable1.u_variable) annotation(
+    Line(points = {{38, 40}, {50, 40}, {50, 48}, {50, 48}}, color = {0, 0, 127}));
+  connect(ramp_TIT.y, constrainVariable1.u_targetValue) annotation(
+    Line(points = {{50, 80}, {50, 80}, {50, 72}, {50, 72}}, color = {0, 0, 127}));
   connect(temperature.port, Trb.port_1) annotation(
     Line(points = {{30, 30}, {52, 30}, {52, -4}, {60, -4}}, color = {0, 127, 255}));
   connect(HeatInjector.port_2, temperature.port) annotation(
@@ -55,18 +61,12 @@ equation
     Line(points = {{-60, -4}, {-50, -4}, {-50, 30}, {-40, 30}}, color = {0, 127, 255}));
   connect(prescribedHeatFlow1.port, HeatInjector.HeatPort_1) annotation(
     Line(points = {{-20, 58}, {-20, 50}}, color = {191, 0, 0}));
-  connect(setSolverIndependent1.y_independent, prescribedHeatFlow1.Q_flow) annotation(
-    Line(points = {{-29, 90}, {-20, 90}, {-20, 78}}, color = {0, 0, 127}));
-  connect(ramp_omega.y, setConstraint1.u_targetValue) annotation(
-    Line(points = {{-20, -99}, {-20, -99}, {-20, -93}, {-20, -93}}, color = {0, 0, 127}));
   connect(ramp_Cmp_eff.y, Cmp.u_eff) annotation(
     Line(points = {{-89, -100}, {-89, -100.5}, {-80, -100.5}, {-80, -31}}, color = {0, 0, 127}));
   connect(ramp_Trb_eff.y, Trb.u_eff) annotation(
     Line(points = {{41, -100}, {80, -100}, {80, -31}}, color = {0, 0, 127}));
   connect(ramp_PR.y, Cmp.u_PR) annotation(
     Line(points = {{-99, -70}, {-99, -71.5}, {-88, -71.5}, {-88, -35}}, color = {0, 0, 127}));
-  connect(speedSensor1.w, setConstraint1.u_variable) annotation(
-    Line(points = {{-20, -41}, {-20, -68}}, color = {0, 0, 127}));
   connect(speedSensor1.flange, Trb.flange_1) annotation(
     Line(points = {{-20, -20}, {60, -20}}));
   connect(Cmp.flange_2, speedSensor1.flange) annotation(
