@@ -1,5 +1,5 @@
 within PropulsionSystem.Examples.Engines;
 
 package Transient
-  extends Modelica.Icons.Package;
+  extends Modelica.Icons.ExamplesPackage;
 end Transient;
