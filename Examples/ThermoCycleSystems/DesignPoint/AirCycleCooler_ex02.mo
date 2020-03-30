@@ -87,6 +87,10 @@ model AirCycleCooler_ex02
   Modelica.Blocks.Sources.Ramp ramp_m_flow_cold(duration = 10, height = 0, offset = 1, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-90, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(specificEnthalpy1.h_out, boundary4.h_in) annotation(
+    Line(points = {{-61, -60}, {-198, -60}, {-198, 34}, {-188, 34}}, color = {0, 0, 127}));
+  connect(ramp_THot.y, boundary.T_in) annotation(
+    Line(points = {{-199, 100}, {-172.5, 100}, {-172.5, 104}, {-162, 104}}, color = {0, 0, 127}));
   connect(ramp_m_flow_cold.y, boundary2.m_flow_in) annotation(
     Line(points = {{-78, -110}, {-70, -110}, {-70, -122}, {-60, -122}, {-60, -122}}, color = {0, 0, 127}));
   connect(ramp_TCold.y, boundary2.T_in) annotation(
@@ -95,8 +99,6 @@ equation
     Line(points = {{-198, 130}, {-170, 130}, {-170, 108}, {-160, 108}, {-160, 108}}, color = {0, 0, 127}));
   connect(boundary.ports[1], HX.port_1_med1) annotation(
     Line(points = {{-140, 100}, {-20, 100}, {-20, 81}}, color = {0, 127, 255}));
-  connect(ramp_THot.y, boundary.T_in) annotation(
-    Line(points = {{-199, 100}, {-180.5, 100}, {-180.5, 104}, {-162, 104}}, color = {0, 0, 127}));
   connect(HX.port_2_med1, volume1.ports[1]) annotation(
     Line(points = {{20, 81}, {34, 81}, {34, 100}, {50, 100}}, color = {0, 127, 255}));
   connect(volume1.ports[2], boundary1.ports[1]) annotation(
@@ -115,8 +117,6 @@ equation
     Line(points = {{52, -102}, {68, -102}, {68, -130}, {80, -130}}, color = {0, 127, 255}));
   connect(specificEnthalpy1.port, HX1.port_1_med2) annotation(
     Line(points = {{-50, -70}, {-4, -70}, {-4, -79}, {12, -79}}, color = {0, 127, 255}));
-  connect(specificEnthalpy1.h_out, boundary4.h_in) annotation(
-    Line(points = {{-61, -60}, {-200, -60}, {-200, 34}, {-188, 34}}, color = {0, 0, 127}));
   connect(temperature.port, specificEnthalpy1.port) annotation(
     Line(points = {{-70, -70}, {-50, -70}}, color = {0, 127, 255}));
   connect(temperature1.port, volume.ports[1]) annotation(
