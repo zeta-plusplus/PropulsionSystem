@@ -213,8 +213,8 @@ equation
   fluidStat_th.h = Medium.isentropicEnthalpy(fluidStat_th.p, fluid_1.state);
   m_flow_th = fluid_th.d * V_th * AeTh;
   m_flow_th = abs(port_1.m_flow);
-  AeTh = Amech_th * CdTh;
-  
+  AeTh = AmechTh * CdTh;
+  AeThDes= AmechTh*CdThDes;
   
   s_fluid_1= Medium.specificEntropy(fluid_1.state);
   s_fluid_2= Medium.specificEntropy(fluid_2.state);
@@ -258,7 +258,7 @@ algorithm
   
   
 initial equation
-  port_1.m_flow = dmTh;
+  port_1.m_flow = m_flow_th;
 initial algorithm
 //##### none #####
   
