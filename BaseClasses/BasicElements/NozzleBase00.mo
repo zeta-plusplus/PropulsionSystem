@@ -69,8 +69,6 @@ partial model NozzleBase00
   /* ---------------------------------------------
       Internal variables
   --------------------------------------------- */
-  inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
-  
   Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
   Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of outlet (ambient)";
   Medium.BaseProperties fluid_2Tot(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of outlet, total";
@@ -96,17 +94,17 @@ partial model NozzleBase00
   Modelica.SIunits.Force Fg "";
   
   //-throat-
-  Modelica.SIunits.MassFlowRate m_flow_th(start = 0.0);
+  Modelica.SIunits.MassFlowRate m_flow_th;
   Modelica.SIunits.Area AmechTh;
   Modelica.SIunits.Area AeTh;
-  Modelica.SIunits.Velocity V_th(start = 0.0);
+  Modelica.SIunits.Velocity V_th;
   Real MNth;
   
   //--full expansion--
-  Modelica.SIunits.Velocity V_th_fullExp(start = 0.0);
+  Modelica.SIunits.Velocity V_th_fullExp;
   
   //--choked--
-  Modelica.SIunits.Velocity V_th_choked(start = 0.0);
+  Modelica.SIunits.Velocity V_th_choked;
   
   //********** Design point variables **********
   Modelica.SIunits.Area AeThDes;
@@ -270,7 +268,7 @@ initial algorithm
   Graphics
 ********************************************************/
   annotation(
-    Icon(graphics = {Polygon(origin = {0, 10}, fillColor = {255, 221, 96}, fillPattern = FillPattern.Solid, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-54, 108}, extent = {{-26, -8}, {134, -28}}, textString = "%name"), Rectangle(origin = {-94, 80}, fillColor = {112, 112, 112}, fillPattern = FillPattern.Solid, extent = {{-6, 2}, {14, -2}}), Text(origin = {80, 63}, extent = {{-16, 17}, {10, -3}}, textString = "amb"), Line(origin = {81.88, 37.0395}, points = {{-23, 2}, {17, 2}, {17, 42}}, pattern = LinePattern.Dot, thickness = 0.5), Text(origin = {-58, 22}, extent = {{-22, -2}, {78, -42}}, textString = "Nzl")}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Polygon(origin = {0, 10}, fillColor = {255, 221, 96}, fillPattern = FillPattern.Solid, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-74, 108}, extent = {{-26, -8}, {154, -28}}, textString = "%name"), Rectangle(origin = {-94, 80}, fillColor = {112, 112, 112}, fillPattern = FillPattern.Solid, extent = {{-6, 2}, {14, -2}}), Text(origin = {72, 77}, extent = {{-16, 1}, {20, -23}}, textString = "amb"), Line(origin = {81.88, 37.0395}, points = {{-23, 2}, {17, 2}, {17, 42}}, pattern = LinePattern.Dot, thickness = 0.5), Text(origin = {-58, 22}, extent = {{-22, -2}, {78, -42}}, textString = "Nzl")}, coordinateSystem(initialScale = 0.1)));
   
   
 end NozzleBase00;

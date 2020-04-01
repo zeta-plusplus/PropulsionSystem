@@ -3,8 +3,7 @@ within PropulsionSystem.Examples.Elements.BasicElements;
 model HeatInjector00_ex03
   extends Modelica.Icons.Example;
   //-----
-
-package engineAir = Modelica.Media.Air.DryAirNasa;
+  package engineAir = Modelica.Media.Air.DryAirNasa;
   //redeclare package Medium = engineAir
   //-----
   inner PropulsionSystem.EngineSimEnvironment environment annotation(

@@ -96,7 +96,26 @@ equation
 ********************************************************/
   
 annotation(
-    Icon(graphics = {Line(origin = {60.16, 13.94}, points = {{0, 25}, {0, -53}}, thickness = 5), Line(origin = {60, -60}, points = {{0, 34}, {0, -36}}, thickness = 1)}));
+    defaultComponentName = "Nzl",
+    Documentation(info = "<html>
+  <a href=modelica://PropulsionSystem/docs/Elements/BasicElements/NzlCharFixed00.html> Document html page</a>
+  
+  <h4>example/demo models</h4>
+    <ul>
+    <li><a href=\"modelica://PropulsionSystem.Examples.Elements.BasicElements.NzlCharFixed00_ex01\"> PropulsionSystem.Examples.BasicElements.NzlCharFixed00_ex01 </a> </li>
+    </ul>
+    
+  <h4>classes which this component call (those in MSL are not listed) </h4>
+    <p> -> none </p>
+    
+  <h4>classes from which this component extend </h4>
+    <ul>
+    <li><a href=\"modelica://PropulsionSystem.BaseClasses.BasicElements.NozzleBase00\"> PropulsionSystem.BaseClasses.BasicElements.NozzleBase00 </a> </li>
+    </ul>
+
+</html>"),
+    
+    Icon(graphics = {Line(origin = {60.16, 13.94}, points = {{0, 25}, {0, -53}}, thickness = 3), Line(origin = {60, -60}, points = {{0, 34}, {0, -36}})}, coordinateSystem(initialScale = 0.1)));
     
     
     
