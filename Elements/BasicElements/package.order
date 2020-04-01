@@ -1,6 +1,7 @@
 CmpCharFixed00
 TrbCharFixed00
 HeatInjector00
+NzlCharFixed00
 Compressor
 Compressor_Map_WcPReff
 Compressor_ellipticalCurve
@@ -23,4 +24,3 @@ constrain_T
 constrain_dm
 extractPwr
 PropellerActDisk
-NzlCharFixed00

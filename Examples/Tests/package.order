@@ -1,3 +1,6 @@
+DesignPoint
+OffDesignSim
+TransientSim
 Compressor_001
 Compressor_Map_WcPReff_001
 Turbine_001
@@ -13,6 +16,3 @@ PropellerActDisk001_001
 AirCycleAirConditioner001_v01
 AirCycleAirConditioner001_v02
 AirCycleAirConditioner001_v03
-DesignPoint
-OffDesignSim
-TransientSim

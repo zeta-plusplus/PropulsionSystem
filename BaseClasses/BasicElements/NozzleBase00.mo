@@ -127,19 +127,22 @@ partial model NozzleBase00
   ) "" annotation(
     Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
-  Modelica.Blocks.Interfaces.RealOutput Fg_out(quantity="Force", unit="N",displayUnit="N") "[N], gross thrust by nozzle" annotation(
+  Modelica.Blocks.Interfaces.RealOutput y_Fg(quantity="Force", unit="N",displayUnit="N") "[N], gross thrust by nozzle" annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {50, 2.9976e-15}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-90, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   
+algorithm
+  assert(fluid_1.h < fluidStat_th_fullExp.h, "nozzle inverse flow condition, fluid_1.h < fluidStat_th_fullExp.h" + "\n" + ", fluid_1.h=" + String(fluid_1.h) + ", fluidStat_th_fullExp.h=" + String(fluidStat_th_fullExp.h), AssertionLevel.warning);
+  
   
 equation
   /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
-  Fg_out = Fg;
+  y_Fg = Fg;
   
   //-- fluidPort_1 --
   fluid_1.p = port_1.p;
@@ -198,6 +201,10 @@ equation
   V_th_choked = 1.0 * Medium.velocityOfSound(fluidStat_th_choked.state);
   fluidStat_th_choked.h = fluid_1.h - 1.0 / 2.0 * (sign(V_th_choked) * abs(V_th_choked) ^ 2.0);
   
+  //--- throat fully-expanded ---
+  fluidStat_th_fullExp.h = Medium.isentropicEnthalpy(fluidStat_th_fullExp.p, fluid_1.state);
+  
+  
   /*--------------------
   evaluate choked or not
   --------------------*/
@@ -212,7 +219,7 @@ equation
   fluidStat_th.h = fluid_1.h - 1.0 / 2.0 * (sign(V_th) * abs(V_th) ^ 2.0);
   fluidStat_th.h = Medium.isentropicEnthalpy(fluidStat_th.p, fluid_1.state);
   m_flow_th = fluid_th.d * V_th * AeTh;
-  m_flow_th = abs(port_1.m_flow);
+  m_flow_th = port_1.m_flow;
   AeTh = AmechTh * CdTh;
   AeThDes= AmechTh*CdThDes;
   
@@ -240,28 +247,6 @@ equation
   when fluidStat_th.p <= 0.0 then
     reinit(fluidStat_th.p, -1.0 * fluidStat_th.p);
   end when;
-  
-  
-  
-  
-algorithm
-  assert(fluid_1.h < fluidStat_th_fullExp.h, "nozzle inverse flow condition, fluid_1.h < fluidStat_th_fullExp.h" + "\n" + ", fluid_1.h=" + String(fluid_1.h) + ", fluidStat_th_fullExp.h=" + String(fluidStat_th_fullExp.h), AssertionLevel.warning);
-  
-  //--- throat fully-expanded ---
-  if 0.0 < fluidStat_th_fullExp.p and 0.0 < fluid_1.state.p then
-    fluidStat_th_fullExp.h := Medium.isentropicEnthalpy(fluidStat_th_fullExp.p, fluid_1.state);
-  elseif fluidStat_th_fullExp.p < 0.0 and fluid_1.state.p < 0.0 then
-    fluidStat_th_fullExp.h := Medium.isentropicEnthalpy(fluidStat_th_fullExp.p, fluid_1.state);
-  else
-    fluidStat_th_fullExp.h := Medium.isentropicEnthalpy(-1.0 * fluidStat_th_fullExp.p, fluid_1.state);
-  end if;
-  
-  
-initial equation
-  port_1.m_flow = m_flow_th;
-initial algorithm
-//##### none #####
-  
   
   
 /********************************************************
