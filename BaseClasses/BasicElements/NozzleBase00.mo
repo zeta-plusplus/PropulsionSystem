@@ -12,6 +12,30 @@ partial model NozzleBase00
                Declaration
   ********************************************************/
   /* ---------------------------------------------
+      Type definitions
+        only valid in this class
+  --------------------------------------------- */
+  type switchDefineFg=enumeration(
+                      FullyExpandedFlow "Fg:= m_flow*V2",
+                      ThroatFlowAndPressure "Fg:= m_flow*V_th +A*(p_th - p2) "
+                      );
+  
+  
+  /* ---------------------------------------------
+      switch
+  --------------------------------------------- */
+  parameter switchDefineFg switch_defineFg
+    =switchDefineFg.FullyExpandedFlow
+    "definition of Fg. influence on Cv definition"
+    annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching= true,   
+    Evaluate = true,
+    HideResult = true
+    );
+  
+  
+  /* ---------------------------------------------
       Package
   --------------------------------------------- */
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation(
@@ -149,49 +173,63 @@ equation
   port_1.m_flow + port_2.m_flow = 0;
   fluid_2.Xi = fluid_1.Xi;
   fluid_2Tot.p = fluid_1.p;
+  
+  //-- energy conservation --
+  port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2Tot.h = 0;
+  
   PR = fluid_1.p / fluid_2.p;
+  
   //-- full expansion --
   fluid_1.h = h_2is + sign(V_2is) * abs(V_2is) ^ 2.0 * (1.0 / 2.0);
   h_2is = Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
   V_2 = Cv * V_2is;
   fluid_1.h = fluid_2.h + sign(V_2) * abs(V_2) ^ 2.0 / 2.0;
-  //-- energy conservation --
-  port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2Tot.h = 0;
+  
   //--- throat, p, T ---
   fluid_th.p = fluid_1.p;
   fluid_th.h = fluid_1.h;
+  
   //--- throat, static, p, T ---
   fluidStat_th_fullExp.p = fluid_2.p;
   fluidStat_th_choked.p = fluid_2.p;
-  /*
-  //--- fully-expanded ---
-  fluidStat_th_fullExp.h = Medium.isentropicEnthalpy(fluidStat_th_fullExp.p, fluid_1.state);
-  */
+  
   //V_th_fullExp= sqrt( 2.0*(fluid_1.h - fluidStat_th_fullExp.h ) );
   fluid_1.h - fluidStat_th_fullExp.h = 1.0 / 2.0 * (sign(V_th_fullExp) * abs(V_th_fullExp) ^ 2.0);
+  
   //--- velocity if choked state ---
   V_th_choked = 1.0 * Medium.velocityOfSound(fluidStat_th_choked.state);
   fluidStat_th_choked.h = fluid_1.h - 1.0 / 2.0 * (sign(V_th_choked) * abs(V_th_choked) ^ 2.0);
-  //evaluate choked or not
-  if V_th_fullExp >= V_th_choked then
-  //--- case of choked ---
-    V_th = V_th_choked;
+  
+  /*--------------------
+  evaluate choked or not
+  --------------------*/
+  if (V_th_fullExp >= V_th_choked) then
+    V_th = V_th_choked; //case of choked
   else
-  //--- case of unchoked ---
-    V_th = V_th_fullExp;
+    V_th = V_th_fullExp;  //case of unchoked
   end if;
+  
   //--- throat state ---
   MNth = V_th / Medium.velocityOfSound(fluidStat_th.state);
   fluidStat_th.h = fluid_1.h - 1.0 / 2.0 * (sign(V_th) * abs(V_th) ^ 2.0);
   fluidStat_th.h = Medium.isentropicEnthalpy(fluidStat_th.p, fluid_1.state);
-  dmTh = fluid_th.d * V_th * AeTh;
-  dmTh = abs(port_1.m_flow);
+  m_flow_th = fluid_th.d * V_th * AeTh;
+  m_flow_th = abs(port_1.m_flow);
   AeTh = Amech_th * CdTh;
-  //-- performance characteristics --
-  if switchCalc_Fg == switch_calcFg.FullyExpandedFlow then
+  
+  
+  s_fluid_1= Medium.specificEntropy(fluid_1.state);
+  s_fluid_2= Medium.specificEntropy(fluid_2.state);
+  s_fluid_th= Medium.specificEntropy(fluid_th.state);
+  s_fluid_2Tot= Medium.specificEntropy(fluid_2Tot.state);
+  
+  /*--------------------
+  performance variables
+  --------------------*/
+  if (switch_defineFg == switchDefineFg.FullyExpandedFlow) then
     Fg = (-1) * port_2.m_flow * V_2;
-  elseif switchCalc_Fg == switch_calcFg.NozzleExitFlow then
-    Fg = Cv * V_th * dmTh + (fluidStat_th.p - fluid_2.p) * AeTh;
+  elseif (switch_defineFg == switchDefineFg.ThroatFlowAndPressure) then
+    Fg = Cv*V_th*m_flow_th + (fluidStat_th.p - fluid_2.p) * AeTh;
   end if;
   
   /* ---------------------------------------------
@@ -210,21 +248,8 @@ equation
   
 algorithm
   assert(fluid_1.h < fluidStat_th_fullExp.h, "nozzle inverse flow condition, fluid_1.h < fluidStat_th_fullExp.h" + "\n" + ", fluid_1.h=" + String(fluid_1.h) + ", fluidStat_th_fullExp.h=" + String(fluidStat_th_fullExp.h), AssertionLevel.warning);
-/*
-  //--- isentropic expansion ---
-  if((0.0<=fluid_2.p)and(0.0<=fluid_1.state.p))then
-    
-    h_2is:= Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
-    
-  elseif((fluid_2.p<0.0)and(fluid_1.state.p<0.0))then
-    
-    h_2is:= Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
-    
-  else
-    h_2is:= Medium.isentropicEnthalpy(-1.0*fluid_2.p, fluid_1.state);
-  end if;
-  */
-//--- throat fully-expanded ---
+  
+  //--- throat fully-expanded ---
   if 0.0 < fluidStat_th_fullExp.p and 0.0 < fluid_1.state.p then
     fluidStat_th_fullExp.h := Medium.isentropicEnthalpy(fluidStat_th_fullExp.p, fluid_1.state);
   elseif fluidStat_th_fullExp.p < 0.0 and fluid_1.state.p < 0.0 then
@@ -232,24 +257,15 @@ algorithm
   else
     fluidStat_th_fullExp.h := Medium.isentropicEnthalpy(-1.0 * fluidStat_th_fullExp.p, fluid_1.state);
   end if;
-/*
-  //--- throat ---
-  if((0.0<fluidStat_th.p)and(0.0<fluid_1.state.p))then
-    
-    fluidStat_th.h:= Medium.isentropicEnthalpy(fluidStat_th.p, fluid_1.state);
-    
-  elseif((fluidStat_th.p<0.0)and(fluid_1.state.p<0.0))then
-    
-    fluidStat_th.h:= Medium.isentropicEnthalpy(fluidStat_th.p, fluid_1.state);
-    
-  else
-    fluidStat_th.h:= Medium.isentropicEnthalpy(-1.0*fluidStat_th.p, fluid_1.state);
-  end if;
-  */
+  
+  
 initial equation
   port_1.m_flow = dmTh;
 initial algorithm
 //##### none #####
+  
+  
+  
 /********************************************************
   Graphics
 ********************************************************/
