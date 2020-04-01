@@ -7,12 +7,14 @@ model CmpCharFixed00
   ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
+  
+  
   /********************************************************
         Declaration
     ********************************************************/
   /* ---------------------------------------------
         switches
-    --------------------------------------------- */
+  --------------------------------------------- */
   parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.param "switch how to determine PR" annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
@@ -23,13 +25,17 @@ model CmpCharFixed00
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = true);
+  
+  
   /* ---------------------------------------------
         parameters
     --------------------------------------------- */
-  inner parameter Real PRdes_paramInput = 10 "pressure ratio, value fixed through simulation" annotation(
+  inner parameter Real PRdes_paramInput = 10 "pressure ratio, valid only when switchDetermine_PR==param, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
-  inner parameter Real effDes_paramInput = 0.80 "adiabatic efficiency, value fixed through simulation" annotation(
+  inner parameter Real effDes_paramInput = 0.80 "adiabatic efficiency, valid only when switchDetermine_eff==param, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
+  
+  
   /* ---------------------------------------------
         Interface
     --------------------------------------------- */
