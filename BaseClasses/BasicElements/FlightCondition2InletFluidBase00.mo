@@ -48,8 +48,6 @@ model FlightCondition2InletFluidBase00
   //----------
   Modelica.SIunits.SpecificEntropy s_fluidTot "specific entropy, fluidTot";
   Modelica.SIunits.SpecificEntropy s_fluidAmb "specific entropy, fluidAmb";
-  
-  
   //----------
   Modelica.SIunits.Length alt "altitude";
   Real MN "flight mach number";
@@ -57,25 +55,22 @@ model FlightCondition2InletFluidBase00
   Medium.MassFraction X_fluid[Medium.nX] "fluid composition";
   Medium.ExtraProperty C_fluid[Medium.nC] "fluid trace substance";
   Modelica.SIunits.Velocity V_infini "free stream velocity";
-  
   //----------
   Modelica.SIunits.AbsolutePressure pAmb;
   Modelica.SIunits.Temperature Tamb;
   //----------
   Modelica.SIunits.AbsolutePressure pAmbStd;
   Modelica.SIunits.Temperature TambStd;
-  
-  
   //----------
   Modelica.Fluid.Sources.Boundary_pT fluidSource2Eng
   (
-    redeclare package Medium = Medium, nPorts = 1, use_C_in = true, use_T_in = true, use_X_in = true, use_p_in = true
+    redeclare package Medium = Medium, nPorts = 1, use_C_in = false, use_T_in = true, use_X_in = true, use_p_in = true
   ) annotation(
     Placement(visible = true, transformation(origin = {80, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   Modelica.Fluid.Sources.Boundary_pT fluidSourceAmb
   (
-    redeclare package Medium = Medium, nPorts = 1, use_C_in = true, use_T_in = true, use_X_in = true, use_p_in = true
+    redeclare package Medium = Medium, nPorts = 1, use_C_in = false, use_T_in = true, use_X_in = true, use_p_in = true
   ) annotation(
     Placement(visible = true, transformation(origin = {0, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
@@ -130,39 +125,30 @@ equation
   
   
   y_V_infini = V_infini;
-  
-  
-  
-  /* ---------------------------------------------
+/* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
-  //-- regression curve of atmospheric table --
-  // curves of T, P
-  if ((environment.alt_ground <= alt) and (alt < environment.alt_UpBdTropos)) then
-    // troposphere, temperature gradient layer model
+//-- regression curve of atmospheric table --
+// curves of T, P
+  if environment.alt_ground <= alt and alt < environment.alt_UpBdTropos then
+// troposphere, temperature gradient layer model
     TambStd = environment.T_ground - 0.0064878 * (alt - environment.alt_ground);
     Tamb = TambStd + dTamb;
     pAmbStd = environment.p_ground * (TambStd / environment.T_ground) ^ (-1.0 * environment.gAccel / (environment.LapseR1 * fluidStat.R));
     pAmb = environment.p_ground * (Tamb / environment.T_ground) ^ (-1.0 * environment.gAccel / (environment.LapseR1 * fluidStat.R));
-  elseif ((environment.alt_UpBdTropos <= alt) and (alt < environment.alt_UpBdStratos)) then
-    // stratosphere, temperature is constant
+  elseif environment.alt_UpBdTropos <= alt and alt < environment.alt_UpBdStratos then
+// stratosphere, temperature is constant
     TambStd = environment.T_UpBdTropos;
     Tamb = TambStd + dTamb;
     pAmbStd = environment.p_UpBdTropos * exp(-1.0 * environment.gAccel / (fluidAmbStd.R * TambStd) * (alt - environment.T_UpBdTropos));
     pAmb = environment.p_UpBdTropos * exp(-1.0 * environment.gAccel / (fluidAmb.R * Tamb) * (alt - environment.T_UpBdTropos));
   end if;
-  
-  
-  // set fluid station states
+// set fluid station states
   fluidAmbStd.state = Medium.setState_pTX(pAmbStd, TambStd, X_fluid);
   fluidAmb.state = Medium.setState_pTX(pAmb, Tamb, X_fluid);
-  
-  
-  //-- figure out velocity --
+//-- figure out velocity --
   V_infini = MN * Medium.velocityOfSound(fluidAmb.state);
-  
-  
-  //-- velocity to total pressure --
+//-- velocity to total pressure --
   fluidTot.h = fluidStat.h + V_infini ^ 2.0 / 2.0;
   fluidTot.h = Medium.isentropicEnthalpy(fluidTot.p, fluidAmb.state);
   
@@ -171,9 +157,7 @@ equation
   s_fluidAmb= Medium.specificEntropy(fluidAmb.state);
   
   
-  medium.Xi = X_fluid[1:Medium.nXi];
-  port_fluidAmb.C_outflow = fill(C_in_internal, nPorts);
-  port_fluid2Eng.C_outflow = fill(C_in_internal, nPorts);
+  //medium.Xi = X_fluid[1:Medium.nXi];
   
   
   
