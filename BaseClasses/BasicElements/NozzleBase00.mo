@@ -228,6 +228,7 @@ equation
   s_fluid_th= Medium.specificEntropy(fluid_th.state);
   s_fluid_2Tot= Medium.specificEntropy(fluid_2Tot.state);
   
+  
   /*--------------------
   performance variables
   --------------------*/
@@ -236,6 +237,7 @@ equation
   elseif (switch_defineFg == switchDefineFg.ThroatFlowAndPressure) then
     Fg = Cv*V_th*m_flow_th + (fluidStat_th.p - fluid_2.p) * AeTh;
   end if;
+  
   
   /* ---------------------------------------------
   reinit invalid state variables
