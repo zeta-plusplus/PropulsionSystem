@@ -2,6 +2,8 @@ within PropulsionSystem.Elements.BasicElements;
 
 model NzlCharFixed00
   extends PropulsionSystem.BaseClasses.BasicElements.NozzleBase00;
+  
+  
   /********************************************************
         imports
   ********************************************************/
@@ -42,6 +44,7 @@ model NzlCharFixed00
   parameter Modelica.SIunits.Area AmechTh_paramInput= 0.01 "Throat mechanical area, valid only when switchDetermine_AmechTh==param, value fixed through simulation" annotation(
     Dialog(group = "Geometry"));
   
+  
   /* ---------------------------------------------
           Interface
   --------------------------------------------- */
@@ -64,26 +67,30 @@ model NzlCharFixed00
 algorithm
 //##### none #####
 equation
-
-//--------------------
+  
+  
+  /* ---------------------------------------------
+  Connections, interface <-> internal variables
+  --------------------------------------------- */
+  //--------------------
   if (switchDetermine_CdTh == PropulsionSystem.Types.switches.switchHowToDetVar.param) then
     CdThDes = CdThDes_paramInput;
   elseif (switchDetermine_CdTh == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) then
     CdThDes = u_CdTh;
   end if;
-//--------------------
+  //--------------------
   if (switchDetermine_Cv == PropulsionSystem.Types.switches.switchHowToDetVar.param) then
     CvDes = CvDes_paramInput;
   elseif (switchDetermine_Cv == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) then
     CvDes = u_Cv;
   end if;
-//--------------------
+  //--------------------
   if (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.param) then
     AmechTh = AmechTh_paramInput;
   elseif (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) then
     AmechTh= u_AmechTh;
   end if;
-//--------------------
+  //--------------------
   
   PR= PRdes;
   CdTh = CdThDes;

@@ -82,7 +82,7 @@ partial model InletBase00
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {60, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
-  Modelica.Blocks.Interfaces.RealInput u_V_infini(quantity="velocity", unit="m/s",displayUnit="m/s") "[m/s], free stream velocity outside of engine" annotation(
+  Modelica.Blocks.Interfaces.RealInput u_V_infini(quantity="Velocity", unit="m/s",displayUnit="m/s") "[m/s], free stream velocity outside of engine" annotation(
     Placement(visible = true, transformation(origin = {-120, -60}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-70, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_FdRam(quantity="Force", unit="N",displayUnit="N") "[N], ram drag at inlet" annotation(
     Placement(visible = true, transformation(origin = {110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {70, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
