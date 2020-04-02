@@ -167,6 +167,7 @@ equation
   
   pwr_inv= -1*pwr;
   trq_inv= -1*trq;
+  
   s_fluid_1= Medium.specificEntropy(fluid_1.state);
   s_fluid_2= Medium.specificEntropy(fluid_2.state);
   

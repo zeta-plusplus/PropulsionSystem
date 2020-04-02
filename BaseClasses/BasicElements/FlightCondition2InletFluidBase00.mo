@@ -35,12 +35,6 @@ model FlightCondition2InletFluidBase00
   parameter Modelica.SIunits.SpecificEnthalpy h1_init(displayUnit = "J/kg") = 1.004 * 1000 * 288.15 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
   
-  parameter Integer n_fluidAmb = 1 "" annotation(
-    Dialog(group = "misc setting"));
-  
-  parameter Integer n_fluid2Eng = 1 "" annotation(
-    Dialog(group = "misc setting"));
-  
   
   
   /* ---------------------------------------------
@@ -53,35 +47,35 @@ model FlightCondition2InletFluidBase00
   Medium.BaseProperties fluidAmbStd(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of static, standard condition";
   //----------
   Modelica.SIunits.SpecificEntropy s_fluidTot "specific entropy, fluidTot";
-  Modelica.SIunits.SpecificEntropy s_fluidStat "specific entropy, fluidStat";
+  Modelica.SIunits.SpecificEntropy s_fluidAmb "specific entropy, fluidAmb";
   
   
   //----------
   Modelica.SIunits.Length alt "altitude";
   Real MN "flight mach number";
   Modelica.SIunits.TemperatureDifference dTamb "deviation from std atmospheric temperature";
+  Medium.MassFraction X_fluid[Medium.nX] "fluid composition";
+  Medium.ExtraProperty C_fluid[Medium.nC] "fluid trace substance";
   Modelica.SIunits.Velocity V_infini "free stream velocity";
   
   //----------
   Modelica.SIunits.AbsolutePressure pAmb;
   Modelica.SIunits.Temperature Tamb;
-  Real Xamb[Medium.nX];
   //----------
   Modelica.SIunits.AbsolutePressure pAmbStd;
   Modelica.SIunits.Temperature TambStd;
-  Real XambStd[Medium.nX];
   
   
   //----------
   Modelica.Fluid.Sources.Boundary_pT fluidSource2Eng
   (
-    redeclare package Medium = Medium, nPorts = 1, use_C_in = false, use_T_in = true, use_X_in = true, use_p_in = true
+    redeclare package Medium = Medium, nPorts = 1, use_C_in = true, use_T_in = true, use_X_in = true, use_p_in = true
   ) annotation(
     Placement(visible = true, transformation(origin = {80, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   Modelica.Fluid.Sources.Boundary_pT fluidSourceAmb
   (
-    redeclare package Medium = Medium, nPorts = 1, use_C_in = false, use_T_in = true, use_X_in = true, use_p_in = true
+    redeclare package Medium = Medium, nPorts = 1, use_C_in = true, use_T_in = true, use_X_in = true, use_p_in = true
   ) annotation(
     Placement(visible = true, transformation(origin = {0, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
@@ -160,8 +154,8 @@ equation
   
   
   // set fluid station states
-  fluidAmbStd.state = Medium.setState_pTX(pAmbStd, TambStd, XambStd);
-  fluidAmb.state = Medium.setState_pTX(pAmb, Tamb, Xamb);
+  fluidAmbStd.state = Medium.setState_pTX(pAmbStd, TambStd, X_fluid);
+  fluidAmb.state = Medium.setState_pTX(pAmb, Tamb, X_fluid);
   
   
   //-- figure out velocity --
@@ -171,6 +165,15 @@ equation
   //-- velocity to total pressure --
   fluidTot.h = fluidStat.h + V_infini ^ 2.0 / 2.0;
   fluidTot.h = Medium.isentropicEnthalpy(fluidTot.p, fluidAmb.state);
+  
+  
+  s_fluidTot= Medium.specificEntropy(fluidTot.state);
+  s_fluidAmb= Medium.specificEntropy(fluidAmb.state);
+  
+  
+  medium.Xi = X_fluid[1:Medium.nXi];
+  port_fluidAmb.C_outflow = fill(C_in_internal, nPorts);
+  port_fluid2Eng.C_outflow = fill(C_in_internal, nPorts);
   
   
   

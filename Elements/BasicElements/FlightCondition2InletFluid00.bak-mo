@@ -1,0 +1,103 @@
+within PropulsionSystem.Elements.BasicElements;
+
+model FlightCondition2InletFluid00
+  extends PropulsionSystem.BaseClasses.BasicElements.FlightCondition2InletFluidBase00;
+  
+  
+  /********************************************************
+        imports
+  ********************************************************/
+  import Modelica.Constants;
+  
+  
+  
+  
+  /********************************************************
+                     Declaration
+  ********************************************************/
+  /* ---------------------------------------------
+          switches
+  --------------------------------------------- */
+  parameter Boolean use_u_alt = false
+    "get alt from the real input connector"
+    annotation(
+    Evaluate=true, choices(checkBox=true));
+  
+  parameter Boolean use_u_MN = false
+    "get MN from the real input connector"
+    annotation(
+    Evaluate=true, choices(checkBox=true));
+  
+  parameter Boolean use_u_dTamb = false
+    "get dTamb from the real input connector"
+    annotation(
+    Evaluate=true, choices(checkBox=true));
+  
+  parameter Boolean use_u_X = false
+    "get fluid composition from the real input connector"
+    annotation(
+    Evaluate=true, choices(checkBox=true));
+  
+  parameter Boolean use_u_C = false
+    "get fluid trace substance from the real input connector"
+    annotation(
+    Evaluate=true, choices(checkBox=true));
+  
+  
+  /* ---------------------------------------------
+          Interface
+  --------------------------------------------- */
+  Modelica.Blocks.Interfaces.RealInput u_alt(quantity="Length", unit="m",displayUnit="m") "flight altitude, valid only when use_u_alt==true" annotation(
+    Placement(visible = true, transformation(origin = {-120, 80}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  Modelica.Blocks.Interfaces.RealInput u_MN "flight mach number, valid only when use_u_MN==true" annotation(
+    Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  Modelica.Blocks.Interfaces.RealInput u_dTamb (quantity="ThermodynamicTemperature", unit="K",displayUnit="K") "temperature difference from standard atmospere, valid only when use_u_dTamb==true"  annotation(
+    Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  Modelica.Blocks.Interfaces.RealInput u_X_fluid "composition of fluid, valid only when use_u_X==true" annotation(
+    Placement(visible = true, transformation(origin = {-120, -40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  Modelica.Blocks.Interfaces.RealInput u_C_fluid "trace substance of fluid, valid only when use_u_C==true" annotation(
+    Placement(visible = true, transformation(origin = {-120, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-100, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    
+    
+    
+algorithm
+//##### none #####
+equation
+  
+  
+  
+  
+/********************************************************
+  Graphics
+********************************************************/
+
+  
+annotation(
+    defaultComponentName = "Flt2Fluid",
+    Documentation(info = "<html>
+  <a href=modelica://PropulsionSystem/docs/Elements/BasicElements/FlightCondition2InletFluid00.html> Document html page</a>
+  
+  <h4>example/demo models</h4>
+    <ul>
+    <li><a href=\"modelica://PropulsionSystem.Examples.Elements.BasicElements.FlightCondition2InletFluid00_ex01\"> PropulsionSystem.Examples.BasicElements.FlightCondition2InletFluid00_ex01 </a> </li>
+    </ul>
+    
+  <h4>classes which this component call (those in MSL are not listed) </h4>
+    <p> -> none </p>
+    
+  <h4>classes from which this component extend </h4>
+    <ul>
+    <li><a href=\"modelica://PropulsionSystem.BaseClasses.BasicElements.FlightCondition2InletFluidBase00\"> PropulsionSystem.BaseClasses.BasicElements.FlightCondition2InletFluidBase00 </a> </li>
+    </ul>
+
+</html>"),
+    
+    Icon(coordinateSystem(initialScale = 0.1)));
+  
+
+
+end FlightCondition2InletFluid00;
