@@ -114,6 +114,8 @@ algorithm
   assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
 
 equation
+  
+  
   /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
