@@ -1,11 +1,11 @@
 within PropulsionSystem;
 
 model EngineSimEnvironment
-  //********** Package **********
-  //##### none #####
-  //********** Type definitions, only valid in this class **********
-  //##### none #####
-  //********** Parameters **********
+  
+  
+  /* ---------------------------------------------
+      parameters
+  --------------------------------------------- */
   parameter Modelica.SIunits.Temperature Tstd= PropulsionSystem.Constants.constants_earth.Tstd
     ""
     annotation(
@@ -20,7 +20,70 @@ model EngineSimEnvironment
     ""
     annotation(
     Dialog(group = "System-wide constants"));
-  //----- switches -----
+  
+  
+  
+  //----- gound -----
+  parameter Modelica.SIunits.Length alt_ground= PropulsionSystem.Constants.constants_earth.alt_ground
+    ""
+    annotation(
+    Dialog(group = "constants for atmosphere model"));
+  
+  parameter Modelica.SIunits.Temperature T_ground= PropulsionSystem.Constants.constants_earth.T_ground
+    ""
+    annotation(
+    Dialog(group = "constants for atmosphere model"));
+  
+  parameter Modelica.SIunits.AbsolutePressure p_ground= PropulsionSystem.Constants.constants_earth.p_ground
+    ""
+    annotation(
+    Dialog(group = "constants for atmosphere model"));
+  
+  
+  //----- upper bound of troposhere -----
+  parameter Modelica.SIunits.Length alt_UpBdTropos= PropulsionSystem.Constants.constants_earth.alt_UpBdTropos
+    ""
+    annotation(
+    Dialog(group = "constants for atmosphere model"));
+    
+  parameter Modelica.SIunits.Temperature T_UpBdTropos= PropulsionSystem.Constants.constants_earth.T_UpBdTropos
+    ""
+    annotation(
+    Dialog(group = "constants for atmosphere model"));
+    
+  parameter Modelica.SIunits.AbsolutePressure p_UpBdTropos= PropulsionSystem.Constants.constants_earth.p_UpBdTropos
+    ""
+    annotation(
+    Dialog(group = "constants for atmosphere model"));
+    
+  parameter Real LapseR1= PropulsionSystem.Constants.constants_earth.LapseR1
+    ""
+    annotation(
+    Dialog(group = "constants for atmosphere model"));
+    
+  
+  //----- upper bound of stratosphere -----
+  parameter Modelica.SIunits.Length alt_UpBdStratos= PropulsionSystem.Constants.constants_earth.alt_UpBdStratos
+    ""
+    annotation(
+    Dialog(group = "constants for atmosphere model"));
+  
+  parameter Modelica.SIunits.Temperature T_UpBdStratos= PropulsionSystem.Constants.constants_earth.T_UpBdStratos
+    ""
+    annotation(
+    Dialog(group = "constants for atmosphere model"));
+    
+  parameter Modelica.SIunits.AbsolutePressure p_UpBdStratos= PropulsionSystem.Constants.constants_earth.p_UpBdStratos
+    ""
+    annotation(
+    Dialog(group = "constants for atmosphere model"));
+    
+  parameter Real LapseR2= PropulsionSystem.Constants.constants_earth.LapseR2
+    ""
+    annotation(
+    Dialog(group = "constants for atmosphere model"));
+  
+  
 
 /********************************************************
   Graphics
