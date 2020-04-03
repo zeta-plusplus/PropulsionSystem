@@ -3,7 +3,7 @@ within PropulsionSystem.BaseClasses.BasicElements;
 model FlightCondition2InletFluidBase00
   /********************************************************
           imports
-    ********************************************************/
+  ********************************************************/
   import Modelica.Constants;
   import Modelica.Utilities.Streams;
   import PropulsionSystem.Types.switches;
