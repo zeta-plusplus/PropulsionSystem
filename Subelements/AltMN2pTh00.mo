@@ -89,8 +89,15 @@ equation
   Eqns describing physics
   --------------------------------------------- */
   // set fluid station states
-  fluidAmbStd.state = Medium.setState_pTX(pAmbStd, TambStd, u_X);
-  fluidAmb.state = Medium.setState_pTX(pAmb, Tamb, u_X);
+  fluidAmbStd.Xi = u_X[1:Medium.nXi];
+  fluidAmb.Xi = u_X[1:Medium.nXi];
+  fluidTot.Xi = u_X[1:Medium.nXi];
+  
+  fluidAmbStd.state.p= pAmbStd;
+  fluidAmbStd.state.T= TambStd;
+  fluidAmb.state.p= pAmb;
+  fluidAmb.state.T= Tamb;
+  
   //-- figure out velocity --
   V_inf = MN * Medium.velocityOfSound(fluidAmb.state);
   //-- velocity to total pressure --
