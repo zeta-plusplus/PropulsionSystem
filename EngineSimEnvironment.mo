@@ -9,17 +9,17 @@ model EngineSimEnvironment
   parameter Modelica.SIunits.Temperature Tstd= PropulsionSystem.Constants.constants_earth.Tstd
     ""
     annotation(
-    Dialog(group = "System-wide constants"));
+    Dialog(group = "constants of standards"));
   
   parameter Modelica.SIunits.Pressure pStd= PropulsionSystem.Constants.constants_earth.pStd
     ""
     annotation(
-    Dialog(group = "System-wide constants"));
+    Dialog(group = "constants of standards"));
   
   parameter Modelica.SIunits.Acceleration gravity= PropulsionSystem.Constants.constants_earth.gravity
     ""
     annotation(
-    Dialog(group = "System-wide constants"));
+    Dialog(group = "constants of standards"));
   
   
   

@@ -15,9 +15,14 @@ model AltMN2pTh00
     --------------------------------------------- */
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation(
     choicesAllMatching = true);
+  
+  
   /* ---------------------------------------------
         Internal variables
     --------------------------------------------- */
+  inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
+  
+  
   Medium.BaseProperties fluidTot "flow station of total";
   Medium.BaseProperties fluidAmb "flow station of static";
   Medium.BaseProperties fluidAmbStd "flow station of static, standard condition";
@@ -33,23 +38,6 @@ model AltMN2pTh00
   Modelica.SIunits.AbsolutePressure pAmbStd;
   Modelica.SIunits.Temperature TambStd;
   //----------
-  
-  
-  constant Modelica.SIunits.Acceleration gAccel = 9.81;
-  // gound
-  constant Modelica.SIunits.Length alt_ground = 0.0;
-  constant Modelica.SIunits.Temperature T_ground = 288.16;
-  constant Modelica.SIunits.AbsolutePressure p_ground = 101323.7;
-  // upper bound of troposhere
-  constant Modelica.SIunits.Length alt_UpBdTropos = 11019.1;
-  constant Modelica.SIunits.Temperature T_UpBdTropos = 216.67;
-  constant Modelica.SIunits.AbsolutePressure p_UpBdTropos = 22632.9;
-  constant Real LapseR1 = -0.0064878;
-  // upper bound of stratosphere
-  constant Modelica.SIunits.Length alt_UpBdStratos = 25099.1;
-  constant Modelica.SIunits.Temperature T_UpBdStratos = 216.67;
-  constant Modelica.SIunits.AbsolutePressure p_UpBdStratos = 2486.4;
-  constant Real LapseR2 = 0.0;
   
   
   
@@ -116,18 +104,18 @@ algorithm
   
   //-- regression curve of atmospheric table --
   // curves of T, P
-  if alt_ground <= alt and alt < alt_UpBdTropos then
+  if environment.alt_ground <= alt and alt < environment.alt_UpBdTropos then
     // troposphere, temperature gradient layer model
-    TambStd := T_ground - 0.0064878 * (alt - alt_ground);
+    TambStd := environment.T_ground - 0.0064878 * (alt - environment.alt_ground);
     Tamb := TambStd + dTamb;
-    pAmbStd := p_ground * (TambStd / T_ground) ^ (-1.0 * gAccel / (LapseR1 * fluidAmbStd.R));
-    pAmb := p_ground * (Tamb / T_ground) ^ (-1.0 * gAccel / (LapseR1 * fluidAmb.R));
-  elseif alt_UpBdTropos <= alt and alt < alt_UpBdStratos then
+    pAmbStd := environment.p_ground * (TambStd / environment.T_ground) ^ (-1.0 * environment.gravity / (environment.LapseR1 * fluidAmbStd.R));
+    pAmb := environment.p_ground * (Tamb / environment.T_ground) ^ (-1.0 * environment.gravity / (environment.LapseR1 * fluidAmb.R));
+  elseif environment.alt_UpBdTropos <= alt and alt < environment.alt_UpBdStratos then
     // stratosphere, temperature is constant
-    TambStd := T_UpBdTropos;
+    TambStd := environment.T_UpBdTropos;
     Tamb := TambStd + dTamb;
-    pAmbStd := p_UpBdTropos * exp(-1.0 * gAccel / (fluidAmbStd.R * TambStd) * (alt - T_UpBdTropos));
-    pAmb := p_UpBdTropos * exp(-1.0 * gAccel / (fluidAmb.R * Tamb) * (alt - T_UpBdTropos));
+    pAmbStd := environment.p_UpBdTropos * exp(-1.0 * environment.gravity / (fluidAmbStd.R * TambStd) * (alt - environment.T_UpBdTropos));
+    pAmb := environment.p_UpBdTropos * exp(-1.0 * environment.gravity / (fluidAmb.R * Tamb) * (alt - environment.T_UpBdTropos));
   end if;
 
   
