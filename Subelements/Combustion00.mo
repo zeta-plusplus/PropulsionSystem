@@ -32,7 +32,7 @@ model Combustion00
   Modelica.Blocks.Interfaces.RealInput u_LHV_fuel(quantity="SpecificEnthalpy", unit="J/kg",displayUnit="J/kg") "[J/kg],  lower heating value of fuel" annotation(
     Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 
-  Modelica.Blocks.Interfaces.RealInput u_effComb "combustion efficiency" annotation(
+  Modelica.Blocks.Interfaces.RealInput u_effComb "[nond], combustion efficiency" annotation(
     Placement(visible = true, transformation(origin = {-120, -60}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   Modelica.Blocks.Interfaces.RealOutput y_m_flow_fuel(quantity="MassFlowRate", unit="kg/s", displayUnit="kg/s") "[kg/s], mass flow rate of fuel" annotation(
