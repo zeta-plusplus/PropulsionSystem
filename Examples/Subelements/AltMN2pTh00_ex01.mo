@@ -3,7 +3,7 @@ within PropulsionSystem.Examples.Subelements;
 model AltMN2pTh00_ex01
   extends Modelica.Icons.Example;
   //-----
-
+  package engineAir = Modelica.Media.Air.DryAirNasa;
   //redeclare package Medium = engineAir
   //-----
   PropulsionSystem.Subelements.AltMN2pTh00 AltMN2pTh(redeclare package Medium = engineAir) annotation(
