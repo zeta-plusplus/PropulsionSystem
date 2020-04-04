@@ -5,7 +5,7 @@ model InltCharFixed00
   
   
   /********************************************************
-        imports
+        imports   
   ********************************************************/
   import Modelica.Constants;
   
@@ -13,32 +13,31 @@ model InltCharFixed00
   
   
   /********************************************************
-                     Declaration
+                     Declaration    
   ********************************************************/
   /* ---------------------------------------------
-          switches
+          switches    
   --------------------------------------------- */
-  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_effRam = PropulsionSystem.Types.switches.switchHowToDetVar.param "switch how to determine effRam" annotation(
-    Dialog(group = "switch"),
-    choicesAllMatching = true,
+  parameter Boolean use_u_effRam = false "get effRam from the real input connector" annotation(
     Evaluate = true,
-    HideResult = true);
+    HideResult = true,
+    choices(checkBox = true), Dialog(group = "switch"));
   
   
   
   /* ---------------------------------------------
-          parameters
+          parameters    
   --------------------------------------------- */
-  parameter Real effRamDes_paramInput = 0.95 "ram pressure recovery factor, valid only when switchDetermine_effRam==param, value fixed through simulation" annotation(
+  parameter Real effRamDes_paramInput = 0.95 "ram pressure recovery factor, valid only when use_u_effRam==false, value fixed through simulation" annotation(
     Dialog(group = "Characteristics"));
   
   
+  
   /* ---------------------------------------------
-          Interface
+          Interface   
   --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_effRam 
-    if switchDetermine_effRam == 
-      PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "effRam input, valid only when switchDetermine_effRam==viaRealInput" annotation(
+    if use_u_effRam "effRam input, valid only when use_u_effRam==true" annotation(
     Placement(visible = true, transformation(origin = {-40, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {0, -75}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   
@@ -48,14 +47,14 @@ algorithm
 equation
   
   /* ---------------------------------------------
-    Connections, interface <-> internal variables
+    Connections, interface <-> internal variables   
   --------------------------------------------- */
   //--------------------
-  if (switchDetermine_effRam == PropulsionSystem.Types.switches.switchHowToDetVar.param) then
+  if (use_u_effRam==false) then
     effRam = effRamDes_paramInput;
-  elseif (switchDetermine_effRam == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) then
+  elseif (use_u_effRam==true) then
     effRam = u_effRam;
-  end if;
+  end if; 
   //--------------------
   
   effRamDes= effRam;

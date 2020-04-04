@@ -49,11 +49,11 @@ model NzlCharFixed00
           Interface   
   --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_CdTh 
-    if use_u_CdTh "CdTh input, valid only when switchDetermine_CdTh==viaRealInput" annotation(
+    if use_u_CdTh "CdTh input, valid only when use_u_CdTh==true" annotation(
     Placement(visible = true, transformation(origin = {-80, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {-40, -77}, extent = {{-8, -8}, {8, 8}}, rotation = 90)));
   
   Modelica.Blocks.Interfaces.RealInput u_Cv 
-    if use_u_Cv "Cv input, valid only when switchDetermine_Cv==viaRealInput" annotation(
+    if use_u_Cv "Cv input, valid only when use_u_Cv==true" annotation(
     Placement(visible = true, transformation(origin = {-40, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {0, -65}, extent = {{-8, -8}, {8, 8}}, rotation = 90)));
   
   Modelica.Blocks.Interfaces.RealInput u_AmechTh 
