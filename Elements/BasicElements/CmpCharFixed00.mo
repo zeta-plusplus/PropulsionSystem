@@ -3,15 +3,15 @@ within PropulsionSystem.Elements.BasicElements;
 model CmpCharFixed00
   extends PropulsionSystem.BaseClasses.BasicElements.CompressorBase00;
   /********************************************************
-        imports
+        imports   
   ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
   
   
   /********************************************************
-        Declaration
-    ********************************************************/
+        Declaration   
+  ********************************************************/
   /* ---------------------------------------------
         switches
   --------------------------------------------- */
@@ -37,8 +37,8 @@ model CmpCharFixed00
   
   
   /* ---------------------------------------------
-        Interface
-    --------------------------------------------- */
+        Interface   
+  --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_PR if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "PR input, valid only when switchDetermine_PR==viaRealInput" annotation(
     Placement(visible = true, transformation(origin = {-60, -112}, extent = {{-12, -12}, {12, 12}}, rotation = 90), iconTransformation(origin = {-40, -76}, extent = {{-6, -6}, {6, 6}}, rotation = 90)));
   Modelica.Blocks.Interfaces.RealInput u_eff if use_u_eff "eff input, valid only when use_u_eff==true" annotation(
@@ -50,20 +50,20 @@ equation
   m_flow_des_1 = port_1.m_flow;
   pDes_1 = fluid_1.p;
   Tdes_1 = fluid_1.T;
-  NmechDes = Nmech;
-//--------------------
+  NmechDes = Nmech; 
+  //--------------------
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     PRdes = PRdes_paramInput;
   elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
     PRdes = u_PR;
-  end if;
-//--------------------
+  end if; 
+  //--------------------
   if use_u_eff == false then
     effDes = effDes_paramInput;
   elseif use_u_eff==true then
     effDes = u_eff;
-  end if;
-//--------------------
+  end if; 
+  //--------------------
   PR = PRdes;
   eff = effDes;
 /********************************************************
