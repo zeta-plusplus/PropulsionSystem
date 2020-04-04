@@ -35,7 +35,7 @@ model DuctCharFixed00
   --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_dPqP 
     if use_u_dPqP "dPqP input, valid only when use_u_dPqP==true" annotation(
-    Placement(visible = true, transformation(origin = {-40, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-60, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement(visible = true, transformation(origin = {-40, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-40, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   
   

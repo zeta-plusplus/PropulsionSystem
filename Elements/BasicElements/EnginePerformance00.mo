@@ -18,7 +18,7 @@ model EnginePerformance00
   Modelica.SIunits.Force Fram;
   Modelica.SIunits.Force FdScrub;
   Modelica.SIunits.MassFlowRate m_flow_fuel;
-  Modelica.SIunits.Force Fn(start = 1.0);
+  Modelica.SIunits.Force Fn;
   Real TSFC "";
   Real TSFC_Bt "";
   //********** Interfaces **********
@@ -60,7 +60,7 @@ equation
   u_TSFC_Bt = TSFC_Bt;
 //********** Eqns describing physics **********
   Fn = Fg - Fram - FdScrub;
-  TSFC = dm_fuel / Fn;
+  TSFC = m_flow_fuel / Fn;
   TSFC_Bt = TSFC * 2.0;
 /********************************************************
   Graphics
