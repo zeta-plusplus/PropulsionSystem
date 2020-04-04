@@ -1,6 +1,7 @@
 CmpCharFixed00
 TrbCharFixed00
 HeatInjector00
+CombCharFixed00
 NzlCharFixed00
 InltCharFixed00
 DuctCharFixed00
@@ -26,4 +27,3 @@ constrain_Nmech
 constrain_T
 constrain_dm
 extractPwr
-CombCharFixed00
