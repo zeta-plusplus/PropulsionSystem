@@ -23,15 +23,15 @@ model CombCharFixed00
   parameter Boolean use_u_m_flow_fuel = true "get m_flow_fuel from the real input connector" annotation(
     Evaluate = true,
     HideResult = true,
-    choices(checkBox = true), Dialog(group = "switches"));
+    choices(checkBox = true), Dialog(group = "switch"));
   parameter Boolean use_u_LHV_fuel = false "get LHV_fuel from the real input connector" annotation(
     Evaluate = true,
     HideResult = true,
-    choices(checkBox = true), Dialog(group = "switches"));
+    choices(checkBox = true), Dialog(group = "switch"));
   parameter Boolean use_u_effComb = false "get effComb from the real input connector" annotation(
     Evaluate = true,
     HideResult = true,
-    choices(checkBox = true), Dialog(group = "switches"));
+    choices(checkBox = true), Dialog(group = "switch"));
   
   
   
@@ -76,15 +76,13 @@ model CombCharFixed00
     Placement(visible = true, transformation(origin = {-10, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   //********************************************************************************
 equation
-  
-  
-  /* ---------------------------------------------
+  connect(Combustion.HeatPort_1, HeatInjector.HeatPort_1) annotation(
+    Line(points = {{-20, 40}, {-10, 40}, {-10, 10}}, color = {191, 0, 0}));
+  connect(Combustion.y_m_flow_fuel, y_m_flow_fuel) annotation(
+    Line(points = {{-19, 35}, {72, 35}, {72, -70}, {110, -70}}, color = {0, 0, 127}));
+/* ---------------------------------------------
     Connections, interface <-> internal variables   
   --------------------------------------------- */
-  connect(Combustion.y_m_flow_fuel, y_m_flow_fuel) annotation(
-    Line(points = {{-18, 34}, {72, 34}, {72, -70}, {110, -70}, {110, -70}}, color = {0, 0, 127}));
-  connect(Combustion.HeatPort_1, HeatInjector.HeatPort_1) annotation(
-    Line(points = {{-20, 40}, {-10, 40}, {-10, 10}, {-10, 10}}, color = {191, 0, 0}));
   connect(HeatInjector.port_2, port_2) annotation(
     Line(points = {{0, 0}, {100, 0}}, color = {0, 127, 255}));
   connect(port_1, HeatInjector.port_1) annotation(
