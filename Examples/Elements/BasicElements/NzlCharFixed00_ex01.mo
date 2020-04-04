@@ -25,16 +25,16 @@ model NzlCharFixed00_ex01
   Modelica.Blocks.Sources.Ramp ramp_p_amb(duration = 10, height = 0.0, offset = 1.0 * 101.325 * 1000, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {50, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
-  connect(boundary1.p_in, ramp_p_amb.y) annotation(
-    Line(points = {{38, 42}, {38, 42}, {38, 50}, {50, 50}, {50, 60}, {50, 60}}, color = {0, 0, 127}));
+  connect(massFlowRate1.port_b, Nzl.port_1) annotation(
+    Line(points = {{-10, 8}, {10, 8}}, color = {0, 127, 255}));
   connect(Nzl.port_2, boundary1.ports[1]) annotation(
     Line(points = {{30, 8}, {30, 20}}, color = {0, 127, 255}));
+  connect(boundary1.p_in, ramp_p_amb.y) annotation(
+    Line(points = {{38, 42}, {38, 42}, {38, 50}, {50, 50}, {50, 60}, {50, 60}}, color = {0, 0, 127}));
   connect(ramp_p_in.y, boundary.p_in) annotation(
     Line(points = {{-79, 20}, {-73, 20}, {-73, 16}, {-63, 16}, {-63, 16}}, color = {0, 0, 127}));
   connect(boundary.ports[1], massFlowRate1.port_a) annotation(
     Line(points = {{-40, 8}, {-30, 8}, {-30, 8}, {-30, 8}}, color = {0, 127, 255}));
-  connect(massFlowRate1.port_b, Nzl.port_1) annotation(
-    Line(points = {{-10, 8}, {10, 8}, {10, 8}, {10, 8}}, color = {0, 127, 255}));
   connect(massFlowRate1.m_flow, Constraint.u_variable) annotation(
     Line(points = {{-20, -3}, {-20, -9}}, color = {0, 0, 127}));
   connect(ramp_m_flow.y, Constraint.u_targetValue) annotation(

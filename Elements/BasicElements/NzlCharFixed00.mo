@@ -5,57 +5,55 @@ model NzlCharFixed00
   
   
   /********************************************************
-        imports
+        imports   
   ********************************************************/
   import Modelica.Constants;
   
   
   
   /********************************************************
-                     Declaration
+                     Declaration    
   ********************************************************/
   /* ---------------------------------------------
-          switches
+          switches    
   --------------------------------------------- */
-  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_CdTh = PropulsionSystem.Types.switches.switchHowToDetVar.param "switch how to determine CdTh" annotation(
-    Dialog(group = "switch"),
-    choicesAllMatching = true,
-    Evaluate = true,
-    HideResult = true);
-  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_Cv = PropulsionSystem.Types.switches.switchHowToDetVar.param "switch how to determine Cv" annotation(
-    Dialog(group = "switch"),
-    choicesAllMatching = true,
-    Evaluate = true,
-    HideResult = true);
   parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_AmechTh = PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated "switch how to determine AmechTh" annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = true);
+  parameter Boolean use_u_CdTh = false "get CdTh from the real input connector" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true), Dialog(group = "switch"));
+  parameter Boolean use_u_Cv = false "get Cv from the real input connector" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true), Dialog(group = "switch"));
+  
   
   
   /* ---------------------------------------------
-          parameters
+          parameters    
   --------------------------------------------- */
-  parameter Real CdThDes_paramInput = 0.99 "discharge coefficient at throat, valid only when switchDetermine_CdTh==param, value fixed through simulation" annotation(
+  parameter Real CdThDes_paramInput = 0.99 "discharge coefficient at throat, valid only when use_u_CdTh==false, value fixed through simulation" annotation(
     Dialog(group = "Characteristics"));
-  parameter Real CvDes_paramInput = 0.99 "flow velocity coefficient, valid only when switchDetermine_Cv==param, value fixed through simulation" annotation(
+  parameter Real CvDes_paramInput = 0.99 "flow velocity coefficient, valid only when use_u_Cv==false, value fixed through simulation" annotation(
     Dialog(group = "Characteristics"));
   parameter Modelica.SIunits.Area AmechTh_paramInput= 0.01 "Throat mechanical area, valid only when switchDetermine_AmechTh==param, value fixed through simulation" annotation(
     Dialog(group = "Geometry"));
   
   
+  
   /* ---------------------------------------------
-          Interface
+          Interface   
   --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_CdTh 
-    if switchDetermine_CdTh == 
-      PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "CdTh input, valid only when switchDetermine_CdTh==viaRealInput" annotation(
+    if use_u_CdTh "CdTh input, valid only when switchDetermine_CdTh==viaRealInput" annotation(
     Placement(visible = true, transformation(origin = {-80, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {-40, -77}, extent = {{-8, -8}, {8, 8}}, rotation = 90)));
   
   Modelica.Blocks.Interfaces.RealInput u_Cv 
-    if switchDetermine_Cv == 
-      PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "Cv input, valid only when switchDetermine_Cv==viaRealInput" annotation(
+    if use_u_Cv "Cv input, valid only when switchDetermine_Cv==viaRealInput" annotation(
     Placement(visible = true, transformation(origin = {-40, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {0, -65}, extent = {{-8, -8}, {8, 8}}, rotation = 90)));
   
   Modelica.Blocks.Interfaces.RealInput u_AmechTh 
@@ -70,26 +68,26 @@ equation
   
   
   /* ---------------------------------------------
-  Connections, interface <-> internal variables
+  Connections, interface <-> internal variables   
   --------------------------------------------- */
   //--------------------
-  if (switchDetermine_CdTh == PropulsionSystem.Types.switches.switchHowToDetVar.param) then
+  if (use_u_CdTh==false) then
     CdThDes = CdThDes_paramInput;
-  elseif (switchDetermine_CdTh == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) then
+  elseif (use_u_Cv==true) then
     CdThDes = u_CdTh;
-  end if;
+  end if; 
   //--------------------
-  if (switchDetermine_Cv == PropulsionSystem.Types.switches.switchHowToDetVar.param) then
+  if (use_u_Cv==false) then
     CvDes = CvDes_paramInput;
-  elseif (switchDetermine_Cv == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) then
+  elseif (use_u_Cv==true) then
     CvDes = u_Cv;
-  end if;
+  end if; 
   //--------------------
   if (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.param) then
     AmechTh = AmechTh_paramInput;
   elseif (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) then
     AmechTh= u_AmechTh;
-  end if;
+  end if; 
   //--------------------
   
   PR= PRdes;
