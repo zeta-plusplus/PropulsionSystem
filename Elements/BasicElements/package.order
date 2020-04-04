@@ -2,9 +2,13 @@ CmpCharFixed00
 TrbCharFixed00
 HeatInjector00
 CombCharFixed00
+CombCharFixed01
 NzlCharFixed00
 InltCharFixed00
 DuctCharFixed00
+PropellerActuatorDisk00
+MotorGeneratorCharFixed00
+EnginePerformance00
 PropellerActDisk
 Compressor
 Compressor_Map_WcPReff
@@ -27,4 +31,3 @@ constrain_Nmech
 constrain_T
 constrain_dm
 extractPwr
-EnginePerformance00
