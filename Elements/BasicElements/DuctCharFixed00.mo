@@ -5,38 +5,36 @@ model DuctCharFixed00
   
   
   /********************************************************
-        imports
+        imports   
   ********************************************************/
   import Modelica.Constants;
   
   
   /********************************************************
-                     Declaration
+                     Declaration    
   ********************************************************/
   /* ---------------------------------------------
-          switches
+          switches    
   --------------------------------------------- */
-  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_dPqP = PropulsionSystem.Types.switches.switchHowToDetVar.param "switch how to determine dPqP" annotation(
-    Dialog(group = "switch"),
-    choicesAllMatching = true,
+  parameter Boolean use_u_dPqP = false "get dPqP from the real input connector" annotation(
     Evaluate = true,
-    HideResult = true);
+    HideResult = true,
+    choices(checkBox = true), Dialog(group = "switch"));
   
   
   
   /* ---------------------------------------------
-          parameters
+          parameters    
   --------------------------------------------- */
-  parameter Real dPqPdes_paramInput = 0.01 "total pressure loss factor, valid only when switchDetermine_dPqP==param, value fixed through simulation" annotation(
+  parameter Real dPqPdes_paramInput = 0.01 "total pressure loss factor, valid only when use_u_dPqP==false, value fixed through simulation" annotation(
     Dialog(group = "Characteristics"));
   
   
   /* ---------------------------------------------
-          Interface
+          Interface   
   --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_dPqP 
-    if switchDetermine_dPqP == 
-      PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "dPqP input, valid only when switchDetermine_dPqP==viaRealInput" annotation(
+    if use_u_dPqP "dPqP input, valid only when use_u_dPqP==true" annotation(
     Placement(visible = true, transformation(origin = {-40, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-60, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   
@@ -48,14 +46,14 @@ equation
   
   
   /* ---------------------------------------------
-    Connections, interface <-> internal variables
+    Connections, interface <-> internal variables   
   --------------------------------------------- */
   //--------------------
-  if (switchDetermine_dPqP == PropulsionSystem.Types.switches.switchHowToDetVar.param) then
+  if (use_u_dPqP==false) then
     dPqP = dPqPdes_paramInput;
-  elseif (switchDetermine_dPqP == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) then
+  elseif (use_u_dPqP==true) then
     dPqP = u_dPqP;
-  end if;
+  end if; 
   //--------------------
   
   dPqPdes=dPqP;

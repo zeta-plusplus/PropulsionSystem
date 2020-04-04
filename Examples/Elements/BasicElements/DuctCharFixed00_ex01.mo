@@ -14,7 +14,7 @@ model DuctCharFixed00_ex01
     Placement(visible = true, transformation(origin = {50, 30}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_dPqP(duration = 10, height = 0.005, offset = 0.01, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-16, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  PropulsionSystem.Elements.BasicElements.DuctCharFixed00 Duct(redeclare package Medium = engineAir, switchDetermine_dPqP = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) annotation(
+  PropulsionSystem.Elements.BasicElements.DuctCharFixed00 Duct(redeclare package Medium = engineAir, use_u_dPqP = true) annotation(
     Placement(visible = true, transformation(origin = {-10, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(ramp_dPqP.y, Duct.u_dPqP) annotation(
