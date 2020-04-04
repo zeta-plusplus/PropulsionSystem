@@ -1,6 +1,6 @@
 within PropulsionSystem.Elements.BasicElements;
 
-model EnginePerformance
+model EnginePerformance00
   import Modelica.Constants;
   /********************************************************
      Declaration
@@ -9,7 +9,7 @@ model EnginePerformance
   //##### none #####
   //********** Parameters **********
   //##### none #####
-  parameter Boolean use_FdScrub_in = false "" annotation(
+  parameter Boolean use_u_FdScrub = false "" annotation(
     Evaluate = true,
     HideResult = true,
     choices(checkBox = true), Dialog(group = "switch"));
@@ -28,7 +28,7 @@ model EnginePerformance
     Placement(visible = true, transformation(origin = {-120, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_m_flow_fuel annotation(
     Placement(visible = true, transformation(origin = {-120, -60}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_FdScrub if use_FdScrub_in annotation(
+  Modelica.Blocks.Interfaces.RealInput u_FdScrub if use_u_FdScrub annotation(
     Placement(visible = true, transformation(origin = {-120, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_Fn annotation(
     Placement(visible = true, transformation(origin = {110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -47,7 +47,7 @@ equation
 //********** Geometries **********
 //##### none #####
 //********** Connections, interface <-> internal variables **********
-  if use_FdScrub_in == true then
+  if (use_u_FdScrub == true) then
     FdScrub = u_FdScrub;
   else
     FdScrub = 0.0;
@@ -72,4 +72,4 @@ equation
   Icon(coordinateSystem(initialScale = 0.1), graphics = {Rectangle(origin = {-8, 4}, fillColor = {229, 229, 229}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-92, 96}, {108, -104}}), Text(origin = {-26, 8}, fillColor = {232, 232, 232}, extent = {{-74, 32}, {126, -48}}, textString = "Perf."), Rectangle(origin = {-9, 4}, extent = {{-91, 96}, {109, -104}})}));
 
 
-end EnginePerformance;
+end EnginePerformance00;

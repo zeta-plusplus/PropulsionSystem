@@ -16,7 +16,7 @@ model TrbCharFixed00
   /* ---------------------------------------------
         switches    
   --------------------------------------------- */
-  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.param "switch how to determine PR" annotation(
+  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated "switch how to determine PR" annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
     Evaluate = true,
