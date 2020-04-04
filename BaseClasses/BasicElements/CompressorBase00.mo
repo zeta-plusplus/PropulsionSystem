@@ -72,7 +72,6 @@ partial model CompressorBase00
   
   Modelica.SIunits.MassFlowRate m_flow_max;
   Modelica.SIunits.MassFlowRate m_flow_min;
-  
   //********** Design point variables **********
   Modelica.SIunits.MassFlowRate m_flow_des_1;
   Modelica.SIunits.Pressure pDes_1;
@@ -82,7 +81,6 @@ partial model CompressorBase00
   inner Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NcDes_1;
   Real PRdes;
   Real effDes;
-  
   //********** variables relative to design point **********
   inner Real NcqNcDes_1 "ratio of corrected rotational speed with respect to design pt. speed";
   Real NqNdes "ratio of mech. rotational speed with respect to design pt. speed";
@@ -113,21 +111,19 @@ algorithm
   assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
   
 equation
-  /* ---------------------------------------------
+/* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
-  //-- fluidPort_1 --
+//-- fluidPort_1 --
   fluid_1.p = port_1.p;
   fluid_1.h = actualStream(port_1.h_outflow);
   fluid_1.Xi = actualStream(port_1.Xi_outflow);
-  
-  //-- fluidPort_2 --
+//-- fluidPort_2 --
   fluid_2.p = port_2.p;
   fluid_2.h = actualStream(port_2.h_outflow);
   fluid_2.Xi = actualStream(port_2.Xi_outflow);
-  
-  // distinguish inlet side
-  m_flow_max= max(port_1.m_flow, port_2.m_flow);
+// distinguish inlet side
+  m_flow_max = max(port_1.m_flow, port_2.m_flow);
   m_flow_min= min(port_1.m_flow, port_2.m_flow);
   
   if(m_flow_max == port_1.m_flow)then
@@ -137,8 +133,7 @@ equation
   else
     port_1.h_outflow= fluid_1.h;
   end if;
-  
-  //-- shaft --
+//-- shaft --
   flange_1.phi = phi;
   flange_2.phi = phi;
   
@@ -170,13 +165,10 @@ equation
   
   s_fluid_1= Medium.specificEntropy(fluid_1.state);
   s_fluid_2= Medium.specificEntropy(fluid_2.state);
-  
-  //-- Design point variables --
+//-- Design point variables --
   NcDes_1 = NmechDes / sqrt(Tdes_1 / environment.Tstd);
   WcDes_1 = m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd);
-  
-  
-  //-- variables relative to design point --
+//-- variables relative to design point --
   NqNdes = Nmech / NmechDes;
   NcqNcDes_1 = Nc_1 / NcDes_1;
   
@@ -187,7 +179,7 @@ equation
   
   annotation(
     defaultComponentName="Cmp",
-    Icon(graphics = {Polygon(origin = {2, 36}, fillColor = {0, 85, 255}, fillPattern = FillPattern.Solid, points = {{-62, -38}, {-62, -116}, {58, -56}, {58, -16}, {-62, 44}, {-62, -38}}), Rectangle(origin = {-89, 6}, fillPattern = FillPattern.Solid, extent = {{-11, 4}, {29, -16}}), Rectangle(origin = {83, 2}, fillPattern = FillPattern.Solid, extent = {{-23, 8}, {17, -12}}), Rectangle(origin = {63, 86}, rotation = 180, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 66}, {7, 4}}), Rectangle(origin = {-94, 77}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{1, 6}, {5, -36}}), Rectangle(origin = {82, 75}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 26}, {7, -18}}), Text(origin = {-54, 99}, fillPattern = FillPattern.Solid, extent = {{-26, 1}, {134, -19}}, textString = "%name"), Text(origin = {-52, 11}, fillPattern = FillPattern.Solid, extent = {{-8, 9}, {112, -31}}, textString = "Cmp")}, coordinateSystem(initialScale = 0.1)),
+    Icon(graphics = {Polygon(origin = {2, 36}, fillColor = {0, 85, 255}, fillPattern = FillPattern.Solid, points = {{-62, -38}, {-62, -116}, {58, -56}, {58, -16}, {-62, 44}, {-62, -38}}), Rectangle(origin = {-89, 6}, fillPattern = FillPattern.Solid, extent = {{-11, 4}, {29, -16}}), Rectangle(origin = {83, 2}, fillPattern = FillPattern.Solid, extent = {{-23, 8}, {17, -12}}), Rectangle(origin = {63, 86}, rotation = 180, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 66}, {7, 4}}), Rectangle(origin = {-94, 77}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{1, 6}, {5, -36}}), Rectangle(origin = {82, 75}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 26}, {7, -18}}), Text(origin = {-54, 99}, fillPattern = FillPattern.Solid, extent = {{-26, 1}, {134, -19}}, textString = "%name"), Text(origin = {-52, 11}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{-8, 9}, {112, -31}}, textString = "Cmp")}, coordinateSystem(initialScale = 0.1)),
   Documentation(info = "<html>
   <a href=modelica://PropulsionSystem/docs/BaseClasses/BasicElements/CompressorBase00.html> Document html page</a>
   
