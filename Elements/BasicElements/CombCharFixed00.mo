@@ -74,8 +74,7 @@ model CombCharFixed00
     Placement(visible = true, transformation(origin = {-50, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {-40, 90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealInput u_effComb if use_u_effComb "[nond], combustion efficiency" annotation(
     Placement(visible = true, transformation(origin = {-10, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  
-//********************************************************************************
+  //********************************************************************************
 equation
   
   
@@ -90,31 +89,24 @@ equation
     Line(points = {{0, 0}, {100, 0}}, color = {0, 127, 255}));
   connect(port_1, HeatInjector.port_1) annotation(
     Line(points = {{-100, 0}, {-20, 0}}, color = {0, 127, 255}));
-  
-  //--------------------
+//--------------------
   if use_u_m_flow_fuel == true then
     Combustion.u_m_flow_fuel = u_m_flow_fuel;
   elseif use_u_m_flow_fuel == false then
     Combustion.u_m_flow_fuel = m_flow_fuel_paramInput;
-  end if; 
-  //--------------------
+  end if;
+//--------------------
   if use_u_LHV_fuel == true then
     Combustion.u_LHV_fuel = u_LHV_fuel;
   elseif use_u_LHV_fuel == false then
     Combustion.u_LHV_fuel = LHV_fuel_paramInput;
-  end if; 
-  //--------------------
+  end if;
+//--------------------
   if use_u_effComb == true then
     Combustion.u_effComb = u_effComb;
   elseif use_u_effComb == false then
     Combustion.u_effComb = effComb_paramInput;
-  end if; 
-  //--------------------
-  
-  
-  
-  
-  
+  end if; //--------------------
 /********************************************************
   Graphics
 ********************************************************/
