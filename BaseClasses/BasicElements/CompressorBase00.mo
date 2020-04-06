@@ -43,7 +43,7 @@ partial model CompressorBase00
   
   
   /* ---------------------------------------------
-      Internal variables
+      Internal variables    
   --------------------------------------------- */
   inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
   
@@ -111,18 +111,20 @@ algorithm
   assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
   
 equation
-/* ---------------------------------------------
+    
+      
+  /* ---------------------------------------------
   Connections, interface <-> internal variables
-  --------------------------------------------- */
-//-- fluidPort_1 --
+  --------------------------------------------- */  
+  //-- fluidPort_1 --
   fluid_1.p = port_1.p;
   fluid_1.h = actualStream(port_1.h_outflow);
-  fluid_1.Xi = actualStream(port_1.Xi_outflow);
-//-- fluidPort_2 --
+  fluid_1.Xi = actualStream(port_1.Xi_outflow); 
+  //-- fluidPort_2 --
   fluid_2.p = port_2.p;
   fluid_2.h = actualStream(port_2.h_outflow);
-  fluid_2.Xi = actualStream(port_2.Xi_outflow);
-// distinguish inlet side
+  fluid_2.Xi = actualStream(port_2.Xi_outflow); 
+  // distinguish inlet side
   m_flow_max = max(port_1.m_flow, port_2.m_flow);
   m_flow_min= min(port_1.m_flow, port_2.m_flow);
   
@@ -132,8 +134,8 @@ equation
     port_2.h_outflow= fluid_2.h;
   else
     port_1.h_outflow= fluid_1.h;
-  end if;
-//-- shaft --
+  end if; 
+  //-- shaft --
   flange_1.phi = phi;
   flange_2.phi = phi;
   
@@ -164,11 +166,15 @@ equation
   trq_inv= -1*trq;
   
   s_fluid_1= Medium.specificEntropy(fluid_1.state);
-  s_fluid_2= Medium.specificEntropy(fluid_2.state);
-//-- Design point variables --
+  s_fluid_2= Medium.specificEntropy(fluid_2.state); 
+    
+    
+  //-- Design point variables --
   NcDes_1 = NmechDes / sqrt(Tdes_1 / environment.Tstd);
-  WcDes_1 = m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd);
-//-- variables relative to design point --
+  WcDes_1 = m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd); 
+    
+    
+  //-- variables relative to design point --
   NqNdes = Nmech / NmechDes;
   NcqNcDes_1 = Nc_1 / NcDes_1;
   
