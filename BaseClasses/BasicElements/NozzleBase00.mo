@@ -176,6 +176,15 @@ equation
   //-- mass conservation --
   port_1.m_flow + port_2.m_flow = 0;
   fluid_2.Xi = fluid_1.Xi;
+    
+    
+  fluid_2Tot.Xi= fluid_1.Xi;
+  fluidStat_th.Xi= fluid_1.Xi;
+  fluid_th.Xi= fluid_1.Xi;
+  fluidStat_th_fullExp.Xi= fluid_1.Xi;
+  fluidStat_th_choked.Xi= fluid_1.Xi;
+    
+    
   fluid_2Tot.p = fluid_1.p;
   
   //-- energy conservation --
