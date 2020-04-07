@@ -1,0 +1,5 @@
+within PropulsionSystem.Media.EngineBreathingAir;
+
+package DryAirMethaneMixture "DryAirNASA and Methane"
+  extends Modelica.Media.IdealGases.Common.MixtureGasNasa;
+end DryAirMethaneMixture;

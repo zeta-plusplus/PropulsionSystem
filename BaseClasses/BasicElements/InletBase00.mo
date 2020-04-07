@@ -119,10 +119,13 @@ equation
   
   if(m_flow_max == port_1.m_flow)then
     port_1.h_outflow= fluid_1.h;
+    port_1.Xi_outflow= fluid_1.Xi;
   elseif(m_flow_max == port_2.m_flow)then
     port_2.h_outflow= fluid_2.h;
+    port_2.Xi_outflow= fluid_2.Xi;
   else
     port_1.h_outflow= fluid_1.h;
+    port_1.Xi_outflow= fluid_1.Xi;
   end if;
   
   
