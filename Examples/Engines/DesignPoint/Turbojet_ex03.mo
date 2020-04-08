@@ -65,7 +65,7 @@ model Turbojet_ex03
     Placement(visible = true, transformation(origin = {90, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Max max1 annotation(
     Placement(visible = true, transformation(origin = {130, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const_min_m_flow_fuel(k = 0.0001)  annotation(
+  Modelica.Blocks.Sources.Constant const_min_m_flow_fuel(k = 0.001)  annotation(
     Placement(visible = true, transformation(origin = {90, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(ramp_hfuel.y, Comb.u_h_fuel) annotation(
