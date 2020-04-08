@@ -43,7 +43,7 @@ model CombCharFixed01//*********************************************************
   /* ---------------------------------------------
                       parameters  
       --------------------------------------------- */
-  parameter Medium.MassFraction X_fuel_paramInput[Medium.nX] = {0, 0, 1} "fluid composition, valid only when use_u_X==false, value fixed through simulation" annotation(
+  parameter Medium.MassFraction X_fuel_paramInput[Medium.nX] = {1, 0, 0} "fluid composition, valid only when use_u_X==false, value fixed through simulation" annotation(
   Dialog(group = "Component characteristics"));
   parameter Medium.ExtraProperty C_fuel_paramInput[Medium.nC](quantity = Medium.extraPropertiesNames) = fill(0, Medium.nC) "" annotation(
   Dialog(group = "Component characteristics")); 
