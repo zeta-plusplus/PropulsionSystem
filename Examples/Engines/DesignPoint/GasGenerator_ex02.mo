@@ -37,16 +37,16 @@ model GasGenerator_ex02
   FluidSystemComponents.Utilities.ConstrainVariable constrainVariable2 annotation(
     Placement(visible = true, transformation(origin = {-20, -80}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   FluidSystemComponents.Utilities.VariableBySolver variableBySolver1 annotation(
-    Placement(visible = true, transformation(origin = {-60, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-80, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CombCharFixed00 Comb(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-19.6995, 29.7596}, extent = {{-20.3005, -14.2104}, {20.3005, 16.2404}}, rotation = 0)));
 equation
-  connect(Comb.port_2, temperature.port) annotation(
-    Line(points = {{0, 30}, {30, 30}, {30, 30}, {30, 30}}, color = {0, 127, 255}));
-  connect(Cmp.port_2, Comb.port_1) annotation(
-    Line(points = {{-60, -4}, {-54, -4}, {-54, 30}, {-40, 30}, {-40, 30}}, color = {0, 127, 255}));
   connect(variableBySolver1.y_independent, Comb.u_m_flow_fuel) annotation(
-    Line(points = {{-48, 90}, {-36, 90}, {-36, 48}, {-36, 48}}, color = {0, 0, 127}));
+    Line(points = {{-69, 50}, {-55.5, 50}, {-55.5, 38}, {-42, 38}}, color = {0, 0, 127}));
+  connect(Cmp.port_2, Comb.port_1) annotation(
+    Line(points = {{-60, -4}, {-54, -4}, {-54, 31}, {-40, 31}}, color = {0, 127, 255}));
+  connect(Comb.port_2, temperature.port) annotation(
+    Line(points = {{1, 31}, {15, 31}, {15, 30}, {30, 30}}, color = {0, 127, 255}));
   connect(constrainVariable2.u_targetValue, ramp_omega.y) annotation(
     Line(points = {{-20, -92}, {-20, -92}, {-20, -98}, {-20, -98}}, color = {0, 0, 127}));
   connect(speedSensor1.w, constrainVariable2.u_variable) annotation(
@@ -78,6 +78,6 @@ equation
   <a href=modelica://> Document html page</a>
 
 </html>"),
-    Diagram(graphics = {Text(origin = {-54, -53}, fillPattern = FillPattern.Solid, extent = {{-22, 7}, {12, 1}}, textString = "PR, eff are given"), Text(origin = {78, -45}, fillPattern = FillPattern.Solid, extent = {{-26, 5}, {12, -3}}, textString = "PR is calculated"), Line(origin = {-30.22, -50.15}, points = {{-4, 1}, {78, 7}}, thickness = 0.5, arrow = {Arrow.None, Arrow.Open}, arrowSize = 5), Text(origin = {-32, -59}, fillPattern = FillPattern.Solid, extent = {{-22, 7}, {84, -1}}, textString = "Cmp's op. conditions determines Trb's op. conditions."), Text(origin = {32, 105}, fillPattern = FillPattern.Solid, extent = {{-26, 5}, {62, -5}}, textString = "Constrain turbine inlet temperature"), Text(origin = {-78, 73}, fillPattern = FillPattern.Solid, extent = {{-26, 5}, {30, -11}}, textString = "fuel consumed is determined"), Line(origin = {37.6112, 72.5574}, points = {{-12, 25}, {-80, -3}}, thickness = 0.5, arrow = {Arrow.None, Arrow.Open}, arrowSize = 5)}, coordinateSystem(extent = {{-140, -140}, {140, 140}}, initialScale = 0.1)),
+    Diagram(graphics = {Text(origin = {-54, -53}, fillPattern = FillPattern.Solid, extent = {{-22, 7}, {12, 1}}, textString = "PR, eff are given"), Text(origin = {78, -45}, fillPattern = FillPattern.Solid, extent = {{-26, 5}, {12, -3}}, textString = "PR is calculated"), Line(origin = {-30.22, -50.15}, points = {{-4, 1}, {78, 7}}, thickness = 0.5, arrow = {Arrow.None, Arrow.Open}, arrowSize = 5), Text(origin = {-32, -59}, fillPattern = FillPattern.Solid, extent = {{-22, 7}, {84, -1}}, textString = "Cmp's op. conditions determines Trb's op. conditions."), Text(origin = {32, 105}, fillPattern = FillPattern.Solid, extent = {{-26, 5}, {62, -5}}, textString = "Constrain turbine inlet temperature"), Text(origin = {-72, 67}, fillPattern = FillPattern.Solid, extent = {{-26, 5}, {30, -11}}, textString = "fuel consumed is determined"), Line(origin = {37.6112, 72.5574}, points = {{-12, 25}, {-80, -3}}, thickness = 0.5, arrow = {Arrow.None, Arrow.Open}, arrowSize = 5)}, coordinateSystem(extent = {{-140, -140}, {140, 140}}, initialScale = 0.1)),
     __OpenModelica_commandLineOptions = "");
 end GasGenerator_ex02;

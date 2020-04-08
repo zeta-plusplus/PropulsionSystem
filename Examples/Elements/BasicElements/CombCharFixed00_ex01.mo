@@ -19,14 +19,14 @@ model CombCharFixed00_ex01
   PropulsionSystem.Elements.BasicElements.CombCharFixed00 Comb(redeclare package Medium = engineAir, use_u_effComb = true, use_u_m_flow_fuel = true) annotation(
     Placement(visible = true, transformation(origin = {-10, 10}, extent = {{-10, -7}, {10, 8}}, rotation = 0)));
 equation
-  connect(Comb.port_2, boundary1.ports[1]) annotation(
-    Line(points = {{0, 10}, {30, 10}}, color = {0, 127, 255}));
-  connect(boundary.ports[1], Comb.port_1) annotation(
-    Line(points = {{-40, 10}, {-20, 10}}, color = {0, 127, 255}));
   connect(ramp_m_flow_fuel.y, Comb.u_m_flow_fuel) annotation(
-    Line(points = {{-30, 50}, {-30, 32}, {-18, 32}, {-18, 19}}, color = {0, 0, 127}));
+    Line(points = {{-30, 49}, {-30, 14}, {-21, 14}}, color = {0, 0, 127}));
   connect(ramp_effComb.y, Comb.u_effComb) annotation(
     Line(points = {{0, 50}, {0, 36}, {-10, 36}, {-10, 19}}, color = {0, 0, 127}));
+  connect(boundary.ports[1], Comb.port_1) annotation(
+    Line(points = {{-40, 10}, {-30, 10}, {-30, 10.5}, {-20, 10.5}}, color = {0, 127, 255}));
+  connect(Comb.port_2, boundary1.ports[1]) annotation(
+    Line(points = {{0, 10.5}, {15, 10.5}, {15, 10}, {30, 10}}, color = {0, 127, 255}));
   annotation(
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),

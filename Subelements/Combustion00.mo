@@ -37,30 +37,30 @@ model Combustion00
   
   Modelica.Blocks.Interfaces.RealOutput y_m_flow_fuel(quantity="MassFlowRate", unit="kg/s", displayUnit="kg/s") "[kg/s], mass flow rate of fuel" annotation(
     Placement(visible = true, transformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b HeatPort_1 annotation(
-    Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-
-equation
-  
-  
+  Modelica.Blocks.Interfaces.RealOutput y_Qcomb(quantity="HeatFlowRate", unit="W", displayUnit="W") annotation(
+    Placement(visible = true, transformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+algorithm
   /* ---------------------------------------------
   Connections, interface <-> internal variables   
   --------------------------------------------- */
-  m_flow_fuel= u_m_flow_fuel;
-  LHV_fuel= u_LHV_fuel;
-  effComb= u_effComb;
-  
-  y_m_flow_fuel= m_flow_fuel;
-  HeatPort_1.Q_flow= -1.0*Qcomb;
-  
+  m_flow_fuel:= u_m_flow_fuel;
+  LHV_fuel:= u_LHV_fuel;
+  effComb:= u_effComb;
   
   
   /* ---------------------------------------------
   Eqns describing physics   
   --------------------------------------------- */
-  Qcomb = m_flow_fuel * LHV_fuel * effComb;
+  Qcomb:= m_flow_fuel * LHV_fuel * effComb;
   
+  
+  
+  /* ---------------------------------------------
+  Connections, interface <-> internal variables   
+  --------------------------------------------- */
+  y_m_flow_fuel:= m_flow_fuel;
+  y_Qcomb:= Qcomb;
+    
   
   
 /********************************************************

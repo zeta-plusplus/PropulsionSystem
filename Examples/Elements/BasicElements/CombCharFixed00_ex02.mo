@@ -25,20 +25,20 @@ model CombCharFixed00_ex02
   Modelica.Blocks.Sources.Ramp ramp_TcombOut(duration = 10, height = 1600, offset = 1400, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {40, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
+  connect(Comb.u_m_flow_fuel, VarBySolver.y_independent) annotation(
+    Line(points = {{-20, -6}, {-30, -6}, {-30, 30}, {-30, 30}}, color = {0, 0, 127}));
+  connect(Comb.port_2, temperature.port) annotation(
+    Line(points = {{0, -9.5}, {11, -9.5}, {11, -10}, {22, -10}}, color = {0, 127, 255}));
+  connect(boundary.ports[1], Comb.port_1) annotation(
+    Line(points = {{-40, -10}, {-30, -10}, {-30, -9.5}, {-20, -9.5}}, color = {0, 127, 255}));
+  connect(ramp_effComb.y, Comb.u_effComb) annotation(
+    Line(points = {{0, 29}, {0, 15}, {-10, 15}, {-10, -1}}, color = {0, 0, 127}));
   connect(ramp_TcombOut.y, Constraint.u_targetValue) annotation(
     Line(points = {{40, 60}, {40, 60}, {40, 42}, {40, 42}}, color = {0, 0, 127}));
-  connect(ramp_effComb.y, Comb.u_effComb) annotation(
-    Line(points = {{0, 29}, {0, 15}, {-10, 15}, {-10, -2}}, color = {0, 0, 127}));
-  connect(VarBySolver.y_independent, Comb.u_m_flow_fuel) annotation(
-    Line(points = {{-30, 29}, {-30, 29}, {-30, 15}, {-18, 15}, {-18, -1}, {-18, -1}}, color = {0, 0, 127}));
   connect(temperature.T, Constraint.u_variable) annotation(
     Line(points = {{29, 0}, {39, 0}, {39, 18}}, color = {0, 0, 127}));
-  connect(boundary.ports[1], Comb.port_1) annotation(
-    Line(points = {{-40, -10}, {-20, -10}}, color = {0, 127, 255}));
   connect(temperature.port, boundary1.ports[1]) annotation(
     Line(points = {{22, -10}, {60, -10}, {60, -10}, {60, -10}}, color = {0, 127, 255}));
-  connect(Comb.port_2, temperature.port) annotation(
-    Line(points = {{0, -10}, {22, -10}, {22, -10}, {22, -10}}, color = {0, 127, 255}));
   annotation(
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),

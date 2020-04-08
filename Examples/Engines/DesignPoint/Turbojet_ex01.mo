@@ -23,7 +23,7 @@ model Turbojet_ex01
   PropulsionSystem.Elements.BasicElements.CombCharFixed00 Comb(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {210.5, -40}, extent = {{-20, -16}, {20, 16}}, rotation = 0)));
   FluidSystemComponents.Utilities.VariableBySolver VarBySolver(independent(fixed = false))  annotation(
-    Placement(visible = true, transformation(origin = {195, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {139, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Temperature temperature040(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {250, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.TrbCharFixed00 Trb(redeclare package Medium = engineAir, use_u_eff = true) annotation(
@@ -61,18 +61,18 @@ model Turbojet_ex01
   Modelica.Blocks.Sources.Ramp ramp_Trb_eff(duration = 10, height = 0, offset = 0.8, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {280, -170}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 equation
+  connect(VarBySolver.y_independent, Comb.u_m_flow_fuel) annotation(
+    Line(points = {{150, -10}, {165.25, -10}, {165.25, -32}, {188.5, -32}}, color = {0, 0, 127}));
+  connect(Comb.port_2, temperature040.port) annotation(
+    Line(points = {{230.5, -40}, {250, -40}}, color = {0, 127, 255}));
+  connect(Duct030.port_2, Comb.port_1) annotation(
+    Line(points = {{180, -40}, {190.5, -40}}, color = {0, 127, 255}));
+  connect(Comb.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
+    Line(points = {{226.5, -58}, {226.5, -258}, {399, -258}}, color = {0, 0, 127}));
   connect(Nzl.y_Fg, Perf.u_Fg) annotation(
     Line(points = {{370, -80}, {390, -80}, {390, -242}, {399, -242}}, color = {0, 0, 127}));
   connect(Inlt.y_FdRam, Perf.u_Fram) annotation(
     Line(points = {{74, -88}, {86, -88}, {86, -246}, {399, -246}}, color = {0, 0, 127}));
-  connect(Comb.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
-    Line(points = {{226.5, -58}, {226.5, -258}, {399, -258}}, color = {0, 0, 127}));
-  connect(VarBySolver.y_independent, Comb.u_m_flow_fuel) annotation(
-    Line(points = {{195, -11}, {195, -16}, {194.5, -16}, {194.5, -22}}, color = {0, 0, 127}));
-  connect(Duct030.port_2, Comb.port_1) annotation(
-    Line(points = {{180, -40}, {190.5, -40}}, color = {0, 127, 255}));
-  connect(Comb.port_2, temperature040.port) annotation(
-    Line(points = {{230.5, -40}, {250, -40}}, color = {0, 127, 255}));
   connect(ramp_Trb_eff.y, Trb.u_eff) annotation(
     Line(points = {{280, -159}, {280, -92}}, color = {0, 0, 127}));
   connect(ramp_Cmp_PR.y, Cmp.u_PR) annotation(

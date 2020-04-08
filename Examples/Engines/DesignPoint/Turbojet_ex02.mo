@@ -8,7 +8,7 @@ model Turbojet_ex02
   //redeclare package Medium = engineAir
   //-----
   Modelica.Blocks.Sources.Ramp ramp_m_flow_fuel(duration = 10, height = 0.5, offset = 3, startTime = 10) annotation(
-    Placement(visible = true, transformation(origin = {130, 84}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {130, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-90, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
@@ -55,27 +55,23 @@ model Turbojet_ex02
     Placement(visible = true, transformation(origin = {120, -200}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_Trb_eff(duration = 10, height = 0, offset = 0.8, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {280, -170}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  PropulsionSystem.Elements.BasicElements.CombCharFixed01 Comb(redeclare package Medium = engineAir) annotation(
+  PropulsionSystem.Elements.BasicElements.CombCharFixed01 Comb(redeclare package Medium = engineAir, printCmd = false) annotation(
     Placement(visible = true, transformation(origin = {212, -40}, extent = {{-20, -16}, {20, 16}}, rotation = 0)));
-  Modelica.Fluid.Sources.MassFlowSource_T source_fuel(redeclare package Medium = engineAir, X = {0, 0, 1.0}, m_flow = 1, nPorts = 1, use_T_in = true, use_m_flow_in = true) annotation(
-    Placement(visible = true, transformation(origin = {170, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Tfuel(duration = 10, height = 0, offset = 100 + 273.15, startTime = 10) annotation(
-    Placement(visible = true, transformation(origin = {130, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_hfuel(duration = 10, height = 0, offset = 400 * 1000, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {140, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(ramp_m_flow_fuel.y, source_fuel.m_flow_in) annotation(
-    Line(points = {{142, 84}, {150, 84}, {150, 68}, {160, 68}, {160, 68}}, color = {0, 0, 127}));
+  connect(ramp_hfuel.y, Comb.u_h_fuel) annotation(
+    Line(points = {{152, 80}, {200, 80}, {200, -22}, {200, -22}}, color = {0, 0, 127}));
+  connect(ramp_m_flow_fuel.y, Comb.u_m_flow_fuel) annotation(
+    Line(points = {{142, 50}, {196, 50}, {196, -22}}, color = {0, 0, 127}));
   connect(Comb.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
-    Line(points = {{228, -58}, {228, -58}, {228, -258}, {400, -258}, {400, -258}}, color = {0, 0, 127}));
-  connect(ramp_Tfuel.y, source_fuel.T_in) annotation(
-    Line(points = {{141, 50}, {147, 50}, {147, 64}, {157, 64}, {157, 64}}, color = {0, 0, 127}));
-  connect(source_fuel.ports[1], Comb.port_3) annotation(
-    Line(points = {{180, 60}, {196, 60}, {196, -24}}, color = {0, 127, 255}));
+    Line(points = {{228, -58}, {228, -258}, {400, -258}}, color = {0, 0, 127}));
+  connect(Duct030.port_2, Comb.port_1) annotation(
+    Line(points = {{180, -40}, {192, -40}}, color = {0, 127, 255}));
+  connect(Comb.port_2, temperature040.port) annotation(
+    Line(points = {{232, -40}, {250, -40}}, color = {0, 127, 255}));
   connect(Flt2Fluid.port_amb, Nzl.port_2) annotation(
     Line(points = {{-32, -60}, {-30, -60}, {-30, 24}, {380, 24}, {380, -64}}, color = {0, 127, 255}));
-  connect(Comb.port_2, temperature040.port) annotation(
-    Line(points = {{232, -40}, {250, -40}, {250, -40}, {250, -40}}, color = {0, 127, 255}));
-  connect(Duct030.port_2, Comb.port_1) annotation(
-    Line(points = {{180, -40}, {192, -40}, {192, -40}, {192, -40}}, color = {0, 127, 255}));
   connect(Nzl.y_Fg, Perf.u_Fg) annotation(
     Line(points = {{370, -80}, {390, -80}, {390, -242}, {399, -242}}, color = {0, 0, 127}));
   connect(Inlt.y_FdRam, Perf.u_Fram) annotation(
