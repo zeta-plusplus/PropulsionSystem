@@ -28,7 +28,7 @@ model Turbojet_ex02
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate010(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {10, -64}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint annotation(
-    Placement(visible = true, transformation(origin = {10, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {10, -120}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.Rotational.Sensors.SpeedSensor speedSensor1 annotation(
     Placement(visible = true, transformation(origin = {170, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Elements.BasicElements.DuctCharFixed00 Duct050(redeclare package Medium = engineAir) annotation(
@@ -57,9 +57,13 @@ model Turbojet_ex02
     Placement(visible = true, transformation(origin = {280, -170}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   PropulsionSystem.Elements.BasicElements.CombCharFixed01 Comb(redeclare package Medium = engineAir, printCmd = false) annotation(
     Placement(visible = true, transformation(origin = {212, -40}, extent = {{-20, -16}, {20, 16}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_hfuel(duration = 10, height = 0, offset = 400 * 1000, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_hfuel(duration = 10, height = 0, offset = 600 * 1000, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {140, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(ramp_m_flow_inlet.y, Constraint.u_targetValue) annotation(
+    Line(points = {{10, -169}, {10, -132}}, color = {0, 0, 127}));
+  connect(massFlowRate010.m_flow, Constraint.u_variable) annotation(
+    Line(points = {{10, -76}, {10, -108}}, color = {0, 0, 127}));
   connect(ramp_hfuel.y, Comb.u_h_fuel) annotation(
     Line(points = {{152, 80}, {200, 80}, {200, -22}, {200, -22}}, color = {0, 0, 127}));
   connect(ramp_m_flow_fuel.y, Comb.u_m_flow_fuel) annotation(
@@ -88,10 +92,6 @@ equation
     Line(points = {{170, -209}, {170, -209}, {170, -203}, {170, -203}}, color = {0, 0, 127}));
   connect(speedSensor1.w, Constraint1.u_variable) annotation(
     Line(points = {{170, -101}, {170, -108}}, color = {0, 0, 127}));
-  connect(massFlowRate010.m_flow, Constraint.u_variable) annotation(
-    Line(points = {{10, -76}, {10, -98}}, color = {0, 0, 127}));
-  connect(ramp_m_flow_inlet.y, Constraint.u_targetValue) annotation(
-    Line(points = {{10, -169}, {10, -122}}, color = {0, 0, 127}));
   connect(temperature040.port, Trb.port_1) annotation(
     Line(points = {{250, -40}, {250, -64}, {260, -64}}, color = {0, 127, 255}));
   connect(ramp_fltMN.y, Flt2Fluid.u_MN) annotation(

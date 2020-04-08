@@ -57,10 +57,8 @@ model Turbojet_ex03
     Placement(visible = true, transformation(origin = {280, -170}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   PropulsionSystem.Elements.BasicElements.CombCharFixed01 Comb(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {212, -40}, extent = {{-20, -16}, {20, 16}}, rotation = 0)));
-  Modelica.Fluid.Sources.MassFlowSource_T source_fuel(redeclare package Medium = engineAir, X = {0, 0, 1.0}, m_flow = 1, nPorts = 1, use_T_in = true, use_m_flow_in = true) annotation(
-    Placement(visible = true, transformation(origin = {170, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Tfuel(duration = 10, height = 0, offset = 100 + 273.15, startTime = 10) annotation(
-    Placement(visible = true, transformation(origin = {130, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_hfuel(duration = 10, height = 0, offset = 600 * 1000, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {170, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint2 annotation(
     Placement(visible = true, transformation(origin = {260, 0}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
   FluidSystemComponents.Utilities.VariableBySolver VarBySolver annotation(
@@ -70,22 +68,20 @@ model Turbojet_ex03
   Modelica.Blocks.Sources.Constant const_min_m_flow_fuel(k = 0.0001)  annotation(
     Placement(visible = true, transformation(origin = {90, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(ramp_hfuel.y, Comb.u_h_fuel) annotation(
+    Line(points = {{182, 110}, {200, 110}, {200, -22}, {200, -22}}, color = {0, 0, 127}));
+  connect(max1.y, Comb.u_m_flow_fuel) annotation(
+    Line(points = {{142, 80}, {196, 80}, {196, -22}, {196, -22}}, color = {0, 0, 127}));
   connect(const_min_m_flow_fuel.y, max1.u2) annotation(
     Line(points = {{102, 80}, {110, 80}, {110, 74}, {118, 74}, {118, 74}}, color = {0, 0, 127}));
   connect(VarBySolver.y_independent, max1.u1) annotation(
     Line(points = {{101, 110}, {114.5, 110}, {114.5, 86}, {118, 86}}, color = {0, 0, 127}));
-  connect(max1.y, source_fuel.m_flow_in) annotation(
-    Line(points = {{142, 80}, {154, 80}, {154, 68}, {160, 68}, {160, 68}}, color = {0, 0, 127}));
   connect(Constraint2.u_targetValue, ramp_TIT.y) annotation(
     Line(points = {{260, 12}, {260, 99}}, color = {0, 0, 127}));
   connect(Constraint2.u_variable, temperature040.T) annotation(
     Line(points = {{260, -12}, {260, -30}, {258, -30}}, color = {0, 0, 127}));
   connect(Comb.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
     Line(points = {{228, -58}, {228, -58}, {228, -258}, {400, -258}, {400, -258}}, color = {0, 0, 127}));
-  connect(ramp_Tfuel.y, source_fuel.T_in) annotation(
-    Line(points = {{141, 50}, {147, 50}, {147, 64}, {157, 64}, {157, 64}}, color = {0, 0, 127}));
-  connect(source_fuel.ports[1], Comb.port_3) annotation(
-    Line(points = {{180, 60}, {196, 60}, {196, -24}}, color = {0, 127, 255}));
   connect(Flt2Fluid.port_amb, Nzl.port_2) annotation(
     Line(points = {{-32, -60}, {-30, -60}, {-30, 24}, {380, 24}, {380, -64}}, color = {0, 127, 255}));
   connect(Comb.port_2, temperature040.port) annotation(
