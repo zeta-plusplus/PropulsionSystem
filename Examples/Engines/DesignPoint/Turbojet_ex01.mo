@@ -22,7 +22,7 @@ model Turbojet_ex01
     Placement(visible = true, transformation(origin = {170, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CombCharFixed00 Comb(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {210.5, -40}, extent = {{-20, -16}, {20, 16}}, rotation = 0)));
-  FluidSystemComponents.Utilities.VariableBySolver VarBySolver annotation(
+  FluidSystemComponents.Utilities.VariableBySolver VarBySolver(independent(fixed = false))  annotation(
     Placement(visible = true, transformation(origin = {195, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Fluid.Sensors.Temperature temperature040(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {250, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

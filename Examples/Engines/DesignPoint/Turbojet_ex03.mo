@@ -1,14 +1,14 @@
 within PropulsionSystem.Examples.Engines.DesignPoint;
 
-model Turbojet_ex02
+model Turbojet_ex03
   extends Modelica.Icons.Example;
   //-----
   //package engineAir = Modelica.Media.Air.DryAirNasa;
   package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
   //redeclare package Medium = engineAir
   //-----
-  Modelica.Blocks.Sources.Ramp ramp_m_flow_fuel(duration = 10, height = 0.5, offset = 3, startTime = 10) annotation(
-    Placement(visible = true, transformation(origin = {130, 84}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 10, height = 100, offset = 1600, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {260, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-90, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
@@ -61,9 +61,25 @@ model Turbojet_ex02
     Placement(visible = true, transformation(origin = {170, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_Tfuel(duration = 10, height = 0, offset = 100 + 273.15, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {130, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  FluidSystemComponents.Utilities.ConstrainVariable Constraint2 annotation(
+    Placement(visible = true, transformation(origin = {260, 0}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
+  FluidSystemComponents.Utilities.VariableBySolver VarBySolver annotation(
+    Placement(visible = true, transformation(origin = {90, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Max max1 annotation(
+    Placement(visible = true, transformation(origin = {130, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant const_min_m_flow_fuel(k = 0.0001)  annotation(
+    Placement(visible = true, transformation(origin = {90, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(ramp_m_flow_fuel.y, source_fuel.m_flow_in) annotation(
-    Line(points = {{142, 84}, {150, 84}, {150, 68}, {160, 68}, {160, 68}}, color = {0, 0, 127}));
+  connect(const_min_m_flow_fuel.y, max1.u2) annotation(
+    Line(points = {{102, 80}, {110, 80}, {110, 74}, {118, 74}, {118, 74}}, color = {0, 0, 127}));
+  connect(VarBySolver.y_independent, max1.u1) annotation(
+    Line(points = {{101, 110}, {114.5, 110}, {114.5, 86}, {118, 86}}, color = {0, 0, 127}));
+  connect(max1.y, source_fuel.m_flow_in) annotation(
+    Line(points = {{142, 80}, {154, 80}, {154, 68}, {160, 68}, {160, 68}}, color = {0, 0, 127}));
+  connect(Constraint2.u_targetValue, ramp_TIT.y) annotation(
+    Line(points = {{260, 12}, {260, 99}}, color = {0, 0, 127}));
+  connect(Constraint2.u_variable, temperature040.T) annotation(
+    Line(points = {{260, -12}, {260, -30}, {258, -30}}, color = {0, 0, 127}));
   connect(Comb.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
     Line(points = {{228, -58}, {228, -58}, {228, -258}, {400, -258}, {400, -258}}, color = {0, 0, 127}));
   connect(ramp_Tfuel.y, source_fuel.T_in) annotation(
@@ -128,4 +144,4 @@ equation
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
-end Turbojet_ex02;
+end Turbojet_ex03;
