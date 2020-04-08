@@ -3,7 +3,7 @@ within PropulsionSystem.BaseClasses.BasicElements;
 partial model CombustorBase00
   /********************************************************
             imports
-      ********************************************************/
+  ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
   
@@ -12,21 +12,25 @@ partial model CombustorBase00
       Declaration
   ********************************************************/
   /* ---------------------------------------------
-          Package   
-      --------------------------------------------- */
+          Package
+  --------------------------------------------- */
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation(
     choicesAllMatching = true);
   
+  
+  
   /* ---------------------------------------------
-            Internal variables    
-      --------------------------------------------- */
+            Internal variables
+  --------------------------------------------- */
   PropulsionSystem.Elements.BasicElements.HeatInjector00 HeatInjector(redeclare package Medium = Medium) annotation(
     Placement(visible = true, transformation(origin = {-10, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Subelements.Combustion00 Combustion annotation(
     Placement(visible = true, transformation(origin = {-30, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  
   /* ---------------------------------------------
-            Interface   
-      --------------------------------------------- */
+            Interface
+  --------------------------------------------- */
   Modelica.Fluid.Interfaces.FluidPort_a port_1(redeclare package Medium = Medium) annotation(
     Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_b port_2(redeclare package Medium = Medium) annotation(
@@ -45,15 +49,18 @@ equation
     Line(points = {{-18, 50}, {-10, 50}, {-10, 40}, {-10, 40}}, color = {0, 0, 127}));
   connect(Combustion.y_m_flow_fuel, y_m_flow_fuel) annotation(
     Line(points = {{-19, 44}, {72, 44}, {72, -70}, {110, -70}}, color = {0, 0, 127}));
-/* ---------------------------------------------
-    Connections, interface <-> internal variables   
+  
+  
+  /* ---------------------------------------------
+    Connections, interface <-> internal variables
   --------------------------------------------- */
   connect(HeatInjector.port_2, port_2) annotation(
     Line(points = {{0, 0}, {100, 0}}, color = {0, 127, 255}));
   connect(port_1, HeatInjector.port_1) annotation(
     Line(points = {{-100, 0}, {-20, 0}}, color = {0, 127, 255}));
-//--------------------
-
+  //--------------------
+  
+  
 /********************************************************
   Graphics
 ********************************************************/

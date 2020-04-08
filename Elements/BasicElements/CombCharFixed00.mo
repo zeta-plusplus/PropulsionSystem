@@ -4,7 +4,7 @@ model CombCharFixed00
   extends PropulsionSystem.BaseClasses.BasicElements.CombustorBase00;
   /********************************************************
           imports
-    ********************************************************/
+  ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
   
@@ -14,8 +14,8 @@ model CombCharFixed00
       Declaration
   ********************************************************/
   /* ---------------------------------------------
-        switch    
-    --------------------------------------------- */
+        switch
+  --------------------------------------------- */
   parameter Boolean use_u_m_flow_fuel = true "get m_flow_fuel from the real input connector" annotation(
     Evaluate = true,
     HideResult = true,
@@ -31,9 +31,10 @@ model CombCharFixed00
     HideResult = true,
     choices(checkBox = true),
     Dialog(group = "switch"));
+  
   /* ---------------------------------------------
-          parameters    
-    --------------------------------------------- */
+          parameters
+  --------------------------------------------- */
   parameter Modelica.SIunits.MassFlowRate m_flow_fuel_paramInput = 1.0 "mass flow rate of fuel, valid only when use_u_mflow_fuel==false" annotation(
     Dialog(group = "Component characteristics"));
   parameter Modelica.SIunits.SpecificEnthalpy LHV_fuel_paramInput = 42.8 * 10.0 ^ 6.0 "lower heatting value of fuel, valid only when use_u_LHV_fuel==false" annotation(
@@ -42,8 +43,8 @@ model CombCharFixed00
     Dialog(group = "Component characteristics"));
   
   /* ---------------------------------------------
-          Interface   
-    --------------------------------------------- */
+          Interface
+  --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_m_flow_fuel(quantity = "MassFlowRate", unit = "kg/s", displayUnit = "kg/s") if use_u_m_flow_fuel "[kg/s], mass flow rate of fuel" annotation(
     Placement(visible = true, transformation(origin = {-90, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {-110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_LHV_fuel(quantity = "SpecificEnthalpy", unit = "J/kg", displayUnit = "J/kg") if use_u_LHV_fuel "[J/kg],  lower heating value of fuel" annotation(
