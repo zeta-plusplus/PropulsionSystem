@@ -68,6 +68,8 @@ model Turbojet_ex03
   Modelica.Blocks.Sources.Constant const_min_m_flow_fuel(k = 0.001)  annotation(
     Placement(visible = true, transformation(origin = {90, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(Flt2Fluid.port_amb, Nzl.port_2) annotation(
+    Line(points = {{-32, -60}, {-30, -60}, {-30, -4}, {380, -4}, {380, -64}}, color = {0, 127, 255}));
   connect(ramp_hfuel.y, Comb.u_h_fuel) annotation(
     Line(points = {{182, 110}, {200, 110}, {200, -22}, {200, -22}}, color = {0, 0, 127}));
   connect(max1.y, Comb.u_m_flow_fuel) annotation(
@@ -82,8 +84,6 @@ equation
     Line(points = {{260, -12}, {260, -30}, {258, -30}}, color = {0, 0, 127}));
   connect(Comb.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
     Line(points = {{228, -58}, {228, -58}, {228, -258}, {400, -258}, {400, -258}}, color = {0, 0, 127}));
-  connect(Flt2Fluid.port_amb, Nzl.port_2) annotation(
-    Line(points = {{-32, -60}, {-30, -60}, {-30, 24}, {380, 24}, {380, -64}}, color = {0, 127, 255}));
   connect(Comb.port_2, temperature040.port) annotation(
     Line(points = {{232, -40}, {250, -40}, {250, -40}, {250, -40}}, color = {0, 127, 255}));
   connect(Duct030.port_2, Comb.port_1) annotation(
