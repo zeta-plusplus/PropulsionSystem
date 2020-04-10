@@ -16,7 +16,7 @@ model MotorGeneratorCharFixed_ex01
     Placement(visible = true, transformation(origin = {-160, 36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.MassFlowSource_T boundary1(redeclare package Medium = engineAir, T = 288.15, m_flow = -10, nPorts = 1) annotation(
     Placement(visible = true, transformation(origin = {-30, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  Modelica.Blocks.Sources.Ramp ramp_PR(duration = 10, height = 5, offset = 10, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_PR(duration = 10, height = 0, offset = 10, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-150, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_Cmp_eff(duration = 5, height = 0, offset = 0.8, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-150, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -34,15 +34,15 @@ model MotorGeneratorCharFixed_ex01
     Placement(visible = true, transformation(origin = {-70, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   FluidSystemComponents.Utilities.ConstrainVariable constrainVariable1 annotation(
     Placement(visible = true, transformation(origin = {-70, -20}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  PropulsionSystem.Elements.BasicElements.MotorGeneratorCharFixed00 MotGene annotation(
+  PropulsionSystem.Elements.BasicElements.MotorGeneratorCharFixed00 MotGene(use_u_eff = true, use_u_pwr = true)  annotation(
     Placement(visible = true, transformation(origin = {-3.55271e-15, -60}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_eff_MotorGene(duration = 10, height = 0.05, offset = 0.9, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_eff_MotorGene(duration = 10, height = 0.1, offset = 0.85, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-12, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Blocks.Sources.Ramp ramp_pwr_MotGene(duration = 10, height = 10 * 1000, offset = 10 * 1000, startTime = 10) annotation(
-    Placement(visible = true, transformation(origin = {50, -52}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_pwr_MotGene(duration = 10, height = 100 * 1000, offset = 1000 * 1000, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {50, -60}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 equation
   connect(MotGene.u_pwr, ramp_pwr_MotGene.y) annotation(
-    Line(points = {{22, -52}, {39, -52}}, color = {0, 0, 127}));
+    Line(points = {{22, -60}, {39, -60}}, color = {0, 0, 127}));
   connect(ramp_eff_MotorGene.y, MotGene.u_eff) annotation(
     Line(points = {{-12, -99}, {-12, -74}}, color = {0, 0, 127}));
   connect(speedSensor1.flange, MotGene.flange_1) annotation(
@@ -70,7 +70,7 @@ equation
   connect(ramp_PR.y, Cmp.u_PR) annotation(
     Line(points = {{-139, -30}, {-128, -30}, {-128, 5}}, color = {0, 0, 127}));
   annotation(
-    experiment(StartTime = 0, StopTime = 40, Tolerance = 1e-06, Interval = 0.08),
+    experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
     Documentation(info = "<html>
   <a href=modelica://> Document html page</a>

@@ -8,6 +8,7 @@ NozzleBase00
 InletBase00
 DuctBase00
 IdealMixerBase00
+MotorGeneratorBase00
 Compressor_Base
 Turbine_Base
 HeatInjector_Base
