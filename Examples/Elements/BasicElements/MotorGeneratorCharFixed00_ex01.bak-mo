@@ -1,0 +1,7 @@
+within PropulsionSystem.Examples.Elements.BasicElements;
+
+model MotorGeneratorCharFixed00_ex01
+  extends Modelica.Icons.Example;
+equation
+
+end MotorGeneratorCharFixed00_ex01;
