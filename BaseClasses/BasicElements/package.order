@@ -3,6 +3,7 @@ TurbineBase00
 HeatInjectorBase00
 CombustorBase00
 CombustorBase01
+CombustorBase02
 NozzleBase00
 InletBase00
 DuctBase00
@@ -13,4 +14,3 @@ HeatInjector_Base
 NozzleConv_Base
 Inlet_Base
 Duct_Base
-CombustorBase02

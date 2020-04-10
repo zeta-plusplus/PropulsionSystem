@@ -20,12 +20,13 @@ partial model CombustorBase00
   
   
   /* ---------------------------------------------
-            Internal variables
-  --------------------------------------------- */
+           Internal objects
+  --------------------------------------------- */  
   PropulsionSystem.Elements.BasicElements.HeatInjector00 HeatInjector(redeclare package Medium = Medium) annotation(
     Placement(visible = true, transformation(origin = {-10, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Subelements.Combustion00 Combustion annotation(
     Placement(visible = true, transformation(origin = {-30, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
   
   
   /* ---------------------------------------------

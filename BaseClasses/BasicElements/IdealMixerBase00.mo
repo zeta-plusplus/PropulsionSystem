@@ -53,15 +53,26 @@ model IdealMixerBase00
     Dialog(tab = "Initialization", group = "fluid_3"));
   parameter Modelica.SIunits.SpecificEnthalpy h3_init(displayUnit = "J/kg") = 1.004 * 1000 * 288.15 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_3"));
+  
+  
+  
   /* ---------------------------------------------
                Internal variables
   --------------------------------------------- */
-  Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
-  Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of inlet";
-  Medium.BaseProperties fluid_3(p.start = p3_init, T.start = T3_init, state.p.start = p3_init, state.T.start = T3_init, h.start = h3_init) "flow station of inlet";
-  Medium.BaseProperties fluid_1afterMix(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
   Modelica.SIunits.MassFlowRate m_flow_max;
   Modelica.SIunits.MassFlowRate m_flow_min;
+  
+  
+  
+  /* ---------------------------------------------
+           Internal objects
+  --------------------------------------------- */  
+  Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
+  Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of inlet";
+  Medium.BaseProperties fluid_3(p.start = p3_init, T.start = T3_init, state.p.start = p3_init, state.T.start = T3_init, h.start = h3_init) "flow station of outlet";
+  Medium.BaseProperties fluid_1afterMix(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
+  
+  
   
   /* ---------------------------------------------
                  Interface
@@ -96,7 +107,33 @@ initial algorithm
   end if;
 algorithm
   
- 
+  /* ---------------------------------------------
+  Eqns describing physics
+  --------------------------------------------- */
+  //----- mixing -----
+  if(port_2.m_flow>0.0)then
+    fluid_1afterMix.Xi := (port_1.m_flow * fluid_1.Xi + port_2.m_flow * fluid_2.Xi) / (port_1.m_flow + port_2.m_flow);
+    fluid_1afterMix.p := fluid_1.p;
+    fluid_1afterMix.h := (port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2.h) / (port_1.m_flow + port_2.m_flow);
+    
+    fluid_3.Xi:= fluid_1afterMix.Xi;
+    fluid_3.h:= fluid_1afterMix.h;
+    
+    port_3.m_flow:= -1.0*(port_1.m_flow + port_2.m_flow);
+    
+    
+  else
+    fluid_1afterMix.Xi := fluid_1.Xi;
+    fluid_1afterMix.p := fluid_1.p;
+    fluid_1afterMix.h := fluid_1.h;
+    
+    fluid_3.Xi:= fluid_1afterMix.Xi;
+    fluid_3.h:= fluid_1afterMix.h;
+    
+    port_3.m_flow:= -1.0*port_1.m_flow;
+    
+  end if;
+  
   
 /* ---------------------------------------------
     debug print, command window   
@@ -156,22 +193,13 @@ equation
     port_2.h_outflow = fluid_2.h;
     port_2.Xi_outflow = fluid_2.Xi;
   end if;
-/* ---------------------------------------------
+  
+  
+  /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
-//----- mixing -----
-  fluid_1afterMix.Xi = (port_1.m_flow * fluid_1.Xi + port_2.m_flow * fluid_2.Xi) / (port_1.m_flow + port_2.m_flow);
-  fluid_1afterMix.p = fluid_1.p;
-  fluid_1afterMix.h = (port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2.h) / (port_1.m_flow + port_2.m_flow);
-  
-  fluid_3.Xi= fluid_1afterMix.Xi;
-  fluid_3.h= fluid_1afterMix.h;
-  
-  port_1.m_flow + port_2.m_flow + port_3.m_flow= 0;
-  
   port_2.p= port_1.p;
   port_3.p= port_2.p;
-  
   
   
 /********************************************************

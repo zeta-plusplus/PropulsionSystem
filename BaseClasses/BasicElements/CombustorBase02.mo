@@ -59,7 +59,7 @@ model CombustorBase02
   
 
   /* ---------------------------------------------
-           Internal component
+           Internal objects
   --------------------------------------------- */  
   PropulsionSystem.Subelements.Combustion00 Combustion annotation(
     Placement(visible = true, transformation(origin = {0, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

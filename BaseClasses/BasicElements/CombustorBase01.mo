@@ -60,16 +60,26 @@ model CombustorBase01
   /* ---------------------------------------------
            Internal variables
   --------------------------------------------- */
-  Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
-  Medium.BaseProperties fluid_2(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
-  Medium.BaseProperties fluid_fuel(p.start = pfuel_init, T.start = Tfuel_init, state.p.start = pfuel_init, state.T.start = Tfuel_init, h.start = hfuel_init) "flow station of inlet";
-  Medium.BaseProperties fluid_1afterMix(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
   Modelica.SIunits.MassFlowRate m_flow_max;
   Modelica.SIunits.MassFlowRate m_flow_min;
   Medium.MassFraction X_fuel[Medium.nX];
   Medium.ExtraProperty C_fuel[Medium.nC];
+  
+  
+  
+  /* ---------------------------------------------
+           Internal objects
+  --------------------------------------------- */  
+  Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
+  Medium.BaseProperties fluid_2(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
+  Medium.BaseProperties fluid_fuel(p.start = pfuel_init, T.start = Tfuel_init, state.p.start = pfuel_init, state.T.start = Tfuel_init, h.start = hfuel_init) "flow station of inlet";
+  Medium.BaseProperties fluid_1afterMix(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
   PropulsionSystem.Subelements.Combustion00 Combustion annotation(
     Placement(visible = true, transformation(origin = {0, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  
+  
+  
   /* ---------------------------------------------
                  Interface
   --------------------------------------------- */
