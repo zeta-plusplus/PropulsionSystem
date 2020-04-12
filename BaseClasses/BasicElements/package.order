@@ -9,10 +9,10 @@ InletBase00
 DuctBase00
 IdealMixerBase00
 MotorGeneratorBase00
+LossRotationalMechanicsBase00
 Compressor_Base
 Turbine_Base
 HeatInjector_Base
 NozzleConv_Base
 Inlet_Base
 Duct_Base
-LossRotationalMechanicsBase00

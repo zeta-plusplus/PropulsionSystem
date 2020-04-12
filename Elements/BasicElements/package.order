@@ -10,6 +10,7 @@ DuctCharFixed00
 IdealMixer00
 PropellerActuatorDisk00
 MotorGeneratorCharFixed00
+LossRotMechCharFixed00
 EnginePerformance00
 PropellerActDisk
 Compressor
@@ -33,4 +34,3 @@ constrain_Nmech
 constrain_T
 constrain_dm
 extractPwr
-LossRotMechCharFixed00

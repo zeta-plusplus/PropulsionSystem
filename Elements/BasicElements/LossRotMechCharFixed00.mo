@@ -34,7 +34,7 @@ model LossRotMechCharFixed00
            Interface
   --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_eff if use_u_eff "[nond], efficiency, valid only when use_u_eff==true" annotation(
-    Placement(visible = true, transformation(origin = {-80, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-60, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement(visible = true, transformation(origin = {40, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {40, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   
   

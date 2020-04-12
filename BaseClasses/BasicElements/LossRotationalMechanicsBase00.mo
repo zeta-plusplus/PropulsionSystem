@@ -48,6 +48,9 @@ model LossRotationalMechanicsBase00
     Placement(visible = true, transformation(origin = {-90, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = { -60, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_2 annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  
+  
 equation
   
   
@@ -61,9 +64,9 @@ equation
   if(trqMax== flange_1.tau)then
     trqIn= flange_1.tau;
     trqOut= (-1.0)*flange_2.tau;
-  elseif(trqMax==flange_2.tau)then
+  else
     trqIn= flange_2.tau;
-    trqOut= (-1.0)*flange_1.tau;
+    trqOut= (-1.0)*flange_1.tau;  
   end if;
   
   phi = flange_1.phi;
@@ -77,7 +80,6 @@ equation
   
   
   
-  
   /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
@@ -87,7 +89,9 @@ equation
   pwrOut_inv = (-1.0) * pwrOut;
   trqOut_inv = (-1.0) * trqOut;
   Qloss = (1.0-eff)*pwrIn;
-  pwrIn + pwrOut + Qloss= 0;
+  pwrIn-(Qloss+pwrOut)=0;
+  
+  
   
 /********************************************************
   Graphics
