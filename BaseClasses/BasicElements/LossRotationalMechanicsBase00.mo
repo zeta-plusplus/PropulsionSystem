@@ -1,6 +1,6 @@
 within PropulsionSystem.BaseClasses.BasicElements;
 
-model LossRotationalMechanicsBase00
+partial model LossRotationalMechanicsBase00
   /********************************************************
                               imports
     ********************************************************/

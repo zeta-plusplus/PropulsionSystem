@@ -25,7 +25,7 @@ model LossRotMechCharFixed00
   /* ---------------------------------------------
           parameters
   --------------------------------------------- */
-  parameter Real eff_paramInput=0.9 "motor/generator efficiency, valid only when use_u_eff==false, value fixed through simulation" annotation(
+  parameter Real eff_paramInput=0.98 "motor/generator efficiency, valid only when use_u_eff==false, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
   
   
