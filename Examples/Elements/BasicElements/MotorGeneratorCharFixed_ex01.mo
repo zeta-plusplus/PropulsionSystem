@@ -36,9 +36,9 @@ model MotorGeneratorCharFixed_ex01
     Placement(visible = true, transformation(origin = {-70, -20}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Sources.Ramp ramp_eff_MotorGene(duration = 10, height = 0.1, offset = 0.85, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-12, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Elements.BasicElements.MotorGeneratorCharFixed00 MotGene annotation(
+  PropulsionSystem.Elements.BasicElements.MotorGeneratorCharFixed00 MotGene(use_u_eff = true, use_u_pwr = true)  annotation(
     Placement(visible = true, transformation(origin = {-3.55271e-15, -60}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_pwr_MotGene annotation(
+  Modelica.Blocks.Sources.Ramp ramp_pwr_MotGene(duration = 10, height = 1000 * 1000, offset = 1000 * 1000, startTime = 10)  annotation(
     Placement(visible = true, transformation(origin = {50, -60}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 equation
   connect(MotGene.u_pwr, ramp_pwr_MotGene.y) annotation(
