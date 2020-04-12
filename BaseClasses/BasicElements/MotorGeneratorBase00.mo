@@ -1,6 +1,6 @@
 within PropulsionSystem.BaseClasses.BasicElements;
 
-model MotorGeneratorBase00
+partial model MotorGeneratorBase00
   /********************************************************
                               imports
     ********************************************************/
@@ -21,13 +21,13 @@ model MotorGeneratorBase00
   /* ---------------------------------------------
             Internal variables    
     --------------------------------------------- */
-  Modelica.SIunits.Power pwrIdeal "power extracted at flange_1/power supplied to motor";
-  Modelica.SIunits.Power pwr "real generated power/real power supplied to flange_1";
+  Modelica.SIunits.Power pwrIn "power extracted at flange_1/power supplied to motor";
+  Modelica.SIunits.Power pwrOut "real generated power/real power supplied to flange_1";
   Modelica.SIunits.Power Qloss "heat generated due to loss";
-  Modelica.SIunits.Torque trqIdeal "torque extracted at flange_1/power supplied to motor";
-  Modelica.SIunits.Torque trq "torque by real generated power/real torque supplied to flange_1";
-  Modelica.SIunits.Power pwr_inv "real power, sign inverted";
-  Modelica.SIunits.Torque trq_inv "real torque, sign inverted";
+  Modelica.SIunits.Torque trqIn "torque extracted at flange_1/power supplied to motor";
+  Modelica.SIunits.Torque trqOut "torque by real generated power/real torque supplied to flange_1";
+  Modelica.SIunits.Power pwrOut_inv "real power, sign inverted";
+  Modelica.SIunits.Torque trqOut_inv "real torque, sign inverted";
   Modelica.SIunits.AngularVelocity omega "mechanical rotation speed, rad/sec";
   Modelica.SIunits.Angle phi "mechanical rotation displacement, rad";
   Real eff "efficiency";
@@ -55,10 +55,10 @@ equation
   phi = flange_1.phi;
   if flange_1.tau >= 0.0 then
     // generator operation
-    trqIdeal = flange_1.tau;
+    trqIn = flange_1.tau;
   else
     // motor operation
-    flange_1.tau = trq;
+    flange_1.tau = trqOut;
   end if;
   
   
@@ -66,13 +66,13 @@ equation
   /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
-  pwr = pwrIdeal * eff;
+  pwrOut = pwrIn * eff;
   der(phi) = omega;
-  omega * trq = pwr;
-  omega * trqIdeal = pwrIdeal;
-  pwr_inv = -1.0 * pwr;
-  trq_inv = -1.0 * trq;
-  Qloss = abs(pwrIdeal - pwr);
+  omega * trqOut = pwrOut;
+  omega * trqIn = pwrIn;
+  pwrOut_inv = -1.0 * pwrOut;
+  trqOut_inv = -1.0 * trqOut;
+  Qloss = abs(pwrIn - pwrOut);
   
   
 /********************************************************
