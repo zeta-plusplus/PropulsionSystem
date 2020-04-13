@@ -7,6 +7,12 @@ model CombCharFixed01
   ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
+  
+  
+  
+  /********************************************************
+      Declaration
+  ********************************************************/
   /* ---------------------------------------------
                switch
   --------------------------------------------- */
@@ -31,6 +37,8 @@ model CombCharFixed01
     choices(checkBox = true),
     Dialog(group = "switch"));
   
+  
+  
   /* ---------------------------------------------
                parameters
   --------------------------------------------- */
@@ -42,6 +50,7 @@ model CombCharFixed01
     Dialog(group = "Component characteristics"));
   parameter Real effComb_paramInput = 0.99 "combustion efficiency, valid only when use_u_effComb==false" annotation(
     Dialog(group = "Component characteristics"));
+  
   
   
   /* ---------------------------------------------
@@ -57,6 +66,18 @@ model CombCharFixed01
     Placement(visible = true, transformation(origin = {-20, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {-20, 90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   
   //***************************************************************************
+initial equation
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
+  if use_u_effComb == true then
+    effCombDes = u_effComb;
+  elseif use_u_effComb == false then
+    effCombDes = effComb_paramInput;
+  end if;
+  
+  
+  
 equation
   /* ---------------------------------------------
     Connections, interface <-> internal variables   
@@ -70,9 +91,9 @@ equation
   end if;
 //--------------------
   if use_u_effComb == true then
-    Combustion.u_effComb = u_effComb;
+    effComb = u_effComb;
   elseif use_u_effComb == false then
-    Combustion.u_effComb = effComb_paramInput;
+    effComb = effComb_paramInput;
   end if;
 //--------------------
   if use_u_X_fuel == true then

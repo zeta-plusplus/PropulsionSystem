@@ -64,6 +64,7 @@ model CombustorBase01
   Modelica.SIunits.MassFlowRate m_flow_min;
   Medium.MassFraction X_fuel[Medium.nX];
   Medium.ExtraProperty C_fuel[Medium.nC];
+  Real effComb;
   
   
   
@@ -98,6 +99,16 @@ model CombustorBase01
     Placement(visible = true, transformation(origin = {-90, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     
     //********************************************************************************
+protected
+  /* ---------------------------------------------
+          Non-modifiable parameters
+    --------------------------------------------- */
+  parameter Real effCombDes(fixed=false) annotation(
+    HideResult=false);
+  
+  
+  
+  
 initial algorithm
 /* ---------------------------------------------
     debug print, command window  
@@ -156,17 +167,17 @@ algorithm
 equation
   connect(Combustion.y_m_flow_fuel, y_m_flow_fuel) annotation(
     Line(points = {{11, 44}, {72, 44}, {72, -70}, {110, -70}}, color = {0, 0, 127}));
-/* ---------------------------------------------
+  /* ---------------------------------------------
     Connections, interface <-> internal variables   
   --------------------------------------------- */
-// distinguish inlet side
+  // distinguish inlet side
   m_flow_max = max(port_1.m_flow, port_2.m_flow);
   m_flow_min = min(port_1.m_flow, port_2.m_flow);
-//-- fluidPort_1 --
+  //-- fluidPort_1 --
   fluid_1.p = port_1.p;
   fluid_1.h = actualStream(port_1.h_outflow);
   fluid_1.Xi = actualStream(port_1.Xi_outflow);
-//-- fluidPort_2 --
+  //-- fluidPort_2 --
   fluid_2.p = port_2.p;
   fluid_2.h = actualStream(port_2.h_outflow);
   fluid_2.Xi = actualStream(port_2.Xi_outflow);
@@ -180,10 +191,15 @@ equation
     port_1.h_outflow = fluid_1.h;
     port_1.Xi_outflow = fluid_1.Xi;
   end if;
-//--------------------
+  //--------------------
   fluid_fuel.Xi = X_fuel;
   fluid_fuel.p = port_1.p;
   fluid_fuel.h = u_h_fuel;
+  //--------------------
+  Combustion.u_effComb= effComb;
+  
+  
+  
 /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
