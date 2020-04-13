@@ -40,6 +40,20 @@ partial model MotorGeneratorBase00
     Placement(visible = true, transformation(origin = {0, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {90, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {60, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  
+  
+//********************************************************************************
+protected
+  /* ---------------------------------------------
+          Non-modifiable parameters
+  --------------------------------------------- */
+  parameter Real effDes(fixed=false) annotation(
+    HideResult=false);
+  
+  
+  
+  
 equation
   
   

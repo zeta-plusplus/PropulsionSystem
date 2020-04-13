@@ -46,12 +46,19 @@ model MotorGeneratorCharFixed00
     Placement(visible = true, transformation(origin = {-80, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-60, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   
+  //********************************************************************************
+initial equation
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
+  if (use_u_eff==false) then
+    effDes= eff_paramInput;
+  elseif (use_u_eff==true) then
+    effDes= u_eff;
+  end if;
+  
   
 equation
-
-  
-  
-  
   /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */  
