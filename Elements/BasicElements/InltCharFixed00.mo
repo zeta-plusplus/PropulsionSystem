@@ -42,6 +42,20 @@ model InltCharFixed00
   
   
   
+//********************************************************************************
+initial equation
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
+  //--------------------
+  if (use_u_effRam==false) then
+    effRamDes = effRamDes_paramInput;
+  elseif (use_u_effRam==true) then
+    effRamDes = u_effRam;
+  end if; 
+  //--------------------
+  
+  
 algorithm
 //##### none #####
 equation
@@ -56,8 +70,6 @@ equation
     effRam = u_effRam;
   end if; 
   //--------------------
-  
-  effRamDes= effRam;
   
   
   

@@ -55,7 +55,6 @@ partial model InletBase00
   Modelica.SIunits.SpecificEntropy s_fluid_2 "specific entropy, fluid_2";
   
   Real effRam;
-  Real effRamDes;
   Modelica.SIunits.Force FdRam "ram drag";
   Modelica.SIunits.Velocity V_infini "";
   
@@ -88,6 +87,13 @@ partial model InletBase00
     Placement(visible = true, transformation(origin = {110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {70, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   
+  //********************************************************************************
+protected
+  /* ---------------------------------------------
+          Non-modifiable parameters
+    --------------------------------------------- */
+  parameter Real effRamDes(fixed=false) annotation(
+    HideResult=false);
   
   
 algorithm
