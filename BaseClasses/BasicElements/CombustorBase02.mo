@@ -57,6 +57,12 @@ model CombustorBase02
   
   
   
+  /* ---------------------------------------------
+           Internal variables
+  --------------------------------------------- */
+  Real effComb;
+  
+  
 
   /* ---------------------------------------------
            Internal objects
@@ -90,7 +96,17 @@ model CombustorBase02
     Placement(visible = true, transformation(origin = {-90, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_a port_fuel(redeclare package Medium = Medium, m_flow(start = m_flow_fuel_init), h_outflow.start = hfuel_init) annotation(
     Placement(visible = true, transformation(origin = {-80, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-80, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  
   //********************************************************************************
+protected
+  /* ---------------------------------------------
+          Non-modifiable parameters
+    --------------------------------------------- */
+  parameter Real effCombDes(fixed=false) annotation(
+    HideResult=false);
+  
+  
   
 initial algorithm
 /* ---------------------------------------------
@@ -108,7 +124,7 @@ initial algorithm
     print("port_2.h_outflow= " + String(port_2.h_outflow) + "\n");
   end if;
 algorithm
-/* ---------------------------------------------
+  /* ---------------------------------------------
     debug print, command window   
   --------------------------------------------- */
   if printCmd == true then
@@ -140,18 +156,21 @@ equation
     Line(points = {{-80, 100}, {-80, 100}, {-80, 80}, {-80, 80}}, color = {0, 127, 255}));
   connect(port_1, Mixer.port_1) annotation(
     Line(points = {{-100, 0}, {-40, 0}, {-40, 0}, {-40, 0}}, color = {0, 127, 255}));
-/* ---------------------------------------------
+  
+  
+  /* ---------------------------------------------
     Connections, interface <-> internal variables   
   --------------------------------------------- */
-  
-//-- fluidPort_1 --
+  //-- fluidPort_1 --
   fluid_1.p = port_1.p;
   fluid_1.h = actualStream(port_1.h_outflow);
   fluid_1.Xi = actualStream(port_1.Xi_outflow);
-//-- fluidPort_2 --
+  //-- fluidPort_2 --
   fluid_2.p = port_2.p;
   fluid_2.h = actualStream(port_2.h_outflow);
   fluid_2.Xi = actualStream(port_2.Xi_outflow);
+  //--------------------
+  Combustion.u_effComb= effComb;
   
   
 /********************************************************

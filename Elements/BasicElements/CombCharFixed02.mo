@@ -7,6 +7,12 @@ model CombCharFixed02
     ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
+  
+  
+  
+  /********************************************************
+      Declaration
+  ********************************************************/
   /* ---------------------------------------------
                  switch
     --------------------------------------------- */
@@ -41,6 +47,18 @@ model CombCharFixed02
   
   
   //***************************************************************************
+initial equation
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
+  if use_u_effComb == true then
+    effCombDes = u_effComb;
+  elseif use_u_effComb == false then
+    effCombDes = effComb_paramInput;
+  end if;
+  
+  
+  
 equation
 /* ---------------------------------------------
     Connections, interface <-> internal variables   
@@ -53,9 +71,9 @@ equation
   end if;
 //--------------------
   if use_u_effComb == true then
-    Combustion.u_effComb = u_effComb;
+    effComb = u_effComb;
   elseif use_u_effComb == false then
-    Combustion.u_effComb = effComb_paramInput;
+    effComb = effComb_paramInput;
   end if;
 
 /********************************************************

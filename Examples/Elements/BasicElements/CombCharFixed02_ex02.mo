@@ -19,7 +19,7 @@ model CombCharFixed02_ex02
     Placement(visible = true, transformation(origin = {42, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Temperature temperature1(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-20, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.CombCharFixed02 Comb(redeclare package Medium = engineAir) annotation(
+  PropulsionSystem.Elements.BasicElements.CombCharFixed02 Comb(redeclare package Medium = engineAir, use_u_effComb = true) annotation(
     Placement(visible = true, transformation(origin = {10, -30}, extent = {{-10, -8}, {10, 8}}, rotation = 0)));
   Modelica.Fluid.Sources.MassFlowSource_T boundary2(redeclare package Medium = engineAir, X = {1, 0, 0},nPorts = 1, use_T_in = true, use_m_flow_in = true)  annotation(
     Placement(visible = true, transformation(origin = {-20, 30}, extent = {{10, 10}, {-10, -10}}, rotation = 180)));
@@ -29,7 +29,11 @@ model CombCharFixed02_ex02
     Placement(visible = true, transformation(origin = {60, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_TcombOut(duration = 10, height = 100, offset = 1400, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {60, 40}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Blocks.Sources.Ramp ramp_effComb(duration = 10, height = 0.04, offset = 0.95, startTime = 50) annotation(
+    Placement(visible = true, transformation(origin = {10, 50}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
+  connect(ramp_effComb.y, Comb.u_effComb) annotation(
+    Line(points = {{10, 40}, {10, 40}, {10, -14}, {14, -14}, {14, -20}, {14, -20}}, color = {0, 0, 127}));
   connect(VarBySolver.y_independent, boundary2.m_flow_in) annotation(
     Line(points = {{-58, 50}, {-44, 50}, {-44, 38}, {-30, 38}, {-30, 38}}, color = {0, 0, 127}));
   connect(Constraint.u_targetValue, ramp_TcombOut.y) annotation(

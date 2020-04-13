@@ -57,6 +57,8 @@ model CombustorBase01
     Dialog(tab = "Initialization", group = "fluid_fuel"));
   parameter Modelica.SIunits.SpecificEnthalpy hfuel_init(displayUnit = "J/kg") = 1.004 * 1000 * 288.15 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_fuel"));
+  
+  
   /* ---------------------------------------------
            Internal variables
   --------------------------------------------- */
