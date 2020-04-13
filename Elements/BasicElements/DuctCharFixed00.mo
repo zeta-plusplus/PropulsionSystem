@@ -26,7 +26,7 @@ model DuctCharFixed00
   /* ---------------------------------------------
           parameters    
   --------------------------------------------- */
-  parameter Real dPqPdes_paramInput = 0.01 "total pressure loss factor, valid only when use_u_dPqP==false, value fixed through simulation" annotation(
+  parameter Real dPqP_paramInput = 0.01 "total pressure loss factor, valid only when use_u_dPqP==false, value fixed through simulation" annotation(
     Dialog(group = "Characteristics"));
   
   
@@ -35,9 +35,25 @@ model DuctCharFixed00
   --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_dPqP 
     if use_u_dPqP "dPqP input, valid only when use_u_dPqP==true" annotation(
-    Placement(visible = true, transformation(origin = {-40, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-40, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement(visible = true, transformation(origin = {0, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {0, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   
+  //********************************************************************************
+initial equation
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
+  /* ---------------------------------------------
+    Connections, interface <-> internal variables   
+  --------------------------------------------- */
+  //--------------------
+  if (use_u_dPqP==false) then
+    dPqPdes = dPqP_paramInput;
+  elseif (use_u_dPqP==true) then
+    dPqPdes = u_dPqP;
+  end if; 
+  //--------------------
+  dPdes=dP;
   
   
 algorithm
@@ -56,8 +72,6 @@ equation
   end if; 
   //--------------------
   
-  dPqPdes=dPqP;
-  dPdes=dP;
   
   
 /********************************************************

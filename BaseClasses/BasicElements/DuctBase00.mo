@@ -59,9 +59,7 @@ model DuctBase00
   Modelica.SIunits.MassFlowRate m_flow_min;
   
   Real dPqP;
-  Real dPqPdes;
   Modelica.SIunits.PressureDifference dP;
-  Modelica.SIunits.PressureDifference dPdes;
   
   
   
@@ -82,6 +80,18 @@ model DuctBase00
   
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  
+  //********************************************************************************
+protected
+  /* ---------------------------------------------
+          Non-modifiable parameters
+    --------------------------------------------- */
+  parameter Real dPqPdes(fixed=false) annotation(
+    HideResult=false);
+  parameter Modelica.SIunits.PressureDifference dPdes(fixed=false) annotation(
+    HideResult=false);
+  
   
   
   
