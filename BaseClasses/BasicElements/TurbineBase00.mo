@@ -70,15 +70,6 @@ partial model TurbineBase00
   Modelica.SIunits.SpecificEnthalpy dht "specific enthalpy change in non-isentropic compression";
   Modelica.SIunits.SpecificEnthalpy h_2is "";
   
-  //********** Design point variables **********
-  Modelica.SIunits.MassFlowRate m_flow_des_1;
-  Modelica.SIunits.Pressure pDes_1;
-  Modelica.SIunits.Temperature Tdes_1;
-  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes "mechanical rotation speed, rpm";
-  inner Modelica.SIunits.MassFlowRate WcDes_1 "corrected mass flow rate";
-  inner Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NcDes_1;
-  Real PRdes;
-  Real effDes;
   
   Modelica.SIunits.MassFlowRate m_flow_max;
   Modelica.SIunits.MassFlowRate m_flow_min;
@@ -110,6 +101,37 @@ partial model TurbineBase00
     Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   
+protected
+  /* ---------------------------------------------
+          Non-modifiable parameters
+    --------------------------------------------- */
+  parameter Modelica.SIunits.MassFlowRate m_flow_des_1(fixed=false) annotation(
+    HideResult=false);
+  parameter Modelica.SIunits.Pressure pDes_1(fixed=false) annotation(
+    HideResult=false);
+  parameter Modelica.SIunits.Temperature Tdes_1(fixed=false) annotation(
+    HideResult=false);
+  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false) "mechanical rotation speed, rpm" annotation(
+    HideResult=false);
+  inner parameter Modelica.SIunits.MassFlowRate WcDes_1(fixed=false) "corrected mass flow rate" annotation(
+    HideResult=false);
+  inner parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NcDes_1(fixed=false) annotation(
+    HideResult=false);
+  parameter Real PRdes(fixed=false) annotation(
+    HideResult=false);
+  parameter Real effDes(fixed=false) annotation(
+    HideResult=false);
+  
+  
+initial equation
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
+  NcDes_1 = NmechDes / sqrt(Tdes_1 / environment.Tstd);
+  WcDes_1 = m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd);
+  
+  
+      
 algorithm
   assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
 
@@ -176,9 +198,6 @@ equation
   s_fluid_1= Medium.specificEntropy(fluid_1.state);
   s_fluid_2= Medium.specificEntropy(fluid_2.state);
   
-  //-- Design point variables --
-  NcDes_1 = NmechDes / sqrt(Tdes_1 / environment.Tstd);
-  WcDes_1 = m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd);
   
   //-- variables relative to design point --
   NqNdes = Nmech / NmechDes;

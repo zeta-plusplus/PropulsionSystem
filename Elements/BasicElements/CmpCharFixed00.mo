@@ -44,9 +44,10 @@ model CmpCharFixed00
   Modelica.Blocks.Interfaces.RealInput u_eff if use_u_eff "eff input, valid only when use_u_eff==true" annotation(
     Placement(visible = true, transformation(origin = {-20, -112}, extent = {{-12, -12}, {12, 12}}, rotation = 90), iconTransformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 
-algorithm
-//##### none #####
-equation
+initial equation
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
   m_flow_des_1 = port_1.m_flow;
   pDes_1 = fluid_1.p;
   Tdes_1 = fluid_1.T;
@@ -56,6 +57,8 @@ equation
     PRdes = PRdes_paramInput;
   elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
     PRdes = u_PR;
+  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
+    PRdes= PR;
   end if; 
   //--------------------
   if use_u_eff == false then
@@ -64,8 +67,28 @@ equation
     effDes = u_eff;
   end if; 
   //--------------------
-  PR = PRdes;
-  eff = effDes;
+  
+  
+  
+algorithm
+//##### none #####
+equation
+  //--------------------
+  if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
+    PR = PRdes_paramInput;
+  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
+    PR = u_PR;
+  end if; 
+  //--------------------
+  if use_u_eff == false then
+    eff = effDes_paramInput;
+  elseif use_u_eff==true then
+    eff = u_eff;
+  end if; 
+  //--------------------
+  
+  
+  
 /********************************************************
   Graphics
 ********************************************************/
