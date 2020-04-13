@@ -61,15 +61,13 @@ model NzlCharFixed00
       PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "AmechTh input, valid only when switchDetermine_AmechTh==viaRealInput" annotation(
     Placement(visible = true, transformation(origin = {0, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {60, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
-  
-algorithm
-//##### none #####
-equation
-  
-  
+
+  //********************************************************************************
+initial equation
   /* ---------------------------------------------
-  Connections, interface <-> internal variables   
+    determine design point
   --------------------------------------------- */
+  PR= PRdes;
   //--------------------
   if (use_u_CdTh==false) then
     CdThDes = CdThDes_paramInput;
@@ -84,15 +82,43 @@ equation
   end if; 
   //--------------------
   if (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.param) then
+    AmechThDes = AmechTh_paramInput;
+  elseif (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) then
+    AmechThDes= u_AmechTh;
+  elseif (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated) then
+    AmechThDes= AmechTh;
+  end if; 
+  //--------------------
+  
+algorithm
+//##### none #####
+equation
+  
+  
+  /* ---------------------------------------------
+  Connections, interface <-> internal variables   
+  --------------------------------------------- */
+  //--------------------
+  if (use_u_CdTh==false) then
+    CdTh = CdThDes_paramInput;
+  elseif (use_u_Cv==true) then
+    CdTh = u_CdTh;
+  end if; 
+  //--------------------
+  if (use_u_Cv==false) then
+    Cv = CvDes_paramInput;
+  elseif (use_u_Cv==true) then
+    Cv = u_Cv;
+  end if; 
+  //--------------------
+  if (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.param) then
     AmechTh = AmechTh_paramInput;
   elseif (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) then
     AmechTh= u_AmechTh;
   end if; 
   //--------------------
   
-  PR= PRdes;
-  CdTh = CdThDes;
-  Cv = CvDes;
+  
 
 
 

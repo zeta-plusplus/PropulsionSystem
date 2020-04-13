@@ -106,11 +106,6 @@ partial model NozzleBase00
   //--choked--
   Modelica.SIunits.Velocity V_th_choked;
   
-  //********** Design point variables **********
-  Modelica.SIunits.Area AeThDes;
-  Real PRdes;
-  Real CdThDes;
-  Real CvDes;
   
   
   /* ---------------------------------------------
@@ -134,6 +129,33 @@ partial model NozzleBase00
     Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-90, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   
+  
+  //********************************************************************************
+protected
+  /* ---------------------------------------------
+          Non-modifiable parameters
+    --------------------------------------------- */
+  parameter Real PRdes(fixed=false) annotation(
+    HideResult=false);
+  parameter Modelica.SIunits.Area AeThDes(fixed=false) annotation(
+    HideResult=false);
+  parameter Modelica.SIunits.Area AmechThDes(fixed=false) annotation(
+    HideResult=false);
+  parameter Real CdThDes(fixed=false) annotation(
+    HideResult=false);
+  parameter Real CvDes(fixed=false) annotation(
+    HideResult=false);
+  
+  
+initial equation
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
+  AeThDes= AmechTh*CdThDes;
+  
+  
+  
+    
 algorithm
   assert(fluid_1.h < fluidStat_th_fullExp.h, "nozzle inverse flow condition, fluid_1.h < fluidStat_th_fullExp.h" + "\n" + ", fluid_1.h=" + String(fluid_1.h) + ", fluidStat_th_fullExp.h=" + String(fluidStat_th_fullExp.h), AssertionLevel.warning);
   
@@ -233,7 +255,6 @@ equation
   m_flow_th = fluid_th.d * V_th * AeTh;
   m_flow_th = port_1.m_flow;
   AeTh = AmechTh * CdTh;
-  AeThDes= AmechTh*CdThDes;
   
   s_fluid_1= Medium.specificEntropy(fluid_1.state);
   s_fluid_2= Medium.specificEntropy(fluid_2.state);
