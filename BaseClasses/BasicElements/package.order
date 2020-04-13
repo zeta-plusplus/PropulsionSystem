@@ -7,6 +7,7 @@ CombustorBase02
 NozzleBase00
 InletBase00
 DuctBase00
+IdealSplitterBase00
 IdealMixerBase00
 MotorGeneratorBase00
 LossRotationalMechanicsBase00
@@ -16,4 +17,3 @@ HeatInjector_Base
 NozzleConv_Base
 Inlet_Base
 Duct_Base
-IdealSplitterBase00

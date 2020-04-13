@@ -7,7 +7,9 @@ CombCharFixed02
 NzlCharFixed00
 InltCharFixed00
 DuctCharFixed00
+IdealSpltCharFixed00
 IdealMixer00
+PropActDiskCharFixed00
 MotorGeneratorCharFixed00
 LossRotMechCharFixed00
 EnginePerformance00
@@ -33,4 +35,3 @@ constrain_Nmech
 constrain_T
 constrain_dm
 extractPwr
-PropActDiskCharFixed00

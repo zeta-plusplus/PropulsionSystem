@@ -1,6 +1,6 @@
 within PropulsionSystem.BaseClasses.BasicElements;
 
-model IdealSplitterBase00
+partial model IdealSplitterBase00
   /********************************************************
                               imports
     ********************************************************/
@@ -23,21 +23,11 @@ model IdealSplitterBase00
     choices(checkBox = true),
     Dialog(tab = "debug setting"));
   
-  parameter Boolean use_u_BPR = false "get BPR from the real input connector" annotation(
-    Evaluate = true,
-    HideResult = true,
-    choices(checkBox = true), Dialog(group = "switch"));
-  
   
   
   /* ---------------------------------------------
                       parameters
     --------------------------------------------- */
-  parameter Real BPR_paramInput = 10.0 "bypass ratio, valid only when use_u_BPR==false, value fixed through simulation" annotation(
-    Dialog(group = "Component characteristics"));
-  
-  
-  
   //********** Initialization Parameters **********
   //--- fluid_1, port_1 ---
   parameter Modelica.SIunits.MassFlowRate m_flow1_init(displayUnit = "kg/s") = 1.0 "" annotation(
@@ -68,13 +58,13 @@ model IdealSplitterBase00
     Dialog(tab = "Initialization", group = "fluid_3"));
   
   
+  
+  
   /* ---------------------------------------------
                  Internal variables
     --------------------------------------------- */
-  Modelica.SIunits.MassFlowRate m_flow_max;
-  Modelica.SIunits.MassFlowRate m_flow_min;
   Real BPR "ratio of m_flow, port_3 to port_2";
-  Real BPRdes "BPR, design point";
+  
   
   
   /* ---------------------------------------------
@@ -96,9 +86,17 @@ model IdealSplitterBase00
     Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {-90, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {80, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Blocks.Interfaces.RealInput u_BPR if use_u_BPR annotation(
-    Placement(visible = true, transformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  //********************************************************************************
+//********************************************************************************
+protected
+  /* ---------------------------------------------
+          Non-modifiable parameters
+    --------------------------------------------- */
+  parameter Real BPRdes(fixed=false) "BPR, design point" annotation(
+    HideResult=false);
+  
+  
+  
+//********************************************************************************
 initial algorithm
 /* ---------------------------------------------
     debug print, command window  
@@ -119,6 +117,10 @@ initial algorithm
   end if;
 algorithm
   
+  
+  /* ---------------------------------------------
+    Connections, interface <-> internal variables   
+  --------------------------------------------- */
   //-- fluidPort_1 --
   fluid_1.p := port_1.p;
   fluid_1.h := actualStream(port_1.h_outflow);
@@ -142,6 +144,10 @@ algorithm
   fluid_2.p := fluid_1.p;
   
   
+  
+  /* ---------------------------------------------
+    Connections, interface <-> internal variables   
+  --------------------------------------------- */
   //-- fluidPort_2 --
   port_2.p:= fluid_2.p;
   port_2.h_outflow:= fluid_2.h;
@@ -170,25 +176,8 @@ algorithm
     print("port_3.h_outflow= " + String(port_3.h_outflow) + "\n");
   end if;
 equation
-/* ---------------------------------------------
-    Connections, interface <-> internal variables   
-  --------------------------------------------- */
-// distinguish inlet side
-  m_flow_max = max({port_1.m_flow, port_2.m_flow, port_3.m_flow});
-  m_flow_min = min({port_1.m_flow, port_2.m_flow, port_3.m_flow});
+// ##### NONE #####  
   
-  
-  
-  //--------------------
-  if use_u_BPR == false then
-    BPR = BPR_paramInput;
-  elseif use_u_BPR==true then
-    BPR = u_BPR;
-  end if; 
-  //--------------------
-  
-  
-  BPRdes=BPR;
   
   
   
