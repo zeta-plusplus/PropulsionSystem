@@ -114,7 +114,33 @@ initial algorithm
     print("port_2.h_outflow= " + String(port_2.h_outflow) + "\n");
   end if;
 algorithm
-/* ---------------------------------------------
+  
+  /*
+  if(u_m_flow_fuel>0.0)then
+    //----- mixing -----
+    fluid_1afterMix.Xi := (port_1.m_flow * fluid_1.Xi + u_m_flow_fuel * X_fuel) / (port_1.m_flow + u_m_flow_fuel);
+    fluid_1afterMix.p := fluid_1.p;
+    fluid_1afterMix.h := (port_1.m_flow * fluid_1.h + u_m_flow_fuel * fluid_fuel.h) / (port_1.m_flow + u_m_flow_fuel);
+    port_2.m_flow := -1.0*(port_1.m_flow + u_m_flow_fuel);
+    //----- heat injection -----
+    fluid_2.p := fluid_1.p;
+    fluid_2.Xi := fluid_1afterMix.Xi;
+    fluid_2.h := (fluid_1afterMix.h * (port_1.m_flow + u_m_flow_fuel) + Combustion.y_Qcomb)/(port_1.m_flow + u_m_flow_fuel);
+  else
+    //----- mixing -----
+    fluid_1afterMix.Xi := fluid_1.Xi;
+    fluid_1afterMix.p := fluid_1.p;
+    fluid_1afterMix.h := fluid_1.h;
+    port_2.m_flow := -1.0*(port_1.m_flow);
+    //----- heat injection -----
+    fluid_2.p := fluid_1.p;
+    fluid_2.Xi := fluid_1.Xi;
+    fluid_2.h := fluid_1.h;
+    
+  end if;
+  */
+  
+  /* ---------------------------------------------
     debug print, command window   
   --------------------------------------------- */
   if printCmd == true then
@@ -170,6 +196,7 @@ equation
   fluid_2.p = fluid_1.p;
   fluid_2.Xi = fluid_1afterMix.Xi;
   fluid_1afterMix.h * (port_1.m_flow + u_m_flow_fuel) + fluid_2.h * port_2.m_flow + Combustion.y_Qcomb = 0.0;
+  
 /********************************************************
   Graphics
 ********************************************************/
