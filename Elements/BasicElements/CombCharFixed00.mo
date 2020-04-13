@@ -43,6 +43,14 @@ model CombCharFixed00
     Dialog(group = "Component characteristics"));
   
   /* ---------------------------------------------
+      Internal objects
+  --------------------------------------------- */
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow1 annotation(
+    Placement(visible = true, transformation(origin = {-10, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+    
+  
+  
+  /* ---------------------------------------------
           Interface
   --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_m_flow_fuel(quantity = "MassFlowRate", unit = "kg/s", displayUnit = "kg/s") if use_u_m_flow_fuel "[kg/s], mass flow rate of fuel" annotation(
@@ -51,9 +59,20 @@ model CombCharFixed00
     Placement(visible = true, transformation(origin = {-50, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {-40, 90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealInput u_effComb if use_u_effComb "[nond], combustion efficiency" annotation(
     Placement(visible = true, transformation(origin = {-10, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-            Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow1 annotation(
-    Placement(visible = true, transformation(origin = {-10, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  //********************************************************************************
+  
+//********************************************************************************
+initial equation
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
+  if use_u_effComb == true then
+    effCombDes = u_effComb;
+  elseif use_u_effComb == false then
+    effCombDes = effComb_paramInput;
+  end if;
+  
+  
+    
 equation
   //--------------------
   if use_u_m_flow_fuel == true then
@@ -69,9 +88,9 @@ equation
   end if;
 //--------------------
   if use_u_effComb == true then
-    Combustion.u_effComb = u_effComb;
+    effComb = u_effComb;
   elseif use_u_effComb == false then
-    Combustion.u_effComb = effComb_paramInput;
+    effComb = effComb_paramInput;
   end if;
 //--------------------
 /********************************************************

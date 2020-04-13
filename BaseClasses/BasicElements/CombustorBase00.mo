@@ -18,6 +18,11 @@ partial model CombustorBase00
     choicesAllMatching = true);
   
   
+  /* ---------------------------------------------
+      Internal variables
+  --------------------------------------------- */
+  Real effComb;
+  
   
   /* ---------------------------------------------
            Internal objects
@@ -43,6 +48,15 @@ partial model CombustorBase00
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow1 annotation(
     Placement(visible = true, transformation(origin = {-10, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   //********************************************************************************
+
+protected
+  /* ---------------------------------------------
+          Non-modifiable parameters
+    --------------------------------------------- */
+  parameter Real effCombDes(fixed=false) annotation(
+    HideResult=false);
+  
+  
 equation
   connect(prescribedHeatFlow1.port, HeatInjector.HeatPort_1) annotation(
     Line(points = {{-10, 20}, {-10, 20}, {-10, 10}, {-10, 10}}, color = {191, 0, 0}));
@@ -50,15 +64,15 @@ equation
     Line(points = {{-18, 50}, {-10, 50}, {-10, 40}, {-10, 40}}, color = {0, 0, 127}));
   connect(Combustion.y_m_flow_fuel, y_m_flow_fuel) annotation(
     Line(points = {{-19, 44}, {72, 44}, {72, -70}, {110, -70}}, color = {0, 0, 127}));
-  
-  
-  /* ---------------------------------------------
-    Connections, interface <-> internal variables
-  --------------------------------------------- */
   connect(HeatInjector.port_2, port_2) annotation(
     Line(points = {{0, 0}, {100, 0}}, color = {0, 127, 255}));
   connect(port_1, HeatInjector.port_1) annotation(
     Line(points = {{-100, 0}, {-20, 0}}, color = {0, 127, 255}));
+  
+  /* ---------------------------------------------
+    Connections, interface <-> internal variables
+  --------------------------------------------- */
+  Combustion.u_effComb= effComb;
   //--------------------
   
   
