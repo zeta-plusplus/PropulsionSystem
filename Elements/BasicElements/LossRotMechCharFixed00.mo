@@ -38,10 +38,20 @@ model LossRotMechCharFixed00
   
   
   
+  //********************************************************************************
+initial equation
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
+  if (use_u_eff==false) then
+    effDes= eff_paramInput;
+  elseif (use_u_eff==true) then
+    effDes= u_eff;
+  end if;
+  
+  
+  
 equation
-
-  
-  
   
   /* ---------------------------------------------
   Connections, interface <-> internal variables

@@ -50,6 +50,15 @@ partial model LossRotationalMechanicsBase00
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   
+  //********************************************************************************
+protected
+  /* ---------------------------------------------
+          Non-modifiable parameters
+  --------------------------------------------- */
+  parameter Real effDes(fixed=false) annotation(
+    HideResult=false);
+  
+  
   
 equation
   
@@ -98,5 +107,5 @@ equation
 ********************************************************/
   annotation(
     defaultComponentName = "LossRotMech",
-    Icon(graphics = {Rectangle(origin = {1, 1}, fillPattern = FillPattern.Solid, extent = {{-101, 9}, {99, -11}}), Text(origin = {-45, 76}, extent = {{-35, 4}, {125, -16}}, textString = "%name"), Ellipse(origin = {-66, -4}, fillColor = {170, 170, 127}, pattern = LinePattern.None, fillPattern = FillPattern.HorizontalCylinder, lineThickness = 0.75, extent = {{-16, 64}, {18, -56}}, endAngle = 360), Rectangle(origin = {7, -1}, fillColor = {170, 170, 127}, pattern = LinePattern.None, fillPattern = FillPattern.HorizontalCylinder, extent = {{-72, 61}, {58, -59}}), Ellipse(origin = {65, -4}, fillColor = {170, 170, 127}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, lineThickness = 0.75, extent = {{-16, 64}, {16, -56}}, endAngle = 360), Text(origin = {-39, 21}, lineColor = {255, 255, 255}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-37, 3}, {91, -37}}, textString = "Mech. Loss", fontSize = 40), Rectangle(origin = {21, 7}, fillPattern = FillPattern.Solid, extent = {{45, 3}, {79, -17}}), Ellipse(origin = {62, 1}, fillPattern = FillPattern.Solid, extent = {{-2, 9}, {10, -11}}, endAngle = 360)}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Rectangle(origin = {1, 1}, fillPattern = FillPattern.Solid, extent = {{-101, 9}, {99, -11}}), Text(origin = {-45, 76}, extent = {{-35, 4}, {125, -16}}, textString = "%name"), Ellipse(origin = {-66, -4}, fillColor = {170, 170, 127}, pattern = LinePattern.None, fillPattern = FillPattern.HorizontalCylinder, lineThickness = 0.75, extent = {{-16, 64}, {18, -56}}, endAngle = 360), Rectangle(origin = {7, -1}, fillColor = {170, 170, 127}, pattern = LinePattern.None, fillPattern = FillPattern.HorizontalCylinder, extent = {{-72, 61}, {58, -59}}), Ellipse(origin = {65, -4}, fillColor = {170, 170, 127}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, lineThickness = 0.75, extent = {{-16, 64}, {16, -56}}, endAngle = 360), Text(origin = {-37, 37}, lineColor = {255, 255, 255}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-35, -7}, {91, -37}}, textString = "Mechanical", fontSize = 40), Rectangle(origin = {21, 7}, fillPattern = FillPattern.Solid, extent = {{45, 3}, {79, -17}}), Ellipse(origin = {62, 1}, fillPattern = FillPattern.Solid, extent = {{-2, 9}, {10, -11}}, endAngle = 360), Text(origin = {-9, -3}, lineColor = {255, 255, 255}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-37, 3}, {23, -23}}, textString = "Loss", fontSize = 40)}, coordinateSystem(initialScale = 0.1)));
 end LossRotationalMechanicsBase00;

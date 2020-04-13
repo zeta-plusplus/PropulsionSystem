@@ -134,7 +134,7 @@ partial model NozzleBase00
 protected
   /* ---------------------------------------------
           Non-modifiable parameters
-    --------------------------------------------- */
+  --------------------------------------------- */
   parameter Real PRdes(fixed=false) annotation(
     HideResult=false);
   parameter Modelica.SIunits.Area AeThDes(fixed=false) annotation(
