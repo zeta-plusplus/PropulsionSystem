@@ -51,8 +51,11 @@ algorithm
   /* ---------------------------------------------
   Eqns describing physics   
   --------------------------------------------- */
-  Qcomb:= m_flow_fuel * LHV_fuel * effComb;
-  
+  if(m_flow_fuel>0.0)then
+    Qcomb:= m_flow_fuel * LHV_fuel * effComb;
+  else
+    Qcomb:= 0.0;
+  end if;
   
   
   /* ---------------------------------------------

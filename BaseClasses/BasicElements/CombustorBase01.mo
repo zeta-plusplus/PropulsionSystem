@@ -205,15 +205,28 @@ equation
 /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
-//----- mixing -----
-  fluid_1afterMix.Xi = (port_1.m_flow * fluid_1.Xi + u_m_flow_fuel * X_fuel) / (port_1.m_flow + u_m_flow_fuel);
-  fluid_1afterMix.p = fluid_1.p;
-  fluid_1afterMix.h = (port_1.m_flow * fluid_1.h + u_m_flow_fuel * fluid_fuel.h) / (port_1.m_flow + u_m_flow_fuel);
-  port_1.m_flow + u_m_flow_fuel + port_2.m_flow = 0;
-//----- heat injection -----
-  fluid_2.p = fluid_1.p;
-  fluid_2.Xi = fluid_1afterMix.Xi;
-  fluid_1afterMix.h * (port_1.m_flow + u_m_flow_fuel) + fluid_2.h * port_2.m_flow + Combustion.y_Qcomb = 0.0;
+  
+  if(u_m_flow_fuel>0.0)then
+    //----- mixing -----
+    fluid_1afterMix.Xi = (port_1.m_flow * fluid_1.Xi + u_m_flow_fuel * X_fuel) / (port_1.m_flow + u_m_flow_fuel);
+    fluid_1afterMix.p = fluid_1.p;
+    fluid_1afterMix.h = (port_1.m_flow * fluid_1.h + u_m_flow_fuel * fluid_fuel.h) / (port_1.m_flow + u_m_flow_fuel);
+    port_1.m_flow + u_m_flow_fuel + port_2.m_flow = 0;
+    //----- heat injection -----
+    fluid_2.p = fluid_1.p;
+    fluid_2.Xi = fluid_1afterMix.Xi;
+    fluid_1afterMix.h * (port_1.m_flow + u_m_flow_fuel) + fluid_2.h * port_2.m_flow + Combustion.y_Qcomb = 0.0;
+  else
+    //----- mixing -----
+    fluid_1afterMix.Xi = fluid_1.Xi;
+    fluid_1afterMix.p = fluid_1.p;
+    fluid_1afterMix.h = fluid_1.h;
+    port_1.m_flow + port_2.m_flow = 0;
+    //----- heat injection -----
+    fluid_2.p = fluid_1.p;
+    fluid_2.Xi = fluid_1afterMix.Xi;
+    fluid_1afterMix.h * port_1.m_flow + fluid_2.h * port_2.m_flow = 0.0;
+  end if;
   
 /********************************************************
   Graphics
