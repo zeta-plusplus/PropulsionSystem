@@ -66,7 +66,7 @@ equation
   --------------------------------------------- */
   //--------------------
   if (use_u_dPqP==false) then
-    dPqP = dPqPdes_paramInput;
+    dPqP = dPqP_paramInput;
   elseif (use_u_dPqP==true) then
     dPqP = u_dPqP;
   end if; 
