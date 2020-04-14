@@ -9,6 +9,7 @@ InletBase00
 DuctBase00
 IdealSplitterBase00
 IdealMixerBase00
+PropellerActuatorDiskBase00
 MotorGeneratorBase00
 LossRotationalMechanicsBase00
 Compressor_Base
