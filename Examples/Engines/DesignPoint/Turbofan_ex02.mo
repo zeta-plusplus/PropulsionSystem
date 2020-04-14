@@ -1,14 +1,14 @@
 within PropulsionSystem.Examples.Engines.DesignPoint;
 
-model Turbofan_ex01
+model Turbofan_ex02
   extends Modelica.Icons.Example;
   //-----
   //package engineAir = Modelica.Media.Air.DryAirNasa;
   package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
   //redeclare package Medium = engineAir
   //-----
-  Modelica.Blocks.Sources.Ramp ramp_Fn(duration = 10, height = 0, offset = 120000, startTime = 50) annotation(
-    Placement(visible = true, transformation(origin = {470, -130}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 10, height = 100, offset = 1600, startTime = 50) annotation(
+    Placement(visible = true, transformation(origin = {170, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-30, 250}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
@@ -48,7 +48,7 @@ model Turbofan_ex01
   Modelica.Blocks.Sources.Ramp ramp_fltMN(duration = 0, height = 0, offset = 0.8, startTime = 0) annotation(
     Placement(visible = true, transformation(origin = {-390, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.EnginePerformance00 Perf annotation(
-    Placement(visible = true, transformation(origin = {440, -190}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {450, -190}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_Cmp025_PR(duration = 10, height = 5, offset = 10, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {2, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_Cmp025_eff(duration = 10, height = 0, offset = 0.8, startTime = 30) annotation(
@@ -58,7 +58,7 @@ model Turbofan_ex01
   Modelica.Blocks.Sources.Ramp ramp_Tfuel(duration = 10, height = 200, offset = 400, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {50, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint2 annotation(
-    Placement(visible = true, transformation(origin = {470, -160}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {170, 80}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
   FluidSystemComponents.Utilities.VariableBySolver VarBySolver annotation(
     Placement(visible = true, transformation(origin = {50, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CombCharFixed02 Comb036(redeclare package Medium = engineAir) annotation(
@@ -98,30 +98,12 @@ model Turbofan_ex01
   PropulsionSystem.Elements.BasicElements.IdealSpltCharFixed00 Splt(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-200, 16}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
   Modelica.Blocks.Math.Add add1 annotation(
-    Placement(visible = true, transformation(origin = {420, -150}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {430, -150}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Sources.Ramp ramp_Cmp120_PR(duration = 10, height = 0.7, offset = 1.1, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-162, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_Cmp120_eff(duration = 10, height = 0, offset = 0.9, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-150, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 equation
-  connect(Perf.y_Fn, Constraint2.u_variable) annotation(
-    Line(points = {{452, -184}, {470, -184}, {470, -172}, {470, -172}}, color = {0, 0, 127}));
-  connect(Inlt.y_FdRam, Perf.u_Fram) annotation(
-    Line(points = {{-226, -8}, {-214, -8}, {-214, -186}, {429, -186}}, color = {0, 0, 127}));
-  connect(Comb036.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
-    Line(points = {{146, 22}, {146, -198}, {429, -198}}, color = {0, 0, 127}));
-  connect(add1.y, Perf.u_Fg) annotation(
-    Line(points = {{420, -161}, {420, -182}, {429, -182}}, color = {0, 0, 127}));
-  connect(Nzl070.y_Fg, add1.u1) annotation(
-    Line(points = {{410, -42}, {426, -42}, {426, -138}}, color = {0, 0, 127}));
-  connect(Nzl170.y_Fg, add1.u2) annotation(
-    Line(points = {{250, 160}, {372, 160}, {372, -126}, {414, -126}, {414, -138}}, color = {0, 0, 127}));
-  connect(Constraint2.u_targetValue, ramp_Fn.y) annotation(
-    Line(points = {{470, -148}, {470, -141}}, color = {0, 0, 127}));
-  connect(temperature040.port, Trb041.port_1) annotation(
-    Line(points = {{160, 40}, {160, 16}, {170, 16}}, color = {0, 127, 255}));
-  connect(Comb036.port_2, temperature040.port) annotation(
-    Line(points = {{150, 40}, {160, 40}}, color = {0, 127, 255}));
   connect(Duct055.port_2, Nzl070.port_1) annotation(
     Line(points = {{360, -26}, {380, -26}}, color = {0, 127, 255}));
   connect(Trb049.port_2, Duct055.port_1) annotation(
@@ -158,16 +140,34 @@ equation
     Line(points = {{-340, 40}, {-340, 206}, {260, 206}, {260, 176}}, color = {0, 127, 255}));
   connect(Duct130.port_2, Nzl170.port_1) annotation(
     Line(points = {{180, 176}, {220, 176}}, color = {0, 127, 255}));
+  connect(Nzl170.y_Fg, add1.u2) annotation(
+    Line(points = {{250, 160}, {372, 160}, {372, -126}, {424, -126}, {424, -138}}, color = {0, 0, 127}));
   connect(Duct045.port_2, Trb049.port_1) annotation(
     Line(points = {{240, 16}, {246, 16}, {246, -16}, {260, -16}}, color = {0, 127, 255}));
+  connect(add1.y, Perf.u_Fg) annotation(
+    Line(points = {{430, -162}, {430, -162}, {430, -182}, {440, -182}, {440, -182}}, color = {0, 0, 127}));
+  connect(Nzl070.y_Fg, add1.u1) annotation(
+    Line(points = {{410, -42}, {436, -42}, {436, -138}, {436, -138}}, color = {0, 0, 127}));
   connect(Cmp020.port_2, Duct023.port_1) annotation(
     Line(points = {{-58, -24}, {-50, -24}, {-50, 16}, {-40, 16}}, color = {0, 127, 255}));
   connect(Splt.port_2, Cmp020.port_1) annotation(
     Line(points = {{-194, 16}, {-106, 16}, {-106, -24}, {-98, -24}}, color = {0, 127, 255}));
   connect(Inlt.port_2, Splt.port_1) annotation(
     Line(points = {{-220, 16}, {-206, 16}, {-206, 16}, {-206, 16}}, color = {0, 127, 255}));
+  connect(Comb036.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
+    Line(points = {{146, 22}, {146, -198}, {439, -198}}, color = {0, 0, 127}));
+  connect(Inlt.y_FdRam, Perf.u_Fram) annotation(
+    Line(points = {{-226, -8}, {-214, -8}, {-214, -186}, {439, -186}}, color = {0, 0, 127}));
   connect(Trb041.port_2, Duct045.port_1) annotation(
     Line(points = {{210, 16}, {220, 16}, {220, 16}, {220, 16}}, color = {0, 127, 255}));
+  connect(Constraint2.u_targetValue, ramp_TIT.y) annotation(
+    Line(points = {{170, 92}, {170, 99}}, color = {0, 0, 127}));
+  connect(Comb036.port_2, temperature040.port) annotation(
+    Line(points = {{150, 40}, {160, 40}}, color = {0, 127, 255}));
+  connect(temperature040.port, Trb041.port_1) annotation(
+    Line(points = {{160, 40}, {160, 16}, {170, 16}}, color = {0, 127, 255}));
+  connect(Constraint2.u_variable, temperature040.T) annotation(
+    Line(points = {{170, 68}, {170, 50}, {167, 50}}, color = {0, 0, 127}));
   connect(LossRotMechShH.flange_2, Trb041.flange_1) annotation(
     Line(points = {{100, 0}, {170, 0}}));
   connect(ramp_Trb_eff.y, Trb041.u_eff) annotation(
@@ -214,10 +214,10 @@ equation
     Line(points = {{-290, 5}, {-290, -27}}, color = {0, 0, 127}));
   annotation(
     uses(Modelica(version = "3.2.2")),
-    Diagram(coordinateSystem(extent = {{-400, -260}, {480, 260}}, preserveAspectRatio = false)),
+    Diagram(coordinateSystem(extent = {{-400, -260}, {460, 260}}, preserveAspectRatio = false)),
     Icon(coordinateSystem(preserveAspectRatio = false)),
     version = "",
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
-end Turbofan_ex01;
+end Turbofan_ex02;
