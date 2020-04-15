@@ -14,6 +14,8 @@ partial model PropellerActuatorDiskBase00
           only valid in this class
     --------------------------------------------- */
   type switchThrustSaturation = enumeration(byVinf "determine saturation Fn by free stream speed value", byFn "determine saturation Fn by Thrust value");
+  
+  
   /* ---------------------------------------------
           switches
     --------------------------------------------- */
@@ -47,9 +49,9 @@ partial model PropellerActuatorDiskBase00
     Placement(visible = true, transformation(origin = {110, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_Vinf(quantity = "Velocity", unit = "m/s", displayUnit = "m/s") "speed of freestream flow" annotation(
     Placement(visible = true, transformation(origin = {-120, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  //********************************************************************************
-    PropulsionSystem.Types.ElementBus elementBus1 annotation(
+  PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {100, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  //********************************************************************************
 protected
   /* ---------------------------------------------
             Non-modifiable parameters

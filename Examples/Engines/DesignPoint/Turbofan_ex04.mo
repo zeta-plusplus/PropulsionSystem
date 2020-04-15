@@ -10,9 +10,9 @@ model Turbofan_ex04
   Modelica.Blocks.Sources.Ramp ramp_Fn(duration = 10, height = 0, offset = 120000, startTime = 50) annotation(
     Placement(visible = true, transformation(origin = {470, -130}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
-    Placement(visible = true, transformation(origin = {-30, 250}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-390, 150}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
-    Placement(visible = true, transformation(origin = {-10, 250}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-370, 150}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Sources.FlightCondition2InletFluid00 Flt2Fluid(redeclare package Medium = engineAir, use_u_MN = true, use_u_alt = true) annotation(
     Placement(visible = true, transformation(origin = {-340, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.InltCharFixed00 Inlt(redeclare package Medium = engineAir) annotation(
@@ -104,12 +104,14 @@ model Turbofan_ex04
   Modelica.Blocks.Sources.Ramp ramp_Cmp120_eff(duration = 10, height = 0, offset = 0.9, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-150, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 equation
+  connect(Flt2Fluid.port_amb, Nzl170.port_2) annotation(
+    Line(points = {{-340, 40}, {-340, 164}, {260, 164}, {260, 136}}, color = {0, 127, 255}));
+  connect(Flt2Fluid.port_amb, Nzl070.port_2) annotation(
+    Line(points = {{-340, 40}, {-340, 174}, {420, 174}, {420, 56}}, color = {0, 127, 255}));
   connect(Duct130.port_2, Nzl170.port_1) annotation(
     Line(points = {{180, 136}, {220, 136}}, color = {0, 127, 255}));
   connect(Cmp120.port_2, Duct130.port_1) annotation(
     Line(points = {{-120, 144}, {20, 144}, {20, 136}, {160, 136}}, color = {0, 127, 255}));
-  connect(Flt2Fluid.port_amb, Nzl170.port_2) annotation(
-    Line(points = {{-340, 40}, {-340, 206}, {260, 206}, {260, 136}}, color = {0, 127, 255}));
   connect(Nzl170.y_Fg, add1.u2) annotation(
     Line(points = {{250, 120}, {372, 120}, {372, -126}, {414, -126}, {414, -138}}, color = {0, 0, 127}));
   connect(ramp_Cmp120_eff.y, Cmp120.u_eff) annotation(
@@ -124,8 +126,6 @@ equation
     Line(points = {{320, 64}, {329, 64}, {329, 56}, {340, 56}}, color = {0, 127, 255}));
   connect(Duct055.port_2, Nzl070.port_1) annotation(
     Line(points = {{360, 56}, {380, 56}}, color = {0, 127, 255}));
-  connect(Flt2Fluid.port_amb, Nzl070.port_2) annotation(
-    Line(points = {{-340, 40}, {-340, 216}, {420, 216}, {420, 56}}, color = {0, 127, 255}));
   connect(Nzl070.y_Fg, add1.u1) annotation(
     Line(points = {{410, 40}, {426, 40}, {426, -138}}, color = {0, 0, 127}));
   connect(VarBySolver.y_independent, boundary.m_flow_in) annotation(
@@ -214,7 +214,7 @@ equation
     Line(points = {{-290, 5}, {-290, -27}}, color = {0, 0, 127}));
   annotation(
     uses(Modelica(version = "3.2.2")),
-    Diagram(coordinateSystem(extent = {{-400, -260}, {480, 260}}, preserveAspectRatio = false)),
+    Diagram(coordinateSystem(extent = {{-400, -200}, {480, 180}}, preserveAspectRatio = false)),
     Icon(coordinateSystem(preserveAspectRatio = false)),
     version = "",
     __OpenModelica_commandLineOptions = "",

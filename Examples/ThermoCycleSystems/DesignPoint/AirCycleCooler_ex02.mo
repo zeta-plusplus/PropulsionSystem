@@ -21,9 +21,9 @@ model AirCycleCooler_ex02
   FluidSystemComponents.HeatTransfer.Components.HX_modulatedEff00 HX1(redeclare package Medium1 = HeatSourceFluid, redeclare package Medium2 = CycleFluid) annotation(
     Placement(visible = true, transformation(origin = {31.8, -90.143}, extent = {{20.2, -14.4286}, {-20.2, 14.4286}}, rotation = 180)));
   Modelica.Fluid.Sources.MassFlowSource_T boundary(redeclare package Medium = HeatSinkFluid, T = 30 + 273.15, m_flow = 10, nPorts = 1, use_T_in = true, use_m_flow_in = true) annotation(
-    Placement(visible = true, transformation(origin = {-150, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-150, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT boundary1(redeclare package Medium = HeatSinkFluid, T = 288.15, nPorts = 1, p = 101.325 * 1000) annotation(
-    Placement(visible = true, transformation(origin = {102, 100}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {102, 110}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.MassFlowSource_T boundary2(redeclare package Medium = HeatSourceFluid, T = 25 + 273.15, m_flow = 1, nPorts = 1, use_T_in = true, use_m_flow_in = true) annotation(
     Placement(visible = true, transformation(origin = {-50, -130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT boundary3(redeclare package Medium = HeatSourceFluid, T = 288.15, nPorts = 1, p = 101.325 * 1000) annotation(
@@ -41,11 +41,11 @@ model AirCycleCooler_ex02
   Modelica.Fluid.Vessels.ClosedVolume volume(redeclare package Medium = HeatSourceFluid, V = 0.001, nPorts = 2, use_portsData = false) annotation(
     Placement(visible = true, transformation(origin = {110, -140}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Fluid.Vessels.ClosedVolume volume1(redeclare package Medium = HeatSinkFluid, V = 0.001, nPorts = 2, use_portsData = false) annotation(
-    Placement(visible = true, transformation(origin = {50, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {50, 120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_THot(duration = 10, height = 0, offset = 35 + 273.15, startTime = 10) annotation(
-    Placement(visible = true, transformation(origin = {-210, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-210, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_m_flow_cycle(duration = 10, height = 0, offset = 5, startTime = 20) annotation(
-    Placement(visible = true, transformation(origin = {-210, 54}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-210, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_Cmp_PR(duration = 10, height = 0.5, offset = 1.5, startTime = 20) annotation(
     Placement(visible = true, transformation(origin = {-110, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CmpCharFixed00 Cmp(redeclare package Medium = CycleFluid, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput)  annotation(
@@ -83,26 +83,28 @@ model AirCycleCooler_ex02
   Modelica.Blocks.Sources.Ramp ramp_TCold(duration = 10, height = 0, offset = 25 + 273.15, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-90, -140}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_m_flow_hot(duration = 10, height = 0, offset = 5, startTime = 10) annotation(
-    Placement(visible = true, transformation(origin = {-210, 130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-210, 140}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_m_flow_cold(duration = 10, height = 0, offset = 1, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-90, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(specificEnthalpy1.h_out, boundary4.h_in) annotation(
-    Line(points = {{-61, -60}, {-198, -60}, {-198, 34}, {-188, 34}}, color = {0, 0, 127}));
-  connect(ramp_THot.y, boundary.T_in) annotation(
-    Line(points = {{-199, 100}, {-172.5, 100}, {-172.5, 104}, {-162, 104}}, color = {0, 0, 127}));
-  connect(ramp_m_flow_cold.y, boundary2.m_flow_in) annotation(
-    Line(points = {{-78, -110}, {-70, -110}, {-70, -122}, {-60, -122}, {-60, -122}}, color = {0, 0, 127}));
   connect(ramp_TCold.y, boundary2.T_in) annotation(
     Line(points = {{-79, -140}, {-74, -140}, {-74, -126}, {-62, -126}}, color = {0, 0, 127}));
-  connect(ramp_m_flow_hot.y, boundary.m_flow_in) annotation(
-    Line(points = {{-198, 130}, {-170, 130}, {-170, 108}, {-160, 108}, {-160, 108}}, color = {0, 0, 127}));
-  connect(boundary.ports[1], HX.port_1_med1) annotation(
-    Line(points = {{-140, 100}, {-20, 100}, {-20, 81}}, color = {0, 127, 255}));
-  connect(HX.port_2_med1, volume1.ports[1]) annotation(
-    Line(points = {{20, 81}, {34, 81}, {34, 100}, {50, 100}}, color = {0, 127, 255}));
   connect(volume1.ports[2], boundary1.ports[1]) annotation(
-    Line(points = {{50, 100}, {92, 100}}, color = {0, 127, 255}, thickness = 0.5));
+    Line(points = {{50, 110}, {92, 110}}, color = {0, 127, 255}, thickness = 0.5));
+  connect(HX.port_2_med1, volume1.ports[1]) annotation(
+    Line(points = {{20, 81}, {34, 81}, {34, 110}, {50, 110}}, color = {0, 127, 255}));
+  connect(ramp_m_flow_hot.y, boundary.m_flow_in) annotation(
+    Line(points = {{-199, 140}, {-171, 140}, {-171, 118}, {-161, 118}, {-161, 118}}, color = {0, 0, 127}));
+  connect(ramp_THot.y, boundary.T_in) annotation(
+    Line(points = {{-199, 110}, {-172.5, 110}, {-172.5, 114}, {-162, 114}}, color = {0, 0, 127}));
+  connect(boundary.ports[1], HX.port_1_med1) annotation(
+    Line(points = {{-140, 110}, {-20, 110}, {-20, 81}}, color = {0, 127, 255}));
+  connect(ramp_m_flow_cycle.y, boundary4.m_flow_in) annotation(
+    Line(points = {{-199, 50}, {-192, 50}, {-192, 38}, {-186, 38}}, color = {0, 0, 127}));
+  connect(specificEnthalpy1.h_out, boundary4.h_in) annotation(
+    Line(points = {{-61, -60}, {-198, -60}, {-198, 34}, {-188, 34}}, color = {0, 0, 127}));
+  connect(ramp_m_flow_cold.y, boundary2.m_flow_in) annotation(
+    Line(points = {{-78, -110}, {-70, -110}, {-70, -122}, {-60, -122}, {-60, -122}}, color = {0, 0, 127}));
   connect(const_pamb.y, boundary5.p_in) annotation(
     Line(points = {{-158, -30}, {-152, -30}, {-152, -70}, {-144, -70}}, color = {0, 0, 127}));
   connect(boundary5.ports[1], temperature.port) annotation(
@@ -129,8 +131,6 @@ equation
     Line(points = {{-40, -130}, {-10, -130}}, color = {0, 127, 255}));
   connect(boundary4.ports[1], pressure2.port) annotation(
     Line(points = {{-166, 30}, {-120, 30}, {-120, 30}, {-120, 30}}, color = {0, 127, 255}));
-  connect(ramp_m_flow_cycle.y, boundary4.m_flow_in) annotation(
-    Line(points = {{-198, 54}, {-192, 54}, {-192, 38}, {-186, 38}, {-186, 38}}, color = {0, 0, 127}));
   connect(specificEnthalpy.port, pressure1.port) annotation(
     Line(points = {{120, -40}, {120, -60}}, color = {0, 127, 255}));
   connect(Trb.port_2, specificEnthalpy.port) annotation(

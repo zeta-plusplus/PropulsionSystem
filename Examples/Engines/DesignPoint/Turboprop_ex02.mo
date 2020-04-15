@@ -10,9 +10,9 @@ model Turboprop_ex02
   Modelica.Blocks.Sources.Ramp ramp_Fn(duration = 10, height = 50 * 1000, offset = 150 * 1000, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {430, -210}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
-    Placement(visible = true, transformation(origin = {-30, 130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-250, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
-    Placement(visible = true, transformation(origin = {-10, 130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-230, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Sources.FlightCondition2InletFluid00 Flt2Fluid(redeclare package Medium = engineAir, use_u_MN = true, use_u_alt = true) annotation(
     Placement(visible = true, transformation(origin = {-200, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.InltCharFixed00 Inlt(redeclare package Medium = engineAir) annotation(
@@ -98,6 +98,8 @@ model Turboprop_ex02
   Modelica.Blocks.Sources.Ramp ramp_NPR(duration = 10, height = 0, offset = 1.1, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {290, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(Flt2Fluid.port_amb, pressure2.port) annotation(
+    Line(points = {{-200, 0}, {-200, 82}, {378, 82}, {378, 38}, {380, 38}, {380, 0}}, color = {0, 127, 255}));
   connect(Perf.y_Fn, Constraint2.u_variable) annotation(
     Line(points = {{422, -264}, {430, -264}, {430, -252}, {430, -252}}, color = {0, 0, 127}));
   connect(Constraint2.u_targetValue, ramp_Fn.y) annotation(
@@ -114,8 +116,6 @@ equation
     Line(points = {{332, -14}, {344, -14}, {344, 28}, {344, 28}}, color = {0, 0, 127}));
   connect(division_NPR.u1, pressure2.p) annotation(
     Line(points = {{356, 28}, {356, 28}, {356, 20}, {370, 20}, {370, 12}, {370, 12}}, color = {0, 0, 127}));
-  connect(Flt2Fluid.port_amb, pressure2.port) annotation(
-    Line(points = {{-200, 0}, {-200, 94}, {380, 94}, {380, 0}}, color = {0, 127, 255}));
   connect(Nzl.port_2, pressure2.port) annotation(
     Line(points = {{380, -24}, {380, 0}}, color = {0, 127, 255}));
   connect(pressure1.port, Nzl.port_1) annotation(
@@ -200,7 +200,7 @@ equation
     Line(points = {{40, -180}, {60, -180}, {60, -180}, {60, -180}}));
   annotation(
     uses(Modelica(version = "3.2.2")),
-    Diagram(coordinateSystem(extent = {{-260, -280}, {440, 140}}, preserveAspectRatio = false)),
+    Diagram(coordinateSystem(extent = {{-260, -280}, {440, 100}}, preserveAspectRatio = false)),
     Icon(coordinateSystem(preserveAspectRatio = false)),
     version = "",
     __OpenModelica_commandLineOptions = "",

@@ -6,3 +6,4 @@ CompressorEllipticalCurve
 TurbineMap_WcEff
 TurbineExponentialCurve
 InletMap_effRam
+CompressorTable_WcPReff_NcRline00
