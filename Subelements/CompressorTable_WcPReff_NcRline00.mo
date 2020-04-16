@@ -53,9 +53,9 @@ model CompressorTable_WcPReff_NcRline00
   /* ---------------------------------------------
         parameters    
   --------------------------------------------- */
-  parameter String pathName_tableFileInSimExeDir="./tableData/table_Compressor_WcRReff_NcRline00.txt" "relative path under sim. exe. file directory" annotation(
+  parameter String pathName_tableFileInSimExeDir="./tableData/table_Compressor_WcPReff_NcRline00.txt" "relative path under sim. exe. file directory" annotation(
     Dialog(group = "table file read setting"));
-  parameter String pathName_tableFileInLibPackage="modelica://PropulsionSystem/tableData/table_Compressor_WcRReff_NcRline00.txt" "path in library sub-directory" annotation(
+  parameter String pathName_tableFileInLibPackage="modelica://PropulsionSystem/tableData/table_Compressor_WcPReff_NcRline00.txt" "path in library sub-directory" annotation(
     Dialog(group = "table file read setting"));
   parameter String tableName_Wc="Wc_NcRline" "" annotation(
     Dialog(group = "table file read setting"));
