@@ -1,6 +1,6 @@
 within PropulsionSystem.Examples.Subelements;
 
-model SclCmp_WcPReff00_ex01
+block SclCmp_WcPReff00_ex01
   extends Modelica.Icons.Example;
   PropulsionSystem.Subelements.CompressorTable_WcPReff_NcRline00 CmpTbl_WcPReff_NcRline(switchTableDataLocation = PropulsionSystem.Types.switches.switchTableDataResource.inLibraryDirectory,use_tableFile_PR = true, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {0, -1.77636e-15}, extent = {{-40, -40}, {40, 40}}, rotation = 0)));

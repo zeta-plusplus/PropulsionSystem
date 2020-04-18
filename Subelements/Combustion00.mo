@@ -1,6 +1,6 @@
 within PropulsionSystem.Subelements;
 
-model Combustion00
+block Combustion00
   
   /********************************************************
             imports   

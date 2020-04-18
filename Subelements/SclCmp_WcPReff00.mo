@@ -1,6 +1,6 @@
 within PropulsionSystem.Subelements;
 
-model SclCmp_WcPReff00
+block SclCmp_WcPReff00
   /********************************************************
                 imports
     ********************************************************/
@@ -13,6 +13,15 @@ model SclCmp_WcPReff00
     --------------------------------------------- */
   Modelica.Blocks.Math.Product product1 annotation(
     Placement(visible = true, transformation(origin = {70, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Feedback feedback1 annotation(
+    Placement(visible = true, transformation(origin = {-80, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Product product3 annotation(
+    Placement(visible = true, transformation(origin = {70, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Product product2 annotation(
+    Placement(visible = true, transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Add add1 annotation(
+    Placement(visible = true, transformation(origin = {70, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
   /* ---------------------------------------------
             Interface
     --------------------------------------------- */
@@ -34,14 +43,8 @@ model SclCmp_WcPReff00
     Placement(visible = true, transformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealInput u_s_eff annotation(
     Placement(visible = true, transformation(origin = {40, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {60, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Math.Feedback feedback1 annotation(
-    Placement(visible = true, transformation(origin = {-80, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.Product product3 annotation(
-    Placement(visible = true, transformation(origin = {70, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.Product product2 annotation(
-    Placement(visible = true, transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.Add add1 annotation(
-    Placement(visible = true, transformation(origin = {70, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    PropulsionSystem.Types.SubelementBus subelementBus1 annotation(
+    Placement(visible = true, transformation(origin = {-70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
 protected
   Modelica.Blocks.Sources.Constant const(k = 1) annotation(

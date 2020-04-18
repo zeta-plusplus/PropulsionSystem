@@ -1,6 +1,6 @@
 within PropulsionSystem.Subelements;
 
-model CompressorTable_WcPReff_NcRline00
+block CompressorTable_WcPReff_NcRline00
   /********************************************************
               imports
   ********************************************************/
@@ -107,7 +107,7 @@ model CompressorTable_WcPReff_NcRline00
           Interface
   --------------------------------------------- */
   PropulsionSystem.Types.SubelementBus subelementBus1 annotation(
-    Placement(visible = true, transformation(origin = {100, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-100, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_NcTbl annotation(
     Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_RlineTbl annotation(

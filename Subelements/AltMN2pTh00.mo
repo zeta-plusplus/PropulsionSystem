@@ -1,21 +1,21 @@
 within PropulsionSystem.Subelements;
 
-model AltMN2pTh00
+block AltMN2pTh00
   /********************************************************
               imports   
-    ********************************************************/
+  ********************************************************/
   import Modelica.Constants;
   /********************************************************
                      Declaration
-    ********************************************************/
+  ********************************************************/
   /* ---------------------------------------------
             Package
-      --------------------------------------------- */
+  --------------------------------------------- */
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation(
     choicesAllMatching = true);
   /* ---------------------------------------------
           Internal variables
-      --------------------------------------------- */
+  --------------------------------------------- */
   inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
   Medium.BaseProperties fluidTot "flow station of total";
   Medium.BaseProperties fluidAmb "flow station of static";
@@ -34,7 +34,7 @@ model AltMN2pTh00
   //----------
   /* ---------------------------------------------
           Interface
-      --------------------------------------------- */
+  --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_alt(quantity = "Length", unit = "m", displayUnit = "m") "[m], flight altitude" annotation(
     Placement(visible = true, transformation(origin = {-120, 80}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_MN "[nond], flight mach number" annotation(

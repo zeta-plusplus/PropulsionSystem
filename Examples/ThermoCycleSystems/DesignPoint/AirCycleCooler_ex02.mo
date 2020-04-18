@@ -87,18 +87,24 @@ model AirCycleCooler_ex02
   Modelica.Blocks.Sources.Ramp ramp_m_flow_cold(duration = 10, height = 0, offset = 1, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-90, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(const.y, HX.u_eff) annotation(
+    Line(points = {{-59, 70}, {-21, 70}}, color = {0, 0, 127}));
+  connect(Cmp.port_2, HX.port_1_med2) annotation(
+    Line(points = {{-60, 26}, {-46, 26}, {-46, 59.5}, {-20, 59.5}, {-20, 59}}, color = {0, 127, 255}));
+  connect(HX.port_2_med2, Trb.port_1) annotation(
+    Line(points = {{20, 59}, {52, 59}, {52, 26}, {60, 26}}, color = {0, 127, 255}));
+  connect(boundary.ports[1], HX.port_1_med1) annotation(
+    Line(points = {{-140, 110}, {-20, 110}, {-20, 81}}, color = {0, 127, 255}));
+  connect(HX.port_2_med1, volume1.ports[1]) annotation(
+    Line(points = {{20, 81}, {34, 81}, {34, 110}, {50, 110}}, color = {0, 127, 255}));
   connect(ramp_TCold.y, boundary2.T_in) annotation(
     Line(points = {{-79, -140}, {-74, -140}, {-74, -126}, {-62, -126}}, color = {0, 0, 127}));
   connect(volume1.ports[2], boundary1.ports[1]) annotation(
     Line(points = {{50, 110}, {92, 110}}, color = {0, 127, 255}, thickness = 0.5));
-  connect(HX.port_2_med1, volume1.ports[1]) annotation(
-    Line(points = {{20, 81}, {34, 81}, {34, 110}, {50, 110}}, color = {0, 127, 255}));
   connect(ramp_m_flow_hot.y, boundary.m_flow_in) annotation(
     Line(points = {{-199, 140}, {-171, 140}, {-171, 118}, {-161, 118}, {-161, 118}}, color = {0, 0, 127}));
   connect(ramp_THot.y, boundary.T_in) annotation(
     Line(points = {{-199, 110}, {-172.5, 110}, {-172.5, 114}, {-162, 114}}, color = {0, 0, 127}));
-  connect(boundary.ports[1], HX.port_1_med1) annotation(
-    Line(points = {{-140, 110}, {-20, 110}, {-20, 81}}, color = {0, 127, 255}));
   connect(ramp_m_flow_cycle.y, boundary4.m_flow_in) annotation(
     Line(points = {{-199, 50}, {-192, 50}, {-192, 38}, {-186, 38}}, color = {0, 0, 127}));
   connect(specificEnthalpy1.h_out, boundary4.h_in) annotation(
@@ -153,16 +159,10 @@ equation
     Line(points = {{-120, 30}, {-106, 30}, {-106, 26}, {-100, 26}}, color = {0, 127, 255}));
   connect(speedSensor1.flange, Trb.flange_1) annotation(
     Line(points = {{0, 10}, {60, 10}}));
-  connect(HX.port_2_med2, Trb.port_1) annotation(
-    Line(points = {{20, 59}, {52, 59}, {52, 26}, {60, 26}}, color = {0, 127, 255}));
   connect(inertia1.flange_b, speedSensor1.flange) annotation(
     Line(points = {{-20, 10}, {0, 10}}));
-  connect(Cmp.port_2, HX.port_1_med2) annotation(
-    Line(points = {{-60, 26}, {-46, 26}, {-46, 59.5}, {-20, 59.5}, {-20, 59}}, color = {0, 127, 255}));
   connect(Cmp.flange_2, inertia1.flange_a) annotation(
     Line(points = {{-60, 10}, {-40, 10}}));
-  connect(const.y, HX.u_eff) annotation(
-    Line(points = {{-59, 70}, {-21, 70}}, color = {0, 0, 127}));
   annotation(
     Diagram(coordinateSystem(extent = {{-220, -160}, {220, 160}}, initialScale = 0.1), graphics = {Text(origin = {-78, 97}, extent = {{-14, 3}, {16, -5}}, textString = "outside air"), Text(origin = {-50, -151}, extent = {{-14, 3}, {16, -5}}, textString = "room air"),  Text(origin = {-166, 13}, extent = {{-14, 3}, {16, -3}}, textString = "cycle air")}),
     __OpenModelica_commandLineOptions = "",
