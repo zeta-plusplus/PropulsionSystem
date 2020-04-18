@@ -92,17 +92,14 @@ partial model NozzleBase00
   Real Cv;
   Modelica.SIunits.SpecificEnthalpy h_2is "";
   Modelica.SIunits.Force Fg "";
-  
   //-throat-
   Modelica.SIunits.MassFlowRate m_flow_th;
   Modelica.SIunits.Area AmechTh;
   Modelica.SIunits.Area AeTh;
   Modelica.SIunits.Velocity V_th;
   Real MNth;
-  
   //--full expansion--
   Modelica.SIunits.Velocity V_th_fullExp;
-  
   //--choked--
   Modelica.SIunits.Velocity V_th_choked;
   
@@ -126,10 +123,7 @@ partial model NozzleBase00
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {50, 2.9976e-15}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
-    Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-90, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-  
-  
+    Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
 protected
   /* ---------------------------------------------
@@ -165,19 +159,16 @@ equation
   Connections, interface <-> internal variables
   --------------------------------------------- */
   y_Fg = Fg;
-  
-  //-- fluidPort_1 --
+//-- fluidPort_1 --
   fluid_1.p = port_1.p;
   fluid_1.h = actualStream(port_1.h_outflow);
   fluid_1.Xi = actualStream(port_1.Xi_outflow);
-  
-  //-- fluidPort_2 --
+//-- fluidPort_2 --
   fluid_2.p = port_2.p;
   fluid_2.h = actualStream(port_2.h_outflow);
   fluid_2.Xi = actualStream(port_2.Xi_outflow);
-  
-  // distinguish inlet side
-  m_flow_max= max(port_1.m_flow, port_2.m_flow);
+// distinguish inlet side
+  m_flow_max = max(port_1.m_flow, port_2.m_flow);
   m_flow_min= min(port_1.m_flow, port_2.m_flow);
   
   if(m_flow_max == port_1.m_flow)then
@@ -190,12 +181,10 @@ equation
     port_1.h_outflow= fluid_1.h;
     port_1.Xi_outflow= fluid_1.Xi;
   end if;
-  
-  
-  /* ---------------------------------------------
+/* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
-  //-- mass conservation --
+//-- mass conservation --
   port_1.m_flow + port_2.m_flow = 0;
   fluid_2.Xi = fluid_1.Xi;
     
@@ -208,47 +197,39 @@ equation
     
     
   fluid_2Tot.p = fluid_1.p;
-  
-  //-- energy conservation --
+//-- energy conservation --
   port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2Tot.h = 0;
   
   PR = fluid_1.p / fluid_2.p;
-  
-  //-- full expansion --
+//-- full expansion --
   fluid_1.h = h_2is + sign(V_2is) * abs(V_2is) ^ 2.0 * (1.0 / 2.0);
   h_2is = Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
   V_2 = Cv * V_2is;
   fluid_1.h = fluid_2.h + sign(V_2) * abs(V_2) ^ 2.0 / 2.0;
-  
-  //--- throat, p, T ---
+//--- throat, p, T ---
   fluid_th.p = fluid_1.p;
   fluid_th.h = fluid_1.h;
-  
-  //--- throat, static, p, T ---
+//--- throat, static, p, T ---
   fluidStat_th_fullExp.p = fluid_2.p;
   fluidStat_th_choked.p = fluid_2.p;
-  
-  //V_th_fullExp= sqrt( 2.0*(fluid_1.h - fluidStat_th_fullExp.h ) );
+//V_th_fullExp= sqrt( 2.0*(fluid_1.h - fluidStat_th_fullExp.h ) );
   fluid_1.h - fluidStat_th_fullExp.h = 1.0 / 2.0 * (sign(V_th_fullExp) * abs(V_th_fullExp) ^ 2.0);
-  
-  //--- velocity if choked state ---
+//--- velocity if choked state ---
   V_th_choked = 1.0 * Medium.velocityOfSound(fluidStat_th_choked.state);
   fluidStat_th_choked.h = fluid_1.h - 1.0 / 2.0 * (sign(V_th_choked) * abs(V_th_choked) ^ 2.0);
-  
-  //--- throat fully-expanded ---
+//--- throat fully-expanded ---
   fluidStat_th_fullExp.h = Medium.isentropicEnthalpy(fluidStat_th_fullExp.p, fluid_1.state);
-  
-  
-  /*--------------------
+/*--------------------
   evaluate choked or not
   --------------------*/
-  if (V_th_fullExp >= V_th_choked) then
-    V_th = V_th_choked; //case of choked
+  if V_th_fullExp >= V_th_choked then
+    V_th = V_th_choked;
+//case of choked
   else
-    V_th = V_th_fullExp;  //case of unchoked
+    V_th = V_th_fullExp;
+//case of unchoked
   end if;
-  
-  //--- throat state ---
+//--- throat state ---
   MNth = V_th / Medium.velocityOfSound(fluidStat_th.state);
   fluidStat_th.h = fluid_1.h - 1.0 / 2.0 * (sign(V_th) * abs(V_th) ^ 2.0);
   fluidStat_th.h = Medium.isentropicEnthalpy(fluidStat_th.p, fluid_1.state);

@@ -79,9 +79,7 @@ model DuctBase00
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
-    Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-  
+    Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
 protected
   /* ---------------------------------------------
@@ -98,22 +96,19 @@ protected
 algorithm
 //##### none #####
 equation
-  
-  /* ---------------------------------------------
+/* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
-  //-- fluidPort_1 --
+//-- fluidPort_1 --
   fluid_1.p = port_1.p;
   fluid_1.h = actualStream(port_1.h_outflow);
   fluid_1.Xi = actualStream(port_1.Xi_outflow);
-  
-  //-- fluidPort_2 --
+//-- fluidPort_2 --
   fluid_2.p = port_2.p;
   fluid_2.h = actualStream(port_2.h_outflow);
   fluid_2.Xi = actualStream(port_2.Xi_outflow);
-  
-  // distinguish inlet side
-  m_flow_max= max(port_1.m_flow, port_2.m_flow);
+// distinguish inlet side
+  m_flow_max = max(port_1.m_flow, port_2.m_flow);
   m_flow_min= min(port_1.m_flow, port_2.m_flow);
   
   if(m_flow_max == port_1.m_flow)then
@@ -126,22 +121,16 @@ equation
     port_1.h_outflow= fluid_1.h;
     port_1.Xi_outflow= fluid_1.Xi;
   end if;
-  
-  
-  
-  
-  /* ---------------------------------------------
+/* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
-  //-- pressure --
+//-- pressure --
   dP = dPqP * fluid_1.p;
   fluid_2.p = fluid_1.p - dP;
-  
-  //-- mass conservation --
+//-- mass conservation --
   port_1.m_flow + port_2.m_flow = 0;
   fluid_2.Xi = fluid_1.Xi;
-  
-  //-- energy conservation --
+//-- energy conservation --
   port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2.h = 0;
   
   
