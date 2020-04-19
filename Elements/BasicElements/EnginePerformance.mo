@@ -60,7 +60,7 @@ equation
   u_TSFC_Bt = TSFC_Bt;
 //********** Eqns describing physics **********
   Fn = Fg - Fram - FdScrub;
-  TSFC = dm_fuel / Fn;
+  TSFC = m_flow_fuel / Fn;
   TSFC_Bt = TSFC * 2.0;
 /********************************************************
   Graphics

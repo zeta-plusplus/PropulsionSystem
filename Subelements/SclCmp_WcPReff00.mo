@@ -80,7 +80,7 @@ equation
     Line(points = {{-60, 120}, {-62, 120}, {-62, 66}, {58, 66}, {58, 66}}, color = {0, 0, 127}));  
 annotation(
     defaultComponentName="SclCmp",
-    Icon(graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}})}),
+    Icon(graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {-2, -88}, extent = {{-98, 8}, {102, -12}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)),
     Diagram(coordinateSystem(initialScale = 0.1)));
   
   

@@ -95,7 +95,7 @@ partial model CompressorBase00
   Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_2 "" annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
-    Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = { 100, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {100, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = { 100, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   
 protected
