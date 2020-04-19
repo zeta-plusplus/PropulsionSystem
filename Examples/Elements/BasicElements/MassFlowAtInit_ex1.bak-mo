@@ -1,0 +1,24 @@
+within PropulsionSystem.Examples.Elements.BasicElements;
+
+model MassFlowAtInit_ex1
+  extends Modelica.Icons.Example;
+  //-----
+  package engineAir = Modelica.Media.Air.DryAirNasa;
+  //redeclare package Medium = engineAir
+  //-----
+  inner Modelica.Fluid.System system annotation(
+    Placement(visible = true, transformation(origin = {-70, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  inner EngineSimEnvironment environment annotation(
+    Placement(visible = true, transformation(origin = {-50, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Sources.MassFlowAtInit MassFlowAtInit(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {-10, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = engineAir, T = 288.15, nPorts = 1, p = 101.325 * 1000)  annotation(
+    Placement(visible = true, transformation(origin = {-50, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Fluid.Sources.MassFlowSource_T boundary1(redeclare package Medium = engineAir, m_flow = -10, nPorts = 1)  annotation(
+    Placement(visible = true, transformation(origin = {30, 10}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+equation
+  connect(MassFlowAtInit.port_2, boundary1.ports[1]) annotation(
+    Line(points = {{0, 10}, {20, 10}, {20, 10}, {20, 10}}, color = {0, 127, 255}));
+  connect(boundary.ports[1], MassFlowAtInit.port_1) annotation(
+    Line(points = {{-40, 10}, {-20, 10}, {-20, 10}, {-20, 10}}, color = {0, 127, 255}));
+end MassFlowAtInit_ex1;

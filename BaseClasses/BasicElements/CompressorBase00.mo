@@ -126,8 +126,7 @@ initial equation
   NcDes_1 = NmechDes / sqrt(Tdes_1 / environment.Tstd);
   WcDes_1 = m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd); 
   
-
-
+  
 algorithm
   assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
   

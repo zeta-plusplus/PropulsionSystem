@@ -3,11 +3,61 @@ within PropulsionSystem.Subelements;
 block ScalerDesCmp_WcPReffNc00
   /********************************************************
                 imports
-    ********************************************************/
+  ********************************************************/
   import Modelica.Constants;
+  
+  
   /********************************************************
                          Declaration
-    ********************************************************/
+  ********************************************************/
+  /* ---------------------------------------------
+          switches
+  --------------------------------------------- */
+  parameter Boolean use_tableFile_Wc=false "" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true), Dialog(group = "switch about table file reading"));
+  parameter Boolean use_tableFile_PR=false "" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true), Dialog(group = "switch about table file reading"));
+  parameter Boolean use_tableFile_eff=false "" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true), Dialog(group = "switch about table file reading"));
+  parameter PropulsionSystem.Types.switches.switchTableDataResource switchTableDataLocation=PropulsionSystem.Types.switches.switchTableDataResource.inLibraryDirectory "where table data file is located, valid if use_tableFile_..==true" annotation(
+    Dialog(group="switch about table file reading")
+  );
+  
+  parameter Modelica.Blocks.Types.Smoothness switchSmoothness_Wc
+    =Modelica.Blocks.Types.Smoothness.ContinuousDerivative "" annotation(
+    Dialog(group="switch about interpolation")
+  );
+  parameter Modelica.Blocks.Types.Smoothness switchSmoothness_PR
+    =Modelica.Blocks.Types.Smoothness.ContinuousDerivative "" annotation(
+    Dialog(group="switch about interpolation")
+  );
+  parameter Modelica.Blocks.Types.Smoothness switchSmoothness_eff
+    =Modelica.Blocks.Types.Smoothness.ContinuousDerivative "" annotation(
+    Dialog(group="switch about interpolation")
+  );
+  
+  
+  /* ---------------------------------------------
+        parameters    
+  --------------------------------------------- */
+  parameter String pathName_tableFileInSimExeDir="./tableData/table_Compressor_WcPReff_NcRline00.txt" "relative path under sim. exe. file directory" annotation(
+    Dialog(group = "table file read setting"));
+  parameter String pathName_tableFileInLibPackage="modelica://PropulsionSystem/tableData/table_Compressor_WcPReff_NcRline00.txt" "path in library sub-directory" annotation(
+    Dialog(group = "table file read setting"));
+  parameter String tableName_Wc="Wc_NcRline" "" annotation(
+    Dialog(group = "table file read setting"));
+  parameter String tableName_PR="PR_NcRline" "" annotation(
+    Dialog(group = "table file read setting"));
+  parameter String tableName_eff="eff_NcRline" "" annotation(
+    Dialog(group = "table file read setting"));
+  
+  
   /* ---------------------------------------------
           Internal objects   
     --------------------------------------------- */
@@ -29,7 +79,22 @@ block ScalerDesCmp_WcPReffNc00
   /* ---------------------------------------------
             Interface
   --------------------------------------------- */
-  PropulsionSystem.Subelements.CompressorTable_WcPReff_NcRline00 CmpTbl_WcPReff_NcRline_Des annotation(
+  PropulsionSystem.Subelements.CompressorTable_WcPReff_NcRline00 CmpTbl_WcPReff_NcRline_Des
+  (
+    use_tableFile_Wc= use_tableFile_Wc,
+    use_tableFile_PR= use_tableFile_PR,
+    use_tableFile_eff= use_tableFile_eff,
+    switchTableDataLocation= switchTableDataLocation,
+    switchSmoothness_Wc= switchSmoothness_Wc,
+    switchSmoothness_PR= switchSmoothness_PR,
+    switchSmoothness_eff= switchSmoothness_eff,
+    pathName_tableFileInSimExeDir=pathName_tableFileInSimExeDir,
+    pathName_tableFileInLibPackage=pathName_tableFileInLibPackage,
+    tableName_Wc=tableName_Wc,
+    tableName_PR=tableName_PR,
+    tableName_eff=tableName_eff
+  )
+    "" annotation(
     Placement(visible = true, transformation(origin = {20, 60}, extent = {{-40, -40}, {40, 40}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_NcTblDes annotation(
     Placement(visible = true, transformation(origin = {-40, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {-80, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));

@@ -1,0 +1,6 @@
+within PropulsionSystem.Sources;
+
+model MassFlowSourceAtInit
+equation
+
+end MassFlowSourceAtInit;

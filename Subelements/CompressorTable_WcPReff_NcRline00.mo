@@ -10,37 +10,36 @@ block CompressorTable_WcPReff_NcRline00
   /********************************************************
                      Declaration
   ********************************************************/
-  
   /* ---------------------------------------------
           switches
   --------------------------------------------- */
   parameter Boolean use_tableFile_Wc=false "" annotation(
     Evaluate = true,
     HideResult = true,
-    choices(checkBox = true), Dialog(group = "switch"));
+    choices(checkBox = true), Dialog(group = "switch about table file reading"));
   parameter Boolean use_tableFile_PR=false "" annotation(
     Evaluate = true,
     HideResult = true,
-    choices(checkBox = true), Dialog(group = "switch"));
+    choices(checkBox = true), Dialog(group = "switch about table file reading"));
   parameter Boolean use_tableFile_eff=false "" annotation(
     Evaluate = true,
     HideResult = true,
-    choices(checkBox = true), Dialog(group = "switch"));
+    choices(checkBox = true), Dialog(group = "switch about table file reading"));
   parameter PropulsionSystem.Types.switches.switchTableDataResource switchTableDataLocation=PropulsionSystem.Types.switches.switchTableDataResource.inLibraryDirectory "where table data file is located, valid if use_tableFile_..==true" annotation(
-    Dialog(group="switch")
+    Dialog(group="switch about table file reading")
   );
   
   parameter Modelica.Blocks.Types.Smoothness switchSmoothness_Wc
     =Modelica.Blocks.Types.Smoothness.ContinuousDerivative "" annotation(
-    Dialog(group="switch")
+    Dialog(group="switch about interpolation")
   );
   parameter Modelica.Blocks.Types.Smoothness switchSmoothness_PR
     =Modelica.Blocks.Types.Smoothness.ContinuousDerivative "" annotation(
-    Dialog(group="switch")
+    Dialog(group="switch about interpolation")
   );
   parameter Modelica.Blocks.Types.Smoothness switchSmoothness_eff
     =Modelica.Blocks.Types.Smoothness.ContinuousDerivative "" annotation(
-    Dialog(group="switch")
+    Dialog(group="switch about interpolation")
   );
   
   parameter Boolean printCmd = false "" annotation(
