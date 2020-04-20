@@ -14,6 +14,13 @@ https://zeta-plusplus.github.io/PropulsionSystem/
 ## Responsibility
 Anybody can use components and example models without any charge for any purpose as long as GPL v3 is not violated. However, please use them with your own responsibility. The autheor cannot take any responsibilty for result of calculation of components and example models.
 
+## Causion
+### dependency
+depends on "FluidSystemComponents" by same author. Some models in this library calls the components in that library. Please download/clone and load it too.
+
+### under very active development
+many source codes are modified and old unorganized codes are deleted very often. Be causious if you use by cloning the repository. Download of branch named with "stable_" is recommended.
+
 
 # 自作Modelicaライブラリ 推進・パワーシステム
 
