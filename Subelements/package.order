@@ -3,6 +3,9 @@ Combustion00
 CompressorTable_WcPReff_NcRline00
 SclCmp_WcPReff00
 ScalerDesCmp_WcPReffNc00
+TurbineTable_WcEff_NcPR00
+SclTrb_WcEff00
+ScalerDesTrb_WcEffNcPR00
 dPqP_Wc2ndOrder
 CompressorMap_WcPReff
 CompressorEllipticalCurve

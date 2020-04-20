@@ -5,3 +5,6 @@ CompressorTable_WcPReff_NcRline00_ex01
 SclCmp_WcPReff00_ex01
 ScalerDesCmp_WcPReffNc_ex01
 SclCmp_ScalerDesCmp_WcPReff_ex01
+TurbineTable_WcEff_NcPR00_ex01
+ScalerDesTrb_WcEffNcPR_ex01
+SclTrb_ScalerDesTrb_WcEff_ex01
