@@ -1,4 +1,5 @@
 FlightCondition2InletFluid00
 MassFlowAtInit
+NmechAtInit
 MassFlowSource
 FlowSink
