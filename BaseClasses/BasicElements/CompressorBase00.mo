@@ -29,70 +29,163 @@ partial model CompressorBase00
     Dialog(tab = "Initialization", group = "fluid_1"));
   parameter Modelica.SIunits.Temperature T1_init(displayUnit = "K") = 288.15 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
-  parameter Modelica.SIunits.SpecificEnthalpy h1_init(displayUnit = "J/kg") = 1.004 * 1000 * 288.15 "" annotation(
+  parameter Modelica.SIunits.SpecificEnthalpy h1_init(displayUnit = "J/kg") = T1_init*1.004 * 1000 * 288.15 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
   //--- fluid_2, port_2 ---
   parameter Modelica.SIunits.MassFlowRate m_flow2_init(displayUnit = "kg/s") = -1.0 * m_flow1_init "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.Pressure p2_init(displayUnit = "Pa") = 101.3 * 1000 "" annotation(
+  parameter Modelica.SIunits.Pressure p2_init(displayUnit = "Pa") = 20*101.3 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.Temperature T2_init(displayUnit = "K") = 288.15 "" annotation(
+  parameter Modelica.SIunits.Temperature T2_init(displayUnit = "K") = 500 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = 1.004 * 1000 * 288.15 "" annotation(
+  parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = T2_init*1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
+  //--- others ---
+  parameter Real PR_init=p2_init/p1_init "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Real eff_init=0.8 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech_init=3000.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Real NcqNcDes_1_init=1.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Real NqNdes_init=NcqNcDes_1_init "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.MassFlowRate Wc_1_init=m_flow1_init "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1_init=Nmech_init "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.SpecificEnthalpy dht_init= 490000.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.SpecificEnthalpy dht_is_init= 390000.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Power pwr_init=5.0*10.0^(5) "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Angle phi_init=1.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.SpecificEntropy s_fluid_1_init=6800.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.SpecificEntropy s_fluid_2_init=7000.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  
   
   
   /* ---------------------------------------------
-      Internal variables    
+      Internal variables
+  --------------------------------------------- */
+  Modelica.SIunits.Power pwr(start=pwr_init) "power via shaft, positive if fluid generates power" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Torque trq(start=pwr_init/(Nmech_init*2.0*Modelica.Constants.pi/60.0)) "trq via shaft" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Power pwr_inv(start=-1.0*pwr_init) "power via shaft" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Torque trq_inv(start=-1.0*pwr_init/(Nmech_init*2.0*Modelica.Constants.pi/60.0)) "trq via shaft" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
+  Modelica.SIunits.AngularVelocity omega(start=Nmech_init*2.0*Modelica.Constants.pi/60.0) "mechanical rotation speed, rad/sec" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Angle phi(start=phi_init) "mechanical rotation displacement, rad" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech(start=Nmech_init) "mechanical rotation speed, rpm" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
+  Modelica.SIunits.MassFlowRate Wc_1(start=Wc_1_init) "corrected mass flow rate" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1(start=Nc_1_init) "corrected rotation speed, rpm" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Real PR(start=PR_init) "pressure ratio" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Real eff(start=eff_init) "adiabatic efficiency" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.SpecificEnthalpy dht_is(start=dht_is_init) "specific enthalpy change in isentropic compression" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.SpecificEnthalpy dht(start=dht_init) "specific enthalpy change in non-isentropic compression" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.SpecificEnthalpy h_2is(start=h2_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
+  Modelica.SIunits.MassFlowRate m_flow_max(start=m_flow1_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.MassFlowRate m_flow_min(start=m_flow2_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
+  Modelica.SIunits.SpecificEntropy s_fluid_1(start=s_fluid_1_init) "specific entropy, fluid_1" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.SpecificEntropy s_fluid_2(start=s_fluid_2_init) "specific entropy, fluid_2" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
+  
+  //********** variables relative to design point **********
+  inner Real NcqNcDes_1(start=NcqNcDes_1_init) "ratio of corrected rotational speed with respect to design pt. speed" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Real NqNdes(start=NqNdes_init) "ratio of mech. rotational speed with respect to design pt. speed" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
+  
+  
+  /* ---------------------------------------------
+      Internal objects
   --------------------------------------------- */
   inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
   
   Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
   Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of outlet";
   
-  Modelica.SIunits.SpecificEntropy s_fluid_1 "specific entropy, fluid_1";
-  Modelica.SIunits.SpecificEntropy s_fluid_2 "specific entropy, fluid_2";
   
-  Modelica.SIunits.Power pwr "power via shaft, positive if fluid generates power";
-  Modelica.SIunits.Torque trq "trq via shaft";
-  Modelica.SIunits.Power pwr_inv "power via shaft";
-  Modelica.SIunits.Torque trq_inv "trq via shaft";
   
-  Modelica.SIunits.AngularVelocity omega "mechanical rotation speed, rad/sec";
-  Modelica.SIunits.Angle phi "mechanical rotation displacement, rad";
-  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech "mechanical rotation speed, rpm";
-  
-  Modelica.SIunits.MassFlowRate Wc_1 "corrected mass flow rate";
-  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1 "corrected rotation speed, rpm";
-  Real PR "pressure ratio";
-  Real eff "adiabatic efficiency";
-  Modelica.SIunits.SpecificEnthalpy dht_is "specific enthalpy change in isentropic compression";
-  Modelica.SIunits.SpecificEnthalpy dht "specific enthalpy change in non-isentropic compression";
-  Modelica.SIunits.SpecificEnthalpy h_2is "";
-  
-  Modelica.SIunits.MassFlowRate m_flow_max;
-  Modelica.SIunits.MassFlowRate m_flow_min;
-  //********** variables relative to design point **********
-  inner Real NcqNcDes_1 "ratio of corrected rotational speed with respect to design pt. speed";
-  Real NqNdes "ratio of mech. rotational speed with respect to design pt. speed";
   
   
   /* ---------------------------------------------
       Interface
   --------------------------------------------- */
-  Modelica.Fluid.Interfaces.FluidPort_a port_1
-  (
-    redeclare package Medium = Medium, m_flow(start = m_flow1_init), h_outflow.start = h1_init
+  Modelica.Fluid.Interfaces.FluidPort_a port_1(
+    redeclare package Medium = Medium, m_flow(start = m_flow1_init), h_outflow(start = h1_init), p(start=p1_init)
   ) "" annotation(
     Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_b port_2
-  (
-    redeclare package Medium = Medium, m_flow(start = m_flow2_init), h_outflow.start = h2_init
+  Modelica.Fluid.Interfaces.FluidPort_b port_2(
+    redeclare package Medium = Medium, m_flow(start = m_flow2_init), h_outflow(start = h2_init), p(start=p2_init)
   ) "" annotation(
     Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1 "" annotation(
+  Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1(
+    tau(start=pwr_init/(Nmech_init*2.0*Modelica.Constants.pi/60.0)), phi(start=phi_init)
+  ) "" annotation(
     Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-98, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_2 "" annotation(
+  Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_2(
+    tau(start=pwr_init/(Nmech_init*2.0*Modelica.Constants.pi/60.0)), phi(start=phi_init)
+  ) "" annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {100, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = { 100, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -102,21 +195,21 @@ protected
   /* ---------------------------------------------
           Non-modifiable parameters
     --------------------------------------------- */
-  parameter Modelica.SIunits.MassFlowRate m_flow_des_1(fixed=false) annotation(
+  parameter Modelica.SIunits.MassFlowRate m_flow_des_1(fixed=false, start=m_flow1_init) annotation(
     HideResult=false);
-  parameter Modelica.SIunits.Pressure pDes_1(fixed=false) annotation(
+  parameter Modelica.SIunits.Pressure pDes_1(fixed=false, start=p1_init) annotation(
     HideResult=false);
-  parameter Modelica.SIunits.Temperature Tdes_1(fixed=false) annotation(
+  parameter Modelica.SIunits.Temperature Tdes_1(fixed=false, start=T1_init) annotation(
     HideResult=false);
-  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false) "mechanical rotation speed, rpm" annotation(
+  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false, start=Nmech_init) "mechanical rotation speed, rpm" annotation(
     HideResult=false);
-  inner parameter Modelica.SIunits.MassFlowRate WcDes_1(fixed=false) "corrected mass flow rate" annotation(
+  inner parameter Modelica.SIunits.MassFlowRate WcDes_1(fixed=false, start=Wc_1_init) "corrected mass flow rate" annotation(
     HideResult=false);
-  inner parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NcDes_1(fixed=false) annotation(
+  inner parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NcDes_1(fixed=false, start=Nc_1_init) annotation(
     HideResult=false);
-  parameter Real PRdes(fixed=false) annotation(
+  parameter Real PRdes(fixed=false, start=PR_init) annotation(
     HideResult=false);
-  parameter Real effDes(fixed=false) annotation(
+  parameter Real effDes(fixed=false, start=eff_init) annotation(
     HideResult=false);
   
 initial equation

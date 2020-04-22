@@ -34,11 +34,11 @@ partial model TurbineBase00
   //--- fluid_2, port_2 ---
   parameter Modelica.SIunits.MassFlowRate m_flow2_init(displayUnit = "kg/s") = -1.0 * m_flow1_init "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.Pressure p2_init(displayUnit = "Pa") = 5*101.3 * 1000 "" annotation(
+  parameter Modelica.SIunits.Pressure p2_init(displayUnit = "Pa") = p1_init/4.0 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
   parameter Modelica.SIunits.Temperature T2_init(displayUnit = "K") = 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = 1000*1.004 * 1000 "" annotation(
+  parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = T2_init*1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
   
   

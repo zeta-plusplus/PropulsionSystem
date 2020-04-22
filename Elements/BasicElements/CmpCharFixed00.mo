@@ -46,10 +46,37 @@ model CmpCharFixed00
   
   
   //********************************************************************************
+initial algorithm
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
+  m_flow_des_1 := port_1.m_flow;
+  pDes_1 := fluid_1.p;
+  Tdes_1 := fluid_1.T;
+  NmechDes := Nmech; 
+  
+  //--------------------
+  if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
+    PRdes := PRdes_paramInput;
+  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
+    PRdes := u_PR;
+  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
+    PRdes:= PR;
+  end if; 
+  //--------------------
+  if use_u_eff == false then
+    effDes := effDes_paramInput;
+  elseif use_u_eff==true then
+    effDes := u_eff;
+  end if; 
+  //--------------------
+  
+  
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  /*
   m_flow_des_1 = port_1.m_flow;
   pDes_1 = fluid_1.p;
   Tdes_1 = fluid_1.T;
@@ -69,7 +96,7 @@ initial equation
     effDes = u_eff;
   end if; 
   //--------------------
-  
+  */
   
   
 algorithm
