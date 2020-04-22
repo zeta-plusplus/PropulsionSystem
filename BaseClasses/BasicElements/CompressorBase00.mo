@@ -40,6 +40,20 @@ partial model CompressorBase00
     Dialog(tab = "Initialization", group = "fluid_2"));
   parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = T2_init*1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
+  //--- flange_1 ---
+  parameter Modelica.SIunits.Torque tau1_init=0.1 "" annotation(
+    Dialog(tab = "Initialization", group = "flange_1")
+  );
+  parameter Modelica.SIunits.Angle phi1_init=phi_init "" annotation(
+    Dialog(tab = "Initialization", group = "flange_1")
+  );
+  //--- flange_2 ---
+  parameter Modelica.SIunits.Torque tau2_init=pwr_init/(Nmech_init*2.0*Modelica.Constants.pi/60.0) "" annotation(
+    Dialog(tab = "Initialization", group = "flange_2")
+  );
+  parameter Modelica.SIunits.Angle phi2_init=phi_init "" annotation(
+    Dialog(tab = "Initialization", group = "flange_2")
+  );
   //--- others ---
   parameter Real PR_init=p2_init/p1_init "" annotation(
     Dialog(tab = "Initialization", group = "others")
@@ -71,6 +85,9 @@ partial model CompressorBase00
   parameter Modelica.SIunits.Power pwr_init=5.0*10.0^(5) "" annotation(
     Dialog(tab = "Initialization", group = "others")
   );
+  parameter Modelica.SIunits.Torque trq_init=pwr_init/(Nmech_init*2.0*Modelica.Constants.pi/60.0) "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
   parameter Modelica.SIunits.Angle phi_init=1.0 "" annotation(
     Dialog(tab = "Initialization", group = "others")
   );
@@ -89,13 +106,13 @@ partial model CompressorBase00
   Modelica.SIunits.Power pwr(start=pwr_init) "power via shaft, positive if fluid generates power" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.Torque trq(start=pwr_init/(Nmech_init*2.0*Modelica.Constants.pi/60.0)) "trq via shaft" annotation(
+  Modelica.SIunits.Torque trq(start=trq_init) "trq via shaft" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   Modelica.SIunits.Power pwr_inv(start=-1.0*pwr_init) "power via shaft" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.Torque trq_inv(start=-1.0*pwr_init/(Nmech_init*2.0*Modelica.Constants.pi/60.0)) "trq via shaft" annotation(
+  Modelica.SIunits.Torque trq_inv(start=-1.0*trq_init) "trq via shaft" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
@@ -127,7 +144,7 @@ partial model CompressorBase00
   Modelica.SIunits.SpecificEnthalpy dht(start=dht_init) "specific enthalpy change in non-isentropic compression" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.SpecificEnthalpy h_2is(start=h2_init) "" annotation(
+  Modelica.SIunits.SpecificEnthalpy h_2is(start=h1_init+dht_is_init) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
@@ -161,10 +178,12 @@ partial model CompressorBase00
   --------------------------------------------- */
   inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
   
-  Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
-  Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of outlet";
-  
-  
+  Medium.BaseProperties fluid_1(
+    p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init
+  ) "flow station of inlet";
+  Medium.BaseProperties fluid_2(
+    p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init
+  ) "flow station of outlet";
   
   
   
@@ -180,11 +199,11 @@ partial model CompressorBase00
   ) "" annotation(
     Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1(
-    tau(start=pwr_init/(Nmech_init*2.0*Modelica.Constants.pi/60.0)), phi(start=phi_init)
+    tau(start=tau1_init), phi(start=phi1_init)
   ) "" annotation(
     Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-98, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_2(
-    tau(start=pwr_init/(Nmech_init*2.0*Modelica.Constants.pi/60.0)), phi(start=phi_init)
+    tau(start=tau2_init), phi(start=phi2_init)
   ) "" annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(

@@ -16,8 +16,6 @@ model Turbojet_02
     Placement(visible = true, transformation(origin = {20, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.Duct Duct045(redeclare package Medium = engineAir, dPqPdes = 0.03) annotation(
     Placement(visible = true, transformation(origin = {110, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.NozzleConv_defAmech Nzl070(redeclare package Medium = engineAir, Amech_th_def = 0.0195384) annotation(
-    Placement(visible = true, transformation(origin = {140, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.EnginePerformance perf001 annotation(
     Placement(visible = true, transformation(origin = {180, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //-----
@@ -31,7 +29,15 @@ model Turbojet_02
     Placement(visible = true, transformation(origin = {-30, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.TrbCharTable00 Trb(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {80, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.NzlCharFixed00 Nzl(redeclare package Medium = engineAir, AmechTh_paramInput = 0.0014, switchDetermine_AmechTh = PropulsionSystem.Types.switches.switchHowToDetVar.param) annotation(
+    Placement(visible = true, transformation(origin = {140, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(flightToEngine1.port_fluidAmb, Nzl.port_2) annotation(
+    Line(points = {{-90, 0}, {-90, 0}, {-90, 10}, {150, 10}, {150, -2}, {150, -2}}, color = {0, 127, 255}));
+  connect(Nzl.y_Fg, perf001.u_Fg) annotation(
+    Line(points = {{146, -10}, {162, -10}, {162, -42}, {170, -42}, {170, -42}}, color = {0, 0, 127}));
+  connect(Duct045.port_2, Nzl.port_1) annotation(
+    Line(points = {{120, -2}, {130, -2}, {130, -2}, {130, -2}}, color = {0, 127, 255}));
   connect(Cmp.flange_2, Trb.flange_1) annotation(
     Line(points = {{-20, -10}, {-14, -10}, {-14, -32}, {64, -32}, {64, -10}, {70, -10}, {70, -10}}));
   connect(Trb.port_2, Duct045.port_1) annotation(
@@ -54,14 +60,8 @@ equation
     Line(points = {{-79, -13}, {-67, -13}}, color = {0, 0, 127}));
   connect(flightToEngine1.port_fluid2Eng, Inlt010.port_1) annotation(
     Line(points = {{-80, -1}, {-68, -1}}, color = {0, 127, 255}));
-  connect(Nzl070.Fg_out, perf001.u_Fg) annotation(
-    Line(points = {{146, -10}, {158, -10}, {158, -42}, {170, -42}, {170, -42}}, color = {0, 0, 127}));
   connect(combustFuel1.dm_fuel_out, perf001.u_m_flow_fuel) annotation(
     Line(points = {{32, 16}, {34, 16}, {34, -58}, {170, -58}, {170, -58}}, color = {0, 0, 127}));
-  connect(flightToEngine1.port_fluidAmb, Nzl070.port_2) annotation(
-    Line(points = {{-90, 1}, {-90, 5}, {150, 5}, {150, -1}}, color = {0, 127, 255}));
-  connect(Duct045.port_2, Nzl070.port_1) annotation(
-    Line(points = {{120, -1}, {128, -1}}, color = {0, 127, 255}));
   annotation(
     uses(Modelica(version = "3.2.2")),
     Diagram(coordinateSystem(extent = {{-100, -60}, {200, 100}}), graphics = {Rectangle(origin = {25, 5}, pattern = LinePattern.Dash, extent = {{-33, 29}, {35, -31}}), Text(origin = {10, 37}, extent = {{-18, 2}, {4, -2}}, textString = "Combustor")}),

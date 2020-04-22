@@ -40,7 +40,7 @@ model NzlCharFixed00
     Dialog(group = "Characteristics"));
   parameter Real CvDes_paramInput = 0.99 "flow velocity coefficient, valid only when use_u_Cv==false, value fixed through simulation" annotation(
     Dialog(group = "Characteristics"));
-  parameter Modelica.SIunits.Area AmechTh_paramInput= 0.01 "Throat mechanical area, valid only when switchDetermine_AmechTh==param, value fixed through simulation" annotation(
+  parameter Modelica.SIunits.Area AmechTh_paramInput= 0.0014 "Throat mechanical area, valid only when switchDetermine_AmechTh==param, value fixed through simulation" annotation(
     Dialog(group = "Geometry"));
   
   
@@ -63,6 +63,35 @@ model NzlCharFixed00
   
 
   //********************************************************************************
+initial algorithm
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
+  /*
+  PR:= PRdes;
+  //--------------------
+  if (use_u_CdTh==false) then
+    CdThDes := CdThDes_paramInput;
+  elseif (use_u_Cv==true) then
+    CdThDes := u_CdTh;
+  end if; 
+  //--------------------
+  if (use_u_Cv==false) then
+    CvDes := CvDes_paramInput;
+  elseif (use_u_Cv==true) then
+    CvDes := u_Cv;
+  end if; 
+  //--------------------
+  if (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.param) then
+    AmechThDes := AmechTh_paramInput;
+  elseif (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) then
+    AmechThDes:= u_AmechTh;
+  elseif (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated) then
+    AmechThDes:= AmechTh;
+  end if; 
+  //--------------------
+  */
+  
 initial equation
   /* ---------------------------------------------
     determine design point

@@ -49,11 +49,11 @@ partial model NozzleBase00
   //--- fluid_1, port_1 ---
   parameter Modelica.SIunits.MassFlowRate m_flow1_init(displayUnit = "kg/s") = 1.0 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
-  parameter Modelica.SIunits.Pressure p1_init(displayUnit = "Pa") = 2*101.3 * 1000 "" annotation(
+  parameter Modelica.SIunits.Pressure p1_init(displayUnit = "Pa") = PR_init*p2_init "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
   parameter Modelica.SIunits.Temperature T1_init(displayUnit = "K") = 500 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
-  parameter Modelica.SIunits.SpecificEnthalpy h1_init(displayUnit = "J/kg") = 500*1.004 * 1000  "" annotation(
+  parameter Modelica.SIunits.SpecificEnthalpy h1_init(displayUnit = "J/kg") = T1_init*1.004 * 1000  "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
   //--- fluid_2, port_2 ---
   parameter Modelica.SIunits.MassFlowRate m_flow2_init(displayUnit = "kg/s") = -1.0 * m_flow1_init "" annotation(
@@ -62,60 +62,168 @@ partial model NozzleBase00
     Dialog(tab = "Initialization", group = "fluid_2"));
   parameter Modelica.SIunits.Temperature T2_init(displayUnit = "K") = 300 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = 300* 1.004 * 1000 "" annotation(
+  parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = T2_init* 1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
+  //--- others ---
+  parameter Real PR_init=2.5 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Real Cv_init=0.99 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Real CdTh_init=0.99 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Real MNth_init=1.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Velocity V_2is_init=480.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Velocity V_2_init=Cv_init*V_2is_init "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Velocity V_th_choked_init=410.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Velocity V_th_fullExp_init=V_2_init "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Velocity V_th_init=V_th_choked_init "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.SpecificEnthalpy h_2is_init=h1_init-1.0/2.0*V_2is_init^2.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Force Fg_init=m_flow1_init*V_2_init "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Area AeTh_init=0.0014*m_flow1_init "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Area AmechTh_init=AeTh_init/CdTh_init "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  
+  parameter Modelica.SIunits.SpecificEntropy s_fluid_1_init=7100.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.SpecificEntropy s_fluid_2_init=7200.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  
+  
+  
+  
+  
   
   
   /* ---------------------------------------------
       Internal variables
   --------------------------------------------- */
-  Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
-  Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of outlet (ambient)";
-  Medium.BaseProperties fluid_2Tot(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of outlet, total";
-  Medium.BaseProperties fluidStat_th(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "static flow station of throat";
-  Medium.BaseProperties fluid_th(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of throat";
-  Medium.BaseProperties fluidStat_th_fullExp(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "";
-  Medium.BaseProperties fluidStat_th_choked(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "";
+  Modelica.SIunits.SpecificEntropy s_fluid_1(start=s_fluid_1_init) "specific entropy, fluid_1" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.SpecificEntropy s_fluid_2(start=s_fluid_2_init) "specific entropy, fluid_2" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.SpecificEntropy s_fluid_th(start=s_fluid_2_init) "specific entropy, fluid_th" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.SpecificEntropy s_fluid_2Tot(start=s_fluid_2_init) "specific entropy, fluid_2Tot" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
-  Modelica.SIunits.SpecificEntropy s_fluid_1 "specific entropy, fluid_1";
-  Modelica.SIunits.SpecificEntropy s_fluid_2 "specific entropy, fluid_2";
-  Modelica.SIunits.SpecificEntropy s_fluid_th "specific entropy, fluid_th";
-  Modelica.SIunits.SpecificEntropy s_fluid_2Tot "specific entropy, fluid_2Tot";
+  Modelica.SIunits.MassFlowRate m_flow_max(start=m_flow1_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.MassFlowRate m_flow_min(start=m_flow2_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
-  Modelica.SIunits.MassFlowRate m_flow_max;
-  Modelica.SIunits.MassFlowRate m_flow_min;
-  
-  Modelica.SIunits.Velocity V_2;
-  Modelica.SIunits.Velocity V_2is;
-  Real PR;
-  Real CdTh;
-  Real Cv;
-  Modelica.SIunits.SpecificEnthalpy h_2is "";
-  Modelica.SIunits.Force Fg "";
+  Modelica.SIunits.Velocity V_2(start=V_2_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Velocity V_2is(start=V_2is_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Real PR(start=PR_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Real CdTh(start=CdTh_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Real Cv(start=Cv_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.SpecificEnthalpy h_2is(start=h_2is_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Force Fg(start=Fg_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   //-throat-
-  Modelica.SIunits.MassFlowRate m_flow_th;
-  Modelica.SIunits.Area AmechTh;
-  Modelica.SIunits.Area AeTh;
-  Modelica.SIunits.Velocity V_th;
-  Real MNth;
+  Modelica.SIunits.MassFlowRate m_flow_th(start=m_flow1_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Area AmechTh(start=AmechTh_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Area AeTh(start=AeTh_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Velocity V_th(start=V_th_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Real MNth(start=MNth_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   //--full expansion--
-  Modelica.SIunits.Velocity V_th_fullExp;
+  Modelica.SIunits.Velocity V_th_fullExp(start=V_th_fullExp_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   //--choked--
-  Modelica.SIunits.Velocity V_th_choked;
+  Modelica.SIunits.Velocity V_th_choked(start=V_th_choked_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
+  
+  /* ---------------------------------------------
+      Internal objects
+  --------------------------------------------- */
+  Medium.BaseProperties fluid_1(
+    p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init
+  ) "flow station of inlet";
+  Medium.BaseProperties fluid_2(
+    p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init
+  ) "flow station of outlet (ambient)";
+  Medium.BaseProperties fluid_2Tot(
+    p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init
+  ) "flow station of outlet, total";
+  Medium.BaseProperties fluidStat_th(
+    p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init
+  ) "static flow station of throat";
+  Medium.BaseProperties fluid_th(
+    p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init
+  ) "flow station of throat";
+  Medium.BaseProperties fluidStat_th_fullExp(
+    p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init
+  ) "";
+  Medium.BaseProperties fluidStat_th_choked(
+    p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init
+  ) "";
   
   
   
   /* ---------------------------------------------
       Interface
   --------------------------------------------- */
-  Modelica.Fluid.Interfaces.FluidPort_a port_1
-  (
-    redeclare package Medium = Medium, m_flow(start = m_flow1_init), h_outflow.start = h1_init
+  Modelica.Fluid.Interfaces.FluidPort_a port_1(
+    redeclare package Medium = Medium, m_flow(start = m_flow1_init), h_outflow(start = h1_init), p(start=p1_init)
   ) "" annotation(
     Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_b port_2
-  (
-    redeclare package Medium = Medium, m_flow(start = m_flow2_init), h_outflow.start = h2_init
+  Modelica.Fluid.Interfaces.FluidPort_b port_2(
+    redeclare package Medium = Medium, m_flow(start = m_flow2_init), h_outflow(start = h2_init), p(start=p2_init)
   ) "" annotation(
     Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
@@ -129,15 +237,15 @@ protected
   /* ---------------------------------------------
           Non-modifiable parameters
   --------------------------------------------- */
-  parameter Real PRdes(fixed=false) annotation(
+  parameter Real PRdes(fixed=false, start=PR_init) annotation(
     HideResult=false);
-  parameter Modelica.SIunits.Area AeThDes(fixed=false) annotation(
+  parameter Modelica.SIunits.Area AeThDes(fixed=false, start=AeTh_init) annotation(
     HideResult=false);
-  parameter Modelica.SIunits.Area AmechThDes(fixed=false) annotation(
+  parameter Modelica.SIunits.Area AmechThDes(fixed=false, start=AmechTh_init) annotation(
     HideResult=false);
-  parameter Real CdThDes(fixed=false) annotation(
+  parameter Real CdThDes(fixed=false, start=CdTh_init) annotation(
     HideResult=false);
-  parameter Real CvDes(fixed=false) annotation(
+  parameter Real CvDes(fixed=false, start=Cv_init) annotation(
     HideResult=false);
   
   

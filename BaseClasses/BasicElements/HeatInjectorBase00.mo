@@ -25,51 +25,81 @@ partial model HeatInjectorBase00
   //--- fluid_1, port_1 ---
   parameter Modelica.SIunits.MassFlowRate m_flow1_init(displayUnit = "kg/s") = 1.0 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
-  parameter Modelica.SIunits.Pressure p1_init(displayUnit = "Pa") = 101.3 * 1000 "" annotation(
+  parameter Modelica.SIunits.Pressure p1_init(displayUnit = "Pa") = 20*101.3 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
-  parameter Modelica.SIunits.Temperature T1_init(displayUnit = "K") = 288.15 "" annotation(
+  parameter Modelica.SIunits.Temperature T1_init(displayUnit = "K") = 800 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
-  parameter Modelica.SIunits.SpecificEnthalpy h1_init(displayUnit = "J/kg") = 1.004 * 1000 * 288.15 "" annotation(
+  parameter Modelica.SIunits.SpecificEnthalpy h1_init(displayUnit = "J/kg") = T1_init*1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
   //--- fluid_2, port_2 ---
   parameter Modelica.SIunits.MassFlowRate m_flow2_init(displayUnit = "kg/s") = -1.0 * m_flow1_init "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.Pressure p2_init(displayUnit = "Pa") = 101.3 * 1000 "" annotation(
+  parameter Modelica.SIunits.Pressure p2_init(displayUnit = "Pa") = p1_init "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.Temperature T2_init(displayUnit = "K") = 288.15 "" annotation(
+  parameter Modelica.SIunits.Temperature T2_init(displayUnit = "K") = 1600.0 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = 1.004 * 1000 * 288.15 "" annotation(
+  parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = T2_init*1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
+  //--- HeatPort_1 ---
+  parameter Modelica.SIunits.HeatFlowRate Q_flow1_init=m_flow1_init*(h2_init-h1_init) "" annotation(
+    Dialog(tab = "Initialization", group = "HeatPort_1"));
+  parameter Modelica.SIunits.Temperature Twall1_init= T2_init "" annotation(
+    Dialog(tab = "Initialization", group = "HeatPort_1"));
+  //--- others ---
+  parameter Modelica.SIunits.SpecificEntropy s_fluid_1_init=7000.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.SpecificEntropy s_fluid_2_init=7800.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  
   
   
   /* ---------------------------------------------
       Internal variables
   --------------------------------------------- */
-  Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
-  Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of outlet";
+  Modelica.SIunits.SpecificEntropy s_fluid_1(start=s_fluid_1_init) "specific entropy, fluid_1" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.SpecificEntropy s_fluid_2(start=s_fluid_2_init) "specific entropy, fluid_2" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
-  Modelica.SIunits.SpecificEntropy s_fluid_1 "specific entropy, fluid_1";
-  Modelica.SIunits.SpecificEntropy s_fluid_2 "specific entropy, fluid_2";
+  Modelica.SIunits.MassFlowRate m_flow_max(start=m_flow1_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.MassFlowRate m_flow_min(start=m_flow2_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
-  Modelica.SIunits.MassFlowRate m_flow_max;
-  Modelica.SIunits.MassFlowRate m_flow_min;
+  
+  
+  /* ---------------------------------------------
+      Internal objects
+  --------------------------------------------- */
+  Medium.BaseProperties fluid_1(
+    p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init
+  ) "flow station of inlet";
+  Medium.BaseProperties fluid_2(
+    p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init
+  ) "flow station of outlet";
   
   
   
   /* ---------------------------------------------
       Interface
   --------------------------------------------- */
-  Modelica.Fluid.Interfaces.FluidPort_a port_1
-  (
-    redeclare package Medium = Medium, m_flow(start = m_flow1_init), h_outflow.start = h1_init
+  Modelica.Fluid.Interfaces.FluidPort_a port_1(
+    redeclare package Medium = Medium, m_flow(start = m_flow1_init), h_outflow(start = h1_init), p(start=p1_init)
   ) "" annotation(
     Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_b port_2
-  (
-    redeclare package Medium = Medium, m_flow(start = m_flow2_init), h_outflow.start = h2_init
+  Modelica.Fluid.Interfaces.FluidPort_b port_2(
+    redeclare package Medium = Medium, m_flow(start = m_flow2_init), h_outflow(start = h2_init), p(start=p2_init)
   ) "" annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a HeatPort_1
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a HeatPort_1(
+    Q_flow(start=Q_flow1_init), T(start=Twall1_init)
+  )
     ""
     annotation(
     Placement(visible = true, transformation(origin = {0, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
