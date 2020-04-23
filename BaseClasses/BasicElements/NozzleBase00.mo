@@ -42,6 +42,13 @@ partial model NozzleBase00
     choicesAllMatching = true);
   
   
+  parameter Boolean allowFlowReversal= false
+    "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
+    annotation(
+      Dialog(tab="Assumptions"), Evaluate=true);
+  
+  
+  
   /* ---------------------------------------------
       parameters
   --------------------------------------------- */

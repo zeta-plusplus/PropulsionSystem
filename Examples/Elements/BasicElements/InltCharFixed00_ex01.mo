@@ -14,9 +14,9 @@ model InltCharFixed00_ex01
     Placement(visible = true, transformation(origin = {50, 30}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.InltCharFixed00 Inlt(redeclare package Medium = engineAir, use_u_effRam = true) annotation(
     Placement(visible = true, transformation(origin = {-10, 22}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_V_infini(duration = 10, height = 0, offset = 100, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_V_infini(duration = 10, height = 10, offset = 230, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-50, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_effRam(duration = 10, height = -0.05, offset = 0.95, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_effRam(duration = 10, height = 0.05, offset = 0.90, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-10, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 equation
   connect(ramp_effRam.y, Inlt.u_effRam) annotation(

@@ -28,7 +28,7 @@ model InltCharFixed00
   /* ---------------------------------------------
           parameters    
   --------------------------------------------- */
-  parameter Real effRamDes_paramInput = 0.95 "ram pressure recovery factor, valid only when use_u_effRam==false, value fixed through simulation" annotation(
+  parameter Real effRamDes_paramInput = 0.995 "ram pressure recovery factor, valid only when use_u_effRam==false, value fixed through simulation" annotation(
     Dialog(group = "Characteristics"));
   
   
@@ -36,25 +36,39 @@ model InltCharFixed00
   /* ---------------------------------------------
           Interface   
   --------------------------------------------- */
-  Modelica.Blocks.Interfaces.RealInput u_effRam 
+  Modelica.Blocks.Interfaces.RealInput u_effRam(start=effRam_init) 
     if use_u_effRam "effRam input, valid only when use_u_effRam==true" annotation(
-    Placement(visible = true, transformation(origin = {-40, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {0, -75}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+      Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true),
+      Placement(visible = true, transformation(origin = {-40, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {0, -75}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   
   
 //********************************************************************************
-initial equation
+initial algorithm
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
   //--------------------
+  if (use_u_effRam==false) then
+    effRamDes := effRamDes_paramInput;
+  elseif (use_u_effRam==true) then
+    effRamDes := u_effRam;
+  end if; 
+  //--------------------
+  /**/
+  
+initial equation
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
+  /*//--------------------
   if (use_u_effRam==false) then
     effRamDes = effRamDes_paramInput;
   elseif (use_u_effRam==true) then
     effRamDes = u_effRam;
   end if; 
   //--------------------
-  
+  */
   
 algorithm
 //##### none #####
