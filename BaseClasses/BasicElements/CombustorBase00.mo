@@ -18,10 +18,47 @@ partial model CombustorBase00
     choicesAllMatching = true);
   
   
+  
+  /* ---------------------------------------------
+      switch
+  --------------------------------------------- */
+  parameter Boolean allowFlowReversal= false
+    "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
+    annotation(
+      Dialog(tab="Assumptions"), Evaluate=true);
+  
+  
+  
+  /* ---------------------------------------------
+      parameters
+  --------------------------------------------- */
+  //********** Initialization Parameters **********
+  //--- fluid_1, port_1 ---
+  parameter Modelica.SIunits.MassFlowRate m_flow1_init(displayUnit = "kg/s") = 1.0 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_1"));
+  parameter Modelica.SIunits.Pressure p1_init(displayUnit = "Pa") = 20*101.3 * 1000 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_1"));
+  parameter Modelica.SIunits.Temperature T1_init(displayUnit = "K") = 800 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_1"));
+  parameter Modelica.SIunits.SpecificEnthalpy h1_init(displayUnit = "J/kg") = T1_init*1.004 * 1000 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_1"));
+  //--- fluid_2, port_2 ---
+  parameter Modelica.SIunits.MassFlowRate m_flow2_init(displayUnit = "kg/s") = -1.0 * m_flow1_init "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_2"));
+  parameter Modelica.SIunits.Pressure p2_init(displayUnit = "Pa") = p1_init "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_2"));
+  parameter Modelica.SIunits.Temperature T2_init(displayUnit = "K") = 1600.0 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_2"));
+  parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = T2_init*1.004 * 1000 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid_2"));
+  
+  
+  
   /* ---------------------------------------------
       Internal variables
   --------------------------------------------- */
   Real effComb;
+  
   
   
   /* ---------------------------------------------
@@ -30,7 +67,7 @@ partial model CombustorBase00
   PropulsionSystem.Elements.BasicElements.HeatInjector00 HeatInjector(redeclare package Medium = Medium) annotation(
     Placement(visible = true, transformation(origin = {-10, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Subelements.Combustion00 Combustion annotation(
-    Placement(visible = true, transformation(origin = {-30, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-50, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow1 annotation(
     Placement(visible = true, transformation(origin = {-10, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   
@@ -39,9 +76,19 @@ partial model CombustorBase00
   /* ---------------------------------------------
             Interface
   --------------------------------------------- */
-  Modelica.Fluid.Interfaces.FluidPort_a port_1(redeclare package Medium = Medium) annotation(
+  Modelica.Fluid.Interfaces.FluidPort_a port_1(
+    redeclare package Medium = Medium, 
+    m_flow(start = m_flow1_init, min=if (allowFlowReversal) then -Constants.inf else 0.0), 
+    h_outflow(start = h1_init), 
+    p(start=p1_init)
+  ) annotation(
     Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_b port_2(redeclare package Medium = Medium) annotation(
+  Modelica.Fluid.Interfaces.FluidPort_b port_2(
+    redeclare package Medium = Medium, 
+    m_flow(start = m_flow2_init, max=if allowFlowReversal then +Constants.inf else 0.0), 
+    h_outflow(start = h2_init), 
+    p(start=p2_init)
+  ) annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_m_flow_fuel(quantity = "MassFlowRate", unit = "kg/s", displayUnit = "kg/s") "[kg/s], mass flow rate of fuel" annotation(
     Placement(visible = true, transformation(origin = {110, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {80, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
@@ -57,12 +104,12 @@ protected
   
   
 equation
+  connect(Combustion.y_m_flow_fuel, y_m_flow_fuel) annotation(
+    Line(points = {{-39, 44}, {72, 44}, {72, -70}, {110, -70}}, color = {0, 0, 127}));
+  connect(Combustion.y_Qcomb, prescribedHeatFlow1.Q_flow) annotation(
+    Line(points = {{-39, 50}, {-10, 50}, {-10, 40}}, color = {0, 0, 127}));
   connect(prescribedHeatFlow1.port, HeatInjector.HeatPort_1) annotation(
     Line(points = {{-10, 20}, {-10, 20}, {-10, 10}, {-10, 10}}, color = {191, 0, 0}));
-  connect(Combustion.y_Qcomb, prescribedHeatFlow1.Q_flow) annotation(
-    Line(points = {{-18, 50}, {-10, 50}, {-10, 40}, {-10, 40}}, color = {0, 0, 127}));
-  connect(Combustion.y_m_flow_fuel, y_m_flow_fuel) annotation(
-    Line(points = {{-19, 44}, {72, 44}, {72, -70}, {110, -70}}, color = {0, 0, 127}));
   connect(HeatInjector.port_2, port_2) annotation(
     Line(points = {{0, 0}, {100, 0}}, color = {0, 127, 255}));
   connect(port_1, HeatInjector.port_1) annotation(

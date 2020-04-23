@@ -42,11 +42,16 @@ model FlightCondition2InletFluid00
     HideResult = true,
     choices(checkBox = true));
   
+  parameter Boolean allowFlowReversal= false
+    "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
+    annotation(
+      Dialog(tab="Assumptions"), Evaluate=true);
+  
   
   
   /* ---------------------------------------------
             parameters
-    --------------------------------------------- */
+  --------------------------------------------- */
   parameter Modelica.SIunits.Length alt_paramInput = 10000.0 "flight altitude, valid only when use_u_alt==false, value fixed through simulation" annotation();
   parameter Real MN_paramInput = 0.80 "flight mach number, valid only when use_u_MN==false, value fixed through simulation" annotation();
   parameter Modelica.SIunits.TemperatureDifference dTamb_paramInput = 0.0 "temperature diffrence from standard atmosphere, valid only when use_u_dTamb==false, value fixed through simulation" annotation();
@@ -54,19 +59,71 @@ model FlightCondition2InletFluid00
   parameter Medium.ExtraProperty C_fluid_paramInput[Medium.nC](quantity = Medium.extraPropertiesNames) = fill(0, Medium.nC) "fluid trace substance, valid only when use_u_C==false, value fixed through simulation" annotation();
   
   
+  //********** Initialization Parameters **********
+  //--- fluid2Inlet ---
+  parameter Modelica.SIunits.MassFlowRate m_flow2Inlet_init(displayUnit = "kg/s") = -1.0 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid2Inlet"));
+  parameter Modelica.SIunits.Pressure p2Inlet_init(displayUnit = "Pa") = 101.3 * 1000 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid2Inlet"));
+  parameter Modelica.SIunits.Temperature T2Inlet_init(displayUnit = "K") = 288.15 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid2Inlet"));
+  parameter Modelica.SIunits.SpecificEnthalpy h2Inlet_init(displayUnit = "J/kg") = T2Inlet_init*1.004 * 1000 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid2Inlet"));
+  
+  //--- fluidAmb ---
+  parameter Modelica.SIunits.MassFlowRate m_flowAmb_init(displayUnit = "kg/s") = -1.0 * m_flow2Inlet_init "" annotation(
+    Dialog(tab = "Initialization", group = "fluidAmb"));
+  parameter Modelica.SIunits.Pressure pAmb_init(displayUnit = "Pa") = p2Inlet_init "" annotation(
+    Dialog(tab = "Initialization", group = "fluidAmb"));
+  parameter Modelica.SIunits.Temperature Tamb_init(displayUnit = "K") = T2Inlet_init "" annotation(
+    Dialog(tab = "Initialization", group = "fluidAmb"));
+  parameter Modelica.SIunits.SpecificEnthalpy hAmb_init(displayUnit = "J/kg") = Tamb_init*1.004 * 1000 "" annotation(
+    Dialog(tab = "Initialization", group = "fluidAmb"));
+  
+  
   
   /* ---------------------------------------------
-        Internal variables
+        Internal objects
     --------------------------------------------- */
   inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
   
-  PropulsionSystem.Subelements.AltMN2pTh00 AltMN2pTh(redeclare package Medium=Medium) annotation(
+  PropulsionSystem.Subelements.AltMN2pTh00 AltMN2pTh(
+    redeclare package Medium = Medium, 
+    T2Inlet_init = T2Inlet_init, 
+    Tamb_init = Tamb_init, 
+    h2Inlet_init = h2Inlet_init, 
+    hAmb_init = hAmb_init, 
+    m_flow2Inlet_init = m_flow2Inlet_init, 
+    m_flowAmb_init = m_flowAmb_init, 
+    p2Inlet_init = p2Inlet_init, 
+    pAmb_init = pAmb_init
+  ) annotation(
     Placement(visible = true, transformation(origin = {-30, 10}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
   
-  Modelica.Fluid.Sources.Boundary_pT sourceFluidAmb(redeclare package Medium=Medium, nPorts = 1, use_C_in = true, use_T_in = true, use_X_in = true, use_p_in = true)  annotation(
+  Modelica.Fluid.Sources.Boundary_pT sourceFluidAmb(
+    redeclare package Medium=Medium, 
+    nPorts = 1, 
+    use_C_in = true, 
+    use_T_in = true, 
+    use_X_in = true, 
+    use_p_in = true,
+    medium.p(start=pAmb_init),
+    medium.T(start=Tamb_init),
+    medium.h(start=hAmb_init)
+  )  annotation(
     Placement(visible = true, transformation(origin = {50, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
-  Modelica.Fluid.Sources.Boundary_pT sourceFluid2Inlet(redeclare package Medium=Medium, nPorts = 1, use_C_in = true, use_T_in = true, use_X_in = true, use_p_in = true)  annotation(
+  Modelica.Fluid.Sources.Boundary_pT sourceFluid2Inlet(
+    redeclare package Medium=Medium, 
+    nPorts = 1, 
+    use_C_in = true, 
+    use_T_in = true, 
+    use_X_in = true, 
+    use_p_in = true,
+    medium.p(start=p2Inlet_init),
+    medium.T(start=T2Inlet_init),
+    medium.h(start=h2Inlet_init)
+  )  annotation(
     Placement(visible = true, transformation(origin = {50, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   
@@ -84,9 +141,19 @@ model FlightCondition2InletFluid00
     Placement(visible = true, transformation(origin = {-120, -40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_C_fluid[Medium.nC] if use_u_C "trace substance of fluid, valid only when use_u_C==true" annotation(
     Placement(visible = true, transformation(origin = {-120, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_b port_amb(redeclare package Medium = Medium) annotation(
+  Modelica.Fluid.Interfaces.FluidPort_b port_amb(
+    redeclare package Medium = Medium,
+    m_flow(start = m_flowAmb_init, min=if (allowFlowReversal) then -Constants.inf else 0.0),
+    h_outflow(start = hAmb_init), 
+    p(start=pAmb_init)
+  ) annotation(
     Placement(visible = true, transformation(origin = {70, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_b port_inlet(redeclare package Medium = Medium) annotation(
+  Modelica.Fluid.Interfaces.FluidPort_b port_inlet(
+    redeclare package Medium = Medium,
+    m_flow(start = m_flow2Inlet_init, max=if allowFlowReversal then +Constants.inf else 0.0), 
+    h_outflow(start = h2Inlet_init), 
+    p(start=p2Inlet_init)
+  ) annotation(
     Placement(visible = true, transformation(origin = {100, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_V_inf(quantity="Velocity", unit="m/s",displayUnit="m/s") "[m/s], free stream velocity" annotation(
     Placement(visible = true, transformation(origin = {110, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -96,25 +163,23 @@ model FlightCondition2InletFluid00
 algorithm
 //##### none #####
 equation
-  
-  
-  /* ---------------------------------------------
+  connect(AltMN2pTh.y_V_inf, y_V_inf) annotation(
+    Line(points = {{3, -17}, {10, -17}, {10, -70}, {110, -70}}, color = {0, 0, 127}));
+  connect(AltMN2pTh.y_pAmb, sourceFluidAmb.p_in) annotation(
+    Line(points = {{3, 37}, {14, 37}, {14, 58}, {38, 58}}, color = {0, 0, 127}));
+  connect(AltMN2pTh.y_Tamb, sourceFluidAmb.T_in) annotation(
+    Line(points = {{3, 28}, {18, 28}, {18, 54}, {38, 54}}, color = {0, 0, 127}));
+  connect(AltMN2pTh.y_pTot, sourceFluid2Inlet.p_in) annotation(
+    Line(points = {{3, 10}, {30, 10}, {30, -2}, {38, -2}}, color = {0, 0, 127}));
+  connect(AltMN2pTh.y_Ttot, sourceFluid2Inlet.T_in) annotation(
+    Line(points = {{3, 1}, {24, 1}, {24, -6}, {38, -6}}, color = {0, 0, 127}));
+/* ---------------------------------------------
     Connections, interface <-> internal variables
   --------------------------------------------- */
-  connect(AltMN2pTh.y_Ttot, sourceFluid2Inlet.T_in) annotation(
-    Line(points = {{4, 0}, {24, 0}, {24, -6}, {38, -6}, {38, -6}}, color = {0, 0, 127}));
-  connect(AltMN2pTh.y_pTot, sourceFluid2Inlet.p_in) annotation(
-    Line(points = {{4, 10}, {30, 10}, {30, -2}, {38, -2}, {38, -2}}, color = {0, 0, 127}));
   connect(sourceFluid2Inlet.ports[1], port_inlet) annotation(
     Line(points = {{60, -10}, {100, -10}}, color = {0, 127, 255}));
-  connect(AltMN2pTh.y_Tamb, sourceFluidAmb.T_in) annotation(
-    Line(points = {{4, 28}, {18, 28}, {18, 54}, {38, 54}}, color = {0, 0, 127}));
-  connect(AltMN2pTh.y_pAmb, sourceFluidAmb.p_in) annotation(
-    Line(points = {{4, 38}, {14, 38}, {14, 58}, {38, 58}}, color = {0, 0, 127}));
   connect(sourceFluidAmb.ports[1], port_amb) annotation(
     Line(points = {{60, 50}, {70, 50}, {70, 100}}, color = {0, 127, 255}));
-  connect(AltMN2pTh.y_V_inf, y_V_inf) annotation(
-    Line(points = {{4, -18}, {10, -18}, {10, -70}, {110, -70}, {110, -70}}, color = {0, 0, 127}));
 //--------------------
   if use_u_alt == true then
     AltMN2pTh.u_alt = u_alt;

@@ -27,6 +27,12 @@ model MassFlowAtInit
     choices(checkBox = true),
     Dialog(group = "switch"));
   
+  parameter Boolean allowFlowReversal= false
+    "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
+    annotation(
+      Dialog(tab="Assumptions"), Evaluate=true);
+  
+  
   
   
   /* ---------------------------------------------
@@ -53,35 +59,47 @@ model MassFlowAtInit
     Dialog(tab = "Initialization", group = "fluid_2"));
   
   
-  parameter Modelica.SIunits.MassFlowRate m_flow_init_paramInput=10.0 "";
+  parameter Modelica.SIunits.MassFlowRate m_flow_init_paramInput=1.0 "";
   
   
   /* ---------------------------------------------
       Internal variables
   --------------------------------------------- */
-  Modelica.SIunits.MassFlowRate m_flow_max;
-  Modelica.SIunits.MassFlowRate m_flow_min;
+  Modelica.SIunits.MassFlowRate m_flow_max(start=m_flow1_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.MassFlowRate m_flow_min(start=m_flow2_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
   
   /* ---------------------------------------------
       Internal objects
   --------------------------------------------- */
-  Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
-  Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of outlet";
+  Medium.BaseProperties fluid_1(
+    p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init
+  ) "flow station of inlet";
+  Medium.BaseProperties fluid_2(
+    p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init
+  ) "flow station of outlet";
   
   
   /* ---------------------------------------------
             Interface
   --------------------------------------------- */
-  Modelica.Fluid.Interfaces.FluidPort_a port_1
-  (
-    redeclare package Medium = Medium, m_flow(start = m_flow1_init), h_outflow.start = h1_init
+  Modelica.Fluid.Interfaces.FluidPort_a port_1(
+    redeclare package Medium = Medium, 
+    m_flow(start = m_flow1_init, min=if (allowFlowReversal) then -Constants.inf else 0.0), 
+    h_outflow(start = h1_init),
+    p(start=p1_init)
   )
     "" annotation(
     Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_b port_2
-  (
-    redeclare package Medium = Medium, m_flow(start = m_flow2_init), h_outflow.start = h2_init
+  Modelica.Fluid.Interfaces.FluidPort_b port_2(
+    redeclare package Medium = Medium, 
+    m_flow(start = m_flow2_init, max=if allowFlowReversal then +Constants.inf else 0.0), 
+    h_outflow(start = h2_init),
+    p(start=p2_init)
   )
     "" annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

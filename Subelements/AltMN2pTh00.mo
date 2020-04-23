@@ -13,25 +13,109 @@ block AltMN2pTh00
   --------------------------------------------- */
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation(
     choicesAllMatching = true);
+  
+  
+  
+  /* ---------------------------------------------
+            parameters
+  --------------------------------------------- */
+  //--- fluid2Inlet ---
+  parameter Modelica.SIunits.MassFlowRate m_flow2Inlet_init(displayUnit = "kg/s") = -1.0 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid2Inlet"));
+  parameter Modelica.SIunits.Pressure p2Inlet_init(displayUnit = "Pa") = 101.3 * 1000 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid2Inlet"));
+  parameter Modelica.SIunits.Temperature T2Inlet_init(displayUnit = "K") = 288.15 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid2Inlet"));
+  parameter Modelica.SIunits.SpecificEnthalpy h2Inlet_init(displayUnit = "J/kg") = T2Inlet_init*1.004 * 1000 "" annotation(
+    Dialog(tab = "Initialization", group = "fluid2Inlet"));
+  
+  //--- fluidAmb ---
+  parameter Modelica.SIunits.MassFlowRate m_flowAmb_init(displayUnit = "kg/s") = -1.0 * m_flow2Inlet_init "" annotation(
+    Dialog(tab = "Initialization", group = "fluidAmb"));
+  parameter Modelica.SIunits.Pressure pAmb_init(displayUnit = "Pa") = p2Inlet_init "" annotation(
+    Dialog(tab = "Initialization", group = "fluidAmb"));
+  parameter Modelica.SIunits.Temperature Tamb_init(displayUnit = "K") = T2Inlet_init "" annotation(
+    Dialog(tab = "Initialization", group = "fluidAmb"));
+  parameter Modelica.SIunits.SpecificEnthalpy hAmb_init(displayUnit = "J/kg") = Tamb_init*1.004 * 1000 "" annotation(
+    Dialog(tab = "Initialization", group = "fluidAmb"));
+  
+  //--- others ---
+  parameter Real MN_init=0.01 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Length alt_init=1.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.TemperatureDifference dTamb_init=0.01 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Velocity V_inf_init=0.01 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  
+  
+  
   /* ---------------------------------------------
           Internal variables
   --------------------------------------------- */
+  Modelica.SIunits.Length alt(start=alt_init) "altitude" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Real MN(start=MN_init) "flight mach number" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.TemperatureDifference dTamb(start=dTamb_init) "deviation from std atmospheric temperature" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Velocity V_inf(start=V_inf_init) "free stream velocity" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  //----------
+  Modelica.SIunits.AbsolutePressure pAmb(start=pAmb_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Temperature Tamb(start=Tamb_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  //----------
+  Modelica.SIunits.AbsolutePressure pAmbStd(start=pAmb_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Temperature TambStd(start=Tamb_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  //----------
+  
+  
+  /* ---------------------------------------------
+          Internal objects
+  --------------------------------------------- */
   inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
-  Medium.BaseProperties fluidTot "flow station of total";
-  Medium.BaseProperties fluidAmb "flow station of static";
-  Medium.BaseProperties fluidAmbStd "flow station of static, standard condition";
+  Medium.BaseProperties fluidTot(
+    p(start=p2Inlet_init),
+    T(start=T2Inlet_init),
+    h(start=h2Inlet_init),
+    state.p(start=p2Inlet_init),
+    state.T(start=T2Inlet_init)
+  ) "flow station of total";
+  Medium.BaseProperties fluidAmb(
+    p(start=pAmb_init),
+    T(start=Tamb_init),
+    h(start=hAmb_init),
+    state.p(start=pAmb_init),
+    state.T(start=Tamb_init)
+  ) "flow station of static";
+  Medium.BaseProperties fluidAmbStd(
+    p(start=pAmb_init),
+    T(start=Tamb_init),
+    h(start=hAmb_init),
+    state.p(start=pAmb_init),
+    state.T(start=Tamb_init)
+  ) "flow station of static, standard condition";
   //----------
-  Modelica.SIunits.Length alt "altitude";
-  Real MN "flight mach number";
-  Modelica.SIunits.TemperatureDifference dTamb "deviation from std atmospheric temperature";
-  Modelica.SIunits.Velocity V_inf "free stream velocity";
-  //----------
-  Modelica.SIunits.AbsolutePressure pAmb;
-  Modelica.SIunits.Temperature Tamb;
-  //----------
-  Modelica.SIunits.AbsolutePressure pAmbStd;
-  Modelica.SIunits.Temperature TambStd;
-  //----------
+  
+  
+  
   /* ---------------------------------------------
           Interface
   --------------------------------------------- */
@@ -103,8 +187,9 @@ algorithm
     pAmbStd := environment.p_UpBdTropos * exp(-1.0 * environment.gravity / (fluidAmbStd.R * TambStd) * (alt - environment.T_UpBdTropos));
     pAmb := environment.p_UpBdTropos * exp(-1.0 * environment.gravity / (fluidAmb.R * Tamb) * (alt - environment.T_UpBdTropos));
   end if;
-// troposphere, temperature gradient layer model
-// stratosphere, temperature is constant
+
+
+
 /********************************************************
   Graphics
 ********************************************************/

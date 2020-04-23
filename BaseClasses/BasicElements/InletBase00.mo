@@ -21,7 +21,7 @@ partial model InletBase00
   
   
   /* ---------------------------------------------
-      parameters
+      switch
   --------------------------------------------- */
   parameter Boolean allowFlowReversal= false
     "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
@@ -29,6 +29,10 @@ partial model InletBase00
       Dialog(tab="Assumptions"), Evaluate=true);
   
   
+  
+  /* ---------------------------------------------
+      parameters
+  --------------------------------------------- */
   //********** Initialization Parameters **********
   //--- fluid_1, port_1 ---
   parameter Modelica.SIunits.MassFlowRate m_flow1_init(displayUnit = "kg/s") = 1.0 "" annotation(

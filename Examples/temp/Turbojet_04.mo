@@ -1,11 +1,9 @@
 within PropulsionSystem.Examples.temp;
 
-model Turbojet_03
+model Turbojet_04
   extends Modelica.Icons.Example;
   package engineAir = Modelica.Media.Air.DryAirNasa;
   //-----
-  PropulsionSystem.Elements.BasicElements.FlightToEngine flightToEngine1(redeclare package Medium = engineAir, MN = 0.8, alt = 10000) annotation(
-    Placement(visible = true, transformation(origin = {-90, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //-----
   Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 10, height = 200, offset = 1600, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {70, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
@@ -25,19 +23,21 @@ model Turbojet_03
     Placement(visible = true, transformation(origin = {-10, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint annotation(
     Placement(visible = true, transformation(origin = {70, 40}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
-  PropulsionSystem.Elements.BasicElements.CombCharFixed00 Comb(redeclare package Medium = engineAir, use_u_m_flow_fuel = true)  annotation(
+  PropulsionSystem.Elements.BasicElements.CombCharFixed00 Comb(redeclare package Medium = engineAir, use_u_m_flow_fuel = true) annotation(
     Placement(visible = true, transformation(origin = {30, 10}, extent = {{-10, -8}, {10, 8}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.InltCharFixed00 Inlt(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-30, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.EnginePerformance00 Perf annotation(
     Placement(visible = true, transformation(origin = {190, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Sources.FlightCondition2InletFluid00 Flt2Fluid(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {-90, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(flightToEngine1.port_fluidAmb, Nzl.port_2) annotation(
-    Line(points = {{-90, -10}, {-90, 46}, {150, 46}, {150, -12}}, color = {0, 127, 255}));
-  connect(flightToEngine1.port_fluid2Eng, Inlt.port_1) annotation(
+  connect(Flt2Fluid.y_V_inf, Inlt.u_V_infini) annotation(
+    Line(points = {{-78, -18}, {-68, -18}, {-68, -24}, {-36, -24}, {-36, -24}}, color = {0, 0, 127}));
+  connect(Flt2Fluid.port_amb, Nzl.port_2) annotation(
+    Line(points = {{-90, 0}, {-90, 46}, {150, 46}, {150, -12}}, color = {0, 127, 255}));
+  connect(Flt2Fluid.port_inlet, Inlt.port_1) annotation(
     Line(points = {{-80, -12}, {-40, -12}}, color = {0, 127, 255}));
-  connect(flightToEngine1.V_tot_out, Inlt.u_V_infini) annotation(
-    Line(points = {{-79, -24}, {-38, -24}}, color = {0, 0, 127}));
   connect(Inlt.y_FdRam, Perf.u_Fram) annotation(
     Line(points = {{-23, -24}, {-16, -24}, {-16, -46}, {178, -46}}, color = {0, 0, 127}));
   connect(Inlt.port_2, Cmp.port_1) annotation(
@@ -69,5 +69,5 @@ equation
     version = "",
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.0166722),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
-end Turbojet_03;
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "csv"));
+end Turbojet_04;

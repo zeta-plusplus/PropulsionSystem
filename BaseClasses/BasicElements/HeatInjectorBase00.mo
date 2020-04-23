@@ -18,6 +18,17 @@ partial model HeatInjectorBase00
     choicesAllMatching = true);
   
   
+  
+  /* ---------------------------------------------
+      switch
+  --------------------------------------------- */
+  parameter Boolean allowFlowReversal= false
+    "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
+    annotation(
+      Dialog(tab="Assumptions"), Evaluate=true);
+  
+  
+  
   /* ---------------------------------------------
       parameters
   --------------------------------------------- */
@@ -90,11 +101,17 @@ partial model HeatInjectorBase00
       Interface
   --------------------------------------------- */
   Modelica.Fluid.Interfaces.FluidPort_a port_1(
-    redeclare package Medium = Medium, m_flow(start = m_flow1_init), h_outflow(start = h1_init), p(start=p1_init)
+    redeclare package Medium = Medium, 
+    m_flow(start = m_flow1_init), 
+    h_outflow(start = h1_init), 
+    p(start=p1_init)
   ) "" annotation(
     Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_b port_2(
-    redeclare package Medium = Medium, m_flow(start = m_flow2_init), h_outflow(start = h2_init), p(start=p2_init)
+    redeclare package Medium = Medium, 
+    m_flow(start = m_flow2_init), 
+    h_outflow(start = h2_init), 
+    p(start=p2_init)
   ) "" annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a HeatPort_1(

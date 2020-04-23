@@ -22,23 +22,62 @@ model NmechAtInit
   /* ---------------------------------------------
         parameters
     --------------------------------------------- */
-  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech_init_paramInput=9000 "mechanical rotation speed, rpm";
+  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech_init_paramInput=3000.0 "mechanical rotation speed, rpm";
+  
+  //********** Initialization Parameters **********
+  //--- flange_1 ---
+  parameter Modelica.SIunits.Torque tau1_init=-1.0*tau2_init "" annotation(
+    Dialog(tab = "Initialization", group = "flange_1")
+  );
+  parameter Modelica.SIunits.Angle phi1_init=phi_init "" annotation(
+    Dialog(tab = "Initialization", group = "flange_1")
+  );
+  //--- flange_2 ---
+  parameter Modelica.SIunits.Torque tau2_init=pwr_init/(Nmech_init*2.0*Modelica.Constants.pi/60.0) "" annotation(
+    Dialog(tab = "Initialization", group = "flange_2")
+  );
+  parameter Modelica.SIunits.Angle phi2_init=phi_init "" annotation(
+    Dialog(tab = "Initialization", group = "flange_2")
+  );
+  
+  //--- others ---
+  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech_init=3000.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Angle phi_init=1.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Power pwr_init=5.0*10.0^(5) "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  
+  
   
   
   /* ---------------------------------------------
         Internal variables    
     --------------------------------------------- */
-  Modelica.SIunits.Angle phi "mechanical rotation displacement, rad";
-  Modelica.SIunits.AngularVelocity omega "mechanical rotation speed, rad/sec";
-  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech "mechanical rotation speed, rpm";
+  Modelica.SIunits.Angle phi(start=phi_init) "mechanical rotation displacement, rad" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.AngularVelocity omega(start=Nmech_init*2.0*Modelica.Constants.pi/60.0) "mechanical rotation speed, rad/sec" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech(start=Nmech_init) "mechanical rotation speed, rpm" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
   
   /* ---------------------------------------------
         Interface
     --------------------------------------------- */
-  Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1 annotation(
+  Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1(
+    tau(start=tau1_init), phi(start=phi1_init)
+  ) annotation(
     Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_2 annotation(
+  Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_2(
+    tau(start=tau2_init), phi(start=phi2_init)
+  ) annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
 initial equation
