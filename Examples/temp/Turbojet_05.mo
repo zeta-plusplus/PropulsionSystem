@@ -19,7 +19,7 @@ model Turbojet_05
     Placement(visible = true, transformation(origin = {50, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.Utilities.VariableBySolver VarBySolver annotation(
     Placement(visible = true, transformation(origin = {-10, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  FluidSystemComponents.Utilities.ConstrainVariable Constraint annotation(
+  FluidSystemComponents.Utilities.ConstrainVariable Constraint(use_u_targetVal = true)  annotation(
     Placement(visible = true, transformation(origin = {70, 40}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
   PropulsionSystem.Elements.BasicElements.CombCharFixed00 Comb(redeclare package Medium = engineAir, use_u_m_flow_fuel = true) annotation(
     Placement(visible = true, transformation(origin = {30, 10}, extent = {{-10, -8}, {10, 8}}, rotation = 0)));
@@ -31,13 +31,9 @@ model Turbojet_05
     Placement(visible = true, transformation(origin = {-90, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.NzlDefAbyInitCharFixed00 Nzl(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {120, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Sources.MassFlowAtInit MassFlowAtInit(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {-60, -12}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(MassFlowAtInit.port_2, Inlt.port_1) annotation(
-    Line(points = {{-50, -12}, {-40, -12}, {-40, -12}, {-40, -12}}, color = {0, 127, 255}));
-  connect(Flt2Fluid.port_inlet, MassFlowAtInit.port_1) annotation(
-    Line(points = {{-80, -12}, {-70, -12}, {-70, -12}, {-70, -12}}, color = {0, 127, 255}));
+  connect(Flt2Fluid.port_inlet, Inlt.port_1) annotation(
+    Line(points = {{-80, -12}, {-40, -12}, {-40, -12}, {-40, -12}}, color = {0, 127, 255}));
   connect(Nzl.y_Fg, Perf.u_Fg) annotation(
     Line(points = {{126, -20}, {164, -20}, {164, -42}, {180, -42}, {180, -42}}, color = {0, 0, 127}));
   connect(Flt2Fluid.port_amb, Nzl.port_2) annotation(
@@ -73,5 +69,5 @@ equation
     version = "",
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.0166722),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "csv"));
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
 end Turbojet_05;

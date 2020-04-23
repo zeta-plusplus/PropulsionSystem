@@ -253,6 +253,13 @@ protected
   /* ---------------------------------------------
           Non-modifiable parameters
   --------------------------------------------- */
+  parameter Modelica.SIunits.MassFlowRate m_flow_des_1(fixed=false, start=m_flow1_init) annotation(
+    HideResult=false);
+  parameter Modelica.SIunits.Pressure pDes_1(fixed=false, start=p1_init) annotation(
+    HideResult=false);
+  parameter Modelica.SIunits.Temperature Tdes_1(fixed=false, start=T1_init) annotation(
+    HideResult=false);
+  
   parameter Real PRdes(fixed=false, start=PR_init) annotation(
     HideResult=false);
   parameter Modelica.SIunits.Area AeThDes(fixed=false, start=AeTh_init) annotation(

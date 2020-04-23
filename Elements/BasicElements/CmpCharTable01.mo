@@ -1,18 +1,18 @@
 within PropulsionSystem.Elements.BasicElements;
 
-model CmpCharTable00
+model CmpCharTable01
   extends PropulsionSystem.BaseClasses.BasicElements.CompressorBase00;
   /********************************************************
-                imports
-      ********************************************************/
+                  imports
+        ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
   /********************************************************
-                Declaration
-      ********************************************************/
+                  Declaration
+        ********************************************************/
   /* ---------------------------------------------
-                switches
-      --------------------------------------------- */
+                  switches
+        --------------------------------------------- */
   parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_PRdes = PropulsionSystem.Types.switches.switchHowToDetVar.param "switch how to determine PRdes" annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
@@ -43,15 +43,11 @@ model CmpCharTable00
   parameter Modelica.Blocks.Types.Smoothness switchSmoothness_eff = Modelica.Blocks.Types.Smoothness.ContinuousDerivative "" annotation(
     Dialog(group = "switch about interpolation"));
   /* ---------------------------------------------
-                parameters
-      --------------------------------------------- */
+                  parameters
+        --------------------------------------------- */
   inner parameter Real PRdes_paramInput = 10 "pressure ratio, valid only when switchDetermine_PR==param, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
   inner parameter Real effDes_paramInput = 0.80 "adiabatic efficiency, valid only when use_u_eff==false, value fixed through simulation" annotation(
-    Dialog(group = "Component characteristics"));
-  parameter Modelica.SIunits.MassFlowRate m_flow_des_1_paramInput=1.0 "" annotation(
-    Dialog(group = "Component characteristics"));
-  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes_paramInput=3000.0 "" annotation(
     Dialog(group = "Component characteristics"));
   parameter Real NcTblDes_paramInput = 1.0 "design point definition on characteristics table" annotation(
     Dialog(group = "Component characteristics"));
@@ -69,45 +65,17 @@ model CmpCharTable00
   parameter String tableName_eff = "eff_NcRline" "" annotation(
     Dialog(group = "table file read setting"));
   /* ---------------------------------------------
-                Internal variables
-    --------------------------------------------- */
+                  Internal variables
+      --------------------------------------------- */
   Real Rline;
   /* ---------------------------------------------
-                Internal objects
-    --------------------------------------------- */
-  PropulsionSystem.Subelements.CompressorTable_WcPReff_NcRline00 CmpTbl_WcPReff_NcRline(
-    use_tableFile_Wc = use_tableFile_Wc,
-    use_tableFile_PR = use_tableFile_PR, 
-    use_tableFile_eff = use_tableFile_eff, 
-    switchTableDataLocation = switchTableDataLocation, 
-    switchSmoothness_Wc = switchSmoothness_Wc, 
-    switchSmoothness_PR = switchSmoothness_PR, 
-    switchSmoothness_eff = switchSmoothness_eff, 
-    pathName_tableFileInSimExeDir = pathName_tableFileInSimExeDir, 
-    pathName_tableFileInLibPackage = pathName_tableFileInLibPackage, 
-    tableName_Wc = tableName_Wc, 
-    tableName_PR = tableName_PR, 
-    tableName_eff = tableName_eff
-  ) annotation(
+                  Internal objects
+      --------------------------------------------- */
+  PropulsionSystem.Subelements.CompressorTable_WcPReff_NcRline00 CmpTbl_WcPReff_NcRline(use_tableFile_Wc = use_tableFile_Wc, use_tableFile_PR = use_tableFile_PR, use_tableFile_eff = use_tableFile_eff, switchTableDataLocation = switchTableDataLocation, switchSmoothness_Wc = switchSmoothness_Wc, switchSmoothness_PR = switchSmoothness_PR, switchSmoothness_eff = switchSmoothness_eff, pathName_tableFileInSimExeDir = pathName_tableFileInSimExeDir, pathName_tableFileInLibPackage = pathName_tableFileInLibPackage, tableName_Wc = tableName_Wc, tableName_PR = tableName_PR, tableName_eff = tableName_eff) annotation(
     Placement(visible = true, transformation(origin = {0, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
   PropulsionSystem.Subelements.SclCmp_WcPReff00 SclCmp annotation(
     Placement(visible = true, transformation(origin = {30, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-  PropulsionSystem.Subelements.ScalerDesCmp_WcPReffNc00 ScalerDesCmp(
-    use_tableFile_Wc = use_tableFile_Wc,
-    use_tableFile_PR = use_tableFile_PR, 
-    use_tableFile_eff = use_tableFile_eff, 
-    switchTableDataLocation = switchTableDataLocation, 
-    switchSmoothness_Wc = switchSmoothness_Wc, 
-    switchSmoothness_PR = switchSmoothness_PR, 
-    switchSmoothness_eff = switchSmoothness_eff, 
-    pathName_tableFileInSimExeDir = pathName_tableFileInSimExeDir, 
-    pathName_tableFileInLibPackage = pathName_tableFileInLibPackage, 
-    tableName_Wc = tableName_Wc, 
-    tableName_PR = tableName_PR, 
-    tableName_eff = tableName_eff
-  ) annotation(
+  PropulsionSystem.Subelements.ScalerDesCmp_WcPReffNc00 ScalerDesCmp(use_tableFile_Wc = use_tableFile_Wc, use_tableFile_PR = use_tableFile_PR, use_tableFile_eff = use_tableFile_eff, switchTableDataLocation = switchTableDataLocation, switchSmoothness_Wc = switchSmoothness_Wc, switchSmoothness_PR = switchSmoothness_PR, switchSmoothness_eff = switchSmoothness_eff, pathName_tableFileInSimExeDir = pathName_tableFileInSimExeDir, pathName_tableFileInLibPackage = pathName_tableFileInLibPackage, tableName_Wc = tableName_Wc, tableName_PR = tableName_PR, tableName_eff = tableName_eff) annotation(
     Placement(visible = true, transformation(origin = {-70, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Division division_NcTbl annotation(
     Placement(visible = true, transformation(origin = {-30, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -118,8 +86,8 @@ initial equation
   --------------------------------------------- */
   pDes_1 = fluid_1.p;
   Tdes_1 = fluid_1.T;
-  NmechDes = NmechDes_paramInput;
-  m_flow_des_1 = m_flow_des_1_paramInput;
+  NmechDes = Nmech;
+  m_flow_des_1 = port_1.m_flow;
 //--------------------
   if switchDetermine_PRdes == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     PRdes = PRdes_paramInput;
@@ -190,4 +158,4 @@ equation
 </html>"),
     Diagram,
     __OpenModelica_commandLineOptions = "");
-end CmpCharTable00;
+end CmpCharTable01;
