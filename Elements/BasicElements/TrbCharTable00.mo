@@ -18,13 +18,33 @@ model TrbCharTable00
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = true);
+  parameter Boolean use_u_s_WcAud = false "" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true),
+    Dialog(group = "switch"));
+  parameter Boolean use_u_s_effAud = false "" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true),
+    Dialog(group = "switch"));
+  parameter Boolean use_u_a_WcAud = false "" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true),
+    Dialog(group = "switch"));
+  parameter Boolean use_u_a_effAud = false "" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true),
+    Dialog(group = "switch"));
   //----------
-  parameter Boolean use_tableFile_Wc = false "" annotation(
+  parameter Boolean use_tableFile_Wc = true "" annotation(
     Evaluate = true,
     HideResult = true,
     choices(checkBox = true),
     Dialog(group = "switch about table file reading"));
-  parameter Boolean use_tableFile_eff = false "" annotation(
+  parameter Boolean use_tableFile_eff = true "" annotation(
     Evaluate = true,
     HideResult = true,
     choices(checkBox = true),
@@ -42,15 +62,16 @@ model TrbCharTable00
     Dialog(group = "Component characteristics"));
   inner parameter Real effDes_paramInput = 0.80 "adiabatic efficiency, valid only when use_u_eff==false, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
-  parameter Modelica.SIunits.MassFlowRate m_flow_des_1_paramInput=1.0 "" annotation(
-    Dialog(group = "Component characteristics"));
-  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes_paramInput=3000.0 "" annotation(
-    Dialog(group = "Component characteristics"));
   
+  //----------
+  parameter Modelica.SIunits.MassFlowRate m_flow_des_1_paramInput=1.0 "" annotation(
+    Dialog(group = "Component sizing"));
+  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes_paramInput=3000.0 "" annotation(
+    Dialog(group = "Component sizing"));
   parameter Real NcTblDes_paramInput = 1.0 "design point definition on characteristics table" annotation(
-    Dialog(group = "Component characteristics"));
+    Dialog(group = "Component sizing"));
   parameter Real PRtblDes_paramInput = 6.0 "design point definition on table" annotation(
-    Dialog(group = "Component characteristics"));
+    Dialog(group = "Component sizing"));
   //----------
   parameter String pathName_tableFileInSimExeDir = "./tableData/table_Compressor_WcPReff_NcRline00.txt" "relative path under sim. exe. file directory" annotation(
     Dialog(group = "table file read setting"));
@@ -61,6 +82,14 @@ model TrbCharTable00
   parameter String tableName_eff = "eff_NcRline" "" annotation(
     Dialog(group = "table file read setting"));
   
+  
+  /* ---------------------------------------------
+                  Internal variables
+  --------------------------------------------- */
+  Real s_WcAud;
+  Real s_effAud;
+  Real a_WcAud;
+  Real a_effAud;
   
   
   /* ---------------------------------------------
@@ -112,20 +141,35 @@ model TrbCharTable00
   
   
   
-  
   /* ---------------------------------------------
-            Interface   
-    --------------------------------------------- */
+                  Interface
+  --------------------------------------------- */
+  input Modelica.Blocks.Interfaces.RealInput u_s_WcAud if use_u_s_WcAud "" annotation(
+    Placement(visible = true, transformation(origin = {-100, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-60, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  input Modelica.Blocks.Interfaces.RealInput u_s_effAud if use_u_s_effAud "" annotation(
+    Placement(visible = true, transformation(origin = {-20, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {20, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  input Modelica.Blocks.Interfaces.RealInput u_a_WcAud if use_u_a_WcAud "" annotation(
+    Placement(visible = true, transformation(origin = {-60, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-20, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  input Modelica.Blocks.Interfaces.RealInput u_a_effAud if use_u_a_effAud "" annotation(
+    Placement(visible = true, transformation(origin = {20, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {60, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   //********************************************************************************
-initial equation
-/* ---------------------------------------------
+initial algorithm
+  /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  m_flow_des_1 = m_flow_des_1_paramInput;
+  m_flow_des_1 := m_flow_des_1_paramInput;
+  NmechDes := NmechDes_paramInput;
+  effDes := effDes_paramInput;
+  
+  
+initial equation
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
   pDes_1 = fluid_1.p;
   Tdes_1 = fluid_1.T;
-  NmechDes = NmechDes_paramInput;
-//--------------------
+  
+  //--------------------
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     PRdes = PRdes_paramInput;
   elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
@@ -133,10 +177,41 @@ initial equation
   else
     PRdes = PRdes_paramInput;
   end if;
-//--------------------
-  effDes = effDes_paramInput;
+  //--------------------
+  
 algorithm
-//##### none #####
+  /* ---------------------------------------------
+    interface
+  --------------------------------------------- */
+  //-- scalers --
+  //--------------------
+  if(use_u_s_WcAud==false)then
+    s_WcAud:=1.0;
+  elseif(use_u_s_WcAud==true)then
+    s_WcAud:=u_s_WcAud;
+  end if; 
+  //--------------------
+  if(use_u_s_effAud==false)then
+    s_effAud:=1.0;
+  elseif(use_u_s_effAud==true)then
+    s_effAud:=u_s_effAud;
+  end if; 
+  
+  //-- adders --
+  //--------------------
+  if(use_u_a_WcAud==false)then
+    a_WcAud:=0.0;
+  elseif(use_u_a_WcAud==true)then
+    a_WcAud:=u_a_WcAud;
+  end if; 
+  //--------------------
+  if(use_u_a_effAud==false)then
+    a_effAud:=0.0;
+  elseif(use_u_a_effAud==true)then
+    a_effAud:=u_a_effAud;
+  end if;
+  
+  
 equation
   connect(feedback_PRtbl.y, division_PRtbl.u1) annotation(
     Line(points = {{-50, 25}, {-44.5, 25}, {-44.5, 28}, {-40, 28}}, color = {0, 0, 127}));
@@ -173,9 +248,11 @@ equation
   division_NcTbl.u1 = Nc_1;
   feedback_PRtbl.u1 = PR;
   //--------------------
-  //eff = effDes;
-  eff=SclTrb.y_effScld;
-  Wc_1= SclTrb.y_WcScld;
+  /* ---------------------------------------------
+    component characteristics
+  --------------------------------------------- */
+  eff=SclTrb.y_effScld*s_effAud+a_effAud;
+  Wc_1= SclTrb.y_WcScld*s_WcAud+a_WcAud;
   
 /********************************************************
   Graphics

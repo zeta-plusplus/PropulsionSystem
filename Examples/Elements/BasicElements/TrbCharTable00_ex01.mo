@@ -18,7 +18,7 @@ model TrbCharTable00_ex01
     Placement(visible = true, transformation(origin = {80, -70}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(origin = {-30, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharTable00 Trb(redeclare package Medium = engineAir) annotation(
+  PropulsionSystem.Elements.BasicElements.TrbCharTable00 Trb(redeclare package Medium = engineAir, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {40, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   FluidSystemComponents.Utilities.VariableBySolver VarBySolver annotation(
     Placement(visible = true, transformation(origin = {130, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
@@ -26,7 +26,7 @@ model TrbCharTable00_ex01
     Placement(visible = true, transformation(origin = {-40, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
     Placement(visible = true, transformation(origin = {-70, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 10, height = -1000, offset = 9000, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 10, height = -100, offset = 3000, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-110, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_pin(duration = 10, height = 5 * 101.325 * 1000, offset = 20 * 101.325 * 1000, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-50, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

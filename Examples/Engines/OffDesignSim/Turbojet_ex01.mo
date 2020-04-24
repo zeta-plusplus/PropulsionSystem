@@ -69,5 +69,5 @@ equation
     version = "",
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.0166722),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "csv"));
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
 end Turbojet_ex01;
