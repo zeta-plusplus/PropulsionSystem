@@ -25,23 +25,23 @@ block SclCmp_WcPReff00
   /* ---------------------------------------------
             Interface
     --------------------------------------------- */
-  Modelica.Blocks.Interfaces.RealInput u_Wc annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_Wc annotation(
     Placement(visible = true, transformation(origin = {-120, 60}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_PR annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_PR annotation(
     Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_eff annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_eff annotation(
     Placement(visible = true, transformation(origin = {-120, -62}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_WcScld annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_WcScld annotation(
     Placement(visible = true, transformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_PRscld annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_PRscld annotation(
     Placement(visible = true, transformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_effScld annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_effScld annotation(
     Placement(visible = true, transformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_s_Wc annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_s_Wc annotation(
     Placement(visible = true, transformation(origin = {-60, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {-60, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Interfaces.RealInput u_s_PR annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_s_PR annotation(
     Placement(visible = true, transformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Interfaces.RealInput u_s_eff annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_s_eff annotation(
     Placement(visible = true, transformation(origin = {40, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {60, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
     PropulsionSystem.Types.SubelementBus subelementBus1 annotation(
     Placement(visible = true, transformation(origin = {-70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -52,12 +52,14 @@ protected
   Modelica.Blocks.Sources.Constant const1(k = 1) annotation(
     Placement(visible = true, transformation(origin = {20, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(u_s_Wc, product1.u1) annotation(
+    Line(points = {{-60, 120}, {-60, 66}, {58, 66}}, color = {0, 0, 127}));
+  connect(u_s_eff, product3.u1) annotation(
+    Line(points = {{40, 120}, {40, -54}, {58, -54}}, color = {0, 0, 127}));
   connect(product3.y, y_effScld) annotation(
     Line(points = {{82, -60}, {102, -60}, {102, -60}, {110, -60}}, color = {0, 0, 127}));
   connect(u_eff, product3.u2) annotation(
     Line(points = {{-120, -62}, {-86, -62}, {-86, -66}, {58, -66}, {58, -66}}, color = {0, 0, 127}));
-  connect(u_s_eff, product3.u1) annotation(
-    Line(points = {{40, 120}, {40, 120}, {40, -54}, {58, -54}, {58, -54}}, color = {0, 0, 127}));
   connect(add1.y, y_PRscld) annotation(
     Line(points = {{82, 0}, {104, 0}, {104, 0}, {110, 0}}, color = {0, 0, 127}));
   connect(const1.y, add1.u2) annotation(
@@ -75,9 +77,7 @@ equation
   connect(product1.y, y_WcScld) annotation(
     Line(points = {{82, 60}, {104, 60}, {104, 60}, {110, 60}}, color = {0, 0, 127}));
   connect(u_Wc, product1.u2) annotation(
-    Line(points = {{-120, 60}, {-74, 60}, {-74, 54}, {58, 54}, {58, 54}}, color = {0, 0, 127}));
-  connect(u_s_Wc, product1.u1) annotation(
-    Line(points = {{-60, 120}, {-62, 120}, {-62, 66}, {58, 66}, {58, 66}}, color = {0, 0, 127}));  
+    Line(points = {{-120, 60}, {-74, 60}, {-74, 54}, {58, 54}, {58, 54}}, color = {0, 0, 127}));  
 annotation(
     defaultComponentName="SclCmp",
     Icon(graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {-2, -88}, extent = {{-98, 8}, {102, -12}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)),

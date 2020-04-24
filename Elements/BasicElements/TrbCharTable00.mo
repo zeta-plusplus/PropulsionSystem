@@ -23,12 +23,12 @@ model TrbCharTable00
     HideResult = true,
     choices(checkBox = true),
     Dialog(group = "switch"));
-  parameter Boolean use_u_s_effAud = false "" annotation(
+  parameter Boolean use_u_a_WcAud = false "" annotation(
     Evaluate = true,
     HideResult = true,
     choices(checkBox = true),
     Dialog(group = "switch"));
-  parameter Boolean use_u_a_WcAud = false "" annotation(
+  parameter Boolean use_u_s_effAud = false "" annotation(
     Evaluate = true,
     HideResult = true,
     choices(checkBox = true),

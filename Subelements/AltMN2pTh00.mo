@@ -28,7 +28,6 @@ block AltMN2pTh00
     Dialog(tab = "Initialization", group = "fluid2Inlet"));
   parameter Modelica.SIunits.SpecificEnthalpy h2Inlet_init(displayUnit = "J/kg") = T2Inlet_init*1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid2Inlet"));
-  
   //--- fluidAmb ---
   parameter Modelica.SIunits.MassFlowRate m_flowAmb_init(displayUnit = "kg/s") = -1.0 * m_flow2Inlet_init "" annotation(
     Dialog(tab = "Initialization", group = "fluidAmb"));
@@ -38,7 +37,6 @@ block AltMN2pTh00
     Dialog(tab = "Initialization", group = "fluidAmb"));
   parameter Modelica.SIunits.SpecificEnthalpy hAmb_init(displayUnit = "J/kg") = Tamb_init*1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluidAmb"));
-  
   //--- others ---
   parameter Real MN_init=0.01 "" annotation(
     Dialog(tab = "Initialization", group = "others")
@@ -85,8 +83,6 @@ block AltMN2pTh00
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   //----------
-  
-  
   /* ---------------------------------------------
           Internal objects
   --------------------------------------------- */
@@ -113,33 +109,30 @@ block AltMN2pTh00
     state.T(start=Tamb_init)
   ) "flow station of static, standard condition";
   //----------
-  
-  
-  
   /* ---------------------------------------------
           Interface
   --------------------------------------------- */
-  Modelica.Blocks.Interfaces.RealInput u_alt(quantity = "Length", unit = "m", displayUnit = "m") "[m], flight altitude" annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_alt(quantity = "Length", unit = "m", displayUnit = "m") "[m], flight altitude" annotation(
     Placement(visible = true, transformation(origin = {-120, 80}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_MN "[nond], flight mach number" annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_MN "[nond], flight mach number" annotation(
     Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_dTamb(quantity = "ThermodyamicTemperature", unit = "K", displayUnit = "K") "[K], temperature difference from standard atmosphere" annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_dTamb(quantity = "ThermodyamicTemperature", unit = "K", displayUnit = "K") "[K], temperature difference from standard atmosphere" annotation(
     Placement(visible = true, transformation(origin = {-120, -40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_X[Medium.nX] "[nond], fluid composition" annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_X[Medium.nX] "[nond], fluid composition" annotation(
     Placement(visible = true, transformation(origin = {-120, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_pAmb(quantity = "Pressure", unit = "Pa", displayUnit = "bar") "[Pa], ambient pressure" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_pAmb(quantity = "Pressure", unit = "Pa", displayUnit = "bar") "[Pa], ambient pressure" annotation(
     Placement(visible = true, transformation(origin = {110, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_Tamb(quantity = "Temperature", unit = "K", displayUnit = "degC") "[K], ambient temperature" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_Tamb(quantity = "Temperature", unit = "K", displayUnit = "degC") "[K], ambient temperature" annotation(
     Placement(visible = true, transformation(origin = {110, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_hAmb(quantity = "SpecificEnthalpy", unit = "J/kg", displayUnit = "J/kg") "[J/kg], ambient specific enthalpy" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_hAmb(quantity = "SpecificEnthalpy", unit = "J/kg", displayUnit = "J/kg") "[J/kg], ambient specific enthalpy" annotation(
     Placement(visible = true, transformation(origin = {110, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_pTot(quantity = "Pressure", unit = "Pa", displayUnit = "bar") "[Pa], total pressure of free stream" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_pTot(quantity = "Pressure", unit = "Pa", displayUnit = "bar") "[Pa], total pressure of free stream" annotation(
     Placement(visible = true, transformation(origin = {110, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_Ttot(quantity = "Temperature", unit = "K", displayUnit = "degC") "[K], total temperature of free stream" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_Ttot(quantity = "Temperature", unit = "K", displayUnit = "degC") "[K], total temperature of free stream" annotation(
     Placement(visible = true, transformation(origin = {110, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_hTot(quantity = "SpecificEnthalpy", unit = "J/kg", displayUnit = "J/kg") "[J/kg], total specific enthalpy of free stream" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_hTot(quantity = "SpecificEnthalpy", unit = "J/kg", displayUnit = "J/kg") "[J/kg], total specific enthalpy of free stream" annotation(
     Placement(visible = true, transformation(origin = {110, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_V_inf(quantity = "Velocity", unit = "m/s", displayUnit = "m/s") "[m/s], free stream velocity" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_V_inf(quantity = "Velocity", unit = "m/s", displayUnit = "m/s") "[m/s], free stream velocity" annotation(
     Placement(visible = true, transformation(origin = {110, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.SubelementBus subelementBus1 annotation(
     Placement(visible = true, transformation(origin = {100, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

@@ -96,27 +96,27 @@ block ScalerDesCmp_WcPReffNc00
   /* ---------------------------------------------
             Interface
   --------------------------------------------- */
-  Modelica.Blocks.Interfaces.RealInput u_NcTblDes annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_NcTblDes annotation(
     Placement(visible = true, transformation(origin = {-80, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {-80, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Interfaces.RealInput u_RlineTblDes annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_RlineTblDes annotation(
     Placement(visible = true, transformation(origin = {-40, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {-40, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Interfaces.RealInput u_NcDes annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_NcDes annotation(
     Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_WcDes annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_WcDes annotation(
     Placement(visible = true, transformation(origin = {-120, -40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_PRdes annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_PRdes annotation(
     Placement(visible = true, transformation(origin = {-120, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_effDes annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_effDes annotation(
     Placement(visible = true, transformation(origin = {-120, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.SubelementBus subelementBus1 annotation(
     Placement(visible = true, transformation(origin = {0, -160}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-80, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_s_NcDes annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_s_NcDes annotation(
     Placement(visible = true, transformation(origin = {210, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_s_WcDes annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_s_WcDes annotation(
     Placement(visible = true, transformation(origin = {210, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_s_PRdes annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_s_PRdes annotation(
     Placement(visible = true, transformation(origin = {210, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_s_effDes annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_s_effDes annotation(
     Placement(visible = true, transformation(origin = {210, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
 protected

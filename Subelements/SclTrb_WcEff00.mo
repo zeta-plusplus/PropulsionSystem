@@ -18,17 +18,17 @@ block SclTrb_WcEff00
   /* ---------------------------------------------
               Interface
   --------------------------------------------- */
-  Modelica.Blocks.Interfaces.RealInput u_Wc annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_Wc annotation(
     Placement(visible = true, transformation(origin = {-120, 60}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_eff annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_eff annotation(
     Placement(visible = true, transformation(origin = {-120, -62}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_WcScld annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_WcScld annotation(
     Placement(visible = true, transformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_effScld annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_effScld annotation(
     Placement(visible = true, transformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_s_Wc annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_s_Wc annotation(
     Placement(visible = true, transformation(origin = {-60, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {-40, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Interfaces.RealInput u_s_eff annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_s_eff annotation(
     Placement(visible = true, transformation(origin = {40, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {40, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Types.SubelementBus subelementBus1 annotation(
     Placement(visible = true, transformation(origin = {-70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

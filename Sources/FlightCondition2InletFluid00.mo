@@ -131,15 +131,19 @@ model FlightCondition2InletFluid00
   /* ---------------------------------------------
             Interface
     --------------------------------------------- */
-  Modelica.Blocks.Interfaces.RealInput u_alt(quantity = "Length", unit = "m", displayUnit = "m") if use_u_alt "flight altitude, valid only when use_u_alt==true" annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_alt(
+    quantity = "Length", unit = "m", displayUnit = "m"
+  ) if use_u_alt "flight altitude, valid only when use_u_alt==true" annotation(
     Placement(visible = true, transformation(origin = {-120, 80}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_MN if use_u_MN "flight mach number, valid only when use_u_MN==true" annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_MN if use_u_MN "flight mach number, valid only when use_u_MN==true" annotation(
     Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_dTamb(quantity = "ThermodynamicTemperature", unit = "K", displayUnit = "K") if use_u_dTamb "temperature difference from standard atmospere, valid only when use_u_dTamb==true" annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_dTamb(
+    quantity = "ThermodynamicTemperature", unit = "K", displayUnit = "K"
+  ) if use_u_dTamb "temperature difference from standard atmospere, valid only when use_u_dTamb==true" annotation(
     Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_X_fluid[Medium.nX] if use_u_X "composition of fluid, valid only when use_u_X==true" annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_X_fluid[Medium.nX] if use_u_X "composition of fluid, valid only when use_u_X==true" annotation(
     Placement(visible = true, transformation(origin = {-120, -40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_C_fluid[Medium.nC] if use_u_C "trace substance of fluid, valid only when use_u_C==true" annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_C_fluid[Medium.nC] if use_u_C "trace substance of fluid, valid only when use_u_C==true" annotation(
     Placement(visible = true, transformation(origin = {-120, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_b port_amb(
     redeclare package Medium = Medium,
@@ -155,7 +159,9 @@ model FlightCondition2InletFluid00
     p(start=p2Inlet_init)
   ) annotation(
     Placement(visible = true, transformation(origin = {100, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_V_inf(quantity="Velocity", unit="m/s",displayUnit="m/s") "[m/s], free stream velocity" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_V_inf(
+    quantity="Velocity", unit="m/s",displayUnit="m/s"
+  ) "[m/s], free stream velocity" annotation(
     Placement(visible = true, transformation(origin = {110, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   

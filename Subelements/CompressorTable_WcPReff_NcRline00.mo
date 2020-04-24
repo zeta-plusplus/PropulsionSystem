@@ -107,15 +107,15 @@ block CompressorTable_WcPReff_NcRline00
   --------------------------------------------- */
   PropulsionSystem.Types.SubelementBus subelementBus1 annotation(
     Placement(visible = true, transformation(origin = {-90, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-90, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_NcTbl annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_NcTbl annotation(
     Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_RlineTbl annotation(
+  input Modelica.Blocks.Interfaces.RealInput u_RlineTbl annotation(
     Placement(visible = true, transformation(origin = {-120, -40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_Wc(quantity="MassFlowRate", unit="kg/s", displayUnit="kg/s") "[kg/s]" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_Wc(quantity="MassFlowRate", unit="kg/s", displayUnit="kg/s") "[kg/s]" annotation(
     Placement(visible = true, transformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_PR "[nond]" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_PR "[nond]" annotation(
     Placement(visible = true, transformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput y_eff "[nond]" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_eff "[nond]" annotation(
     Placement(visible = true, transformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
 protected
