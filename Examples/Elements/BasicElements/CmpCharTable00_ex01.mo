@@ -20,7 +20,7 @@ model CmpCharTable00_ex01
     Placement(visible = true, transformation(origin = {70, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint(use_u_targetVal = true) annotation(
     Placement(visible = true, transformation(origin = {50, -10}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Sources.Ramp ramp_pwr(duration = 10, height = 100 * 1000, offset = 3000 * 1000, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_pwr(duration = 10, height = 10 * 1000, offset = 300 * 1000, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {50, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   FluidSystemComponents.Utilities.VariableBySolver VarBySolver annotation(
     Placement(visible = true, transformation(origin = {110, 60}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
@@ -28,7 +28,7 @@ model CmpCharTable00_ex01
     Placement(visible = true, transformation(origin = {70, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
     Placement(visible = true, transformation(origin = {100, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 10, height = 100, offset = 9000, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 10, height = 100, offset = 3000, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {130, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 equation
   connect(from_rpm1.u, ramp_Nmech.y) annotation(

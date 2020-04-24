@@ -19,17 +19,17 @@ model CmpCharTable00
     Evaluate = true,
     HideResult = true);
   //----------
-  parameter Boolean use_tableFile_Wc = false "" annotation(
+  parameter Boolean use_tableFile_Wc = true "" annotation(
     Evaluate = true,
     HideResult = true,
     choices(checkBox = true),
     Dialog(group = "switch about table file reading"));
-  parameter Boolean use_tableFile_PR = false "" annotation(
+  parameter Boolean use_tableFile_PR = true "" annotation(
     Evaluate = true,
     HideResult = true,
     choices(checkBox = true),
     Dialog(group = "switch about table file reading"));
-  parameter Boolean use_tableFile_eff = false "" annotation(
+  parameter Boolean use_tableFile_eff = true "" annotation(
     Evaluate = true,
     HideResult = true,
     choices(checkBox = true),
@@ -44,19 +44,21 @@ model CmpCharTable00
     Dialog(group = "switch about interpolation"));
   /* ---------------------------------------------
                 parameters
-      --------------------------------------------- */
+  --------------------------------------------- */
   inner parameter Real PRdes_paramInput = 10 "pressure ratio, valid only when switchDetermine_PR==param, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
   inner parameter Real effDes_paramInput = 0.80 "adiabatic efficiency, valid only when use_u_eff==false, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
+  //----------
   parameter Modelica.SIunits.MassFlowRate m_flow_des_1_paramInput=1.0 "" annotation(
-    Dialog(group = "Component characteristics"));
+    Dialog(group = "Component sizing"));
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes_paramInput=3000.0 "" annotation(
-    Dialog(group = "Component characteristics"));
+    Dialog(group = "Component sizing"));
   parameter Real NcTblDes_paramInput = 1.0 "design point definition on characteristics table" annotation(
-    Dialog(group = "Component characteristics"));
+    Dialog(group = "Component sizing"));
   parameter Real RlineTblDes_paramInput = Modelica.Constants.pi / 4.0 "design point definition on table" annotation(
-    Dialog(group = "Component characteristics"));
+    Dialog(group = "Component sizing"));
+  
   //----------
   parameter String pathName_tableFileInSimExeDir = "./tableData/table_Compressor_WcPReff_NcRline00.txt" "relative path under sim. exe. file directory" annotation(
     Dialog(group = "table file read setting"));
