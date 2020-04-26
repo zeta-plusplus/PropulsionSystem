@@ -51,13 +51,19 @@ partial model CombustorBase00
     Dialog(tab = "Initialization", group = "fluid_2"));
   parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = T2_init*1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
+  //--- others ---
+  parameter Real effComb_init=0.999 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
   
   
   
   /* ---------------------------------------------
       Internal variables
   --------------------------------------------- */
-  Real effComb;
+  Real effComb(start=effComb_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
   
   

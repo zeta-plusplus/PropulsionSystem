@@ -9,15 +9,22 @@ model CombustorBase02
   import PropulsionSystem.Types.switches;
   /********************************************************
           Declaration
-      ********************************************************/
+  ********************************************************/
   /* ---------------------------------------------
                           Package
-      --------------------------------------------- */
+  --------------------------------------------- */
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation(
     choicesAllMatching = true);
+  
+  
   /* ---------------------------------------------
                           switch
-      --------------------------------------------- */
+  --------------------------------------------- */
+  parameter Boolean allowFlowReversal= false
+    "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
+    annotation(
+      Dialog(tab="Assumptions"), Evaluate=true);
+  
   parameter Boolean printCmd = false "" annotation(
     Evaluate = true,
     HideResult = true,
@@ -34,7 +41,7 @@ model CombustorBase02
     Dialog(tab = "Initialization", group = "fluid_1"));
   parameter Modelica.SIunits.Temperature T1_init(displayUnit = "K") = 800.0 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
-  parameter Modelica.SIunits.SpecificEnthalpy h1_init(displayUnit = "J/kg") = 800 * 1.004 * 1000 "" annotation(
+  parameter Modelica.SIunits.SpecificEnthalpy h1_init(displayUnit = "J/kg") = T1_init * 1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
   //--- fluid_2, port_2 ---
   parameter Modelica.SIunits.MassFlowRate m_flow2_init(displayUnit = "kg/s") = -1.0 * m_flow1_init "" annotation(
@@ -43,24 +50,30 @@ model CombustorBase02
     Dialog(tab = "Initialization", group = "fluid_2"));
   parameter Modelica.SIunits.Temperature T2_init(displayUnit = "K") = 1600 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = 1600*1.004 * 1000 "" annotation(
+  parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = T2_init*1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
   //--- fluid_fuel ---
-  parameter Modelica.SIunits.MassFlowRate m_flow_fuel_init(displayUnit = "kg/s") = 0.01 * m_flow1_init "" annotation(
+  parameter Modelica.SIunits.MassFlowRate m_flow_fuel_init(displayUnit = "kg/s") = 0.03 * m_flow1_init "" annotation(
     Dialog(tab = "Initialization", group = "fluid_fuel"));
   parameter Modelica.SIunits.Pressure pfuel_init(displayUnit = "Pa") = p1_init "" annotation(
     Dialog(tab = "Initialization", group = "fluid_fuel"));
-  parameter Modelica.SIunits.Temperature Tfuel_init(displayUnit = "K") = 288.15 "" annotation(
+  parameter Modelica.SIunits.Temperature Tfuel_init(displayUnit = "K") = 400 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_fuel"));
-  parameter Modelica.SIunits.SpecificEnthalpy hfuel_init(displayUnit = "J/kg") = 600 * 1000 "" annotation(
+  parameter Modelica.SIunits.SpecificEnthalpy hfuel_init(displayUnit = "J/kg") = Tfuel_init * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_fuel"));
+  //--- others ---
+  parameter Real effComb_init=0.999 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
   
   
   
   /* ---------------------------------------------
            Internal variables
   --------------------------------------------- */
-  Real effComb;
+  Real effComb(start=effComb_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
   
 
@@ -69,32 +82,71 @@ model CombustorBase02
   --------------------------------------------- */  
   PropulsionSystem.Subelements.Combustion00 Combustion annotation(
     Placement(visible = true, transformation(origin = {0, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.IdealMixer00 Mixer(redeclare package Medium = Medium) annotation(
+  //-----
+  PropulsionSystem.Elements.BasicElements.IdealMixer00 Mixer(
+    redeclare package Medium = Medium, 
+    T1_init = T1_init, T2_init = Tfuel_init, T3_init = T2_init, 
+    h1_init = h1_init, h2_init = hfuel_init, h3_init = h2_init, 
+    m_flow1_init = m_flow1_init, m_flow2_init = m_flow_fuel_init, m_flow3_init = m_flow2_init, 
+    p1_init = p1_init, p2_init = pfuel_init, p3_init = p2_init
+  ) annotation(
     Placement(visible = true, transformation(origin = {-30, 0}, extent = {{-10, -6}, {10, 6}}, rotation = 0)));
-  Modelica.Fluid.Sensors.MassFlowRate massFlowRate1(redeclare package Medium = Medium) annotation(
+  //-----
+  Modelica.Fluid.Sensors.MassFlowRate massFlowRate1(
+    redeclare package Medium = Medium,
+    port_a(
+      m_flow(start=m_flow_fuel_init, min=if (allowFlowReversal) then -Constants.inf else 0.0),
+      h_outflow(start = hfuel_init),
+      p(start=pfuel_init)
+    ),
+    port_b(
+      m_flow(start=-1.0*m_flow_fuel_init),
+      h_outflow(start = hfuel_init, max=if allowFlowReversal then +Constants.inf else 0.0),
+      p(start=pfuel_init)
+    )
+  ) annotation(
     Placement(visible = true, transformation(origin = {-80, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  //-----
   PropulsionSystem.Elements.BasicElements.HeatInjector00 HeatInjector(redeclare package Medium = Medium) annotation(
     Placement(visible = true, transformation(origin = {30, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow1 annotation(
     Placement(visible = true, transformation(origin = {30, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  
-  Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
-  Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of outlet";
+  Medium.BaseProperties fluid_1(
+    p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init
+  ) "flow station of inlet";
+  Medium.BaseProperties fluid_2(
+    p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init
+  ) "flow station of outlet";
   
   
   
   /* ---------------------------------------------
                      Interface
   --------------------------------------------- */
-  Modelica.Fluid.Interfaces.FluidPort_a port_1(redeclare package Medium = Medium, m_flow(start = m_flow1_init), h_outflow.start = h1_init) annotation(
+  Modelica.Fluid.Interfaces.FluidPort_a port_1(
+    redeclare package Medium = Medium, 
+    m_flow(start = m_flow1_init, min=if (allowFlowReversal) then -Constants.inf else 0.0), 
+    h_outflow(start = h1_init),
+    p(start=p1_init)
+  ) annotation(
     Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_b port_2(redeclare package Medium = Medium, m_flow(start = m_flow2_init), h_outflow.start = h2_init) annotation(
+  Modelica.Fluid.Interfaces.FluidPort_b port_2(
+    redeclare package Medium = Medium, 
+    m_flow(start = m_flow2_init, max=if allowFlowReversal then +Constants.inf else 0.0), 
+    h_outflow(start = h2_init),
+    p(start=p2_init)
+  ) annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_m_flow_fuel(quantity = "MassFlowRate", unit = "kg/s", displayUnit = "kg/s") "[kg/s], mass flow rate of fuel" annotation(
     Placement(visible = true, transformation(origin = {110, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {80, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {-90, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_a port_fuel(redeclare package Medium = Medium, m_flow(start = m_flow_fuel_init), h_outflow.start = hfuel_init) annotation(
+  Modelica.Fluid.Interfaces.FluidPort_a port_fuel(
+    redeclare package Medium = Medium, 
+    m_flow(start = m_flow_fuel_init, min=if (allowFlowReversal) then -Constants.inf else 0.0), 
+    h_outflow(start = hfuel_init),
+    p(start=pfuel_init)
+  ) annotation(
     Placement(visible = true, transformation(origin = {-80, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-80, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   
