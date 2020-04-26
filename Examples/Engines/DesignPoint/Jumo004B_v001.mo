@@ -50,11 +50,11 @@ model Jumo004B_v001
   PropulsionSystem.Elements.BasicElements.EnginePerformance00 Perf annotation(
     Placement(visible = true, transformation(origin = {430, -250}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_Tfuel(duration = 10, height = 0, offset = 288.15, startTime = 30) annotation(
-    Placement(visible = true, transformation(origin = {150, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {150, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint2 annotation(
     Placement(visible = true, transformation(origin = {280, 0}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
   FluidSystemComponents.Utilities.VariableBySolver VarBySolver annotation(
-    Placement(visible = true, transformation(origin = {150, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {150, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CombCharFixed02 Comb(redeclare package Medium = engineAir, effComb_paramInput = 0.95) annotation(
     Placement(visible = true, transformation(origin = {240, -40}, extent = {{-20, -16}, {20, 16}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.MotorGeneratorCharFixed00 MotGene annotation(
@@ -66,10 +66,14 @@ model Jumo004B_v001
   PropulsionSystem.Sources.MassFlowSource_T boundary(redeclare package Medium = engineAir, X = {1, 0, 0}, nPorts = 1, use_T_in = true, use_m_flow_in = true) annotation(
     Placement(visible = true, transformation(origin = {190, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(temperature040.port, Trb.port_1) annotation(
+    Line(points = {{270, -40}, {280, -40}, {280, -64}}, color = {0, 127, 255}));
   connect(ramp_Tfuel.y, boundary.T_in) annotation(
-    Line(points = {{162, -20}, {166, -20}, {166, -6}, {178, -6}, {178, -6}}, color = {0, 0, 127}));
+    Line(points = {{161, -10}, {166, -10}, {166, -6}, {178, -6}}, color = {0, 0, 127}));
   connect(VarBySolver.y_independent, boundary.m_flow_in) annotation(
-    Line(points = {{162, 10}, {170, 10}, {170, -2}, {180, -2}, {180, -2}}, color = {0, 0, 127}));
+    Line(points = {{161, 20}, {170, 20}, {170, -2}, {180, -2}}, color = {0, 0, 127}));
+  connect(Cmp.port_2, Duct030.port_1) annotation(
+    Line(points = {{140, -64}, {140, -40}, {160, -40}}, color = {0, 127, 255}));
   connect(boundary.ports[1], Comb.port_fuel) annotation(
     Line(points = {{200, -10}, {224, -10}, {224, -24}, {224, -24}}, color = {0, 127, 255}));
   connect(Constraint2.u_targetValue, ramp_TIT.y) annotation(
@@ -94,8 +98,6 @@ equation
     Line(points = {{260, -40}, {270, -40}}, color = {0, 127, 255}));
   connect(Comb.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
     Line(points = {{256, -58}, {256, -258}, {419, -258}}, color = {0, 0, 127}));
-  connect(temperature040.port, Trb.port_1) annotation(
-    Line(points = {{270, -40}, {270, -64}, {280, -64}}, color = {0, 127, 255}));
   connect(Constraint2.u_variable, temperature040.T) annotation(
     Line(points = {{280, -12}, {280, -30}, {278, -30}}, color = {0, 0, 127}));
   connect(LossRotMech.flange_2, Trb.flange_1) annotation(
@@ -124,8 +126,6 @@ equation
     Line(points = {{80, -64}, {100, -64}, {100, -64}, {100, -64}}, color = {0, 127, 255}));
   connect(massFlowRate010.port_b, Inlt.port_1) annotation(
     Line(points = {{20, -64}, {40, -64}}, color = {0, 127, 255}));
-  connect(Cmp.port_2, Duct030.port_1) annotation(
-    Line(points = {{140, -64}, {152, -64}, {152, -40}, {160, -40}, {160, -40}}, color = {0, 127, 255}));
   connect(Cmp.flange_2, speedSensor1.flange) annotation(
     Line(points = {{140, -80}, {170, -80}, {170, -80}, {170, -80}}));
   annotation(
