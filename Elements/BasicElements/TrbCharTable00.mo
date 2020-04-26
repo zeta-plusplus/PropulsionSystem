@@ -13,11 +13,6 @@ model TrbCharTable00
   /* ---------------------------------------------
             switches    
     --------------------------------------------- */
-  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated "switch how to determine PR" annotation(
-    Dialog(group = "switch"),
-    choicesAllMatching = true,
-    Evaluate = true,
-    HideResult = true);
   parameter Boolean use_u_s_WcAud = false "" annotation(
     Evaluate = true,
     HideResult = true,
@@ -168,16 +163,8 @@ initial equation
   --------------------------------------------- */
   pDes_1 = fluid_1.p;
   Tdes_1 = fluid_1.T;
+  PRdes = PR;
   
-  //--------------------
-  if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
-    PRdes = PRdes_paramInput;
-  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
-    PRdes = PR;
-  else
-    PRdes = PRdes_paramInput;
-  end if;
-  //--------------------
   
 algorithm
   /* ---------------------------------------------

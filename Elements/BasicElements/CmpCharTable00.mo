@@ -13,12 +13,7 @@ model CmpCharTable00//**********************************************************
         ********************************************************/
   /* ---------------------------------------------
                   switches
-        --------------------------------------------- */
-  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_PRdes = PropulsionSystem.Types.switches.switchHowToDetVar.param "switch how to determine PRdes" annotation(
-    Dialog(group = "switch"),
-    choicesAllMatching = true,
-    Evaluate = true,
-    HideResult = true);
+  --------------------------------------------- */
   parameter Boolean use_u_s_WcAud = false "" annotation(
     Evaluate = true,
     HideResult = true,
@@ -144,21 +139,14 @@ initial algorithm
   NmechDes := NmechDes_paramInput;
   m_flow_des_1 := m_flow_des_1_paramInput;
   effDes := effDes_paramInput;
+  PRdes := PRdes_paramInput;
 initial equation
 /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
   pDes_1 = fluid_1.p;
   Tdes_1 = fluid_1.T;
-//--------------------
-  if switchDetermine_PRdes == PropulsionSystem.Types.switches.switchHowToDetVar.param then
-    PRdes = PRdes_paramInput;
-  elseif switchDetermine_PRdes == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
-    PRdes = PR;
-  else
-    PRdes = PRdes_paramInput;
-  end if;
-//--------------------
+  
 algorithm
   /* ---------------------------------------------
     interface
