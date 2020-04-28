@@ -15,6 +15,7 @@ InltCharFixed00
 DuctCharFixed00
 IdealSpltCharFixed00
 IdealMixer00
+IdealMixer01
 PropActDiskCharFixed00
 MotorGeneratorCharFixed00
 LossRotMechCharFixed00
@@ -41,4 +42,3 @@ constrain_Nmech
 constrain_T
 constrain_dm
 extractPwr
-IdealMixer01

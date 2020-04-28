@@ -9,6 +9,7 @@ InletBase00
 DuctBase00
 IdealSplitterBase00
 IdealMixerBase00
+IdealMixerBase01
 PropellerActuatorDiskBase00
 MotorGeneratorBase00
 LossRotationalMechanicsBase00
@@ -18,4 +19,3 @@ HeatInjector_Base
 NozzleConv_Base
 Inlet_Base
 Duct_Base
-IdealMixerBase01
