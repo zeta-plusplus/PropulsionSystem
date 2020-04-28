@@ -61,8 +61,20 @@ model CombustorBase02
     Dialog(tab = "Initialization", group = "fluid_fuel"));
   parameter Modelica.SIunits.SpecificEnthalpy hfuel_init(displayUnit = "J/kg") = Tfuel_init * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_fuel"));
+  //--- HeatInjector ---
+  parameter Modelica.SIunits.HeatFlowRate Q_flow_init=m_flow1_init*(h2_init-h1_init) "" annotation(
+    Dialog(tab = "Initialization", group = "HeatInjector"));
+  parameter Modelica.SIunits.Temperature Twall_init= T2_init "" annotation(
+    Dialog(tab = "Initialization", group = "HeatInjector"));
+  
   //--- others ---
   parameter Real effComb_init=0.999 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.SpecificEntropy s_fluid_1_init=7000.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.SpecificEntropy s_fluid_2_init=7800.0 "" annotation(
     Dialog(tab = "Initialization", group = "others")
   );
   
@@ -83,7 +95,7 @@ model CombustorBase02
   PropulsionSystem.Subelements.Combustion00 Combustion annotation(
     Placement(visible = true, transformation(origin = {0, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //-----
-  PropulsionSystem.Elements.BasicElements.IdealMixer00 Mixer(
+  PropulsionSystem.Elements.BasicElements.IdealMixer01 Mixer(
     redeclare package Medium = Medium, 
     T1_init = T1_init, T2_init = Tfuel_init, T3_init = T2_init, 
     h1_init = h1_init, h2_init = hfuel_init, h3_init = h2_init, 
@@ -107,9 +119,14 @@ model CombustorBase02
   ) annotation(
     Placement(visible = true, transformation(origin = {-80, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   //-----
-  PropulsionSystem.Elements.BasicElements.HeatInjector00 HeatInjector(redeclare package Medium = Medium) annotation(
+  PropulsionSystem.Elements.BasicElements.HeatInjector00 HeatInjector(
+    redeclare package Medium = Medium, Q_flow1_init = Q_flow_init, T1_init = T1_init, T2_init = T2_init, Twall1_init = Twall_init, h1_init = h1_init, h2_init = h2_init, m_flow1_init = m_flow1_init, m_flow2_init = m_flow2_init, p1_init = p1_init, p2_init = p2_init, s_fluid_1_init = s_fluid_1_init, s_fluid_2_init = s_fluid_2_init
+  ) annotation(
     Placement(visible = true, transformation(origin = {30, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow1 annotation(
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow1(
+    port(Q_flow(start=-1.0*Q_flow_init), T(start=T2_init)),
+    Q_flow(start=Q_flow_init)
+  ) annotation(
     Placement(visible = true, transformation(origin = {30, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Medium.BaseProperties fluid_1(
     p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init

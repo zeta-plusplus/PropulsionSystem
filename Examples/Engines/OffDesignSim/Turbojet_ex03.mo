@@ -1,6 +1,6 @@
-within PropulsionSystem.Examples.Tests;
+within PropulsionSystem.Examples.Engines.OffDesignSim;
 
-model OffDes_Turbojet_ex03
+model Turbojet_ex03
   extends Modelica.Icons.Example;
   //-----
   //package engineAir = Modelica.Media.Air.DryAirNasa;
@@ -41,17 +41,21 @@ model OffDes_Turbojet_ex03
     Placement(visible = true, transformation(origin = {100, -180}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_Trb_a_effAud(duration = 10, height = 0.00, offset = 0, startTime = 110) annotation(
     Placement(visible = true, transformation(origin = {130, -180}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  PropulsionSystem.Elements.BasicElements.CombCharFixed00 Comb(redeclare package Medium = engineAir) annotation(
+  PropulsionSystem.Elements.BasicElements.CombCharFixed02 Comb(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {39.75, -39.8}, extent = {{-19.75, -15.8}, {19.75, 15.8}}, rotation = 0)));
+  PropulsionSystem.Sources.MassFlowSource_T boundary(redeclare package Medium = engineAir, T = 400, X = {1, 0, 0}, nPorts = 1, use_T_in = false, use_m_flow_in = true) annotation(
+    Placement(visible = true, transformation(origin = {0, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(VarBySolver.y_independent, boundary.m_flow_in) annotation(
+    Line(points = {{-28, 20}, {-22, 20}, {-22, -2}, {-10, -2}, {-10, -2}}, color = {0, 0, 127}));
+  connect(boundary.ports[1], Comb.port_fuel) annotation(
+    Line(points = {{10, -10}, {24, -10}, {24, -24}, {24, -24}}, color = {0, 127, 255}));
   connect(Comb.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
     Line(points = {{56, -58}, {56, -58}, {56, -156}, {238, -156}, {238, -156}}, color = {0, 0, 127}));
-  connect(VarBySolver.y_independent, Comb.u_m_flow_fuel) annotation(
-    Line(points = {{-28, 20}, {-22, 20}, {-22, -32}, {18, -32}, {18, -32}}, color = {0, 0, 127}));
-  connect(Cmp.port_2, Comb.port_1) annotation(
-    Line(points = {{-20, -64}, {-20, -64}, {-20, -40}, {20, -40}, {20, -40}}, color = {0, 127, 255}));
   connect(Comb.port_2, temperature.port) annotation(
     Line(points = {{60, -40}, {80, -40}, {80, -40}, {80, -40}}, color = {0, 127, 255}));
+  connect(Cmp.port_2, Comb.port_1) annotation(
+    Line(points = {{-20, -64}, {-20, -64}, {-20, -40}, {20, -40}, {20, -40}}, color = {0, 127, 255}));
   connect(ramp_Cmp_s_WcAud.y, Cmp.u_s_WcAud) annotation(
     Line(points = {{-72, -138}, {-72, -110}, {-60, -110}, {-60, -98}}, color = {0, 0, 127}));
   connect(ramp_Cmp_a_effAud.y, Cmp.u_a_effAud) annotation(
@@ -92,4 +96,4 @@ equation
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 140, Tolerance = 1e-06, Interval = 0.0466822),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
-end OffDes_Turbojet_ex03;
+end Turbojet_ex03;
