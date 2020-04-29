@@ -229,7 +229,7 @@ partial model TurbineBase00
   
 protected
   /* ---------------------------------------------
-          Non-modifiable parameters
+          Non-modifiable calculated parameters
     --------------------------------------------- */
   parameter Modelica.SIunits.MassFlowRate m_flow_des_1(fixed=false, start=m_flow1_init) annotation(
     HideResult=false);
@@ -248,14 +248,21 @@ protected
   parameter Real effDes(fixed=false, start=eff_init) annotation(
     HideResult=false);
   
+initial algorithm
+  /* ---------------------------------------------
+    determine design point
+  --------------------------------------------- */
+  NcDes_1 := NmechDes / sqrt(Tdes_1 / environment.Tstd);
+  WcDes_1 := m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd);
+  
   
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  NcDes_1 = NmechDes / sqrt(Tdes_1 / environment.Tstd);
+  /*NcDes_1 = NmechDes / sqrt(Tdes_1 / environment.Tstd);
   WcDes_1 = m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd);
-  
+  */
   
       
 algorithm

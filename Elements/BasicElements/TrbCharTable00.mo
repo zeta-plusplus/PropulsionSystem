@@ -155,7 +155,11 @@ initial algorithm
   m_flow_des_1 := m_flow_des_1_paramInput;
   NmechDes := NmechDes_paramInput;
   effDes := effDes_paramInput;
-  
+  /*
+  pDes_1 := fluid_1.p;
+  Tdes_1 := fluid_1.T;
+  PRdes := PR;
+  */
   
 initial equation
   /* ---------------------------------------------
