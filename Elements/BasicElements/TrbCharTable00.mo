@@ -65,7 +65,7 @@ model TrbCharTable00
     Dialog(group = "Component sizing"));
   parameter Real NcTblDes_paramInput = 1.0 "design point definition on characteristics table" annotation(
     Dialog(group = "Component sizing"));
-  parameter Real PRtblDes_paramInput = 6.0 "design point definition on table" annotation(
+  parameter Real PRtblDes_paramInput = 2.0 "design point definition on table" annotation(
     Dialog(group = "Component sizing"));
   //----------
   parameter String pathName_tableFileInSimExeDir = "./tableData/table_Turbine_WcEff_NcPR00.txt" "relative path under sim. exe. file directory" annotation(

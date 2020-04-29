@@ -44,7 +44,7 @@ model NzlDefAbyInitCharFixed00
   parameter Real CvDes_paramInput = 0.99 "flow velocity coefficient, valid only when use_u_Cv==false, value fixed through simulation" annotation(
     Dialog(group = "Characteristics"));
   parameter Modelica.SIunits.MassFlowRate m_flow_des_1_paramInput=1.0 "" annotation(
-    Dialog(group = "Component characteristics"));
+    Dialog(group = "Component sizing"));
   
   
   /* ---------------------------------------------

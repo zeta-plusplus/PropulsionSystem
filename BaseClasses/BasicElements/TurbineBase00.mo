@@ -23,7 +23,7 @@ partial model TurbineBase00
       switch
   --------------------------------------------- */
   parameter Boolean allowAbnormalOperation= false
-    "= true to allow compressor to operate as 'turbine' where PR<=1, false to restrict 1<PR"
+    "= true to allow turbine to operate as 'compressor' where PR<=1, false to restrict 1<PR"
     annotation(
       Dialog(tab="Assumptions"), Evaluate=true);
   parameter Boolean allowFlowReversal= false

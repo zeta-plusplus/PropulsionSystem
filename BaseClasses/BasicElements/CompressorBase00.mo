@@ -210,10 +210,10 @@ partial model CompressorBase00
   inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
   
   Medium.BaseProperties fluid_1(
-    p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init
+    p(start = p1_init), T(start = T1_init), state.p(start = p1_init), state.T(start = T1_init), h(start = h1_init)
   ) "flow station of inlet";
   Medium.BaseProperties fluid_2(
-    p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init
+    p(start = p2_init), T(start = T2_init), state.p(start = p2_init), state.T(start = T2_init), h(start = h2_init)
   ) "flow station of outlet";
   
   
@@ -251,11 +251,20 @@ protected
   /* ---------------------------------------------
           Non-modifiable parameters
     --------------------------------------------- */
-  parameter Modelica.SIunits.MassFlowRate m_flow_des_1(fixed=false, start=m_flow1_init) annotation(
+  parameter Modelica.SIunits.MassFlowRate m_flow_des_1(
+    fixed=false, start=m_flow1_init,
+    min=(0.0+1.0e-10)
+  ) annotation(
     HideResult=false);
-  parameter Modelica.SIunits.Pressure pDes_1(fixed=false, start=p1_init) annotation(
+  parameter Modelica.SIunits.Pressure pDes_1(
+    fixed=false, start=p1_init,
+    min=(0.0+1.0e-10)
+  ) annotation(
     HideResult=false);
-  parameter Modelica.SIunits.Temperature Tdes_1(fixed=false, start=T1_init) annotation(
+  parameter Modelica.SIunits.Temperature Tdes_1(
+    fixed=false, start=T1_init,
+    min=(0.0+1.0e-10)
+  ) annotation(
     HideResult=false);
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false, start=Nmech_init) "mechanical rotation speed, rpm" annotation(
     HideResult=false);

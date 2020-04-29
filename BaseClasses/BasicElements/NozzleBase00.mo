@@ -24,6 +24,10 @@ partial model NozzleBase00
   /* ---------------------------------------------
       switch
   --------------------------------------------- */
+  parameter Boolean allowFlowReversal= false
+    "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
+    annotation(
+      Dialog(tab="Assumptions"), Evaluate=true);
   parameter switchDefineFg switch_defineFg
     =switchDefineFg.FullyExpandedFlow
     "definition of Fg. influence on Cv definition"
@@ -42,13 +46,6 @@ partial model NozzleBase00
     choicesAllMatching = true);
   
   
-  /* ---------------------------------------------
-      switch
-  --------------------------------------------- */
-  parameter Boolean allowFlowReversal= false
-    "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
-    annotation(
-      Dialog(tab="Assumptions"), Evaluate=true);
   
   
   
@@ -157,7 +154,10 @@ partial model NozzleBase00
   Modelica.SIunits.Velocity V_2is(start=V_2is_init) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Real PR(start=PR_init) "" annotation(
+  Real PR(
+    start=PR_init,
+    min=if (allowFlowReversal) then -Constants.inf else (0.0+1.0e-10)
+  ) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   Real CdTh(start=CdTh_init) "" annotation(
@@ -173,7 +173,10 @@ partial model NozzleBase00
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   //-throat-
-  Modelica.SIunits.MassFlowRate m_flow_th(start=m_flow1_init) "" annotation(
+  Modelica.SIunits.MassFlowRate m_flow_th(
+    start=m_flow1_init,
+    min=if (allowFlowReversal) then -Constants.inf else (0.0+1.0e-10)
+  ) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   Modelica.SIunits.Area AmechTh(start=AmechTh_init) "" annotation(
@@ -182,18 +185,27 @@ partial model NozzleBase00
   Modelica.SIunits.Area AeTh(start=AeTh_init) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.Velocity V_th(start=V_th_init) "" annotation(
+  Modelica.SIunits.Velocity V_th(
+    start=V_th_init,
+    min=if (allowFlowReversal) then -Constants.inf else (0.0+1.0e-10)
+  ) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   Real MNth(start=MNth_init) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   //--full expansion--
-  Modelica.SIunits.Velocity V_th_fullExp(start=V_th_fullExp_init) "" annotation(
+  Modelica.SIunits.Velocity V_th_fullExp(
+    start=V_th_fullExp_init,
+    min=if (allowFlowReversal) then -Constants.inf else (0.0+1.0e-10)
+  ) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   //--choked--
-  Modelica.SIunits.Velocity V_th_choked(start=V_th_choked_init) "" annotation(
+  Modelica.SIunits.Velocity V_th_choked(
+    start=V_th_choked_init,
+    min=if (allowFlowReversal) then -Constants.inf else (0.0+1.0e-10)
+  ) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
@@ -382,18 +394,6 @@ equation
   elseif (switch_defineFg == switchDefineFg.ThroatFlowAndPressure) then
     Fg = Cv*V_th*m_flow_th + (fluidStat_th.p - fluid_2.p) * AeTh;
   end if;
-  
-  
-  /* ---------------------------------------------
-  reinit invalid state variables
-  --------------------------------------------- */
-  when fluidStat_th_fullExp.p <= 0.0 then
-    reinit(fluidStat_th_fullExp.p, -1.0 * fluidStat_th_fullExp.p);
-  end when;
-  
-  when fluidStat_th.p <= 0.0 then
-    reinit(fluidStat_th.p, -1.0 * fluidStat_th.p);
-  end when;
   
   
 /********************************************************
