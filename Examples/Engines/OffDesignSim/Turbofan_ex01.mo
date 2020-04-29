@@ -49,15 +49,11 @@ model Turbofan_ex01
     Placement(visible = true, transformation(origin = {200, 120}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Math.Add add1 annotation(
     Placement(visible = true, transformation(origin = {410, -130}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 0.1, a(fixed = true, start = 0), stateSelect = StateSelect.always, w(start = 9000 * Modelica.Constants.pi * 2 / 60))  annotation(
-    Placement(visible = true, transformation(origin = {80, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(Cmp025.flange_2, Trb041.flange_1) annotation(
+    Line(points = {{20, -100}, {180, -100}, {180, -100}, {180, -100}}));
   connect(Cmp120.flange_2, Trb049.flange_1) annotation(
     Line(points = {{-120, 40}, {262, 40}, {262, 40}, {260, 40}}));
-  connect(inertia1.flange_b, Trb041.flange_1) annotation(
-    Line(points = {{90, -100}, {180, -100}, {180, -100}, {180, -100}}));
-  connect(Cmp025.flange_2, inertia1.flange_a) annotation(
-    Line(points = {{20, -100}, {68, -100}, {68, -100}, {70, -100}}));
   connect(Inlt.port_2, Cmp025.port_1) annotation(
     Line(points = {{-220, 16}, {-196, 16}, {-196, -84}, {-20, -84}}, color = {0, 127, 255}));
   connect(Cmp120.port_2, Nzl170.port_1) annotation(
