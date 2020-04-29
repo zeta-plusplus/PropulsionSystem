@@ -210,10 +210,18 @@ partial model CompressorBase00
   inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
   
   Medium.BaseProperties fluid_1(
-    p(start = p1_init), T(start = T1_init), state.p(start = p1_init), state.T(start = T1_init), h(start = h1_init)
+    p(start = p1_init), 
+    T(start = T1_init), 
+    state.p(start = p1_init), 
+    state.T(start = T1_init), 
+    h(start = h1_init)
   ) "flow station of inlet";
   Medium.BaseProperties fluid_2(
-    p(start = p2_init), T(start = T2_init), state.p(start = p2_init), state.T(start = T2_init), h(start = h2_init)
+    p(start = p2_init), 
+    T(start = T2_init), 
+    state.p(start = p2_init), 
+    state.T(start = T2_init), 
+    h(start = h2_init)
   ) "flow station of outlet";
   
   
