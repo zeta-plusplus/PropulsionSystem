@@ -22,6 +22,10 @@ partial model TurbineBase00
   /* ---------------------------------------------
       switch
   --------------------------------------------- */
+  parameter Boolean allowAbnormalOperation= false
+    "= true to allow compressor to operate as 'turbine' where PR<=1, false to restrict 1<PR"
+    annotation(
+      Dialog(tab="Assumptions"), Evaluate=true);
   parameter Boolean allowFlowReversal= false
     "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
     annotation(
@@ -149,16 +153,28 @@ partial model TurbineBase00
   Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1(start=Nc_1_init) "corrected rotation speed, rpm" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Real PR(start=PR_init) "pressure ratio" annotation(
+  Real PR(
+    start=PR_init,
+    min=if (allowAbnormalOperation) then 0.0 else (1.0+1.0e-10)
+  ) "pressure ratio" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Real eff(start=eff_init) "adiabatic efficiency" annotation(
+  Real eff(
+    start=eff_init,
+    min=0.0, max=1.0
+  ) "adiabatic efficiency" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.SpecificEnthalpy dht_is(start=dht_is_init) "specific enthalpy change in isentropic compression" annotation(
+  Modelica.SIunits.SpecificEnthalpy dht_is(
+    start=dht_is_init,
+    min=if(allowAbnormalOperation)then -Constants.inf else (0.0+1.0e-10)
+  ) "specific enthalpy change in isentropic compression" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.SpecificEnthalpy dht(start=dht_init) "specific enthalpy change in non-isentropic compression" annotation(
+  Modelica.SIunits.SpecificEnthalpy dht(
+    start=dht_init,
+    min=if(allowAbnormalOperation)then -Constants.inf else (0.0+1.0e-10)
+  ) "specific enthalpy change in non-isentropic compression" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   Modelica.SIunits.SpecificEnthalpy h_2is(start=h1_init-dht_is_init) "" annotation(

@@ -22,6 +22,10 @@ partial model CompressorBase00
   /* ---------------------------------------------
       switch
   --------------------------------------------- */
+  parameter Boolean allowAbnormalOperation= false
+    "= true to allow compressor to operate as 'turbine' where PR<=1, false to restrict 1<PR"
+    annotation(
+      Dialog(tab="Assumptions"), Evaluate=true);
   parameter Boolean allowFlowReversal= false
     "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
     annotation(
@@ -143,16 +147,28 @@ partial model CompressorBase00
   Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1(start=Nc_1_init) "corrected rotation speed, rpm" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Real PR(start=PR_init) "pressure ratio" annotation(
+  Real PR(
+    start=PR_init, 
+    min=if (allowAbnormalOperation) then 0.0 else (1.0+1.0e-10)
+  ) "pressure ratio" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Real eff(start=eff_init) "adiabatic efficiency" annotation(
+  Real eff(
+    start=eff_init, 
+    min=0.0, max=1.0
+  ) "adiabatic efficiency" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.SpecificEnthalpy dht_is(start=dht_is_init) "specific enthalpy change in isentropic compression" annotation(
+  Modelica.SIunits.SpecificEnthalpy dht_is(
+    start=dht_is_init, 
+    min=if(allowAbnormalOperation)then -Constants.inf else (0.0+1.0e-10)
+  ) "specific enthalpy change in isentropic compression" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.SpecificEnthalpy dht(start=dht_init) "specific enthalpy change in non-isentropic compression" annotation(
+  Modelica.SIunits.SpecificEnthalpy dht(
+    start=dht_init,
+    min=if(allowAbnormalOperation)then -Constants.inf else (0.0+1.0e-10)
+  ) "specific enthalpy change in non-isentropic compression" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   Modelica.SIunits.SpecificEnthalpy h_2is(start=h1_init+dht_is_init) "" annotation(
@@ -181,6 +197,10 @@ partial model CompressorBase00
   Real NqNdes(start=NqNdes_init) "ratio of mech. rotational speed with respect to design pt. speed" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
+  
+  
+  //********** flags **********
+  Integer flagEffVal "0:0<eff<1, 1:eff<=0, 2:1<=eff";
   
   
   
@@ -308,8 +328,20 @@ equation
   
   h_2is = Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
   dht_is = h_2is - fluid_1.h;
-  eff = dht_is / dht;
   dht = fluid_2.h - fluid_1.h;
+  
+  if(0<dht)then
+    eff = dht_is / dht;
+    
+    if(eff<1)then
+      flagEffVal=0;
+    else
+      flagEffVal=2;
+    end if;
+  else
+    eff=0.0;
+    flagEffVal=1;
+  end if;
   
   port_1.m_flow + port_2.m_flow = 0.0;
   fluid_2.Xi = fluid_1.Xi;

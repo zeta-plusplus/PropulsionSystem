@@ -47,9 +47,9 @@ model Turbofan_ex01
     Placement(visible = true, transformation(origin = {-80, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CmpCharTable00 Cmp025(redeclare package Medium = engineAir, NmechDes_paramInput = 9000, PRdes_paramInput = 20, m_flow_des_1_paramInput = 10, use_tableFile_PR = true, use_tableFile_Wc = true, use_tableFile_eff = true)  annotation(
     Placement(visible = true, transformation(origin = {0, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharTable00 Trb041(redeclare package Medium = engineAir, NmechDes_paramInput = 9000, m_flow_des_1_paramInput = 10, use_tableFile_Wc = true, use_tableFile_eff = true)  annotation(
+  PropulsionSystem.Elements.BasicElements.TrbCharTable00 Trb041(redeclare package Medium = engineAir, NmechDes_paramInput = 9000, PRtblDes_paramInput = 2, m_flow_des_1_paramInput = 10, pathName_tableFileInLibPackage = "modelica://PropulsionSystem/tableData/table_Turbine_WcEff_NcPR00_constEff.txt", use_tableFile_Wc = true, use_tableFile_eff = true)  annotation(
     Placement(visible = true, transformation(origin = {200, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharTable00 Trb049(redeclare package Medium = engineAir, NmechDes_paramInput = 3000, m_flow_des_1_paramInput = 10, use_tableFile_Wc = true, use_tableFile_eff = true)  annotation(
+  PropulsionSystem.Elements.BasicElements.TrbCharTable00 Trb049(redeclare package Medium = engineAir, NmechDes_paramInput = 3000, PRtblDes_paramInput = 2, m_flow_des_1_paramInput = 10, pathName_tableFileInLibPackage = "modelica://PropulsionSystem/tableData/table_Turbine_WcEff_NcPR00_constEff.txt", use_tableFile_Wc = true, use_tableFile_eff = true)  annotation(
     Placement(visible = true, transformation(origin = {290, 40}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.NzlDefAbyInitCharFixed00 Nzl170(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {180, 120}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
