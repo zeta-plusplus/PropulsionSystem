@@ -67,8 +67,12 @@ model IdealMixerBase00
   /* ---------------------------------------------
                Internal variables
   --------------------------------------------- */
-  Modelica.SIunits.MassFlowRate m_flow_max(start=m_flow1_init);
-  Modelica.SIunits.MassFlowRate m_flow_min(start=m_flow2_init);
+  Modelica.SIunits.MassFlowRate m_flow_max(start=m_flow1_init)"" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.MassFlowRate m_flow_min(start=m_flow2_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
   
   

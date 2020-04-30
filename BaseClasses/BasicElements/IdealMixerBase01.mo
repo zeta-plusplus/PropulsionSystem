@@ -60,11 +60,19 @@ model IdealMixerBase01
     Dialog(tab = "Initialization", group = "fluid_3"));
   parameter Modelica.SIunits.SpecificEnthalpy h3_init(displayUnit = "J/kg") = 1.004 * 1000 * 288.15 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_3"));
+  
+  
   /* ---------------------------------------------
                  Internal variables
     --------------------------------------------- */
-  Modelica.SIunits.MassFlowRate m_flow_max(start=m_flow1_init);
-  Modelica.SIunits.MassFlowRate m_flow_min(start=m_flow2_init);
+  Modelica.SIunits.MassFlowRate m_flow_max(start=m_flow1_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.MassFlowRate m_flow_min(start=m_flow2_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
+  
   /* ---------------------------------------------
              Internal objects
     --------------------------------------------- */
@@ -72,6 +80,8 @@ model IdealMixerBase01
   Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of inlet";
   Medium.BaseProperties fluid_3(p.start = p3_init, T.start = T3_init, state.p.start = p3_init, state.T.start = T3_init, h.start = h3_init) "flow station of outlet";
   Medium.BaseProperties fluid_1afterMix(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
+  
+  
   /* ---------------------------------------------
                    Interface
     --------------------------------------------- */
