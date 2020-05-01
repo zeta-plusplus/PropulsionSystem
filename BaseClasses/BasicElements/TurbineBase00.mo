@@ -203,10 +203,18 @@ partial model TurbineBase00
   inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
   
   Medium.BaseProperties fluid_1(
-    p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init
+    p(start = p1_init, min=0.0+1.0e-10), 
+    T(start = T1_init, min=0.0+1.0e-10), 
+    state.p(start = p1_init, min=0.0+1.0e-10), 
+    state.T(start = T1_init, min=0.0+1.0e-10), 
+    h(start = h1_init, min=0.0+1.0e-10)
   ) "flow station of inlet";
   Medium.BaseProperties fluid_2(
-    p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init
+    p(start = p2_init, min=0.0+1.0e-10), 
+    T(start = T2_init, min=0.0+1.0e-10), 
+    state.p(start = p2_init, min=0.0+1.0e-10), 
+    state.T(start = T2_init, min=0.0+1.0e-10), 
+    h(start = h2_init, min=0.0+1.0e-10)
   ) "flow station of outlet";
   
   
@@ -219,16 +227,16 @@ partial model TurbineBase00
   (
     redeclare package Medium = Medium, 
     m_flow(start = m_flow1_init, min=if (allowFlowReversal) then -Constants.inf else 0.0), 
-    h_outflow(start = h1_init), 
-    p(start=p1_init)
+    h_outflow(start = h1_init, min=0.0+1.0e-10), 
+    p(start=p1_init, min=0.0+1.0e-10)
   ) "" annotation(
     Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_b port_2
   (
     redeclare package Medium = Medium, 
     m_flow(start = m_flow2_init, max=if allowFlowReversal then +Constants.inf else 0.0), 
-    h_outflow(start = h2_init), 
-    p(start=p2_init)
+    h_outflow(start = h2_init, min=0.0+1.0e-10), 
+    p(start=p2_init, min=0.0+1.0e-10)
   ) "" annotation(
     Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1(

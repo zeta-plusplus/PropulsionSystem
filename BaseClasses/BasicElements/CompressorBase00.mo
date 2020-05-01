@@ -210,18 +210,18 @@ partial model CompressorBase00
   inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
   
   Medium.BaseProperties fluid_1(
-    p(start = p1_init), 
-    T(start = T1_init), 
-    state.p(start = p1_init), 
-    state.T(start = T1_init), 
-    h(start = h1_init)
+    p(start = p1_init, min=0.0+1.0e-10), 
+    T(start = T1_init, min=0.0+1.0e-10), 
+    state.p(start = p1_init, min=0.0+1.0e-10), 
+    state.T(start = T1_init, min=0.0+1.0e-10), 
+    h(start = h1_init, min=0.0+1.0e-10)
   ) "flow station of inlet";
   Medium.BaseProperties fluid_2(
-    p(start = p2_init), 
-    T(start = T2_init), 
-    state.p(start = p2_init), 
-    state.T(start = T2_init), 
-    h(start = h2_init)
+    p(start = p2_init, min=0.0+1.0e-10), 
+    T(start = T2_init, min=0.0+1.0e-10), 
+    state.p(start = p2_init, min=0.0+1.0e-10), 
+    state.T(start = T2_init, min=0.0+1.0e-10), 
+    h(start = h2_init, min=0.0+1.0e-10)
   ) "flow station of outlet";
   
   
@@ -232,15 +232,15 @@ partial model CompressorBase00
   Modelica.Fluid.Interfaces.FluidPort_a port_1(
     redeclare package Medium = Medium, 
     m_flow(start = m_flow1_init, min=if (allowFlowReversal) then -Constants.inf else 0.0), 
-    h_outflow(start = h1_init), 
-    p(start=p1_init)
+    h_outflow(start = h1_init, min=0.0+1.0e-10), 
+    p(start=p1_init, min=0.0+1.0e-10)
   ) "" annotation(
     Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_b port_2(
     redeclare package Medium = Medium, 
     m_flow(start = m_flow2_init, max=if allowFlowReversal then +Constants.inf else 0.0), 
-    h_outflow(start = h2_init), 
-    p(start=p2_init)
+    h_outflow(start = h2_init, min=0.0+1.0e-10), 
+    p(start=p2_init, min=0.0+1.0e-10)
   ) "" annotation(
     Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1(
@@ -320,16 +320,22 @@ equation
   m_flow_max = max(port_1.m_flow, port_2.m_flow);
   m_flow_min= min(port_1.m_flow, port_2.m_flow);
   
-  if(m_flow_max == port_1.m_flow)then
+  if (allowFlowReversal==false)then
     port_1.h_outflow= fluid_1.h;
     port_1.Xi_outflow= fluid_1.Xi;
-  elseif(m_flow_max == port_2.m_flow)then
-    port_2.h_outflow= fluid_2.h;
-    port_2.Xi_outflow= fluid_2.Xi;
   else
-    port_1.h_outflow= fluid_1.h;
-    port_1.Xi_outflow= fluid_1.Xi;
+    if(m_flow_max == port_1.m_flow)then
+      port_1.h_outflow= fluid_1.h;
+      port_1.Xi_outflow= fluid_1.Xi;
+    elseif(m_flow_max == port_2.m_flow)then
+      port_2.h_outflow= fluid_2.h;
+      port_2.Xi_outflow= fluid_2.Xi;
+    else
+      port_1.h_outflow= fluid_1.h;
+      port_1.Xi_outflow= fluid_1.Xi;
+    end if;
   end if;
+  
 //-- shaft --
   flange_1.phi = phi;
   flange_2.phi = phi;

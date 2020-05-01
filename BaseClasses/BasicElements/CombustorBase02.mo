@@ -108,13 +108,13 @@ model CombustorBase02
     redeclare package Medium = Medium,
     port_a(
       m_flow(start=m_flow_fuel_init, min=if (allowFlowReversal) then -Constants.inf else 0.0),
-      h_outflow(start = hfuel_init),
-      p(start=pfuel_init)
+      h_outflow(start = hfuel_init, min=0.0+1.0e-10),
+      p(start=pfuel_init, min=0.0+1.0e-10)
     ),
     port_b(
-      m_flow(start=-1.0*m_flow_fuel_init),
-      h_outflow(start = hfuel_init, max=if allowFlowReversal then +Constants.inf else 0.0),
-      p(start=pfuel_init)
+      m_flow(start=-1.0*m_flow_fuel_init, max=if allowFlowReversal then +Constants.inf else 0.0),
+      h_outflow(start = hfuel_init, min=0.0+1.0e-10),
+      p(start=pfuel_init, min=0.0+1.0e-10)
     )
   ) annotation(
     Placement(visible = true, transformation(origin = {-80, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
@@ -124,15 +124,23 @@ model CombustorBase02
   ) annotation(
     Placement(visible = true, transformation(origin = {30, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow1(
-    port(Q_flow(start=-1.0*Q_flow_init), T(start=T2_init)),
+    port(Q_flow(start=-1.0*Q_flow_init), T(start=T2_init, min=0.0+1.0e-10)),
     Q_flow(start=Q_flow_init)
   ) annotation(
     Placement(visible = true, transformation(origin = {30, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Medium.BaseProperties fluid_1(
-    p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init
+    p(start = p1_init, min=0.0+1.0e-10), 
+    T(start = T1_init, min=0.0+1.0e-10), 
+    state.p(start = p1_init, min=0.0+1.0e-10), 
+    state.T(start = T1_init, min=0.0+1.0e-10), 
+    h(start = h1_init, min=0.0+1.0e-10)
   ) "flow station of inlet";
   Medium.BaseProperties fluid_2(
-    p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init
+    p(start = p2_init, min=0.0+1.0e-10), 
+    T(start = T2_init, min=0.0+1.0e-10), 
+    state.p(start = p2_init, min=0.0+1.0e-10), 
+    state.T(start = T2_init, min=0.0+1.0e-10), 
+    h(start = h2_init, min=0.0+1.0e-10)
   ) "flow station of outlet";
   
   
@@ -143,15 +151,15 @@ model CombustorBase02
   Modelica.Fluid.Interfaces.FluidPort_a port_1(
     redeclare package Medium = Medium, 
     m_flow(start = m_flow1_init, min=if (allowFlowReversal) then -Constants.inf else 0.0), 
-    h_outflow(start = h1_init),
-    p(start=p1_init)
+    h_outflow(start = h1_init, min=0.0+1.0e-10),
+    p(start=p1_init, min=0.0+1.0e-10)
   ) annotation(
     Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_b port_2(
     redeclare package Medium = Medium, 
     m_flow(start = m_flow2_init, max=if allowFlowReversal then +Constants.inf else 0.0), 
-    h_outflow(start = h2_init),
-    p(start=p2_init)
+    h_outflow(start = h2_init, min=0.0+1.0e-10),
+    p(start=p2_init, min=0.0+1.0e-10)
   ) annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_m_flow_fuel(quantity = "MassFlowRate", unit = "kg/s", displayUnit = "kg/s") "[kg/s], mass flow rate of fuel" annotation(
@@ -161,8 +169,8 @@ model CombustorBase02
   Modelica.Fluid.Interfaces.FluidPort_a port_fuel(
     redeclare package Medium = Medium, 
     m_flow(start = m_flow_fuel_init, min=if (allowFlowReversal) then -Constants.inf else 0.0), 
-    h_outflow(start = hfuel_init),
-    p(start=pfuel_init)
+    h_outflow(start = hfuel_init, min=0.0+1.0e-10),
+    p(start=pfuel_init, min=0.0+1.0e-10)
   ) annotation(
     Placement(visible = true, transformation(origin = {-80, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-80, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
