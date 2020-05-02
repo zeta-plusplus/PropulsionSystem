@@ -284,6 +284,38 @@ protected
   ) annotation(
     HideResult=false);
   
+  parameter Modelica.SIunits.MassFlowRate m_flow_des_2(
+    fixed=false, start=m_flow2_init,
+    min=(0.0+1.0e-10)
+  ) annotation(
+    HideResult=false);
+  parameter Modelica.SIunits.Pressure pDes_2(
+    fixed=false, start=p2_init,
+    min=(0.0+1.0e-10)
+  ) annotation(
+    HideResult=false);
+  parameter Modelica.SIunits.Temperature Tdes_2(
+    fixed=false, start=T2_init,
+    min=(0.0+1.0e-10)
+  ) annotation(
+    HideResult=false);
+  parameter Modelica.SIunits.SpecificEnthalpy hDes_2(
+    fixed=false, start=h2_init,
+    min=(0.0+1.0e-10)
+  ) annotation(
+    HideResult=false);
+  parameter Medium.MassFraction XiDes_2[Medium.nX](
+    fixed=false, start=Medium.X_default
+  ) annotation(
+    HideResult=false);
+  
+  parameter Modelica.SIunits.SpecificEnthalpy hDes_2is(
+    fixed=false, start=h2_init,
+    min=(0.0+1.0e-10)
+  ) annotation(
+    HideResult=false);
+  
+  
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false, start=Nmech_init) "mechanical rotation speed, rpm" annotation(
     HideResult=false);
   inner parameter Modelica.SIunits.MassFlowRate WcDes_1(fixed=false, start=Wc_1_init) "corrected mass flow rate" annotation(
