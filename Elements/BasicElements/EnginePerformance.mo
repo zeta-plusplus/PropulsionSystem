@@ -69,7 +69,11 @@ equation
   annotation(
     defaultComponentName="Perf",
     Diagram(coordinateSystem(initialScale = 0.1)),
-  Icon(coordinateSystem(initialScale = 0.1), graphics = {Rectangle(origin = {-8, 4}, fillColor = {229, 229, 229}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-92, 96}, {108, -104}}), Text(origin = {-26, 8}, fillColor = {232, 232, 232}, extent = {{-74, 32}, {126, -48}}, textString = "Perf."), Rectangle(origin = {-9, 4}, extent = {{-91, 96}, {109, -104}})}));
+  Icon(coordinateSystem(initialScale = 0.1), graphics = {Rectangle(origin = {-8, 4}, fillColor = {229, 229, 229}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-92, 96}, {108, -104}}), Text(origin = {-26, 8}, fillColor = {232, 232, 232}, extent = {{-74, 32}, {126, -48}}, textString = "Perf."), Rectangle(origin = {-9, 4}, extent = {{-91, 96}, {109, -104}}),
+  
+  Rectangle(lineColor = {255, 0, 0}, fillColor = {255, 0, 0}, lineThickness = 4, extent = {{-100, 100}, {100, -100}}), Line(points = {{-100, 100}, {100, -100}}, color = {255, 0, 0}, thickness = 4)
+  
+  }));
 
 
 end EnginePerformance;

@@ -20,6 +20,14 @@ model DuctBase00
     choicesAllMatching = true);
   
   
+  /* ---------------------------------------------
+      switch
+  --------------------------------------------- */
+  parameter Boolean allowFlowReversal= false
+    "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
+    annotation(
+      Dialog(tab="Assumptions"), Evaluate=true);
+  
   
   /* ---------------------------------------------
       parameters
@@ -111,16 +119,23 @@ equation
   m_flow_max = max(port_1.m_flow, port_2.m_flow);
   m_flow_min= min(port_1.m_flow, port_2.m_flow);
   
-  if(m_flow_max == port_1.m_flow)then
+  
+  if(allowFlowReversal==false)then
     port_1.h_outflow= fluid_1.h;
-    port_1.Xi_outflow= fluid_1.Xi;
-  elseif(m_flow_max == port_2.m_flow)then
-    port_2.h_outflow= fluid_2.h;
-    port_2.Xi_outflow= fluid_2.Xi;
+    port_1.Xi_outflow= fluid_1.Xi;    
   else
-    port_1.h_outflow= fluid_1.h;
-    port_1.Xi_outflow= fluid_1.Xi;
+    if(m_flow_max == port_1.m_flow)then
+      port_1.h_outflow= fluid_1.h;
+      port_1.Xi_outflow= fluid_1.Xi;
+    elseif(m_flow_max == port_2.m_flow)then
+      port_2.h_outflow= fluid_2.h;
+      port_2.Xi_outflow= fluid_2.Xi;
+    else
+      port_1.h_outflow= fluid_1.h;
+      port_1.Xi_outflow= fluid_1.Xi;
+    end if;
   end if;
+  
 /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */

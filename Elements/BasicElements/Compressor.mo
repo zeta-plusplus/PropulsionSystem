@@ -15,12 +15,8 @@ model Compressor
   ********************************************************/
   //********** Package **********
   //##### none #####
-  
-  
   //********** Type definitions, only valid in this class **********
   //##### none #####
-  
-  
   //********** Parameters **********
   //----- inner-connected parameters -----
   inner parameter Real PRdes= 20 
@@ -32,9 +28,6 @@ model Compressor
     "adiabatic efficiency at design point"
     annotation(
     Dialog(group = "Characteristics"));
-  
-  
-  
   //----- inner-connected parameters -----
   //##### none #####
   //----- switches -----
@@ -67,9 +60,6 @@ model Compressor
     Evaluate = true,
     HideResult = true
     );
-  
-  
-      
   //********** Internal variables **********
   Modelica.SIunits.MassFlowRate WcCalc_1(start= WcDes_1_def);
   //----- inner-connected variables -----
@@ -84,12 +74,8 @@ model Compressor
   //##### none #####
   //********** Protected objects **********
   //##### none #####
-  
-  
   //********** Internal model **********
   //##### none #####
-  
-  
   //********** Interfaces **********
   Modelica.Blocks.Interfaces.RealInput Wc_1_in
     if (switchInput_Wc_1== PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal)
@@ -113,44 +99,36 @@ model Compressor
 algorithm
 //##### none #####
 equation
-  //********** Geometries **********
-  //##### none #####
-  
-  
-  //********** Connections, interface <-> internal variables **********
-  //--- Wc_1 ---
-  if (switchInput_Wc_1 == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue) then
+//********** Geometries **********
+//##### none #####
+//********** Connections, interface <-> internal variables **********
+//--- Wc_1 ---
+  if switchInput_Wc_1 == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue then
     WcCalc_1 = WcDes_1;
-    Wc_1= WcCalc_1;
-  elseif (switchInput_Wc_1 == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal) then
+    Wc_1 = WcCalc_1;
+  elseif switchInput_Wc_1 == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal then
     WcCalc_1 = Wc_1_in;
-    Wc_1= WcCalc_1;
-  elseif (switchInput_Wc_1 == PropulsionSystem.Types.switches.switch_parameter_input.asCalculated) then
-    Wc_1= WcCalc_1;
+    Wc_1 = WcCalc_1;
+  elseif switchInput_Wc_1 == PropulsionSystem.Types.switches.switch_parameter_input.asCalculated then
+    Wc_1 = WcCalc_1;
   end if;
-  //--- PR ---
-  if (switchInput_PR == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue) then
+//--- PR ---
+  if switchInput_PR == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue then
     PR = PRdes;
-  elseif (switchInput_PR == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal) then
+  elseif switchInput_PR == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal then
     PR = PR_in;
   end if;
-  //--- eff ---
-  if (switchInput_eff == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue) then
+//--- eff ---
+  if switchInput_eff == PropulsionSystem.Types.switches.switch_parameter_input.use_desValue then
     eff = effDes;
-  elseif (switchInput_eff == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal) then
+  elseif switchInput_eff == PropulsionSystem.Types.switches.switch_parameter_input.use_inputSignal then
     eff = eff_in;
   end if;
-  
-  
-  //********** Eqns describing physics **********
-  //##### none #####
-  
-  
-  
+//********** Eqns describing physics **********
+//##### none #####
 /********************************************************
   Graphics
 ********************************************************/
 //identical to "Compressor_Base"
-
 
 end Compressor;

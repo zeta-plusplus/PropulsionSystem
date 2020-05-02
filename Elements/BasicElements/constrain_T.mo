@@ -62,5 +62,9 @@ equation
   Graphics
 ********************************************************/
   annotation(
-    Icon(graphics = {Rectangle(origin = {-10, 10}, fillColor = {255, 85, 0}, fillPattern = FillPattern.Solid, extent = {{-50, 30}, {70, -50}}), Rectangle(origin = {-58, 71}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 11}, {2, -31}}), Rectangle(origin = {-98, 53}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 29}, {42, 25}}), Rectangle(origin = {58, 71}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 11}, {2, -31}}), Rectangle(origin = {58, 53}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 29}, {42, 25}}), Text(origin = {-32, 83}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-8, 17}, {72, -3}}, textString = "def. T", fontSize = 40), Text(origin = {-20, -3}, extent = {{-40, 13}, {80, -7}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Rectangle(origin = {-10, 10}, fillColor = {255, 85, 0}, fillPattern = FillPattern.Solid, extent = {{-50, 30}, {70, -50}}), Rectangle(origin = {-58, 71}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 11}, {2, -31}}), Rectangle(origin = {-98, 53}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 29}, {42, 25}}), Rectangle(origin = {58, 71}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 11}, {2, -31}}), Rectangle(origin = {58, 53}, fillColor = {148, 148, 148}, fillPattern = FillPattern.Solid, extent = {{-2, 29}, {42, 25}}), Text(origin = {-32, 83}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-8, 17}, {72, -3}}, textString = "def. T", fontSize = 40), Text(origin = {-20, -3}, extent = {{-40, 13}, {80, -7}}, textString = "%name"),
+    
+    Rectangle(lineColor = {255, 0, 0}, fillColor = {255, 0, 0}, lineThickness = 4, extent = {{-100, 100}, {100, -100}}), Line(points = {{-100, 100}, {100, -100}}, color = {255, 0, 0}, thickness = 4)
+    
+    }, coordinateSystem(initialScale = 0.1)));
 end constrain_T;

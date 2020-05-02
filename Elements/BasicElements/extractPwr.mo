@@ -84,7 +84,11 @@ equation
 ********************************************************/
   
 annotation(
-    Icon(graphics = {Rectangle(origin = {1, 1}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-101, 9}, {71, -11}}), Rectangle(origin = {0, -1}, fillPattern = FillPattern.Solid, extent = {{-80, 61}, {80, -59}}), Text(origin = {-53, 25}, lineColor = {255, 255, 255}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-27, -5}, {133, -45}}, textString = "Pwr", fontSize = 40), Text(origin = {-45, 96}, extent = {{-35, 4}, {125, -16}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Rectangle(origin = {1, 1}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-101, 9}, {71, -11}}), Rectangle(origin = {0, -1}, fillPattern = FillPattern.Solid, extent = {{-80, 61}, {80, -59}}), Text(origin = {-53, 25}, lineColor = {255, 255, 255}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-27, -5}, {133, -45}}, textString = "Pwr", fontSize = 40), Text(origin = {-45, 96}, extent = {{-35, 4}, {125, -16}}, textString = "%name"),
+    
+    Rectangle(lineColor = {255, 0, 0}, fillColor = {255, 0, 0}, lineThickness = 4, extent = {{-100, 100}, {100, -100}}), Line(points = {{-100, 100}, {100, -100}}, color = {255, 0, 0}, thickness = 4)
+    
+    }, coordinateSystem(initialScale = 0.1)));
 
 
 

@@ -183,16 +183,24 @@ equation
   fluid_2.p = port_2.p;
   fluid_2.h = actualStream(port_2.h_outflow);
   fluid_2.Xi = actualStream(port_2.Xi_outflow);
-  if m_flow_max == port_1.m_flow then
+  
+  
+  if(allowFlowReversal==false)then
     port_1.h_outflow = fluid_1.h;
-    port_1.Xi_outflow = fluid_1.Xi;
-  elseif m_flow_max == port_2.m_flow then
-    port_2.h_outflow = fluid_2.h;
-    port_2.Xi_outflow = fluid_2.Xi;
+    port_1.Xi_outflow = fluid_1.Xi;  
   else
-    port_1.h_outflow = fluid_1.h;
-    port_1.Xi_outflow = fluid_1.Xi;
+    if m_flow_max == port_1.m_flow then
+      port_1.h_outflow = fluid_1.h;
+      port_1.Xi_outflow = fluid_1.Xi;
+    elseif m_flow_max == port_2.m_flow then
+      port_2.h_outflow = fluid_2.h;
+      port_2.Xi_outflow = fluid_2.Xi;
+    else
+      port_1.h_outflow = fluid_1.h;
+      port_1.Xi_outflow = fluid_1.Xi;
+    end if;
   end if;
+  
   //--------------------
   fluid_fuel.Xi = X_fuel;
   fluid_fuel.p = port_1.p;
