@@ -84,8 +84,9 @@ initial equation
 /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  pDes_1 = fluid_1.p;
+  /*pDes_1 = fluid_1.p;
   Tdes_1 = fluid_1.T;
+  */
   NmechDes = Nmech;
   m_flow_des_1 = port_1.m_flow;
 //--------------------

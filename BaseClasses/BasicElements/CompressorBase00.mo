@@ -328,14 +328,45 @@ protected
     HideResult=false);
   
   
+  parameter Modelica.SIunits.SpecificEnthalpy dhtDes(
+    fixed=false, start=h2_init-h1_init,
+    min=if(allowAbnormalOperation)then -Constants.inf else (0.0+1.0e-10)
+  ) annotation(
+    HideResult=false);
+  
+  parameter Modelica.SIunits.SpecificEnthalpy dhtIsDes(
+    fixed=false, start=h2_init-h1_init,
+    min=if(allowAbnormalOperation)then -Constants.inf else (0.0+1.0e-10)
+  ) annotation(
+    HideResult=false);
   
   
 initial algorithm
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  /*
+  */
+  pDes_1:= port_1.p;
+  hDes_1:= actualStream(port_1.h_outflow);
+  XiDes_1:= actualStream(port_1.Xi_outflow);
+  Tdes_1:= fluid_1.T;
+  
+  
+  /*
+  */
   NcDes_1 := NmechDes / sqrt(Tdes_1 / environment.Tstd);
   WcDes_1 := m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd); 
+  
+  m_flow_des_2:= -1.0*m_flow_des_1;
+  XiDes_2:= XiDes_1;
+  pDes_2:= pDes_1*PRdes;
+  hDes_2is := Medium.isentropicEnthalpy(pDes_2, Medium.setState_phX(pDes_1, hDes_1, XiDes_1));
+  dhtIsDes:= hDes_2is - hDes_1;
+  dhtDes:=dhtIsDes/effDes;
+  hDes_2:= hDes_1 + dhtDes;
+  Tdes_2:= Medium.temperature_phX(pDes_2, hDes_2, XiDes_2);
+  
   
   
 initial equation
