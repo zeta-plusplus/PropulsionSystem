@@ -257,7 +257,7 @@ partial model CompressorBase00
   
 protected
   /* ---------------------------------------------
-          Non-modifiable parameters
+          Non-modifiable, calculated parameters
     --------------------------------------------- */
   parameter Modelica.SIunits.MassFlowRate m_flow_des_1(
     fixed=false, start=m_flow1_init,
@@ -274,6 +274,16 @@ protected
     min=(0.0+1.0e-10)
   ) annotation(
     HideResult=false);
+  parameter Modelica.SIunits.SpecificEnthalpy hDes_1(
+    fixed=false, start=h1_init,
+    min=(0.0+1.0e-10)
+  ) annotation(
+    HideResult=false);
+  parameter Medium.MassFraction XiDes_1[Medium.nX](
+    fixed=false, start=Medium.X_default
+  ) annotation(
+    HideResult=false);
+  
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false, start=Nmech_init) "mechanical rotation speed, rpm" annotation(
     HideResult=false);
   inner parameter Modelica.SIunits.MassFlowRate WcDes_1(fixed=false, start=Wc_1_init) "corrected mass flow rate" annotation(
@@ -284,6 +294,9 @@ protected
     HideResult=false);
   parameter Real effDes(fixed=false, start=eff_init) annotation(
     HideResult=false);
+  
+  
+  
   
 initial algorithm
   /* ---------------------------------------------

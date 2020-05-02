@@ -39,5 +39,11 @@ equation
   Graphics
 ********************************************************/
   annotation(
-    Icon(coordinateSystem(initialScale = 0.1), graphics = {Rectangle(origin = {-50, 0}, fillColor = {0, 85, 255}, fillPattern = FillPattern.Solid, extent = {{-50, 60}, {150, -60}}), Polygon(origin = {-56, -1}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, points = {{-40, 41}, {-40, -39}, {92, 1}, {-40, 41}}), Text(origin = {3, -82}, extent = {{-103, 22}, {97, -18}}, textString = "%name"), Text(origin = {65, 3}, lineColor = {255, 255, 255}, extent = {{-33, 15}, {33, -15}}, textString = "sink")}));
+    Icon(coordinateSystem(initialScale = 0.1), graphics = {Rectangle(origin = {-50, 0}, fillColor = {0, 85, 255}, fillPattern = FillPattern.Solid, extent = {{-50, 60}, {150, -60}}), Polygon(origin = {-56, -1}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, points = {{-40, 41}, {-40, -39}, {92, 1}, {-40, 41}}), Text(origin = {3, -82}, extent = {{-103, 22}, {97, -18}}, textString = "%name"), Text(origin = {65, 3}, lineColor = {255, 255, 255}, extent = {{-33, 15}, {33, -15}}, textString = "sink"),
+    
+    
+    Rectangle(lineColor = {255, 0, 0}, fillColor = {255, 0, 0}, lineThickness = 4, extent = {{-100, 100}, {100, -100}}), Line(points = {{-100, 100}, {100, -100}}, color = {255, 0, 0}, thickness = 4)
+    
+    
+    }));
 end FlowSink;

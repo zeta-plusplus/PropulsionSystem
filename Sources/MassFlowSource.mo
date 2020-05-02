@@ -66,6 +66,12 @@ equation
 ********************************************************/
 
 annotation(
-    Icon(coordinateSystem(initialScale = 0.1), graphics = {Rectangle(origin = {70, 0}, fillColor = {0, 85, 255}, fillPattern = FillPattern.Solid, extent = {{-70, 40}, {30, -40}}), Ellipse(origin = {-45, 13}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-55, 47}, {71, -73}}, endAngle = 360), Polygon(origin = {-32, -2}, fillColor = {0, 85, 255}, fillPattern = FillPattern.Solid, points = {{-40, 52}, {-40, -48}, {58, 2}, {-40, 52}}), Text(origin = {-50, 10}, lineColor = {255, 85, 0}, extent = {{-20, 18}, {64, -32}}, textString = "mass source"), Text(origin = {-27, -71}, extent = {{-73, 11}, {127, -29}}, textString = "%name")}));
+    Icon(coordinateSystem(initialScale = 0.1), graphics = {Rectangle(origin = {70, 0}, fillColor = {0, 85, 255}, fillPattern = FillPattern.Solid, extent = {{-70, 40}, {30, -40}}), Ellipse(origin = {-45, 13}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-55, 47}, {71, -73}}, endAngle = 360), Polygon(origin = {-32, -2}, fillColor = {0, 85, 255}, fillPattern = FillPattern.Solid, points = {{-40, 52}, {-40, -48}, {58, 2}, {-40, 52}}), Text(origin = {-50, 10}, lineColor = {255, 85, 0}, extent = {{-20, 18}, {64, -32}}, textString = "mass source"), Text(origin = {-27, -71}, extent = {{-73, 11}, {127, -29}}, textString = "%name"),
+    
+    
+    Rectangle(lineColor = {255, 0, 0}, fillColor = {255, 0, 0}, lineThickness = 4, extent = {{-100, 100}, {100, -100}}), Line(points = {{-100, 100}, {100, -100}}, color = {255, 0, 0}, thickness = 4)
+    
+    
+    }));
 
 end MassFlowSource;

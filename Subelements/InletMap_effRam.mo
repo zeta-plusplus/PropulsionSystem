@@ -2,7 +2,6 @@ within PropulsionSystem.Subelements;
 
 model InletMap_effRam
   extends PropulsionSystem.Interfaces.SubelementFrames.SubelementFrame;
-  
   //***** import *****
   import Modelica.Constants;
   import Modelica.Math;
@@ -14,8 +13,6 @@ model InletMap_effRam
   ********************************************************/
   //********** Package **********
   outer replaceable package Medium = Modelica.Media.Interfaces.PartialMedium;
-  
-  
   //********** Parameters **********
   outer parameter Boolean switchUseMapDataFile_effRam "";
   outer parameter String tableName_effRam;
@@ -36,8 +33,7 @@ model InletMap_effRam
   Real s_effRam "";
   //-----
   Real effRam_internal "";
-    
-  //----- outer-connected variables -----
+    //----- outer-connected variables -----
   outer switches.switch_defineDesValue switchDef_s_Wc_CurveDes "";
   outer switches.switch_defineDesValue switchDef_s_effRam_CurveDes "";
   outer Real MnFltDes "";
@@ -55,5 +51,7 @@ model InletMap_effRam
     Placement(visible = true, transformation(origin = {0, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Tables.CombiTable2D table_effRamDes annotation(
     Placement(visible = true, transformation(origin = {0, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  annotation(
+    Icon(graphics = {Rectangle(lineColor = {255, 0, 0}, lineThickness = 4, extent = {{-100, 100}, {100, -100}}), Line(points = {{-100, 100}, {100, -100}}, color = {255, 0, 0}, thickness = 4)}));
   
 end InletMap_effRam;

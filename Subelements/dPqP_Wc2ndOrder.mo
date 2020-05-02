@@ -60,6 +60,12 @@ equation
   
   annotation(
     Diagram,
-    Icon(coordinateSystem(initialScale = 0.1)));
+    Icon(graphics={
+    
+    Rectangle(lineColor = {255, 0, 0}, fillColor = {255, 0, 0}, lineThickness = 4, extent = {{-100, 100}, {100, -100}}), Line(points = {{-100, 100}, {100, -100}}, color = {255, 0, 0}, thickness = 4)
+    
+    },
+    coordinateSystem(initialScale = 0.1))
+    );
   
 end dPqP_Wc2ndOrder;
