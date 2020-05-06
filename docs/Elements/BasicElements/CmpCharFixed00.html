@@ -53,37 +53,43 @@
 <body>
 	<h3>CmpCharFixed00 </h3>
 	icon:<br>
-	<img src="CmpCharFixed00_icon.jpg" width="300">
+	<a href="CmpCharFixed00_icon.jpg" target="_blank"><img src="CmpCharFixed00_icon.jpg" width="200"></a>
 	<p> &emsp; </p>
 		<p>raises the pressure of fluid. The work done on fluid is supplied via shaft. Component characteristics are fixed or given by external real-signal.</p>
 		<p> &emsp; </p>
 	
 	<h4>Scope/Calculation function </h4>
 		<ul>
-		<li>calculation of the change in state quantities of fluid through compressor.</li>
-		<li>calculation of power or torque required for given pressure ratio. </li>
-		<li>calculation of pressure ratio as a result of given shaft power or torque.</li>
+		<li>Calculation of the change in state quantities of fluid through compressor.</li>
+		<li>Calculation of power or torque required for given pressure ratio. </li>
+		<li>Calculation of pressure ratio as a result of given shaft power or torque.</li>
 		</ul>
 		<p> &emsp; </p>
 	
 	<h4>Short description of physical model/calculation method</h4>
 		<ul>
-		<li>fluid outlet state quantities are calculated by pressure ratio and adiabatic efficiency input. </li>
-		<li>.</li>
-		<li>Pressure ratio and adiabatic efficiency can be input by either parameter or real-input signal.</li>
+		<li>Fluid outlet state quantities are calculated by pressure ratio and adiabatic efficiency input. </li>
+		<li>Causality about power can be selected </li>
+			<ul>
+			<li>Give pressure ratio -> power and torque are calculated .</li>
+			<li>Give power/torque -> Pressure ratio is calculated. </li>
+			</ul>
+		<li>Pressure ratio and adiabatic efficiency can be input by either parameter or real-input interface.</li>
 		</ul>
-		<img src= "CmpCharFixed00_internal.jpg" width="800">
+		<a href="CmpCharFixed00_internal.jpg" target="_blank"><img src= "CmpCharFixed00_internal.jpg" width="600"></a>
 		<p> &emsp; </p>
 		
 	<h4>Limitations/Assumptions of model</h4>	
 		<ul>
-		<li>. </li>
-		<li>. </li>
+		<li>No flow capacity model. The mass flow rate must be determined outside of this compressor component. </li>
+		<li>No phase change of fluid can occur. </li>
+		<li>Simulation of abnormal operation where fluid pressure drops by windmilling or 0 change in fluid  pressure cannot be performed. </li>
+		<li>Flow reversal condition cannot be simulated. </li>
 		</ul>
 		<p> &emsp; </p>
 		
 	<h4>Interface </h4>
-		<img src= "CmpCharFixed00_IF.jpg" width="800">
+		<a href="CmpCharFixed00_IF.jpg" target="_blank"><img src= "CmpCharFixed00_IF.jpg" width="700"></a>
 		<p> &emsp; </p>
 	
 	<h4>Parameters </h4>
@@ -92,10 +98,14 @@
 		
 	<h4>Usage </h4>
 		<ul>
-		<li>. </li>
+		<li>Redeclear the package of medium. </li>
 		<li>fill following connectors: </li>
 			<ul>
-			<li> </li>
+			<li>Fluid inlet port, port_1 </li>
+			<li>Fluid outlet port, port_2 </li>
+			<li>Either or both of flange_1, flange_2 </li>
+			<li>Optional: real signal port for pressure ratio, u_PR </li>
+			<li>Optional: </li>
 			</ul>
 		</ul>
 		<p> &emsp; </p>
@@ -106,19 +116,19 @@
 		
 	<h4>Demo models</h4>
 		<li> </li>
-		<img src= "CmpCharFixed00_ex01.jpg" width="800">
+		<a href="CmpCharFixed00_ex01.jpg" target="_blank"><img src= "CmpCharFixed00_ex01.jpg" width="600"></a>
 		<p> &emsp; </p>
 		
 		<li> </li>
-		<img src= "CmpCharFixed00_ex02.jpg" width="800">
+		<a href="CmpCharFixed00_ex02.jpg" target="_blank"><img src= "CmpCharFixed00_ex02.jpg" width="600"></a>
 		<p> &emsp; </p>
 		
 		<li> </li>
-		<img src= "Cmp_and_Trb_ex01.jpg" width="800">
+		<a href="Cmp_and_Trb_ex01.jpg" target="_blank"><img src= "Cmp_and_Trb_ex01.jpg" width="600"></a>
 		<p> &emsp; </p>
 		
 		<li> </li>
-		<img src= "Cmp_and_Trb_ex02.jpg" width="800">
+		<a href="Cmp_and_Trb_ex02.jpg" target="_blank"><img src= "Cmp_and_Trb_ex02.jpg" width="600"></a>
 		<p> &emsp; </p>
 		
 		<p> &emsp; </p>
