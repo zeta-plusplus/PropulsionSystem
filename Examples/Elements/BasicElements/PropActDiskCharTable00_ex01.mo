@@ -19,7 +19,7 @@ model PropActDiskCharTable00_ex01
   FluidSystemComponents.Utilities.ConstrainVariable Constraint1 annotation(
     Placement(visible = true, transformation(origin = {38, -10}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Sources.Ramp ramp_pwr(duration = 10, height = 50 * 1000, offset = 100 * 1000, startTime = 50) annotation(
-    Placement(visible = true, transformation(origin = {38, -44}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement(visible = true, transformation(origin = {38, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   PropulsionSystem.Elements.BasicElements.PropActDiskCharTable00 Prop(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-40, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_theta_deg(duration = 10, height = 10, offset = 25, startTime = 30) annotation(
@@ -29,6 +29,8 @@ model PropActDiskCharTable00_ex01
   Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = engineAir, T = 288.15, nPorts = 1, p = 101.325 * 1000) annotation(
     Placement(visible = true, transformation(origin = {-80, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(ramp_pwr.y, Constraint1.u_targetValue) annotation(
+    Line(points = {{38, -29}, {38, -23}}, color = {0, 0, 127}));
   connect(from_deg1.y, Prop.u_theta) annotation(
     Line(points = {{-21, 70}, {-28, 70}, {-28, 32}, {-38, 32}}, color = {0, 0, 127}));
   connect(from_deg1.u, ramp_theta_deg.y) annotation(
@@ -47,8 +49,6 @@ equation
     Line(points = {{38, 9}, {38, 9}, {38, 3}, {38, 3}}, color = {0, 0, 127}));
   connect(Prop.flange_1, speedSensor1.flange) annotation(
     Line(points = {{-20, 20}, {3.57625e-06, 20}, {3.57625e-06, 20}, {3.57625e-06, 20}}));
-  connect(ramp_pwr.y, Constraint1.u_targetValue) annotation(
-    Line(points = {{38, -33}, {38, -33}, {38, -23}, {38, -23}}, color = {0, 0, 127}));
   annotation(
     experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-06, Interval = 0.0233333),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
