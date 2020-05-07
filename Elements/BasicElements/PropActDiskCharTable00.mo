@@ -39,7 +39,7 @@ model PropActDiskCharTable00
           parameters    
     --------------------------------------------- */
   parameter Modelica.SIunits.Length diam_paramInput=2.0 "propeller diameter" annotation(
-    Dialog(group = "Geometory"));
+    Dialog(group = "component sizing"));
   
   
   
@@ -114,8 +114,8 @@ algorithm
 equation
   connect(to_deg1.y, PropTbl_CTCP_Jtheta.u_theta) annotation(
     Line(points = {{-49, 26}, {-40, 26}}, color = {0, 0, 127}));
-  
   to_deg1.u= theta;
+  PropTbl_CTCP_Jtheta.u_J= J;
   diam= diam_paramInput;
   
   
