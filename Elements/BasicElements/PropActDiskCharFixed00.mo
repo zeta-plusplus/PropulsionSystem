@@ -12,10 +12,9 @@ model PropActDiskCharFixed00
   ********************************************************/
   
   
-  
   /* ---------------------------------------------
-        switches
-  --------------------------------------------- */
+          switches
+    --------------------------------------------- */
   parameter Boolean use_u_effProp = false "get effProp from the real input connector" annotation(
     Evaluate = true,
     HideResult = true,
@@ -40,6 +39,11 @@ model PropActDiskCharFixed00
   parameter Modelica.SIunits.Force Fn_FnSaturation_paramInput=10*1000 if(switch_FnSaturation==switchThrustSaturation.byFn) "saturation thrust, valid only when switch_FnSaturation==byFn";
   
   
+  /* ---------------------------------------------
+        Internal variables    
+    --------------------------------------------- */
+  Modelica.SIunits.Velocity Vinf_FnSaturation if switch_FnSaturation == switchThrustSaturation.byVinf "freestream speeed for thrust saturation";
+  Modelica.SIunits.Force Fn_FnSaturation if switch_FnSaturation == switchThrustSaturation.byFn "saturation thrust";
   
   
   
@@ -75,8 +79,13 @@ initial equation
   
   
 algorithm
-//##### NONE #####  
-  
+
+  // prevent Vinf=0.0 input
+  if u_Vinf <= 0.0 then
+    Vinf := 0.1;
+  else
+    Vinf := u_Vinf;
+  end if;
   
 equation
   /* ---------------------------------------------
@@ -104,7 +113,24 @@ equation
   
   
   
-  
+  /* ---------------------------------------------
+  Eqns describing physics
+  --------------------------------------------- */
+  if switch_FnSaturation == switchThrustSaturation.byVinf then
+    if Vinf_FnSaturation < Vinf then
+      pwrPropulsive = Fn * Vinf;
+    else
+      Fn = pwrPropulsive / Vinf_FnSaturation;
+    end if;
+  elseif switch_FnSaturation == switchThrustSaturation.byFn then
+    Fn = min(Fn_FnSaturation, pwrPropulsive / Vinf);
+  else
+    if Vinf_FnSaturation < Vinf then
+      pwrPropulsive = Fn * Vinf;
+    else
+      Fn = pwrPropulsive / Vinf_FnSaturation;
+    end if;
+  end if;
   
   
   
