@@ -29,6 +29,13 @@ partial model PropellerActuatorDiskBase01
     Dialog(tab = "Initialization", group = "fluid_amb"));
   parameter Modelica.SIunits.SpecificEnthalpy hAmb_init(displayUnit = "J/kg") = Tamb_init*1.004 * 1000 * 288.15 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_amb"));
+  //--- flange_1 ---
+  parameter Modelica.SIunits.Torque tau1_init=pwr_init/(Nmech_init*2.0*Modelica.Constants.pi/60.0) "" annotation(
+    Dialog(tab = "Initialization", group = "flange_1")
+  );
+  parameter Modelica.SIunits.Angle phi1_init=phi_init "" annotation(
+    Dialog(tab = "Initialization", group = "flange_1")
+  );
   //--- others ---
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech_init=2000.0 "" annotation(
     Dialog(tab = "Initialization", group = "others")

@@ -6,7 +6,7 @@ model PropActDiskCharTable00_ex01
   package engineAir = Modelica.Media.Air.DryAirNasa;
   //redeclare package Medium = engineAir
   //-----
-  Modelica.Blocks.Sources.Ramp ramp_Vinf(duration = 10, height = 50, offset = 100, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_Vinf(duration = 20, height = -95, offset = 100, startTime = 50) annotation(
     Placement(visible = true, transformation(origin = {-90, 28}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sources.Torque torque1 annotation(
     Placement(visible = true, transformation(origin = {60, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
@@ -18,7 +18,7 @@ model PropActDiskCharTable00_ex01
     Placement(visible = true, transformation(origin = {90, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint1 annotation(
     Placement(visible = true, transformation(origin = {38, -10}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Sources.Ramp ramp_pwr(duration = 10, height = 50 * 1000, offset = 100 * 1000, startTime = 50) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_pwr(duration = 10, height = 50 * 1000, offset = 100 * 1000, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {38, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   PropulsionSystem.Elements.BasicElements.PropActDiskCharTable00 Prop(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-40, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
@@ -50,6 +50,6 @@ equation
   connect(Prop.flange_1, speedSensor1.flange) annotation(
     Line(points = {{-20, 20}, {3.57625e-06, 20}, {3.57625e-06, 20}, {3.57625e-06, 20}}));
   annotation(
-    experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-06, Interval = 0.0233333),
+    experiment(StartTime = 0, StopTime = 80, Tolerance = 1e-06, Interval = 0.0266667),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
 end PropActDiskCharTable00_ex01;
