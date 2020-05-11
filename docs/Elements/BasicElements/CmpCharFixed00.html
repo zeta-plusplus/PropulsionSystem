@@ -82,6 +82,7 @@
 	<h4>Limitations/Assumptions of model</h4>	
 		<ul>
 		<li>No flow capacity model. The mass flow rate must be determined outside of this compressor component. </li>
+		<li>Mechanical rotational speed must be determined out of this component. </li>
 		<li>No phase change of fluid can occur. </li>
 		<li>Simulation of abnormal operation where fluid pressure drops by windmilling or 0 change in fluid  pressure cannot be performed. </li>
 		<li>Flow reversal condition cannot be simulated. </li>
@@ -97,17 +98,33 @@
 		<p> &emsp; </p>
 		
 	<h4>Usage </h4>
-		<ul>
+		<ol>
 		<li>Redeclear the package of medium. </li>
-		<li>fill following connectors: </li>
+		<li>Fill of connectors: </li>
 			<ul>
 			<li>Fluid inlet port, port_1 </li>
 			<li>Fluid outlet port, port_2 </li>
 			<li>Either or both of flange_1, flange_2 </li>
 			<li>Optional: real signal port for pressure ratio, u_PR </li>
-			<li>Optional: </li>
+			<li>Optional: real signal port for adiabatic efficiency, u_eff </li>
 			</ul>
-		</ul>
+		<li>Prameter settings diffrenent depending on causality of calculation. </li>
+			<ul>
+			<li>Case where you specify pressure ratio, then power and torque are calculated. </li>
+				<ol>
+				<li>Set switchDetermine_PR= "param", or "viaRealInput"</li>
+				<li>Set PRdes_paramInput if you "param" is chosen, give pressure ratio value via u_PR if you choose "viaRealInput" </li>
+				</ol>
+			<li>Caes where you give axial power/torque, then pressrue ratio is calculated. </li>
+				<ol>
+				<li>Set switchDetermine_PR= "asCalculated". </li>
+				<li>PRdes_paramInput can be left unset. </li>
+				<p>On the other hand, axial power/torque must be determined outside of this comopenent. </p>
+				</ol>
+			</ul>
+		<li>Other parameter settings. </li>
+		<p>Parameters rather than "General" can be left default value in most of case. </p>
+		</ol>
 		<p> &emsp; </p>
 	
 	<h4>Warning/Causions </h4>
@@ -115,21 +132,23 @@
 		<p> &emsp; </p>
 		
 	<h4>Demo models</h4>
-		<li> </li>
+		<ol>
+		<li>PropulsionSystem.Examples.Elements.BasicElements.CmpCharFixed00_ex01 </li>
 		<a href="CmpCharFixed00_ex01.jpg" target="_blank"><img src= "CmpCharFixed00_ex01.jpg" width="600"></a>
 		<p> &emsp; </p>
 		
-		<li> </li>
+		<li>PropulsionSystem.Examples.Elements.BasicElements.CmpCharFixed00_ex02 </li>
 		<a href="CmpCharFixed00_ex02.jpg" target="_blank"><img src= "CmpCharFixed00_ex02.jpg" width="600"></a>
 		<p> &emsp; </p>
 		
-		<li> </li>
+		<li>PropulsionSystem.Examples.Elements.BasicElements.Cmp_and_Trb_ex01 </li>
 		<a href="Cmp_and_Trb_ex01.jpg" target="_blank"><img src= "Cmp_and_Trb_ex01.jpg" width="600"></a>
 		<p> &emsp; </p>
 		
-		<li> </li>
+		<li>PropulsionSystem.Examples.Elements.BasicElements.Cmp_and_Trb_ex02 </li>
 		<a href="Cmp_and_Trb_ex02.jpg" target="_blank"><img src= "Cmp_and_Trb_ex02.jpg" width="600"></a>
 		<p> &emsp; </p>
+		</ol>
 		
 		<p> &emsp; </p>
 		
