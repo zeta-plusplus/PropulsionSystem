@@ -1,45 +1,30 @@
 within PropulsionSystem.Elements.BasicElements;
 
-model TrbCharTable00
+model TrbCharTable01
   extends PropulsionSystem.BaseClasses.BasicElements.TurbineBase00;
   /********************************************************
-            imports   
-    ********************************************************/
+              imports   
+      ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
   /********************************************************
-            Declaration   
-    ********************************************************/
+              Declaration   
+      ********************************************************/
   /* ---------------------------------------------
-            switches    
-    --------------------------------------------- */
-  parameter Boolean use_u_s_WcAud = false "" annotation(
+              switches    
+      --------------------------------------------- */
+  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated "switch how to determine PR" annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching = true,
     Evaluate = true,
-    HideResult = true,
-    choices(checkBox = true),
-    Dialog(group = "switch"));
-  parameter Boolean use_u_a_WcAud = false "" annotation(
-    Evaluate = true,
-    HideResult = true,
-    choices(checkBox = true),
-    Dialog(group = "switch"));
-  parameter Boolean use_u_s_effAud = false "" annotation(
-    Evaluate = true,
-    HideResult = true,
-    choices(checkBox = true),
-    Dialog(group = "switch"));
-  parameter Boolean use_u_a_effAud = false "" annotation(
-    Evaluate = true,
-    HideResult = true,
-    choices(checkBox = true),
-    Dialog(group = "switch"));
+    HideResult = true);
   //----------
-  parameter Boolean use_tableFile_Wc = true "" annotation(
+  parameter Boolean use_tableFile_Wc = false "" annotation(
     Evaluate = true,
     HideResult = true,
     choices(checkBox = true),
     Dialog(group = "switch about table file reading"));
-  parameter Boolean use_tableFile_eff = true "" annotation(
+  parameter Boolean use_tableFile_eff = false "" annotation(
     Evaluate = true,
     HideResult = true,
     choices(checkBox = true),
@@ -51,22 +36,16 @@ model TrbCharTable00
   parameter Modelica.Blocks.Types.Smoothness switchSmoothness_eff = Modelica.Blocks.Types.Smoothness.ContinuousDerivative "" annotation(
     Dialog(group = "switch about interpolation"));
   /* ---------------------------------------------
-            parameters    
-    --------------------------------------------- */
+              parameters    
+      --------------------------------------------- */
   inner parameter Real PRdes_paramInput = 5.0 "pressure ratio, valid only when switchDetermine_PR==param, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
   inner parameter Real effDes_paramInput = 0.80 "adiabatic efficiency, valid only when use_u_eff==false, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
-  
-  //----------
-  parameter Modelica.SIunits.MassFlowRate m_flow_des_1_paramInput=1.0 "" annotation(
-    Dialog(group = "Component sizing"));
-  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes_paramInput=3000.0 "" annotation(
-    Dialog(group = "Component sizing"));
   parameter Real NcTblDes_paramInput = 1.0 "design point definition on characteristics table" annotation(
-    Dialog(group = "Component sizing"));
-  parameter Real PRtblDes_paramInput = 2.0 "design point definition on table" annotation(
-    Dialog(group = "Component sizing"));
+    Dialog(group = "Component characteristics"));
+  parameter Real PRtblDes_paramInput = 6.0 "design point definition on table" annotation(
+    Dialog(group = "Component characteristics"));
   //----------
   parameter String pathName_tableFileInSimExeDir = "./tableData/table_Turbine_WcEff_NcPR00.txt" "relative path under sim. exe. file directory" annotation(
     Dialog(group = "table file read setting"));
@@ -76,48 +55,12 @@ model TrbCharTable00
     Dialog(group = "table file read setting"));
   parameter String tableName_eff = "eff_NcPR" "" annotation(
     Dialog(group = "table file read setting"));
-  
-  
   /* ---------------------------------------------
-                  Internal variables
-  --------------------------------------------- */
-  Real s_WcAud;
-  Real s_effAud;
-  Real a_WcAud;
-  Real a_effAud;
-  
-  
-  /* ---------------------------------------------
-                Internal objects
-  --------------------------------------------- */
-  PropulsionSystem.Subelements.ScalerDesTrb_WcEffNcPR00 ScalerDesTrb(
-    use_tableFile_Wc= use_tableFile_Wc,
-    use_tableFile_eff= use_tableFile_eff,
-    switchTableDataLocation= switchTableDataLocation,
-    switchSmoothness_Wc= switchSmoothness_Wc,
-    switchSmoothness_eff= switchSmoothness_eff,
-    pathName_tableFileInSimExeDir=pathName_tableFileInSimExeDir,
-    pathName_tableFileInLibPackage=pathName_tableFileInLibPackage,
-    tableName_Wc=tableName_Wc,
-    tableName_eff=tableName_eff
-  )
-    ""
-    annotation(
+                  Internal objects
+    --------------------------------------------- */
+  PropulsionSystem.Subelements.ScalerDesTrb_WcEffNcPR00 ScalerDesTrb(use_tableFile_Wc = use_tableFile_Wc, use_tableFile_eff = use_tableFile_eff, switchTableDataLocation = switchTableDataLocation, switchSmoothness_Wc = switchSmoothness_Wc, switchSmoothness_eff = switchSmoothness_eff, pathName_tableFileInSimExeDir = pathName_tableFileInSimExeDir, pathName_tableFileInLibPackage = pathName_tableFileInLibPackage, tableName_Wc = tableName_Wc, tableName_eff = tableName_eff) "" annotation(
     Placement(visible = true, transformation(origin = {-70, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-  PropulsionSystem.Subelements.TurbineTable_WcEff_NcPR00 TrbTbl_WcEff_NcPR(
-    use_tableFile_Wc= use_tableFile_Wc,
-    use_tableFile_eff= use_tableFile_eff,
-    switchTableDataLocation= switchTableDataLocation,
-    switchSmoothness_Wc= switchSmoothness_Wc,
-    switchSmoothness_eff= switchSmoothness_eff,
-    pathName_tableFileInSimExeDir=pathName_tableFileInSimExeDir,
-    pathName_tableFileInLibPackage=pathName_tableFileInLibPackage,
-    tableName_Wc=tableName_Wc,
-    tableName_eff=tableName_eff
-  )
-    ""
-    annotation(
+  PropulsionSystem.Subelements.TurbineTable_WcEff_NcPR00 TrbTbl_WcEff_NcPR(use_tableFile_Wc = use_tableFile_Wc, use_tableFile_eff = use_tableFile_eff, switchTableDataLocation = switchTableDataLocation, switchSmoothness_Wc = switchSmoothness_Wc, switchSmoothness_eff = switchSmoothness_eff, pathName_tableFileInSimExeDir = pathName_tableFileInSimExeDir, pathName_tableFileInLibPackage = pathName_tableFileInLibPackage, tableName_Wc = tableName_Wc, tableName_eff = tableName_eff) "" annotation(
     Placement(visible = true, transformation(origin = {20, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Subelements.SclTrb_WcEff00 SclTrb annotation(
     Placement(visible = true, transformation(origin = {50, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -127,82 +70,36 @@ model TrbCharTable00
     Placement(visible = true, transformation(origin = {-35, 25}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Blocks.Math.Add add_PRtbl annotation(
     Placement(visible = true, transformation(origin = {-5, 25}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const(k = 1)  annotation(
+  Modelica.Blocks.Sources.Constant const(k = 1) annotation(
     Placement(visible = true, transformation(origin = {-20, 5}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
   Modelica.Blocks.Math.Feedback feedback_PRtbl annotation(
     Placement(visible = true, transformation(origin = {-55, 25}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const1(k = 1) annotation(
     Placement(visible = true, transformation(origin = {-55, 5}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
-  
-  
-  
   /* ---------------------------------------------
-                  Interface
-  --------------------------------------------- */
-  input Modelica.Blocks.Interfaces.RealInput u_s_WcAud if use_u_s_WcAud "" annotation(
-    Placement(visible = true, transformation(origin = {-100, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-60, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  input Modelica.Blocks.Interfaces.RealInput u_s_effAud if use_u_s_effAud "" annotation(
-    Placement(visible = true, transformation(origin = {-20, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {20, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  input Modelica.Blocks.Interfaces.RealInput u_a_WcAud if use_u_a_WcAud "" annotation(
-    Placement(visible = true, transformation(origin = {-60, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-20, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  input Modelica.Blocks.Interfaces.RealInput u_a_effAud if use_u_a_effAud "" annotation(
-    Placement(visible = true, transformation(origin = {20, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {60, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+              Interface   
+      --------------------------------------------- */
   //********************************************************************************
-initial algorithm
-  /* ---------------------------------------------
-    determine design point
-  --------------------------------------------- */
-  m_flow_des_1 := m_flow_des_1_paramInput;
-  NmechDes := NmechDes_paramInput;
-  effDes := effDes_paramInput;
-  /*
-  pDes_1 := fluid_1.p;
-  Tdes_1 := fluid_1.T;
-  PRdes := PR;
-  */
-  
 initial equation
-  /* ---------------------------------------------
+/* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  //pDes_1 = fluid_1.p;
-  //Tdes_1 = fluid_1.T;
-  PRdes = PR;
-  
-  
-algorithm
-  /* ---------------------------------------------
-    interface
-  --------------------------------------------- */
-  //-- scalers --
-  //--------------------
-  if(use_u_s_WcAud==false)then
-    s_WcAud:=1.0;
-  elseif(use_u_s_WcAud==true)then
-    s_WcAud:=u_s_WcAud;
-  end if; 
-  //--------------------
-  if(use_u_s_effAud==false)then
-    s_effAud:=1.0;
-  elseif(use_u_s_effAud==true)then
-    s_effAud:=u_s_effAud;
-  end if; 
-  
-  //-- adders --
-  //--------------------
-  if(use_u_a_WcAud==false)then
-    a_WcAud:=0.0;
-  elseif(use_u_a_WcAud==true)then
-    a_WcAud:=u_a_WcAud;
-  end if; 
-  //--------------------
-  if(use_u_a_effAud==false)then
-    a_effAud:=0.0;
-  elseif(use_u_a_effAud==true)then
-    a_effAud:=u_a_effAud;
+  m_flow_des_1 = port_1.m_flow;
+  pDes_1 = fluid_1.p;
+  Tdes_1 = fluid_1.T;
+  NmechDes = Nmech;
+//--------------------
+  if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
+    PRdes = PRdes_paramInput;
+  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
+    PRdes = PR;
+  else
+    PRdes = PRdes_paramInput;
   end if;
-  
-  
+//--------------------
+  effDes = effDes_paramInput;
+algorithm
+//##### none #####
 equation
   connect(feedback_PRtbl.y, division_PRtbl.u1) annotation(
     Line(points = {{-50, 25}, {-44.5, 25}, {-44.5, 28}, {-40, 28}}, color = {0, 0, 127}));
@@ -228,23 +125,20 @@ equation
     Line(points = {{-58, 62}, {54, 62}, {54, 41}}, color = {0, 0, 127}));
   connect(ScalerDesTrb.y_s_WcDes, SclTrb.u_s_Wc) annotation(
     Line(points = {{-58, 66}, {46, 66}, {46, 41}}, color = {0, 0, 127}));
-  //----------
+//----------
   ScalerDesTrb.u_NcTblDes = NcTblDes_paramInput;
   ScalerDesTrb.u_PRtblDes = PRtblDes_paramInput;
   ScalerDesTrb.u_NcDes = NcDes_1;
   ScalerDesTrb.u_PRdes = PRdes;
   ScalerDesTrb.u_WcDes = WcDes_1;
   ScalerDesTrb.u_effDes = effDes;
-  //----------
+//----------
   division_NcTbl.u1 = Nc_1;
   feedback_PRtbl.u1 = PR;
-  //--------------------
-  /* ---------------------------------------------
-    component characteristics
-  --------------------------------------------- */
-  eff=SclTrb.y_effScld*s_effAud+a_effAud;
-  Wc_1= SclTrb.y_WcScld*s_WcAud+a_WcAud;
-  
+//--------------------
+//eff = effDes;
+  eff = SclTrb.y_effScld;
+  Wc_1 = SclTrb.y_WcScld;
 /********************************************************
   Graphics
 ********************************************************/
@@ -270,4 +164,4 @@ equation
     </ul>
 
 </html>"));
-end TrbCharTable00;
+end TrbCharTable01;
