@@ -106,6 +106,13 @@ model MassFlowAtInit
   input Modelica.Blocks.Interfaces.RealInput u_m_flow_init(quantity="MassFlowRate", unit="kg/s", displayUnit="kg/s") if use_u_m_flow_init "[kg/s]" annotation(
     Placement(visible = true, transformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 98}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   //********************************************************************************
+initial algorithm
+  if(use_u_m_flow_init==false)then
+    port_1.m_flow:= m_flow_init_paramInput;
+  elseif(use_u_m_flow_init==true)then
+    port_1.m_flow:= u_m_flow_init;
+  end if;
+  
 initial equation
   
   
@@ -118,6 +125,7 @@ equation
 /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
+  /*
   when(time==0)then
     if(use_u_m_flow_init==false)then
       port_1.m_flow= m_flow_init_paramInput;
@@ -125,6 +133,7 @@ equation
       port_1.m_flow= u_m_flow_init;
     end if;
   end when;
+  */
   
 //-- fluidPort_1 --
   fluid_1.p = port_1.p;

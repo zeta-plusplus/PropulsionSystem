@@ -22,27 +22,15 @@ model CmpCharTable01_ex01
     Placement(visible = true, transformation(origin = {-50, 36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sensors.PowerSensor powerSensor1 annotation(
     Placement(visible = true, transformation(origin = {42, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Sources.Speed speed1 annotation(
-    Placement(visible = true, transformation(origin = {70, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
-    Placement(visible = true, transformation(origin = {100, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 10, height = 0, offset = 3000.0, startTime = 10, y(fixed = false))  annotation(
-    Placement(visible = true, transformation(origin = {130, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_pwr(duration = 10, height = 0, offset = 100 * 1000, startTime = 10, y(fixed = false))  annotation(
-    Placement(visible = true, transformation(origin = {50, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  FluidSystemComponents.Utilities.ConstrainVariableExceptInitial Constraint annotation(
-    Placement(visible = true, transformation(origin = {50, -10}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Sources.NmechAtInit NmechAtInit annotation(
+    Placement(visible = true, transformation(origin = {70, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.MotorGeneratorCharFixed00 MotGene(eff_paramInput = 1.0, use_u_pwr = false)  annotation(
+    Placement(visible = true, transformation(origin = {100, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(Constraint.u_targetValue, ramp_pwr.y) annotation(
-    Line(points = {{50, -22}, {50, -22}, {50, -28}, {50, -28}, {50, -28}}, color = {0, 0, 127}));
-  connect(powerSensor1.power, Constraint.u_variable) annotation(
-    Line(points = {{50, 10}, {50, 10}, {50, 2}, {50, 2}}, color = {0, 0, 127}));
-  connect(from_rpm1.u, ramp_Nmech.y) annotation(
-    Line(points = {{112, 20}, {120, 20}, {120, 20}, {120, 20}}, color = {0, 0, 127}));
-  connect(speed1.w_ref, from_rpm1.y) annotation(
-    Line(points = {{82, 20}, {89, 20}}, color = {0, 0, 127}));
-  connect(powerSensor1.flange_a, speed1.flange) annotation(
-    Line(points = {{52, 20}, {60, 20}}));
+  connect(NmechAtInit.flange_2, MotGene.flange_1) annotation(
+    Line(points = {{80, 20}, {90, 20}, {90, 20}, {90, 20}}));
+  connect(powerSensor1.flange_a, NmechAtInit.flange_1) annotation(
+    Line(points = {{52, 20}, {60, 20}, {60, 20}, {60, 20}}));
   connect(Cmp.flange_2, powerSensor1.flange_b) annotation(
     Line(points = {{20, 20}, {32, 20}}));
   connect(MassFlowAtInit.port_2, Cmp.port_1) annotation(

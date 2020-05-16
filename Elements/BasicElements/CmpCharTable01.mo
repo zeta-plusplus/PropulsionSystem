@@ -174,7 +174,7 @@ initial algorithm
   //Wc_1:= WcDes_1;
   //NmechDes := NmechDes_paramInput;
   NmechDes:= Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
-  m_flow_des_1:= port_1.m_flow;
+  fluid_1_des.m_flow:= port_1.m_flow;
   
   
   
@@ -260,8 +260,8 @@ equation
 //----------
   ScalerDesCmp.u_NcTblDes = NcTblDes_paramInput;
   ScalerDesCmp.u_RlineTblDes = RlineTblDes_paramInput;
-  ScalerDesCmp.u_NcDes = NcDes_1;
-  ScalerDesCmp.u_WcDes = WcDes_1;
+  ScalerDesCmp.u_NcDes = Nc_1_des;
+  ScalerDesCmp.u_WcDes = Wc_1_des;
   ScalerDesCmp.u_PRdes = PRdes;
   ScalerDesCmp.u_effDes = effDes;
   
@@ -287,7 +287,7 @@ equation
     
     eff=effDes;
     PR=PRdes;
-    Wc_1=WcDes_1;
+    Wc_1=Wc_1_des;
     /*
     division_NcTbl.u1 = NcTblDes_paramInput;
     CmpTbl_WcPReff_NcRline.u_RlineTbl = RlineTblDes_paramInput;
