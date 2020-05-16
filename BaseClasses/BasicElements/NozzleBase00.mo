@@ -38,6 +38,12 @@ partial model NozzleBase00
     HideResult = true
     );
   
+  parameter Boolean printCmd = false "" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true),
+    Dialog(tab = "debug setting"));
+  
   
   /* ---------------------------------------------
       Package
@@ -322,8 +328,9 @@ initial equation
   
     
 algorithm
-  assert(fluid_1.h < fluidStat_th_fullExp.h, "nozzle inverse flow condition, fluid_1.h < fluidStat_th_fullExp.h" + "\n" + ", fluid_1.h=" + String(fluid_1.h) + ", fluidStat_th_fullExp.h=" + String(fluidStat_th_fullExp.h), AssertionLevel.warning);
-  
+  if(printCmd==true)then
+    assert(fluid_1.h < fluidStat_th_fullExp.h, "nozzle inverse flow condition, fluid_1.h < fluidStat_th_fullExp.h" + "\n" + ", fluid_1.h=" + String(fluid_1.h) + ", fluidStat_th_fullExp.h=" + String(fluidStat_th_fullExp.h), AssertionLevel.warning);
+  end if;
   
 equation
   /* ---------------------------------------------

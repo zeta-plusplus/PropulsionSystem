@@ -31,6 +31,12 @@ partial model CompressorBase00
     annotation(
       Dialog(tab="Assumptions"), Evaluate=true);
   
+  parameter Boolean printCmd = false "" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true),
+    Dialog(tab = "debug setting"));
+  
   
   
   /* ---------------------------------------------
@@ -259,127 +265,82 @@ protected
   /* ---------------------------------------------
           Non-modifiable, calculated parameters
     --------------------------------------------- */
-  parameter Modelica.SIunits.MassFlowRate m_flow_des_1(
-    fixed=false, start=m_flow1_init,
-    min=(0.0+1.0e-10)
-  ) annotation(
-    HideResult=false);
-  parameter Modelica.SIunits.Pressure pDes_1(
-    fixed=false, start=p1_init,
-    min=(0.0+1.0e-10)
-  ) annotation(
-    HideResult=false);
-  parameter Modelica.SIunits.Temperature Tdes_1(
-    fixed=false, start=T1_init,
-    min=(0.0+1.0e-10)
-  ) annotation(
-    HideResult=false);
-  parameter Modelica.SIunits.SpecificEnthalpy hDes_1(
-    fixed=false, start=h1_init,
-    min=(0.0+1.0e-10)
-  ) annotation(
-    HideResult=false);
-  parameter Medium.MassFraction XiDes_1[Medium.nX](
-    fixed=false, start=Medium.X_default
-  ) annotation(
-    HideResult=false);
-  
-  parameter Modelica.SIunits.MassFlowRate m_flow_des_2(
-    fixed=false, start=m_flow2_init,
-    min=(0.0+1.0e-10)
-  ) annotation(
-    HideResult=false);
-  parameter Modelica.SIunits.Pressure pDes_2(
-    fixed=false, start=p2_init,
-    min=(0.0+1.0e-10)
-  ) annotation(
-    HideResult=false);
-  parameter Modelica.SIunits.Temperature Tdes_2(
-    fixed=false, start=T2_init,
-    min=(0.0+1.0e-10)
-  ) annotation(
-    HideResult=false);
-  parameter Modelica.SIunits.SpecificEnthalpy hDes_2(
-    fixed=false, start=h2_init,
-    min=(0.0+1.0e-10)
-  ) annotation(
-    HideResult=false);
-  parameter Medium.MassFraction XiDes_2[Medium.nX](
-    fixed=false, start=Medium.X_default
-  ) annotation(
-    HideResult=false);
-  
-  parameter Modelica.SIunits.SpecificEnthalpy hDes_2is(
-    fixed=false, start=h2_init,
-    min=(0.0+1.0e-10)
-  ) annotation(
-    HideResult=false);
-  
-  
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false, start=Nmech_init) "mechanical rotation speed, rpm" annotation(
     HideResult=false);
-  inner parameter Modelica.SIunits.MassFlowRate WcDes_1(fixed=false, start=Wc_1_init) "corrected mass flow rate" annotation(
+  inner parameter Modelica.SIunits.MassFlowRate Wc_1_des(fixed=false, start=Wc_1_init) "corrected mass flow rate" annotation(
     HideResult=false);
-  inner parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NcDes_1(fixed=false, start=Nc_1_init) annotation(
+  inner parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1_des(fixed=false, start=Nc_1_init) annotation(
     HideResult=false);
   parameter Real PRdes(fixed=false, start=PR_init) annotation(
     HideResult=false);
   parameter Real effDes(fixed=false, start=eff_init) annotation(
     HideResult=false);
   
-  
-  parameter Modelica.SIunits.SpecificEnthalpy dhtDes(
-    fixed=false, start=h2_init-h1_init,
-    min=if(allowAbnormalOperation)then -Constants.inf else (0.0+1.0e-10)
-  ) annotation(
-    HideResult=false);
-  
-  parameter Modelica.SIunits.SpecificEnthalpy dhtIsDes(
-    fixed=false, start=h2_init-h1_init,
-    min=if(allowAbnormalOperation)then -Constants.inf else (0.0+1.0e-10)
-  ) annotation(
-    HideResult=false);
+  parameter PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
+    fixed=false,
+    HideResult=false,
+    nX=Medium.nX,
+    nC=Medium.nC
+  );
+  parameter PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
+    fixed=false,
+    HideResult=false,
+    nX=Medium.nX,
+    nC=Medium.nC
+  );
+  parameter PropulsionSystem.Records.CompressorVariables variablesDes(
+    fixed=false,
+    HideResult=false
+  );
   
   
 initial algorithm
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  fluid_1_des.p:=port_1.p;
+  fluid_1_des.h:=inStream(port_1.h_outflow);
+  fluid_1_des.X[1:Medium.nXi]:=inStream(port_1.Xi_outflow);
+  fluid_1_des.C[1:Medium.nC]:=inStream(port_1.C_outflow);
+  fluid_1_des.T:=Medium.temperature_phX(fluid_1_des.p, fluid_1_des.h, fluid_1_des.X);
+  fluid_1_des.s:=Medium.specificEntropy(Medium.setState_phX(fluid_1_des.p, fluid_1_des.h, fluid_1_des.X));
   
+  Nc_1_des := NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
+  Wc_1_des := fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd); 
   
-  pDes_1:= port_1.p;
-  Tdes_1:= fluid_1.T;
-  /*
-  hDes_1:= actualStream(port_1.h_outflow);
-  XiDes_1:= actualStream(port_1.Xi_outflow);
-  */
+  fluid_2_des.m_flow:=-1.0*fluid_2_des.m_flow;
+  fluid_2_des.p:=fluid_1_des.p*PRdes;
+  fluid_2_des.X[1:Medium.nXi]:=fluid_1_des.X[1:Medium.nXi];
+  fluid_2_des.C[1:Medium.nC]:=fluid_1_des.C[1:Medium.nC];
+  variablesDes.h_2is:=Medium.isentropicEnthalpy(fluid_2_des.p, Medium.setState_phX(fluid_1_des.p, fluid_1_des.h, fluid_1_des.X));
+  variablesDes.dht_is:=variablesDes.h_2is - fluid_1_des.h;
+  variablesDes.dht:=variablesDes.dht_is/effDes;
+  fluid_2_des.h:=fluid_1_des.h + variablesDes.dht;
+  fluid_2_des.T:= Medium.temperature_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X);
+  fluid_2_des.s:=Medium.specificEntropy(Medium.setState_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X));
   
+  variablesDes.Nc_1:=Nc_1_des;
+  variablesDes.Nmech:=NmechDes;
+  variablesDes.PR:=PRdes;
+  variablesDes.eff:=effDes;
+  variablesDes.Wc_1:=Wc_1_des;
   
-  
-  NcDes_1 := NmechDes / sqrt(Tdes_1 / environment.Tstd);
-  WcDes_1 := m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd); 
-  /*
-  m_flow_des_2:= -1.0*m_flow_des_1;
-  XiDes_2:= XiDes_1;
-  pDes_2:= pDes_1*PRdes;
-  hDes_2is := Medium.isentropicEnthalpy(pDes_2, Medium.setState_phX(pDes_1, hDes_1, XiDes_1));
-  dhtIsDes:= hDes_2is - hDes_1;
-  dhtDes:=dhtIsDes/effDes;
-  hDes_2:= hDes_1 + dhtDes;
-  Tdes_2:= Medium.temperature_phX(pDes_2, hDes_2, XiDes_2);
-  */
+  variablesDes.omega:=omega;
+  variablesDes.pwr:=pwr;
+  variablesDes.pwr_inv:=pwr_inv;
+  variablesDes.trq:=trq;
+  variablesDes.trq_inv:=trq_inv;
   
   
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  /*NcDes_1 = NmechDes / sqrt(Tdes_1 / environment.Tstd);
-  WcDes_1 = m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd); 
-  */
   
 algorithm
-  assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
+  if(printCmd==true)then
+    assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
+  end if;
   
 equation
 /* ---------------------------------------------
@@ -459,7 +420,7 @@ equation
   s_fluid_2= Medium.specificEntropy(fluid_2.state);
 //-- variables relative to design point --
   NqNdes = Nmech / NmechDes;
-  NcqNcDes_1 = Nc_1 / NcDes_1;
+  NcqNcDes_1 = Nc_1 / Nc_1_des;
   
   
 /********************************************************

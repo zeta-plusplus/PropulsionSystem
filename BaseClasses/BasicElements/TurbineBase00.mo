@@ -31,6 +31,11 @@ partial model TurbineBase00
     annotation(
       Dialog(tab="Assumptions"), Evaluate=true);
   
+  parameter Boolean printCmd = false "" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true),
+    Dialog(tab = "debug setting"));
   
   
   /* ---------------------------------------------
@@ -293,8 +298,10 @@ initial equation
   
       
 algorithm
-  assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
-
+  if(printCmd==true)then
+    assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
+  end if;
+  
 equation
 /* ---------------------------------------------
   Connections, interface <-> internal variables

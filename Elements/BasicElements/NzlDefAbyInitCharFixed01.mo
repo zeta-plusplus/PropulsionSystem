@@ -76,6 +76,9 @@ equation
 /* ---------------------------------------------
   Connections, interface <-> internal variables   
   --------------------------------------------- */
+  when(time==0)then
+    m_flow_des_1=port_1.m_flow;
+  end when;
 //--------------------
   if use_u_CdTh == false then
     CdTh = CdThDes_paramInput;

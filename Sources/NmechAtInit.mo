@@ -90,17 +90,28 @@ initial equation
   end if;
   */
   
-  Nmech= Nmech_init_paramInput;
+//********************************************************************************
+algorithm
+  
+  
+  
 //********************************************************************************
 equation
 /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
+  when(time==0.0)then
+    Nmech= Nmech_init_paramInput;
+  end when;
+  
   phi = flange_1.phi;
   phi = flange_2.phi;
   flange_1.tau + flange_2.tau = 0.0;
-  Nmech = Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
   der(phi) = omega;
+  Nmech = Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
+  
+  
+  
   annotation(
     defaultComponentName = "NmechAtInit",
     Documentation(info = "<html>
