@@ -252,7 +252,7 @@ partial model CompressorBase00
   Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1(
     tau(start=tau1_init), phi(start=phi1_init)
   ) "" annotation(
-    Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-98, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_2(
     tau(start=tau2_init), phi(start=phi2_init)
   ) "" annotation(
@@ -298,44 +298,49 @@ initial algorithm
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  variablesDes.PR:=PRdes;
+  variablesDes.eff:=effDes;
+  
+  //----------
   fluid_1_des.p:=port_1.p;
-  fluid_1_des.h:=inStream(port_1.h_outflow);
-  fluid_1_des.X[1:Medium.nXi]:=inStream(port_1.Xi_outflow);
-  fluid_1_des.C[1:Medium.nC]:=inStream(port_1.C_outflow);
+  fluid_1_des.h:=actualStream(port_1.h_outflow);
+  fluid_1_des.X[1:Medium.nXi]:=actualStream(port_1.Xi_outflow);
+  fluid_1_des.C[1:Medium.nC]:=actualStream(port_1.C_outflow);
   fluid_1_des.T:=Medium.temperature_phX(fluid_1_des.p, fluid_1_des.h, fluid_1_des.X);
   fluid_1_des.s:=Medium.specificEntropy(Medium.setState_phX(fluid_1_des.p, fluid_1_des.h, fluid_1_des.X));
+  variablesDes.omega:=omega;
+  variablesDes.phi:=0.0;
+  variablesDes.Nmech:=NmechDes;
   
+  //----------
   Nc_1_des := NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
   Wc_1_des := fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd); 
   
   fluid_2_des.m_flow:=-1.0*fluid_2_des.m_flow;
-  fluid_2_des.p:=fluid_1_des.p*PRdes;
+  fluid_2_des.p:=fluid_1_des.p*variablesDes.PR;
   fluid_2_des.X[1:Medium.nXi]:=fluid_1_des.X[1:Medium.nXi];
   fluid_2_des.C[1:Medium.nC]:=fluid_1_des.C[1:Medium.nC];
   variablesDes.h_2is:=Medium.isentropicEnthalpy(fluid_2_des.p, Medium.setState_phX(fluid_1_des.p, fluid_1_des.h, fluid_1_des.X));
   variablesDes.dht_is:=variablesDes.h_2is - fluid_1_des.h;
-  variablesDes.dht:=variablesDes.dht_is/effDes;
+  variablesDes.dht:=variablesDes.dht_is/variablesDes.eff;
   fluid_2_des.h:=fluid_1_des.h + variablesDes.dht;
   fluid_2_des.T:= Medium.temperature_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X);
   fluid_2_des.s:=Medium.specificEntropy(Medium.setState_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X));
   
-  variablesDes.Nc_1:=Nc_1_des;
-  variablesDes.Nmech:=NmechDes;
-  variablesDes.PR:=PRdes;
-  variablesDes.eff:=effDes;
   variablesDes.Wc_1:=Wc_1_des;
+  variablesDes.Nc_1:=Nc_1_des;
   
-  variablesDes.omega:=omega;
-  variablesDes.pwr:=pwr;
-  variablesDes.pwr_inv:=pwr_inv;
-  variablesDes.trq:=trq;
-  variablesDes.trq_inv:=trq_inv;
+  variablesDes.pwr:=(-1.0)*(fluid_2_des.m_flow*fluid_2_des.h) - fluid_1_des.m_flow*fluid_1_des.h;
+  variablesDes.pwr_inv:=(-1.0)*variablesDes.pwr;
+  variablesDes.trq:=variablesDes.pwr/variablesDes.omega;
+  variablesDes.trq_inv:=(-1.0)*variablesDes.trq;
   
   
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  //##### NONE #####
   
 algorithm
   if(printCmd==true)then
@@ -429,7 +434,7 @@ equation
   
   annotation(
     defaultComponentName="Cmp",
-    Icon(graphics = {Polygon(origin = {2, 36}, fillColor = {0, 85, 255}, fillPattern = FillPattern.Solid, points = {{-62, -38}, {-62, -116}, {58, -56}, {58, -16}, {-62, 44}, {-62, -38}}), Rectangle(origin = {-89, 6}, fillPattern = FillPattern.Solid, extent = {{-11, 4}, {29, -16}}), Rectangle(origin = {83, 2}, fillPattern = FillPattern.Solid, extent = {{-23, 8}, {17, -12}}), Rectangle(origin = {63, 86}, rotation = 180, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 66}, {7, 4}}), Rectangle(origin = {-94, 77}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{1, 6}, {5, -36}}), Rectangle(origin = {82, 75}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 26}, {7, -18}}), Text(origin = {-54, 99}, fillPattern = FillPattern.Solid, extent = {{-26, 1}, {134, -19}}, textString = "%name"), Text(origin = {-52, 11}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{-8, 9}, {112, -31}}, textString = "Cmp")}, coordinateSystem(initialScale = 0.1)),
+    Icon(graphics = {Polygon(origin = {2, 36}, fillColor = {2, 154, 255}, fillPattern = FillPattern.HorizontalCylinder, points = {{-62, -38}, {-62, -116}, {58, -56}, {58, -16}, {-62, 44}, {-62, -38}}), Rectangle(origin = {-89, 6}, fillPattern = FillPattern.Solid, extent = {{-11, 4}, {29, -16}}), Rectangle(origin = {83, 2}, fillPattern = FillPattern.Solid, extent = {{-23, 8}, {17, -12}}), Rectangle(origin = {63, 86}, rotation = 180, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 66}, {7, 4}}), Rectangle(origin = {-94, 77}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{1, 6}, {5, -36}}), Rectangle(origin = {82, 75}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 26}, {7, -18}}), Text(origin = {-54, 99}, fillPattern = FillPattern.Solid, extent = {{-26, 1}, {134, -19}}, textString = "%name"), Text(origin = {-52, 11}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{-8, 9}, {112, -31}}, textString = "Cmp")}, coordinateSystem(initialScale = 0.1)),
   Documentation(info = "<html>
   <a href=modelica://PropulsionSystem/docs/BaseClasses/BasicElements/CompressorBase00.html> Document html page</a>
   

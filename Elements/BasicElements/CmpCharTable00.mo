@@ -137,7 +137,7 @@ initial algorithm
     determine design point
   --------------------------------------------- */
   NmechDes := NmechDes_paramInput;
-  m_flow_des_1 := m_flow_des_1_paramInput;
+  fluid_1_des.m_flow := m_flow_des_1_paramInput;
   effDes := effDes_paramInput;
   PRdes := PRdes_paramInput;
 initial equation
@@ -213,8 +213,8 @@ equation
   //----------
   ScalerDesCmp.u_NcTblDes = NcTblDes_paramInput;
   ScalerDesCmp.u_RlineTblDes = RlineTblDes_paramInput;
-  ScalerDesCmp.u_NcDes = NcDes_1;
-  ScalerDesCmp.u_WcDes = WcDes_1;
+  ScalerDesCmp.u_NcDes = Nc_1_des;
+  ScalerDesCmp.u_WcDes = Wc_1_des;
   ScalerDesCmp.u_PRdes = PRdes;
   ScalerDesCmp.u_effDes = effDes;
   //----------

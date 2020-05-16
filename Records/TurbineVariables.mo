@@ -1,6 +1,6 @@
 within PropulsionSystem.Records;
 
-record CompressorVariables
+record TurbineVariables
   extends Modelica.Icons.Record;
   
   
@@ -15,9 +15,9 @@ record CompressorVariables
     HideResult=false);
   Modelica.SIunits.Torque trq_inv(fixed=fixed) annotation(
     HideResult=false);
-  Modelica.SIunits.Angle phi(fixed=fixed) annotation(
-    HideResult=false);
   Modelica.SIunits.AngularVelocity omega(fixed=fixed) annotation(
+    HideResult=false);
+  Modelica.SIunits.Angle phi(fixed=fixed) annotation(
     HideResult=false);
   Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech(fixed=fixed) annotation(
     HideResult=false);
@@ -37,4 +37,4 @@ record CompressorVariables
     HideResult=false);
   
   
-end CompressorVariables;
+end TurbineVariables;

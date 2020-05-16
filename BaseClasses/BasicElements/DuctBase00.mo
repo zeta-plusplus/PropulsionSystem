@@ -135,7 +135,6 @@ equation
       port_1.Xi_outflow= fluid_1.Xi;
     end if;
   end if;
-  
 /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
@@ -160,7 +159,7 @@ equation
   
   
   annotation(
-    Icon(graphics = {Rectangle(origin = {0, -6}, fillColor = {211, 211, 211}, fillPattern = FillPattern.Solid, extent = {{-100, 46}, {100, -34}}), Text(origin = {-26, 63}, fillPattern = FillPattern.Solid, extent = {{-54, 7}, {106, -13}}, textString = "%name"), Text(origin = {-16, 13}, fillPattern = FillPattern.Solid, extent = {{-54, 7}, {86, -23}}, textString = "Duct")}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Rectangle(origin = {0, -6}, fillColor = {227, 227, 227}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 46}, {100, -34}}), Text(origin = {-26, 63}, fillPattern = FillPattern.Solid, extent = {{-54, 7}, {106, -13}}, textString = "%name"), Text(origin = {-16, 13}, fillPattern = FillPattern.Solid, extent = {{-54, 7}, {86, -23}}, textString = "Duct")}, coordinateSystem(initialScale = 0.1)));
   
   
 end DuctBase00;

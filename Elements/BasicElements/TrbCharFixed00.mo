@@ -52,6 +52,9 @@ initial algorithm
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  fluid_1_des.m_flow := port_1.m_flow;
+  NmechDes := Nmech; 
+  
   /*
   m_flow_des_1 := port_1.m_flow;
   pDes_1 := fluid_1.p;
@@ -77,10 +80,6 @@ initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  m_flow_des_1 = port_1.m_flow;
-  //pDes_1 = fluid_1.p;
-  //Tdes_1 = fluid_1.T;
-  NmechDes = Nmech; 
   //--------------------
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     PRdes = PRdes_paramInput;

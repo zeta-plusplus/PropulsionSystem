@@ -260,43 +260,83 @@ protected
   /* ---------------------------------------------
           Non-modifiable calculated parameters
     --------------------------------------------- */
-  parameter Modelica.SIunits.MassFlowRate m_flow_des_1(fixed=false, start=m_flow1_init) annotation(
-    HideResult=false);
-  parameter Modelica.SIunits.Pressure pDes_1(fixed=false, start=p1_init) annotation(
-    HideResult=false);
-  parameter Modelica.SIunits.Temperature Tdes_1(fixed=false, start=T1_init) annotation(
-    HideResult=false);
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false, start=Nmech_init) "mechanical rotation speed, rpm" annotation(
     HideResult=false);
-  inner parameter Modelica.SIunits.MassFlowRate WcDes_1(fixed=false, start=Wc_1_init) "corrected mass flow rate" annotation(
+  inner parameter Modelica.SIunits.MassFlowRate Wc_1_des(fixed=false, start=Wc_1_init) "corrected mass flow rate" annotation(
     HideResult=false);
-  inner parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NcDes_1(fixed=false, start=Nc_1_init) annotation(
+  inner parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1_des(fixed=false, start=Nc_1_init) annotation(
     HideResult=false);
   parameter Real PRdes(fixed=false, start=PR_init) annotation(
     HideResult=false);
   parameter Real effDes(fixed=false, start=eff_init) annotation(
     HideResult=false);
   
+  parameter PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
+    fixed=false,
+    HideResult=false,
+    nX=Medium.nX,
+    nC=Medium.nC
+  );
+  parameter PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
+    fixed=false,
+    HideResult=false,
+    nX=Medium.nX,
+    nC=Medium.nC
+  );
+  parameter PropulsionSystem.Records.CompressorVariables variablesDes(
+    fixed=false,
+    HideResult=false
+  );
+  
 initial algorithm
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  pDes_1 := fluid_1.p;
-  Tdes_1 := fluid_1.T;
+  variablesDes.eff:=effDes;
+  variablesDes.PR:=PRdes;
   
-  NcDes_1 := NmechDes / sqrt(Tdes_1 / environment.Tstd);
-  WcDes_1 := m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd);
+  //----------
+  fluid_1_des.p:=port_1.p;
+  fluid_1_des.h:=actualStream(port_1.h_outflow);
+  fluid_1_des.X[1:Medium.nXi]:=actualStream(port_1.Xi_outflow);
+  fluid_1_des.C[1:Medium.nC]:=actualStream(port_1.C_outflow);
+  fluid_1_des.T:=Medium.temperature_phX(fluid_1_des.p, fluid_1_des.h, fluid_1_des.X);
+  fluid_1_des.s:=Medium.specificEntropy(Medium.setState_phX(fluid_1_des.p, fluid_1_des.h, fluid_1_des.X));
+  
+  variablesDes.phi:=0.0;
+  variablesDes.trq:=flange_1.tau + flange_2.tau;
+  variablesDes.trq_inv:=(-1.0)*variablesDes.trq;
+  variablesDes.omega:=omega;
+  variablesDes.Nmech:=Nmech;
+  
+  //----------
+  Nc_1_des:=NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
+  Wc_1_des:=fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
+  
+  variablesDes.pwr:=variablesDes.trq*variablesDes.omega;
+  variablesDes.pwr_inv:=(-1.0)*variablesDes.pwr;
+  variablesDes.dht:=variablesDes.pwr_inv/fluid_1_des.m_flow;
+  
+  fluid_2_des.m_flow:=(-1.0)*fluid_1_des.m_flow;
+  fluid_2_des.X[1:Medium.nXi]:=fluid_1_des.X[1:Medium.nXi];
+  fluid_2_des.C[1:Medium.nC]:=fluid_1_des.C[1:Medium.nC];
+  fluid_2_des.h:=fluid_1_des.h - variablesDes.dht;
+  variablesDes.dht_is:= variablesDes.dht/variablesDes.eff;
+  variablesDes.h_2is:= fluid_1_des.h - variablesDes.dht_is;
+  fluid_2_des.p:=fluid_1_des.p/variablesDes.PR;
+  fluid_2_des.T:=Medium.temperature_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X);
+  fluid_2_des.s:=Medium.specificEntropy(Medium.setState_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X));
+  
+  variablesDes.Nc_1:=Nc_1_des;
+  variablesDes.Wc_1:=Wc_1_des;
   
   
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  /*NcDes_1 = NmechDes / sqrt(Tdes_1 / environment.Tstd);
-  WcDes_1 = m_flow_des_1 * sqrt(Tdes_1 / environment.Tstd) / (pDes_1 / environment.pStd);
-  */
   
-      
+  
 algorithm
   if(printCmd==true)then
     assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
@@ -367,14 +407,14 @@ equation
   s_fluid_2= Medium.specificEntropy(fluid_2.state);
 //-- variables relative to design point --
   NqNdes = Nmech / NmechDes;
-  NcqNcDes_1 = Nc_1 / NcDes_1;
+  NcqNcDes_1 = Nc_1 / Nc_1_des;
   
   
 /********************************************************
   Graphics
 ********************************************************/
   annotation(
-    Icon(graphics = {Polygon(origin = {30, 0}, fillColor = {255, 157, 0}, fillPattern = FillPattern.Solid, points = {{-90, 0}, {-90, -20}, {30, -80}, {30, 80}, {-90, 20}, {-90, 0}}), Rectangle(origin = {84, 6}, fillPattern = FillPattern.Solid, extent = {{-24, 4}, {16, -16}}), Rectangle(origin = {-86, 6}, fillPattern = FillPattern.Solid, extent = {{-12, 4}, {26, -16}}), Text(origin = {-43, 95}, extent = {{-37, 5}, {123, -15}}, textString = "%name"), Rectangle(origin = {-57, 30}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 52}, {1, -10}}), Rectangle(origin = {-99, 16}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-1, 66}, {43, 62}}), Rectangle(origin = {63, 16}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 66}, {37, 62}}), Text(origin = {-37, 11}, extent = {{-23, 9}, {97, -31}}, textString = "Trb")}, coordinateSystem(initialScale = 0.1)),
+    Icon(graphics = {Polygon(origin = {30, 0}, fillColor = {255, 170, 0}, fillPattern = FillPattern.HorizontalCylinder, points = {{-90, 0}, {-90, -20}, {30, -80}, {30, 80}, {-90, 20}, {-90, 0}}), Rectangle(origin = {84, 6}, fillPattern = FillPattern.Solid, extent = {{-24, 4}, {16, -16}}), Rectangle(origin = {-86, 6}, fillPattern = FillPattern.Solid, extent = {{-12, 4}, {26, -16}}), Text(origin = {-43, 95}, extent = {{-37, 5}, {123, -15}}, textString = "%name"), Rectangle(origin = {-57, 30}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 52}, {1, -10}}), Rectangle(origin = {-99, 16}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-1, 66}, {43, 62}}), Rectangle(origin = {63, 16}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 66}, {37, 62}}), Text(origin = {-37, 11}, extent = {{-23, 9}, {97, -31}}, textString = "Trb")}, coordinateSystem(initialScale = 0.1)),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"));
   
   

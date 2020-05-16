@@ -152,21 +152,14 @@ initial algorithm
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  m_flow_des_1 := m_flow_des_1_paramInput;
+  fluid_1_des.m_flow := m_flow_des_1_paramInput;
   NmechDes := NmechDes_paramInput;
   effDes := effDes_paramInput;
-  /*
-  pDes_1 := fluid_1.p;
-  Tdes_1 := fluid_1.T;
-  PRdes := PR;
-  */
   
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  //pDes_1 = fluid_1.p;
-  //Tdes_1 = fluid_1.T;
   PRdes = PR;
   
   
@@ -231,9 +224,9 @@ equation
   //----------
   ScalerDesTrb.u_NcTblDes = NcTblDes_paramInput;
   ScalerDesTrb.u_PRtblDes = PRtblDes_paramInput;
-  ScalerDesTrb.u_NcDes = NcDes_1;
+  ScalerDesTrb.u_NcDes = Nc_1_des;
   ScalerDesTrb.u_PRdes = PRdes;
-  ScalerDesTrb.u_WcDes = WcDes_1;
+  ScalerDesTrb.u_WcDes = Wc_1_des;
   ScalerDesTrb.u_effDes = effDes;
   //----------
   division_NcTbl.u1 = Nc_1;
