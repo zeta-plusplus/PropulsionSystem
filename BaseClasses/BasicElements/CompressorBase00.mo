@@ -302,11 +302,11 @@ initial algorithm
   variablesDes.eff:=effDes;
   
   //----------
-  fluid_1_des.p:=port_1.p;
+  //fluid_1_des.p:=port_1.p;
   fluid_1_des.h:=actualStream(port_1.h_outflow);
   fluid_1_des.X[1:Medium.nXi]:=actualStream(port_1.Xi_outflow);
   fluid_1_des.C[1:Medium.nC]:=actualStream(port_1.C_outflow);
-  fluid_1_des.T:=Medium.temperature_phX(fluid_1_des.p, fluid_1_des.h, fluid_1_des.X);
+  //fluid_1_des.T:=Medium.temperature_phX(fluid_1_des.p, fluid_1_des.h, fluid_1_des.X);
   fluid_1_des.s:=Medium.specificEntropy(Medium.setState_phX(fluid_1_des.p, fluid_1_des.h, fluid_1_des.X));
   variablesDes.omega:=omega;
   variablesDes.phi:=0.0;

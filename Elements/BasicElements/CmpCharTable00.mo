@@ -76,7 +76,11 @@ model CmpCharTable00//**********************************************************
   inner parameter Real effDes_paramInput = 0.80 "adiabatic efficiency, valid only when use_u_eff==false, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
   //----------
-  parameter Modelica.SIunits.MassFlowRate m_flow_des_1_paramInput = 1.0 "" annotation(
+  parameter Modelica.SIunits.MassFlowRate m_flow_1_des_paramInput = 1.0 "" annotation(
+    Dialog(group = "Component sizing"));
+  parameter Modelica.SIunits.Pressure p1_des_paramInput(displayUnit="Pa")=101.325*1000 "" annotation(
+    Dialog(group = "Component sizing"));
+  parameter Modelica.SIunits.Temperature T1_des_paramInput(displayUnit="K")=288.15 "" annotation(
     Dialog(group = "Component sizing"));
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes_paramInput = 3000.0 "" annotation(
     Dialog(group = "Component sizing"));
@@ -137,16 +141,16 @@ initial algorithm
     determine design point
   --------------------------------------------- */
   NmechDes := NmechDes_paramInput;
-  fluid_1_des.m_flow := m_flow_des_1_paramInput;
+  fluid_1_des.m_flow := m_flow_1_des_paramInput;
+  fluid_1_des.p:= p1_des_paramInput;
+  fluid_1_des.T:=T1_des_paramInput;
   effDes := effDes_paramInput;
   PRdes := PRdes_paramInput;
 initial equation
 /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  /*pDes_1 = fluid_1.p;
-  Tdes_1 = fluid_1.T;
-  */
+  //##### none #####
   
 algorithm
   /* ---------------------------------------------

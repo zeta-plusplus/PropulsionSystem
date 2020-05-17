@@ -59,7 +59,11 @@ model TrbCharTable00
     Dialog(group = "Component characteristics"));
   
   //----------
-  parameter Modelica.SIunits.MassFlowRate m_flow_des_1_paramInput=1.0 "" annotation(
+  parameter Modelica.SIunits.MassFlowRate m_flow_1_des_paramInput=1.0 "" annotation(
+    Dialog(group = "Component sizing"));
+  parameter Modelica.SIunits.Pressure p1_des_paramInput(displayUnit="Pa")=10*101.325*1000 "" annotation(
+    Dialog(group = "Component sizing"));
+  parameter Modelica.SIunits.Temperature T1_des_paramInput(displayUnit="K")=1600.0 "" annotation(
     Dialog(group = "Component sizing"));
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes_paramInput=3000.0 "" annotation(
     Dialog(group = "Component sizing"));
@@ -152,7 +156,9 @@ initial algorithm
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  fluid_1_des.m_flow := m_flow_des_1_paramInput;
+  fluid_1_des.m_flow := m_flow_1_des_paramInput;
+  fluid_1_des.p:= p1_des_paramInput;
+  fluid_1_des.T:=T1_des_paramInput;
   NmechDes := NmechDes_paramInput;
   effDes := effDes_paramInput;
   
