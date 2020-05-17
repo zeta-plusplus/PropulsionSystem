@@ -100,7 +100,7 @@ package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixtu
     Placement(visible = true, transformation(origin = {-200, 16}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
   Modelica.Blocks.Math.Add add1 annotation(
     Placement(visible = true, transformation(origin = {430, -150}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Sources.Ramp ramp_Cmp120_PR(duration = 10, height = 0.7, offset = 1.1, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_Cmp120_PR(duration = 10, height = 0.7, offset = 1.5, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-162, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_Cmp120_eff(duration = 10, height = 0, offset = 0.9, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-150, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));

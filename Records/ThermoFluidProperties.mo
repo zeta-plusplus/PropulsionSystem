@@ -17,9 +17,9 @@ record ThermoFluidProperties
     HideResult=false);
   Modelica.SIunits.SpecificEnthalpy h(fixed=fixed) annotation(
     HideResult=false);
-  Modelica.SIunits.MassFraction X[nX](fixed=fixed) annotation(
+  Modelica.SIunits.MassFraction X[nX](each fixed=fixed) annotation(
     HideResult=false);
-  Real C[nC](fixed=fixed) annotation(
+  Real C[nC](each fixed=fixed) annotation(
     HideResult=false);
   Modelica.SIunits.SpecificEntropy s(fixed=fixed) annotation(
     HideResult=false);

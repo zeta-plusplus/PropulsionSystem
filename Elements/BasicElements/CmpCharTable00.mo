@@ -2,7 +2,15 @@ within PropulsionSystem.Elements.BasicElements;
 
 model CmpCharTable00//********************************************************************************
 
-  extends PropulsionSystem.BaseClasses.BasicElements.CompressorBase00;
+  extends PropulsionSystem.BaseClasses.BasicElements.CompressorBase00(
+    m_flow1_init=m_flow_1_des_paramInput,
+    p1_init=p1_des_paramInput,
+    T1_init=T1_des_paramInput,
+    Nmech_init=NmechDes_paramInput,
+    PR_init=PRdes_paramInput,
+    eff_init=effDes_paramInput,
+    Wc_1(start=Wc_1_des)
+  );
   /********************************************************
                   imports
         ********************************************************/
@@ -146,6 +154,7 @@ initial algorithm
   fluid_1_des.T:=T1_des_paramInput;
   effDes := effDes_paramInput;
   PRdes := PRdes_paramInput;
+  
 initial equation
 /* ---------------------------------------------
     determine design point

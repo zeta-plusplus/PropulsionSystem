@@ -1,7 +1,13 @@
 within PropulsionSystem.Elements.BasicElements;
 
 model TrbCharTable00
-  extends PropulsionSystem.BaseClasses.BasicElements.TurbineBase00;
+  extends PropulsionSystem.BaseClasses.BasicElements.TurbineBase00(
+    m_flow1_init=m_flow_1_des_paramInput,
+    p1_init=p1_des_paramInput,
+    T1_init=T1_des_paramInput,
+    Nmech_init=NmechDes_paramInput,
+    eff_init=effDes_paramInput
+  );
   /********************************************************
             imports   
     ********************************************************/
@@ -53,8 +59,6 @@ model TrbCharTable00
   /* ---------------------------------------------
             parameters    
     --------------------------------------------- */
-  inner parameter Real PRdes_paramInput = 5.0 "pressure ratio, valid only when switchDetermine_PR==param, value fixed through simulation" annotation(
-    Dialog(group = "Component characteristics"));
   inner parameter Real effDes_paramInput = 0.80 "adiabatic efficiency, valid only when use_u_eff==false, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
   

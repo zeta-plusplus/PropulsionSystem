@@ -280,14 +280,35 @@ protected
     fixed=false,
     HideResult=false,
     nX=Medium.nX,
-    nC=Medium.nC
+    nC=Medium.nC,
+    m_flow(start=m_flow1_init),
+    p(start=p1_init),
+    T(start=T1_init),
+    h(start=h1_init),
+    s(start=s_fluid_1_init)
   );
   parameter PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
     fixed=false,
     HideResult=false,
     nX=Medium.nX,
-    nC=Medium.nC
+    nC=Medium.nC,
+    m_flow(start=m_flow2_init),
+    p(start=p2_init),
+    T(start=T2_init),
+    h(start=h2_init),
+    s(start=s_fluid_2_init)
   );
+  
+  parameter PropulsionSystem.Records.RotationalMachineVariables flange_1_des(
+    fixed=false,
+    HideResult=false
+  );
+  
+  parameter PropulsionSystem.Records.RotationalMachineVariables flange_2_des(
+    fixed=false,
+    HideResult=false
+  );
+  
   parameter PropulsionSystem.Records.CompressorVariables variablesDes(
     fixed=false,
     HideResult=false
@@ -298,6 +319,11 @@ initial algorithm
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  //----------
+  Nc_1_des := NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
+  Wc_1_des := fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd); 
+  
+  /*
   variablesDes.PR:=PRdes;
   variablesDes.eff:=effDes;
   
@@ -311,10 +337,6 @@ initial algorithm
   variablesDes.omega:=omega;
   variablesDes.phi:=0.0;
   variablesDes.Nmech:=NmechDes;
-  
-  //----------
-  Nc_1_des := NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
-  Wc_1_des := fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd); 
   
   fluid_2_des.m_flow:=-1.0*fluid_2_des.m_flow;
   fluid_2_des.p:=fluid_1_des.p*variablesDes.PR;
@@ -334,7 +356,7 @@ initial algorithm
   variablesDes.pwr_inv:=(-1.0)*variablesDes.pwr;
   variablesDes.trq:=variablesDes.pwr/variablesDes.omega;
   variablesDes.trq_inv:=(-1.0)*variablesDes.trq;
-  
+  */
   
 initial equation
   /* ---------------------------------------------

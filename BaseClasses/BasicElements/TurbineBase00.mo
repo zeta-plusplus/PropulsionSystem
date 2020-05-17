@@ -275,14 +275,36 @@ protected
     fixed=false,
     HideResult=false,
     nX=Medium.nX,
-    nC=Medium.nC
+    nC=Medium.nC,
+    m_flow(start=m_flow1_init),
+    p(start=p1_init),
+    T(start=T1_init),
+    h(start=h1_init),
+    s(start=s_fluid_1_init)
   );
+  
   parameter PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
     fixed=false,
     HideResult=false,
     nX=Medium.nX,
-    nC=Medium.nC
+    nC=Medium.nC,
+    m_flow(start=m_flow2_init),
+    p(start=p2_init),
+    T(start=T2_init),
+    h(start=h2_init),
+    s(start=s_fluid_2_init)
   );
+  
+  parameter PropulsionSystem.Records.RotationalMachineVariables flange_1_des(
+    fixed=false,
+    HideResult=false
+  );
+  
+  parameter PropulsionSystem.Records.RotationalMachineVariables flange_2_des(
+    fixed=false,
+    HideResult=false
+  );
+  
   parameter PropulsionSystem.Records.CompressorVariables variablesDes(
     fixed=false,
     HideResult=false
@@ -292,6 +314,11 @@ initial algorithm
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  //----------
+  Nc_1_des:=NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
+  Wc_1_des:=fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
+  
+  /*
   variablesDes.eff:=effDes;
   variablesDes.PR:=PRdes;
   
@@ -309,10 +336,6 @@ initial algorithm
   variablesDes.omega:=omega;
   variablesDes.Nmech:=NmechDes;
   
-  //----------
-  Nc_1_des:=NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
-  Wc_1_des:=fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
-  
   variablesDes.pwr:=variablesDes.trq*variablesDes.omega;
   variablesDes.pwr_inv:=(-1.0)*variablesDes.pwr;
   variablesDes.dht:=variablesDes.pwr_inv/fluid_1_des.m_flow;
@@ -329,7 +352,7 @@ initial algorithm
   
   variablesDes.Nc_1:=Nc_1_des;
   variablesDes.Wc_1:=Wc_1_des;
-  
+  */
   
 initial equation
   /* ---------------------------------------------
@@ -338,6 +361,7 @@ initial equation
   
   
 algorithm
+  
   if(printCmd==true)then
     assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
   end if;
