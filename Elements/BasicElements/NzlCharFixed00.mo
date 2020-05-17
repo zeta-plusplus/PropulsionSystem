@@ -64,34 +64,11 @@ model NzlCharFixed00
 
   //********************************************************************************
 initial algorithm
-  /* ---------------------------------------------
-    determine design point
-  --------------------------------------------- */
-  /*
-  PR:= PRdes;
-  //--------------------
-  if (use_u_CdTh==false) then
-    CdThDes := CdThDes_paramInput;
-  elseif (use_u_Cv==true) then
-    CdThDes := u_CdTh;
-  end if; 
-  //--------------------
-  if (use_u_Cv==false) then
-    CvDes := CvDes_paramInput;
-  elseif (use_u_Cv==true) then
-    CvDes := u_Cv;
-  end if; 
-  //--------------------
-  if (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.param) then
-    AmechThDes := AmechTh_paramInput;
-  elseif (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) then
-    AmechThDes:= u_AmechTh;
-  elseif (switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated) then
-    AmechThDes:= AmechTh;
-  end if; 
-  //--------------------
-  */
+  fluid_1_des.m_flow:= port_1.m_flow;
+  fluid_1_des.p:= fluid_1.p;
+  fluid_1_des.T:= fluid_1.T;
   
+  //********************************************************************************
 initial equation
   /* ---------------------------------------------
     determine design point

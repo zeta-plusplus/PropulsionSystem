@@ -317,14 +317,25 @@ protected
   parameter Real CvDes(fixed=false, start=Cv_init) annotation(
     HideResult=false);
   
+  parameter PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
+    fixed=false,
+    HideResult=false,
+    nX=Medium.nX,
+    nC=Medium.nC
+  );
+  parameter PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
+    fixed=false,
+    HideResult=false,
+    nX=Medium.nX,
+    nC=Medium.nC
+  );
+  
   
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
   AeThDes= AmechTh*CdThDes;
-  
-  
   
     
 algorithm

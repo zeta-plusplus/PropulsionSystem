@@ -29,7 +29,7 @@ model Turbojet_ex01
     Placement(visible = true, transformation(origin = {260, -140}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Sources.FlightCondition2InletFluid00 Flt2Fluid(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-160, -60}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.NzlDefAbyInitCharFixed00 Nzl(redeclare package Medium = engineAir, m_flow_des_1_paramInput = 100) annotation(
+  PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed00 Nzl(redeclare package Medium = engineAir, m_flow_1_des_paramInput = 103.297) annotation(
     Placement(visible = true, transformation(origin = {180, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 equation
   connect(Flt2Fluid.port_amb, Nzl.port_2) annotation(

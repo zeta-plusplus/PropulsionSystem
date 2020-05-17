@@ -12,6 +12,13 @@ model NzlDefAeByFlowCharFixed00
   /* ---------------------------------------------
                 switches    
         --------------------------------------------- */
+  /*
+      parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_AmechTh = PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated "switch how to determine AmechTh" annotation(
+        Dialog(group = "switch"),
+        choicesAllMatching = true,
+        Evaluate = true,
+        HideResult = true);
+      */
   parameter Boolean use_u_CdTh = false "get CdTh from the real input connector" annotation(
     Evaluate = true,
     HideResult = true,
@@ -27,8 +34,6 @@ model NzlDefAeByFlowCharFixed00
     HideResult = true,
     choices(checkBox = true),
     Dialog(group = "switch"));
-  
-  
   /* ---------------------------------------------
                 parameters    
         --------------------------------------------- */
@@ -36,9 +41,8 @@ model NzlDefAeByFlowCharFixed00
     Dialog(group = "Characteristics"));
   parameter Real CvDes_paramInput = 0.99 "flow velocity coefficient, valid only when use_u_Cv==false, value fixed through simulation" annotation(
     Dialog(group = "Characteristics"));
-  parameter Modelica.SIunits.MassFlowRate m_flow_1_des_paramInput = 1.0 "" annotation(
+  parameter Modelica.SIunits.MassFlowRate m_flow_des_1_paramInput = 1.0 "" annotation(
     Dialog(group = "Component sizing"));
-  
   /* ---------------------------------------------
                 Interface   
         --------------------------------------------- */
@@ -50,8 +54,7 @@ model NzlDefAeByFlowCharFixed00
     Placement(visible = true, transformation(origin = {0, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {60, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   //********************************************************************************
 initial algorithm
-  fluid_1_des.m_flow:= m_flow_1_des_paramInput;
-  
+  m_flow_des_1 := m_flow_des_1_paramInput;
 //--------------------
   if use_u_CdTh == false then
     CdThDes := CdThDes_paramInput;
@@ -70,9 +73,9 @@ initial equation
     determine design point
   --------------------------------------------- */
   PR = PRdes;
-  m_flow_th = fluid_1_des.m_flow;
-  
-  
+  m_flow_th = m_flow_des_1;
+  pDes_1 = fluid_1.p;
+  Tdes_1 = fluid_1.T;
 algorithm
 //##### none #####
 equation

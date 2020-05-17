@@ -7,15 +7,15 @@ model Turbojet_ex03
   package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
   //redeclare package Medium = engineAir
   //-----
-  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 10, height = 200, offset = 1400, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 10, height = 100, offset = 1600, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {90, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   inner EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-90, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(origin = {-70, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.CmpCharTable00 Cmp(redeclare package Medium = engineAir, PRdes_paramInput = 20, use_tableFile_PR = true, use_tableFile_Wc = true, use_tableFile_eff = true, use_u_a_effAud = true, use_u_s_PRaud = true, use_u_s_WcAud = true, use_u_s_effAud = false) annotation(
+  PropulsionSystem.Elements.BasicElements.CmpCharTable00 Cmp(redeclare package Medium = engineAir, NmechDes_paramInput = 9000.0, PRdes_paramInput = 20, T1_des_paramInput = 251.833, m_flow_1_des_paramInput = 100.0, p1_des_paramInput = 40310.6, use_tableFile_PR = true, use_tableFile_Wc = true, use_tableFile_eff = true, use_u_a_effAud = true, use_u_s_PRaud = true, use_u_s_WcAud = true, use_u_s_effAud = false) annotation(
     Placement(visible = true, transformation(origin = {-40, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharTable00 Trb(redeclare package Medium = engineAir, use_tableFile_Wc = true, use_tableFile_eff = true, use_u_a_effAud = true, use_u_s_WcAud = false) annotation(
+  PropulsionSystem.Elements.BasicElements.TrbCharTable00 Trb(redeclare package Medium = engineAir, NmechDes_paramInput = 9000.0, T1_des_paramInput = 1600.0, m_flow_1_des_paramInput = 103.297, p1_des_paramInput = 399075, use_tableFile_Wc = true, use_tableFile_eff = true, use_u_a_effAud = true, use_u_s_WcAud = false) annotation(
     Placement(visible = true, transformation(origin = {120, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Fluid.Sensors.Temperature temperature(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {80, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -29,7 +29,7 @@ model Turbojet_ex03
     Placement(visible = true, transformation(origin = {260, -140}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Sources.FlightCondition2InletFluid00 Flt2Fluid(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-160, -60}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.NzlDefAbyInitCharFixed00 Nzl(redeclare package Medium = engineAir) annotation(
+  PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed00 Nzl(redeclare package Medium = engineAir, m_flow_1_des_paramInput = 103.297) annotation(
     Placement(visible = true, transformation(origin = {180, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_Cmp_s_WcAud(duration = 10, height = 0, offset = 1, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-72, -150}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
