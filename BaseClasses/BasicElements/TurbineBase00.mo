@@ -354,11 +354,20 @@ initial algorithm
   variablesDes.Wc_1:=Wc_1_des;
   */
   
+  
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  /*
+  if(noEvent(0.0>=fluid_1.p))then
+    reinit(fluid_1.p, abs(fluid_1.p));
+  end if;
   
+  if(noEvent(0.0>=fluid_2.p))then
+    reinit(fluid_2.p, abs(fluid_2.p));
+  end if;
+  */
   
 algorithm
   
@@ -366,7 +375,16 @@ algorithm
     assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
   end if;
   
+  
+  
+    
 equation
+  
+  if(printCmd==true)then
+    assert(fluid_1.p <= 0.0, getInstanceName()+", fluid_1.p="+String(fluid_1.p), AssertionLevel.warning);
+    assert(fluid_2.p <= 0.0, getInstanceName()+", fluid_2.p="+String(fluid_2.p), AssertionLevel.warning);
+  end if;
+  
 /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */

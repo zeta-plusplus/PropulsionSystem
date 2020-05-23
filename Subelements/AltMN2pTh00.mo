@@ -120,19 +120,19 @@ block AltMN2pTh00
     Placement(visible = true, transformation(origin = {-120, -40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   input Modelica.Blocks.Interfaces.RealInput u_X[Medium.nX] "[nond], fluid composition" annotation(
     Placement(visible = true, transformation(origin = {-120, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  output Modelica.Blocks.Interfaces.RealOutput y_pAmb(quantity = "Pressure", unit = "Pa", displayUnit = "bar") "[Pa], ambient pressure" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_pAmb(quantity = "Pressure", unit = "Pa", displayUnit = "bar", start=pAmb_init, min=1.0e-10) "[Pa], ambient pressure" annotation(
     Placement(visible = true, transformation(origin = {110, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  output Modelica.Blocks.Interfaces.RealOutput y_Tamb(quantity = "Temperature", unit = "K", displayUnit = "degC") "[K], ambient temperature" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_Tamb(quantity = "Temperature", unit = "K", displayUnit = "degC", start=Tamb_init, min=1.0e-10) "[K], ambient temperature" annotation(
     Placement(visible = true, transformation(origin = {110, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  output Modelica.Blocks.Interfaces.RealOutput y_hAmb(quantity = "SpecificEnthalpy", unit = "J/kg", displayUnit = "J/kg") "[J/kg], ambient specific enthalpy" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_hAmb(quantity = "SpecificEnthalpy", unit = "J/kg", displayUnit = "J/kg", start=hAmb_init, min=1.0e-10) "[J/kg], ambient specific enthalpy" annotation(
     Placement(visible = true, transformation(origin = {110, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  output Modelica.Blocks.Interfaces.RealOutput y_pTot(quantity = "Pressure", unit = "Pa", displayUnit = "bar") "[Pa], total pressure of free stream" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_pTot(quantity = "Pressure", unit = "Pa", displayUnit = "bar", start=p2Inlet_init, min=1.0e-10) "[Pa], total pressure of free stream" annotation(
     Placement(visible = true, transformation(origin = {110, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  output Modelica.Blocks.Interfaces.RealOutput y_Ttot(quantity = "Temperature", unit = "K", displayUnit = "degC") "[K], total temperature of free stream" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_Ttot(quantity = "Temperature", unit = "K", displayUnit = "degC", start=T2Inlet_init, min=1.0e-10) "[K], total temperature of free stream" annotation(
     Placement(visible = true, transformation(origin = {110, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  output Modelica.Blocks.Interfaces.RealOutput y_hTot(quantity = "SpecificEnthalpy", unit = "J/kg", displayUnit = "J/kg") "[J/kg], total specific enthalpy of free stream" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_hTot(quantity = "SpecificEnthalpy", unit = "J/kg", displayUnit = "J/kg", start=h2Inlet_init, min=1.0e-10) "[J/kg], total specific enthalpy of free stream" annotation(
     Placement(visible = true, transformation(origin = {110, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  output Modelica.Blocks.Interfaces.RealOutput y_V_inf(quantity = "Velocity", unit = "m/s", displayUnit = "m/s") "[m/s], free stream velocity" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_V_inf(quantity = "Velocity", unit = "m/s", displayUnit = "m/s", start=V_inf_init) "[m/s], free stream velocity" annotation(
     Placement(visible = true, transformation(origin = {110, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.SubelementBus subelementBus1 annotation(
     Placement(visible = true, transformation(origin = {100, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -170,15 +170,15 @@ algorithm
 //-- regression curve of atmospheric table --
 // curves of T, P
   if environment.alt_ground <= alt and alt < environment.alt_UpBdTropos then
-    TambStd := environment.T_ground - 0.0064878 * (alt - environment.alt_ground);
-    Tamb := TambStd + dTamb;
-    pAmbStd := environment.p_ground * (TambStd / environment.T_ground) ^ (-1.0 * environment.gravity / (environment.LapseR1 * fluidAmbStd.R));
-    pAmb := environment.p_ground * (Tamb / environment.T_ground) ^ (-1.0 * environment.gravity / (environment.LapseR1 * fluidAmb.R));
+    TambStd := max((environment.T_ground - 0.0064878 * (alt - environment.alt_ground)), 1.0e-10);
+    Tamb := max((TambStd + dTamb), 1.0e-10);
+    pAmbStd := max((environment.p_ground * (TambStd / environment.T_ground) ^ (-1.0 * environment.gravity / (environment.LapseR1 * fluidAmbStd.R))), 1.0e-10);
+    pAmb := max((environment.p_ground * (Tamb / environment.T_ground) ^ (-1.0 * environment.gravity / (environment.LapseR1 * fluidAmb.R))), 1.0e-10);
   elseif environment.alt_UpBdTropos <= alt and alt < environment.alt_UpBdStratos then
-    TambStd := environment.T_UpBdTropos;
-    Tamb := TambStd + dTamb;
-    pAmbStd := environment.p_UpBdTropos * exp(-1.0 * environment.gravity / (fluidAmbStd.R * TambStd) * (alt - environment.T_UpBdTropos));
-    pAmb := environment.p_UpBdTropos * exp(-1.0 * environment.gravity / (fluidAmb.R * Tamb) * (alt - environment.T_UpBdTropos));
+    TambStd := max(environment.T_UpBdTropos, 1.0e-10);
+    Tamb := max((TambStd + dTamb), 1.0e-10);
+    pAmbStd := max((environment.p_UpBdTropos * exp(-1.0 * environment.gravity / (fluidAmbStd.R * TambStd) * (alt - environment.T_UpBdTropos))), 1.0e-10);
+    pAmb := max((environment.p_UpBdTropos * exp(-1.0 * environment.gravity / (fluidAmb.R * Tamb) * (alt - environment.T_UpBdTropos))), 1.0e-10);
   end if;
 
 

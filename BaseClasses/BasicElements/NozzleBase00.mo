@@ -340,10 +340,21 @@ initial equation
     
 algorithm
   if(printCmd==true)then
-    assert(fluid_1.h < fluidStat_th_fullExp.h, "nozzle inverse flow condition, fluid_1.h < fluidStat_th_fullExp.h" + "\n" + ", fluid_1.h=" + String(fluid_1.h) + ", fluidStat_th_fullExp.h=" + String(fluidStat_th_fullExp.h), AssertionLevel.warning);
+    assert(fluid_1.h < fluidStat_th_fullExp.h, getInstanceName()+", nozzle inverse flow condition, fluid_1.h < fluidStat_th_fullExp.h" + "\n" + ", fluid_1.h=" + String(fluid_1.h) + ", fluidStat_th_fullExp.h=" + String(fluidStat_th_fullExp.h), AssertionLevel.warning);
   end if;
   
 equation
+  
+  if(printCmd==true)then
+    assert(fluid_1.p <= 0.0, getInstanceName()+", fluid_1.p="+String(fluid_1.p), AssertionLevel.warning);
+    assert(fluid_2.p <= 0.0, getInstanceName()+", fluid_2.p="+String(fluid_2.p), AssertionLevel.warning);
+    assert(fluid_2Tot.p <= 0.0, getInstanceName()+", fluid_2Tot.p="+String(fluid_2Tot.p), AssertionLevel.warning);
+    assert(fluidStat_th.p <= 0.0, getInstanceName()+", fluidStat_th.p="+String(fluidStat_th.p), AssertionLevel.warning);
+    assert(fluid_th.p <= 0.0, getInstanceName()+", fluid_th.p="+String(fluid_th.p), AssertionLevel.warning);
+    assert(fluidStat_th_fullExp.p <= 0.0, getInstanceName()+", fluidStat_th_fullExp.p="+String(fluidStat_th_fullExp.p), AssertionLevel.warning);
+    assert(fluidStat_th_choked.p <= 0.0, getInstanceName()+", fluidStat_th_choked.p="+String(fluidStat_th_choked.p), AssertionLevel.warning);
+  end if;
+    
   /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */

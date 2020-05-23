@@ -58,8 +58,26 @@ model Turbofan_ex01
   Modelica.Blocks.Math.Division getBPR annotation(
     Placement(visible = true, transformation(origin = {-70, 150}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   PropulsionSystem.Elements.BasicElements.CmpCharTable00 Cmp020(redeclare package Medium = engineAir, NmechDes_paramInput = 3000, PRdes_paramInput = 2.0, T1_des_paramInput = 251.833, effDes_paramInput = 0.9, m_flow_1_des_paramInput = 90.091, p1_des_paramInput = 40310.6, use_tableFile_PR = true, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
-    Placement(visible = true, transformation(origin = {-120, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-100, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 1.0, a(fixed = true, start = 0))  annotation(
+    Placement(visible = true, transformation(origin = {60, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Components.Inertia inertia2(J = 1.0, a(fixed = true, start = 0)) annotation(
+    Placement(visible = true, transformation(origin = {50, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(inertia2.flange_b, Trb049.flange_1) annotation(
+    Line(points = {{60, 80}, {200, 80}, {200, 80}, {200, 80}}));
+  connect(Cmp020.flange_2, inertia2.flange_a) annotation(
+    Line(points = {{-80, 20}, {-52, 20}, {-52, 80}, {40, 80}, {40, 80}}));
+  connect(inertia1.flange_b, Trb041.flange_1) annotation(
+    Line(points = {{70, -50}, {120, -50}, {120, -50}, {120, -50}}));
+  connect(Cmp025.flange_2, inertia1.flange_a) annotation(
+    Line(points = {{20, -50}, {50, -50}}));
+  connect(Cmp020.port_2, massFlowRate2.port_a) annotation(
+    Line(points = {{-80, 36}, {-70, 36}, {-70, -34}, {-50, -34}}, color = {0, 127, 255}));
+  connect(Inlt.port_2, Cmp020.port_1) annotation(
+    Line(points = {{-220, 36}, {-120, 36}}, color = {0, 127, 255}));
+  connect(Cmp120.flange_2, Cmp020.flange_1) annotation(
+    Line(points = {{-160, 100}, {-152, 100}, {-152, 20}, {-120, 20}}));
   connect(massFlowRate1.m_flow, getBPR.u1) annotation(
     Line(points = {{-130, 127}, {-130, 138}, {-76, 138}}, color = {0, 0, 127}));
   connect(limiter1.y, getBPR.u2) annotation(
@@ -68,24 +86,14 @@ equation
     Line(points = {{-160, 116}, {-140, 116}, {-140, 116}, {-140, 116}}, color = {0, 127, 255}));
   connect(massFlowRate1.port_b, Nzl170.port_1) annotation(
     Line(points = {{-120, 116}, {26, 116}, {26, 136}, {120, 136}}, color = {0, 127, 255}));
-  connect(Cmp120.flange_2, Cmp020.flange_1) annotation(
-    Line(points = {{-160, 100}, {-152, 100}, {-152, 20}, {-140, 20}}));
   connect(Inlt.port_2, Cmp120.port_1) annotation(
     Line(points = {{-220, 36}, {-212, 36}, {-212, 116}, {-200, 116}}, color = {0, 127, 255}));
-  connect(Cmp020.flange_2, Trb049.flange_1) annotation(
-    Line(points = {{-100, 20}, {-88, 20}, {-88, 80}, {200, 80}, {200, 80}}));
-  connect(Inlt.port_2, Cmp020.port_1) annotation(
-    Line(points = {{-220, 36}, {-140, 36}}, color = {0, 127, 255}));
-  connect(Cmp020.port_2, massFlowRate2.port_a) annotation(
-    Line(points = {{-100, 36}, {-70, 36}, {-70, -34}, {-50, -34}}, color = {0, 127, 255}));
   connect(massFlowRate2.m_flow, limiter1.u) annotation(
     Line(points = {{-40, -23}, {-40, -17.5}, {-38, -17.5}, {-38, -12}}, color = {0, 0, 127}));
   connect(massFlowRate2.port_b, Cmp025.port_1) annotation(
     Line(points = {{-30, -34}, {-20, -34}}, color = {0, 127, 255}));
   connect(Cmp025.port_2, Comb036.port_1) annotation(
     Line(points = {{20, -34}, {20, -10}, {50, -10}}, color = {0, 127, 255}));
-  connect(Cmp025.flange_2, Trb041.flange_1) annotation(
-    Line(points = {{20, -50}, {120, -50}}));
   connect(Nzl070.y_Fg, add1.u2) annotation(
     Line(points = {{290, 80}, {314, 80}, {314, -18}}, color = {0, 0, 127}));
   connect(add1.y, Perf.u_Fg) annotation(

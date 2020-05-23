@@ -209,7 +209,6 @@ partial model CompressorBase00
   Integer flagEffVal "0:0<eff<1, 1:eff<=0, 2:1<=eff";
   
   
-  
   /* ---------------------------------------------
       Internal objects
   --------------------------------------------- */
@@ -275,6 +274,7 @@ protected
     HideResult=false);
   parameter Real effDes(fixed=false, start=eff_init) annotation(
     HideResult=false);
+  /**/
   
   parameter PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
     fixed=false,
@@ -370,6 +370,13 @@ algorithm
   end if;
   
 equation
+  
+  if(printCmd==true)then
+    assert(fluid_1.p <= 0.0, getInstanceName()+", fluid_1.p="+String(fluid_1.p), AssertionLevel.warning);
+    assert(fluid_2.p <= 0.0, getInstanceName()+", fluid_2.p="+String(fluid_2.p), AssertionLevel.warning);
+  end if;
+  
+  
 /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
@@ -448,6 +455,7 @@ equation
 //-- variables relative to design point --
   NqNdes = Nmech / NmechDes;
   NcqNcDes_1 = Nc_1 / Nc_1_des;
+  
   
   
 /********************************************************

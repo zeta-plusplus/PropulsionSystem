@@ -81,6 +81,7 @@ initial equation
   
 algorithm
 //##### none #####
+  
 equation
   //--------------------
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
@@ -97,6 +98,8 @@ equation
   //--------------------
   
   
+ 
+ 
   
 /********************************************************
   Graphics

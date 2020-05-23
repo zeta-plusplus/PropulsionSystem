@@ -40,6 +40,12 @@ partial model PropellerActuatorDiskBase01
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech_init=2000.0 "" annotation(
     Dialog(tab = "Initialization", group = "others")
   );
+  parameter Modelica.SIunits.Power pwr_init=5.0*10.0^(5) "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.Angle phi_init=1.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
   
   
   
