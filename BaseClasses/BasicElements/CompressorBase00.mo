@@ -445,7 +445,7 @@ equation
   pwr = -1.0 * (port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2.h);
   der(phi) = omega;
   omega * trq = pwr;
-  Nmech = Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
+  Nmech = omega*60.0/(2.0*Modelica.Constants.pi);
   
   pwr_inv= -1*pwr;
   trq_inv= -1*trq;

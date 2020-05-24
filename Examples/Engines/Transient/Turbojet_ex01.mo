@@ -9,8 +9,6 @@ model Turbojet_ex01
   //-----
   Modelica.Blocks.Sources.Ramp ramp_m_flow_fuel(duration = 2, height = 0.01, offset = 0.021, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-40, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  inner EngineSimEnvironment environment annotation(
-    Placement(visible = true, transformation(origin = {-90, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(origin = {-70, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CmpCharTable00 Cmp(redeclare package Medium = engineAir, NmechDes_paramInput = 9000.0, PRdes_paramInput = 10, T1_des_paramInput = 251.833, m_flow_1_des_paramInput = 1.0, p1_des_paramInput = 40310.6, printCmd = false, use_tableFile_PR = true, use_tableFile_Wc = true, use_tableFile_eff = true, use_u_a_effAud = false, use_u_s_PRaud = false, use_u_s_WcAud = false, use_u_s_effAud = false) annotation(
@@ -33,6 +31,8 @@ model Turbojet_ex01
     Placement(visible = true, transformation(origin = {0, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 10, a(fixed = true, start = 0), stateSelect = StateSelect.always, w(fixed = false, start = 9000 * Modelica.Constants.pi * 2 / 60))  annotation(
     Placement(visible = true, transformation(origin = {30, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  inner PropulsionSystem.EngineSimEnvironment environment annotation(
+    Placement(visible = true, transformation(origin = {-90, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(inertia1.flange_b, Trb.flange_1) annotation(
     Line(points = {{40, -80}, {100, -80}}));
