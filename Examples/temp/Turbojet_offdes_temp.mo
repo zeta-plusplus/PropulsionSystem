@@ -31,7 +31,7 @@ model Turbojet_offdes_temp
     Placement(visible = true, transformation(origin = {170, -120}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Elements.BasicElements.NzlCharFixed00 Nzl(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {380, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 0, height = 0, offset = 9000, startTime = 0) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 10, height = 1000, offset = 9000, startTime = 20) annotation(
     Placement(visible = true, transformation(origin = {170, -220}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
     Placement(visible = true, transformation(origin = {170, -190}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
@@ -57,8 +57,10 @@ model Turbojet_offdes_temp
     Placement(visible = true, transformation(origin = {220, -190}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   PropulsionSystem.Sources.MassFlowSource_T boundary(redeclare package Medium = engineAir, X = {1, 0, 0}, nPorts = 1, use_T_in = true, use_m_flow_in = true) annotation(
     Placement(visible = true, transformation(origin = {190, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Sources.MassFlowAtInit massFlowAtInit annotation(
+  PropulsionSystem.Sources.MassFlowAtInit massFlowAtInit(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {10, -64}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.CmpCharTable01 cmp(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {120, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 equation
   connect(ramp_Tfuel.y, boundary.T_in) annotation(
     Line(points = {{162, -20}, {166, -20}, {166, -6}, {178, -6}, {178, -6}}, color = {0, 0, 127}));
@@ -112,6 +114,12 @@ equation
     Line(points = {{-20, -64}, {0, -64}, {0, -64}, {0, -64}}, color = {0, 127, 255}));
   connect(massFlowAtInit.port_2, Inlt.port_1) annotation(
     Line(points = {{20, -64}, {40, -64}, {40, -64}, {40, -64}}, color = {0, 127, 255}));
+  connect(Inlt.port_2, cmp.port_1) annotation(
+    Line(points = {{80, -64}, {100, -64}, {100, -64}, {100, -64}}, color = {0, 127, 255}));
+  connect(cmp.port_2, Duct030.port_1) annotation(
+    Line(points = {{140, -64}, {140, -64}, {140, -40}, {160, -40}, {160, -40}}, color = {0, 127, 255}));
+  connect(cmp.flange_2, speedSensor1.flange) annotation(
+    Line(points = {{140, -80}, {170, -80}, {170, -80}, {170, -80}}));
   annotation(
     uses(Modelica(version = "3.2.2")),
     Diagram(coordinateSystem(extent = {{-100, -260}, {440, 60}}, preserveAspectRatio = false)),

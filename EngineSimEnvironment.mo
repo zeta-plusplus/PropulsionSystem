@@ -6,6 +6,12 @@ model EngineSimEnvironment
   /* ---------------------------------------------
       parameters
   --------------------------------------------- */
+  parameter Modelica.SIunits.Time timeRemoveDesConstraint=1.0
+    "time to keep constraint by design point"
+    annotation(
+    Dialog(group = "Simulation setting"));
+  
+  
   parameter Modelica.SIunits.Temperature Tstd(start=288.15)= PropulsionSystem.Constants.constants_earth.Tstd
     ""
     annotation(

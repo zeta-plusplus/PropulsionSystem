@@ -61,8 +61,11 @@ model MassFlowAtInit
     Dialog(tab = "Initialization", group = "fluid_2"));
   
   
-  parameter Modelica.SIunits.MassFlowRate m_flow_init_paramInput=1.0 "";
-  parameter Modelica.SIunits.Time timeRemoveConstraint=1.0 "";
+  parameter Modelica.SIunits.MassFlowRate m_flow_init_paramInput=1.0 "" annotation(
+    Dialog(group = "Component characteristics"));
+  
+  parameter Modelica.SIunits.Time timeRemoveConstraint=environment.timeRemoveDesConstraint "" annotation(
+    Dialog(group = "Simulation setting"));
   
   
   /* ---------------------------------------------
@@ -79,6 +82,8 @@ model MassFlowAtInit
   /* ---------------------------------------------
       Internal objects
   --------------------------------------------- */
+  inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
+  
   Medium.BaseProperties fluid_1(
     p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init
   ) "flow station of inlet";
@@ -108,35 +113,24 @@ model MassFlowAtInit
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
 initial algorithm
-  /*
-  if(use_u_m_flow_init==false)then
-    port_1.m_flow:= m_flow_init_paramInput;
-  elseif(use_u_m_flow_init==true)then
-    port_1.m_flow:= u_m_flow_init;
-  end if;
-  */
-  
+  //********************************************************************************
 initial equation
   port_1.m_flow= m_flow_init_paramInput;
-  
-//********************************************************************************
+  //********************************************************************************
 algorithm
-  
-  
-  
+  //********************************************************************************
 equation
+  
+  /* ---------------------------------------------
+  design point constraint
+  ---------------------------------------------*/
+  if (noEvent(time<=timeRemoveConstraint)) then
+    port_1.m_flow= m_flow_init_paramInput;
+  end if;
+  
 /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
-/*
-  when(time==0)then
-    if(use_u_m_flow_init==false)then
-      port_1.m_flow= m_flow_init_paramInput;
-    elseif(use_u_m_flow_init==true)then
-      port_1.m_flow= u_m_flow_init;
-    end if;
-  end when;
-  */
 //-- fluidPort_1 --
   fluid_1.p = port_1.p;
   fluid_1.h = actualStream(port_1.h_outflow);
@@ -170,9 +164,6 @@ equation
 //-- energy conservation --
   (port_1.m_flow * fluid_1.h) + (port_2.m_flow * fluid_2.h) = 0;   
   
-  when(time<timeRemoveConstraint)then
-    port_1.m_flow= m_flow_init_paramInput;
-  end when;
   
 annotation(
     defaultComponentName="MassFlowAtInit",
