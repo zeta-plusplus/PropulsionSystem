@@ -108,7 +108,7 @@ equation
   phi = flange_2.phi;
   flange_1.tau + flange_2.tau = 0.0;
   der(phi) = omega;
-  Nmech = Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
+  Nmech = omega*60.0/(2.0*Modelica.Constants.pi);
   
   
   

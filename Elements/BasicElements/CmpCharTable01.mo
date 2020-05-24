@@ -95,6 +95,9 @@ model CmpCharTable01
     Dialog(group = "table file read setting"));
   parameter String tableName_eff = "eff_NcRline" "" annotation(
     Dialog(group = "table file read setting"));
+  
+  parameter Modelica.SIunits.Time timeRemoveConstraint=1.0;
+  
   /* ---------------------------------------------
                     Internal variables
         --------------------------------------------- */
@@ -165,16 +168,16 @@ initial algorithm
   /*
   
   m_flow_des_1 := m_flow_des_1_paramInput;
-  */
+  
   effDes := effDes_paramInput;
   PRdes := PRdes_paramInput;
-  
+  */
   //eff:=effDes;
   //PR:=PRdes;
   //Wc_1:= WcDes_1;
   //NmechDes := NmechDes_paramInput;
-  NmechDes:= Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
-  fluid_1_des.m_flow:= port_1.m_flow;
+  //NmechDes:= Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
+  //fluid_1_des.m_flow:= port_1.m_flow;
   
   
   
@@ -187,14 +190,18 @@ initial equation
   Tdes_1 = fluid_1.T;
   */
   
-  
-  //effDes = effDes_paramInput;
-  //PRdes = PRdes_paramInput;
+  fluid_1_des.m_flow= port_1.m_flow;
+  fluid_1_des.p= fluid_1.p;
+  fluid_1_des.T= fluid_1.T;
+  effDes = effDes_paramInput;
+  PRdes = PRdes_paramInput;
+  NmechDes = NmechDes_paramInput;
   /**/
-  //NmechDes = NmechDes_paramInput;
+  //
   //m_flow_des_1 = m_flow_des_1_paramInput;
   
   //port_1.m_flow=m_flow_des_1;
+  
   
 algorithm
 /* ---------------------------------------------
@@ -281,7 +288,7 @@ equation
   
   */
   
-  if(time==0.0)then
+  if(time<timeRemoveConstraint)then
     //m_flow_des_1 = m_flow_des_1_paramInput;
     /**/
     

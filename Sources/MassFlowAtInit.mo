@@ -62,7 +62,7 @@ model MassFlowAtInit
   
   
   parameter Modelica.SIunits.MassFlowRate m_flow_init_paramInput=1.0 "";
-  
+  parameter Modelica.SIunits.Time timeRemoveConstraint=1.0 "";
   
   
   /* ---------------------------------------------
@@ -108,13 +108,17 @@ model MassFlowAtInit
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
 initial algorithm
+  /*
   if(use_u_m_flow_init==false)then
     port_1.m_flow:= m_flow_init_paramInput;
   elseif(use_u_m_flow_init==true)then
     port_1.m_flow:= u_m_flow_init;
   end if;
+  */
   
 initial equation
+  port_1.m_flow= m_flow_init_paramInput;
+  
 //********************************************************************************
 algorithm
   
@@ -164,7 +168,12 @@ equation
   port_1.m_flow + port_2.m_flow = 0;
   fluid_2.Xi = fluid_1.Xi;
 //-- energy conservation --
-  port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2.h = 0;   
+  (port_1.m_flow * fluid_1.h) + (port_2.m_flow * fluid_2.h) = 0;   
+  
+  when(time<timeRemoveConstraint)then
+    port_1.m_flow= m_flow_init_paramInput;
+  end when;
+  
 annotation(
     defaultComponentName="MassFlowAtInit",
     Icon(graphics = {Rectangle(origin = {0, 2}, fillColor = {0, 0, 255}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 48}, {100, -52}}), Ellipse(origin = {19, -9}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-89, 79}, {51, -61}}, endAngle = 360), Polygon(origin = {14, 1}, fillColor = {0, 0, 255}, fillPattern = FillPattern.Solid, points = {{-56, 55}, {-56, -57}, {56, -1}, {-56, 55}}), Text(origin = {-19, 25}, lineColor = {255, 0, 0}, lineThickness = 0.5, extent = {{-23, 15}, {47, -55}}, textString = "m"), Ellipse(origin = {-4, 20}, fillColor = {255, 0, 0}, fillPattern = FillPattern.Solid, extent = {{-8, 8}, {4, -4}}, endAngle = 360), Text(origin = {-21, -53}, lineColor = {255, 0, 0}, lineThickness = 0.5, extent = {{-79, -15}, {121, -47}}, textString = "At Init."), Text(origin = {1, 80}, extent = {{-101, 10}, {99, -10}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)));

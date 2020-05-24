@@ -191,9 +191,9 @@ initial algorithm
   
   if printCmd == true then
     print("----- msg at initialization -----"+"\n");
-    print("     instance: " + String(getInstanceName())  + "\n");
+    print("     instance: " + getInstanceName()  + "\n");
     print("file read by this component= " + fullPathName_tableFile_used + "\n");
-    print("----- end msg at initialization, " + String(getInstanceName())+ " -----"+"\n");
+    print("----- end msg at initialization, " + getInstanceName()+ " -----"+"\n");
   end if;
   
   
