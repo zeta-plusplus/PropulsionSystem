@@ -12,10 +12,6 @@ model NmechAtInit
   /* ---------------------------------------------
         switches
   --------------------------------------------- */
-  parameter Boolean use_u_Nmech_init = false "get Nmech_init from the real input connector" annotation(
-    Evaluate = true,
-    HideResult = true,
-    choices(checkBox = true), Dialog(group = "switch"));
   
   
   
@@ -23,6 +19,10 @@ model NmechAtInit
         parameters
     --------------------------------------------- */
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech_init_paramInput=3000.0 "mechanical rotation speed, rpm";
+  
+  parameter Modelica.SIunits.Time timeRemoveConstraint=environment.timeRemoveDesConstraint "" annotation(
+    Dialog(group = "Simulation setting"));
+  
   
   //********** Initialization Parameters **********
   //--- flange_1 ---
@@ -69,6 +69,12 @@ model NmechAtInit
   
   
   /* ---------------------------------------------
+      Internal objects
+  --------------------------------------------- */
+  inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
+  
+  
+  /* ---------------------------------------------
         Interface
     --------------------------------------------- */
   Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1(
@@ -82,13 +88,6 @@ model NmechAtInit
   //********************************************************************************
 initial equation
   
-  /*
-  if(use_u_Nmech_init==false)then
-    Nmech= Nmech_init_paramInput;
-  elseif(use_u_Nmech_init==true)then
-    Nmech= u_Nmech_init;
-  end if;
-  */
   
 //********************************************************************************
 algorithm
@@ -97,13 +96,17 @@ algorithm
   
 //********************************************************************************
 equation
+  /* ---------------------------------------------
+  design point constraint
+  ---------------------------------------------*/
+  if (noEvent(time<=timeRemoveConstraint)) then
+    Nmech= Nmech_init_paramInput;
+  end if;
+  
+  
 /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
-  when(time==0.0)then
-    Nmech= Nmech_init_paramInput;
-  end when;
-  
   phi = flange_1.phi;
   phi = flange_2.phi;
   flange_1.tau + flange_2.tau = 0.0;

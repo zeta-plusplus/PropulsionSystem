@@ -21,14 +21,6 @@ model MassFlowAtInit
   /* ---------------------------------------------
               switches
   --------------------------------------------- */
-  /*
-  parameter Boolean use_u_m_flow_init=false "get m_flow_init from the real input connector " annotation(
-    Evaluate = true,
-    HideResult = true,
-    choices(checkBox = true),
-    Dialog(group = "switch"));
-  */
-  
   parameter Boolean allowFlowReversal= false
     "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
     annotation(
