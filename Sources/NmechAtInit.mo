@@ -101,7 +101,10 @@ equation
   ---------------------------------------------*/
   if (noEvent(time<=timeRemoveConstraint)) then
     Nmech= Nmech_init_paramInput;
+  else
+    Nmech=Nmech_init_paramInput*1.5;
   end if;
+  
   
   
 /* ---------------------------------------------

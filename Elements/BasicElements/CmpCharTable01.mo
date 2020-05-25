@@ -134,25 +134,25 @@ equation
   design point constraint
   --------------------------------------------- */
   if noEvent(time <= timeRemoveDesConstraint) then
+    Rline= RlineTblDes_paramInput;
     port_1.m_flow = fluid_1_des.m_flow;
     eff = effDes_paramInput;
-    Rline= RlineTblDes_paramInput;
     PR = PRdes_paramInput;
   else
+    Rline= RlineTblDes_paramInput;
+    
     //Wc_1 = Wc_1_des * NqNdes;
-    //Rline= RlineTblDes_paramInput;
-    Nmech= 3000.0;
+    //PR = PRdes_paramInput;
+    //eff = effDes_paramInput;
     
     Wc_1=SclCmp.y_WcScld;
     PR = SclCmp.y_PRscld;
     eff=SclCmp.y_effScld;
   end if;
-//--------------------
-  //Rline= RlineTblDes_paramInput;
-  //PR = PRdes_paramInput;
-  //eff = effDes_paramInput;
-//--------------------
-  //----------
+  
+  /* ---------------------------------------------
+  internal connections
+  --------------------------------------------- */
   ScalerDesCmp.u_NcTblDes= NcTblDes_paramInput;
   ScalerDesCmp.u_RlineTblDes= RlineTblDes_paramInput;
   ScalerDesCmp.u_NcDes= Nc_1_des;
