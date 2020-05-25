@@ -135,14 +135,17 @@ equation
   --------------------------------------------- */
   if noEvent(time <= timeRemoveDesConstraint) then
     port_1.m_flow = fluid_1_des.m_flow;
+    eff = effDes_paramInput;
   else
     Wc_1 = Wc_1_des * NqNdes;
+    //Wc_1=SclCmp.y_WcScld;
+    //PR = SclCmp.y_PRscld;
+    eff=SclCmp.y_effScld;
   end if;
 //--------------------
   Rline= RlineTblDes_paramInput;
   PR = PRdes_paramInput;
-//--------------------
-  eff = effDes_paramInput;
+  //eff = effDes_paramInput;
 //--------------------
   //----------
   ScalerDesCmp.u_NcTblDes= NcTblDes_paramInput;
