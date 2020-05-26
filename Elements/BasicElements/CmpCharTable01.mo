@@ -99,11 +99,37 @@ model CmpCharTable01
   /* ---------------------------------------------
                     Internal objects
     --------------------------------------------- */
-  PropulsionSystem.Subelements.ScalerDesCmp_WcPReffNc00 ScalerDesCmp(use_tableFile_Wc = use_tableFile_Wc, use_tableFile_PR = use_tableFile_PR, use_tableFile_eff = use_tableFile_eff, switchTableDataLocation = switchTableDataLocation, switchSmoothness_Wc = switchSmoothness_Wc, switchSmoothness_PR = switchSmoothness_PR, switchSmoothness_eff = switchSmoothness_eff, pathName_tableFileInSimExeDir = pathName_tableFileInSimExeDir, pathName_tableFileInLibPackage = pathName_tableFileInLibPackage, tableName_Wc = tableName_Wc, tableName_PR = tableName_PR, tableName_eff = tableName_eff) annotation(
+  PropulsionSystem.Subelements.ScalerDesCmp_WcPReffNc00 ScalerDesCmp(
+    use_tableFile_Wc = use_tableFile_Wc, 
+    use_tableFile_PR = use_tableFile_PR, 
+    use_tableFile_eff = use_tableFile_eff, 
+    switchTableDataLocation = switchTableDataLocation, 
+    switchSmoothness_Wc = switchSmoothness_Wc, 
+    switchSmoothness_PR = switchSmoothness_PR, 
+    switchSmoothness_eff = switchSmoothness_eff, 
+    pathName_tableFileInSimExeDir = pathName_tableFileInSimExeDir, 
+    pathName_tableFileInLibPackage = pathName_tableFileInLibPackage, 
+    tableName_Wc = tableName_Wc, 
+    tableName_PR = tableName_PR, 
+    tableName_eff = tableName_eff
+  ) annotation(
     Placement(visible = true, transformation(origin = {-70, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Subelements.SclCmp_WcPReff00 SclCmp annotation(
     Placement(visible = true, transformation(origin = {40, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Subelements.CompressorTable_WcPReff_NcRline00 CmpTbl_WcPReff_NcRline(use_tableFile_Wc = use_tableFile_Wc, use_tableFile_PR = use_tableFile_PR, use_tableFile_eff = use_tableFile_eff, switchTableDataLocation = switchTableDataLocation, switchSmoothness_Wc = switchSmoothness_Wc, switchSmoothness_PR = switchSmoothness_PR, switchSmoothness_eff = switchSmoothness_eff, pathName_tableFileInSimExeDir = pathName_tableFileInSimExeDir, pathName_tableFileInLibPackage = pathName_tableFileInLibPackage, tableName_Wc = tableName_Wc, tableName_PR = tableName_PR, tableName_eff = tableName_eff) annotation(
+  PropulsionSystem.Subelements.CompressorTable_WcPReff_NcRline00 CmpTbl_WcPReff_NcRline(
+    use_tableFile_Wc = use_tableFile_Wc, 
+    use_tableFile_PR = use_tableFile_PR, 
+    use_tableFile_eff = use_tableFile_eff, 
+    switchTableDataLocation = switchTableDataLocation, 
+    switchSmoothness_Wc = switchSmoothness_Wc, 
+    switchSmoothness_PR = switchSmoothness_PR, 
+    switchSmoothness_eff = switchSmoothness_eff, 
+    pathName_tableFileInSimExeDir = pathName_tableFileInSimExeDir, 
+    pathName_tableFileInLibPackage = pathName_tableFileInLibPackage, 
+    tableName_Wc = tableName_Wc, 
+    tableName_PR = tableName_PR, 
+    tableName_eff = tableName_eff
+  ) annotation(
     Placement(visible = true, transformation(origin = {10, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Division division_NcTbl annotation(
     Placement(visible = true, transformation(origin = {-20, 34}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));

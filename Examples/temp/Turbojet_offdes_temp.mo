@@ -21,8 +21,6 @@ model Turbojet_offdes_temp
     Placement(visible = true, transformation(origin = {170, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Temperature temperature040(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {270, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharFixed00 Trb(redeclare package Medium = engineAir, use_u_eff = false) annotation(
-    Placement(visible = true, transformation(origin = {300, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sensors.SpeedSensor speedSensor1 annotation(
     Placement(visible = true, transformation(origin = {190, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Elements.BasicElements.DuctCharFixed00 Duct050(redeclare package Medium = engineAir) annotation(
@@ -57,6 +55,8 @@ model Turbojet_offdes_temp
     Placement(visible = true, transformation(origin = {120, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Sources.NmechAtInit NmechAtInit annotation(
     Placement(visible = true, transformation(origin = {170, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.TrbCharTable01 trb(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {300, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 equation
   connect(ramp_Tfuel.y, boundary.T_in) annotation(
     Line(points = {{162, -20}, {166, -20}, {166, -6}, {178, -6}, {178, -6}}, color = {0, 0, 127}));
@@ -84,14 +84,8 @@ equation
     Line(points = {{260, -40}, {270, -40}}, color = {0, 127, 255}));
   connect(Comb.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
     Line(points = {{256, -58}, {256, -258}, {419, -258}}, color = {0, 0, 127}));
-  connect(temperature040.port, Trb.port_1) annotation(
-    Line(points = {{270, -40}, {270, -64}, {280, -64}}, color = {0, 127, 255}));
   connect(Constraint2.u_variable, temperature040.T) annotation(
     Line(points = {{280, -12}, {280, -30}, {278, -30}}, color = {0, 0, 127}));
-  connect(LossRotMech.flange_2, Trb.flange_1) annotation(
-    Line(points = {{230, -80}, {280, -80}}));
-  connect(Trb.port_2, Duct050.port_1) annotation(
-    Line(points = {{320, -64}, {330, -64}, {330, -64}, {330, -64}}, color = {0, 127, 255}));
   connect(Duct050.port_2, Nzl.port_1) annotation(
     Line(points = {{350, -64}, {360, -64}, {360, -64}, {360, -64}}, color = {0, 127, 255}));
   connect(Nzl.y_Fg, Perf.u_Fg) annotation(
@@ -112,6 +106,12 @@ equation
     Line(points = {{140, -80}, {160, -80}, {160, -80}, {160, -80}}));
   connect(NmechAtInit.flange_2, speedSensor1.flange) annotation(
     Line(points = {{180, -80}, {190, -80}, {190, -80}, {190, -80}}));
+  connect(temperature040.port, trb.port_1) annotation(
+    Line(points = {{270, -40}, {280, -40}, {280, -64}, {280, -64}}, color = {0, 127, 255}));
+  connect(trb.port_2, Duct050.port_1) annotation(
+    Line(points = {{320, -64}, {330, -64}, {330, -64}, {330, -64}}, color = {0, 127, 255}));
+  connect(LossRotMech.flange_2, trb.flange_1) annotation(
+    Line(points = {{230, -80}, {280, -80}, {280, -80}, {280, -80}}));
   annotation(
     uses(Modelica(version = "3.2.2")),
     Diagram(coordinateSystem(extent = {{-100, -260}, {440, 60}}, preserveAspectRatio = false)),

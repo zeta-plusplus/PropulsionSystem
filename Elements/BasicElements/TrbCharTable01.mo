@@ -3,16 +3,16 @@ within PropulsionSystem.Elements.BasicElements;
 model TrbCharTable01
   extends PropulsionSystem.BaseClasses.BasicElements.TurbineBase00;
   /********************************************************
-                imports   
-        ********************************************************/
+            imports   
+      ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
   /********************************************************
-                Declaration   
-        ********************************************************/
+            Declaration   
+      ********************************************************/
   /* ---------------------------------------------
-                switches    
-        --------------------------------------------- */
+            switches    
+      --------------------------------------------- */
   parameter Boolean use_u_s_WcAud = false "" annotation(
     Evaluate = true,
     HideResult = true,
@@ -50,18 +50,16 @@ model TrbCharTable01
     Dialog(group = "switch about interpolation"));
   parameter Modelica.Blocks.Types.Smoothness switchSmoothness_eff = Modelica.Blocks.Types.Smoothness.ContinuousDerivative "" annotation(
     Dialog(group = "switch about interpolation"));
+  
+  
   /* ---------------------------------------------
-                parameters    
-        --------------------------------------------- */
-  inner parameter Real PRdes_paramInput = 5.0 "pressure ratio, valid only when switchDetermine_PR==param, value fixed through simulation" annotation(
-    Dialog(group = "Component characteristics"));
+            parameters    
+      --------------------------------------------- */
   inner parameter Real effDes_paramInput = 0.80 "adiabatic efficiency, valid only when use_u_eff==false, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
+  parameter Modelica.SIunits.Time timeRemoveDesConstraint = environment.timeRemoveDesConstraint annotation(
+    Dialog(group = "Simulation setting"));
   //----------
-  parameter Modelica.SIunits.MassFlowRate m_flow_des_1_paramInput = 1.0 "" annotation(
-    Dialog(group = "Component sizing"));
-  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes_paramInput = 3000.0 "" annotation(
-    Dialog(group = "Component sizing"));
   parameter Real NcTblDes_paramInput = 1.0 "design point definition on characteristics table" annotation(
     Dialog(group = "Component sizing"));
   parameter Real PRtblDes_paramInput = 2.0 "design point definition on table" annotation(
@@ -78,164 +76,121 @@ model TrbCharTable01
   
   
   /* ---------------------------------------------
-                      Internal variables
-      --------------------------------------------- */
-  Real s_WcAud;
-  Real s_effAud;
-  Real a_WcAud;
-  Real a_effAud;
-  
-  
-  /* ---------------------------------------------
-                    Internal objects
-      --------------------------------------------- */
-  PropulsionSystem.Subelements.ScalerDesTrb_WcEffNcPR00 ScalerDesTrb(use_tableFile_Wc = use_tableFile_Wc, use_tableFile_eff = use_tableFile_eff, switchTableDataLocation = switchTableDataLocation, switchSmoothness_Wc = switchSmoothness_Wc, switchSmoothness_eff = switchSmoothness_eff, pathName_tableFileInSimExeDir = pathName_tableFileInSimExeDir, pathName_tableFileInLibPackage = pathName_tableFileInLibPackage, tableName_Wc = tableName_Wc, tableName_eff = tableName_eff) "" annotation(
-    Placement(visible = true, transformation(origin = {-70, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Subelements.TurbineTable_WcEff_NcPR00 TrbTbl_WcEff_NcPR(use_tableFile_Wc = use_tableFile_Wc, use_tableFile_eff = use_tableFile_eff, switchTableDataLocation = switchTableDataLocation, switchSmoothness_Wc = switchSmoothness_Wc, switchSmoothness_eff = switchSmoothness_eff, pathName_tableFileInSimExeDir = pathName_tableFileInSimExeDir, pathName_tableFileInLibPackage = pathName_tableFileInLibPackage, tableName_Wc = tableName_Wc, tableName_eff = tableName_eff) "" annotation(
-    Placement(visible = true, transformation(origin = {20, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+                Internal objects
+  --------------------------------------------- */
+  PropulsionSystem.Subelements.ScalerDesTrb_WcEffNcPR00 ScalerDesTrb(
+    use_tableFile_Wc= use_tableFile_Wc,
+    use_tableFile_eff= use_tableFile_eff,
+    switchTableDataLocation= switchTableDataLocation,
+    switchSmoothness_Wc= switchSmoothness_Wc,
+    switchSmoothness_eff= switchSmoothness_eff,
+    pathName_tableFileInSimExeDir=pathName_tableFileInSimExeDir,
+    pathName_tableFileInLibPackage=pathName_tableFileInLibPackage,
+    tableName_Wc=tableName_Wc,
+    tableName_eff=tableName_eff
+  ) annotation(
+    Placement(visible = true, transformation(origin = {-70, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Subelements.TurbineTable_WcEff_NcPR00 TrbTbl_WcEff_NcPR(
+    use_tableFile_Wc= use_tableFile_Wc,
+    use_tableFile_eff= use_tableFile_eff,
+    switchTableDataLocation= switchTableDataLocation,
+    switchSmoothness_Wc= switchSmoothness_Wc,
+    switchSmoothness_eff= switchSmoothness_eff,
+    pathName_tableFileInSimExeDir=pathName_tableFileInSimExeDir,
+    pathName_tableFileInLibPackage=pathName_tableFileInLibPackage,
+    tableName_Wc=tableName_Wc,
+    tableName_eff=tableName_eff
+  ) annotation(
+    Placement(visible = true, transformation(origin = {30, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Subelements.SclTrb_WcEff00 SclTrb annotation(
-    Placement(visible = true, transformation(origin = {50, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.Division division_NcTbl annotation(
-    Placement(visible = true, transformation(origin = {-5, 45}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
-  Modelica.Blocks.Math.Division division_PRtbl annotation(
-    Placement(visible = true, transformation(origin = {-29, 25}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
-  Modelica.Blocks.Math.Add add_PRtbl annotation(
-    Placement(visible = true, transformation(origin = {-5, 25}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {60, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const(k = 1) annotation(
-    Placement(visible = true, transformation(origin = {-20, 5}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
+    Placement(visible = true, transformation(origin = {-15, 5}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
+  Modelica.Blocks.Math.Division division_PRtbl annotation(
+    Placement(visible = true, transformation(origin = {-25, 29}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
+  Modelica.Blocks.Math.Division division_NcTbl annotation(
+    Placement(visible = true, transformation(origin = {0, 45}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Blocks.Math.Feedback feedback_PRtbl annotation(
-    Placement(visible = true, transformation(origin = {-60, 40}, extent = {{-5, -5}, {5, 5}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {-55, 32}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const1(k = 1) annotation(
-    Placement(visible = true, transformation(origin = {-75, 40}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-55, 15}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
+  Modelica.Blocks.Math.Add add_PRtbl annotation(
+    Placement(visible = true, transformation(origin = {0, 26}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
+  Modelica.Blocks.Nonlinear.Limiter limiter(limitsAtInit = true, uMax = Modelica.Constants.inf, uMin = 1.0e-10) annotation(
+    Placement(visible = true, transformation(origin = {-40, 45}, extent = {{-5, -5}, {5, 5}}, rotation = -90)));
   Modelica.Blocks.Nonlinear.Limiter limiter1(limitsAtInit = true, uMax = Modelica.Constants.inf, uMin = 1.0e-10) annotation(
-    Placement(visible = true, transformation(origin = {-25, 65}, extent = {{-5, -5}, {5, 5}}, rotation = -90)));
-  Modelica.Blocks.Nonlinear.Limiter limiter2(limitsAtInit = true, uMax = Modelica.Constants.inf, uMin = 1.0e-10) annotation(
-    Placement(visible = true, transformation(origin = {-45, 55}, extent = {{-5, -5}, {5, 5}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {-20, 51}, extent = {{-5, -5}, {5, 5}}, rotation = -90)));
   
   
   /* ---------------------------------------------
-                      Interface
+            Interface   
       --------------------------------------------- */
-  input Modelica.Blocks.Interfaces.RealInput u_s_WcAud if use_u_s_WcAud "" annotation(
-    Placement(visible = true, transformation(origin = {-100, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-60, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  input Modelica.Blocks.Interfaces.RealInput u_s_effAud if use_u_s_effAud "" annotation(
-    Placement(visible = true, transformation(origin = {-20, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {20, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  input Modelica.Blocks.Interfaces.RealInput u_a_WcAud if use_u_a_WcAud "" annotation(
-    Placement(visible = true, transformation(origin = {-60, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-20, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  input Modelica.Blocks.Interfaces.RealInput u_a_effAud if use_u_a_effAud "" annotation(
-    Placement(visible = true, transformation(origin = {20, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {60, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  
+  
   //********************************************************************************
 initial algorithm
 /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  NmechDes:= Modelica.SIunits.Conversions.NonSIunits.to_rpm(omega);
-  m_flow_des_1:= port_1.m_flow;
   effDes := effDes_paramInput;
+  fluid_1_des.m_flow := port_1.m_flow;
+  fluid_1_des.p := fluid_1.p;
+  fluid_1_des.T := fluid_1.T;
+  NmechDes := Nmech;
   
-  PRdes:=PR;
-  /*  
-  m_flow_des_1 := m_flow_des_1_paramInput;
-  NmechDes := NmechDes_paramInput;
-  effDes := effDes_paramInput;
-
-  pDes_1 := fluid_1.p;
-  Tdes_1 := fluid_1.T;
-  PRdes := PR;
-  */
+  //********************************************************************************
 initial equation
-/* ---------------------------------------------
-    determine design point
-  --------------------------------------------- */
-  //PRdes = PR;
+  
+  //********************************************************************************
 algorithm
-/* ---------------------------------------------
-    interface
-  --------------------------------------------- */
-//-- scalers --
-//--------------------
-  if use_u_s_WcAud == false then
-    s_WcAud := 1.0;
-  elseif use_u_s_WcAud == true then
-    s_WcAud := u_s_WcAud;
-  end if;
-//--------------------
-  if use_u_s_effAud == false then
-    s_effAud := 1.0;
-  elseif use_u_s_effAud == true then
-    s_effAud := u_s_effAud;
-  end if;
-//-- adders --
-//--------------------
-  if use_u_a_WcAud == false then
-    a_WcAud := 0.0;
-  elseif use_u_a_WcAud == true then
-    a_WcAud := u_a_WcAud;
-  end if;
-//--------------------
-  if use_u_a_effAud == false then
-    a_effAud := 0.0;
-  elseif use_u_a_effAud == true then
-    a_effAud := u_a_effAud;
-  end if;
+//##### none #####
+//********************************************************************************
 equation
-  connect(limiter2.y, division_PRtbl.u2) annotation(
-    Line(points = {{-45, 49.5}, {-45, 22}, {-34, 22}}, color = {0, 0, 127}));
-  connect(ScalerDesTrb.y_s_PRdes, limiter2.u) annotation(
-    Line(points = {{-59, 94}, {-45, 94}, {-45, 61}}, color = {0, 0, 127}));
-  connect(ScalerDesTrb.y_s_NcDes, limiter1.u) annotation(
-    Line(points = {{-58, 98}, {-25, 98}, {-25, 71}}, color = {0, 0, 127}));
-  connect(limiter1.y, division_NcTbl.u2) annotation(
-    Line(points = {{-25, 59}, {-25, 42}, {-10, 42}}, color = {0, 0, 127}));
-  connect(ScalerDesTrb.y_s_WcDes, SclTrb.u_s_Wc) annotation(
-    Line(points = {{-59, 86}, {46, 86}, {46, 41}}, color = {0, 0, 127}));
-  connect(ScalerDesTrb.y_s_effDes, SclTrb.u_s_eff) annotation(
-    Line(points = {{-59, 82}, {54, 82}, {54, 41}}, color = {0, 0, 127}));
-  connect(const1.y, feedback_PRtbl.u2) annotation(
-    Line(points = {{-69.5, 40}, {-64, 40}}, color = {0, 0, 127}));
-  connect(feedback_PRtbl.y, division_PRtbl.u1) annotation(
-    Line(points = {{-60, 35.5}, {-60, 28}, {-34, 28}}, color = {0, 0, 127}));
-  connect(division_PRtbl.y, add_PRtbl.u1) annotation(
-    Line(points = {{-23.5, 25}, {-18, 25}, {-18, 28}, {-11, 28}}, color = {0, 0, 127}));
-  connect(const.y, add_PRtbl.u2) annotation(
-    Line(points = {{-20, 11}, {-20, 22}, {-11, 22}}, color = {0, 0, 127}));
-  connect(add_PRtbl.y, TrbTbl_WcEff_NcPR.u_PRtbl) annotation(
-    Line(points = {{1, 25}, {4, 25}, {4, 26}, {8, 26}}, color = {0, 0, 127}));
-  connect(division_NcTbl.y, TrbTbl_WcEff_NcPR.u_NcTbl) annotation(
-    Line(points = {{1, 45}, {4, 45}, {4, 34}, {8, 34}}, color = {0, 0, 127}));
-  connect(TrbTbl_WcEff_NcPR.y_eff, SclTrb.u_eff) annotation(
-    Line(points = {{31, 26}, {39, 26}}, color = {0, 0, 127}));
-  connect(TrbTbl_WcEff_NcPR.y_Wc, SclTrb.u_Wc) annotation(
-    Line(points = {{31, 34}, {39, 34}}, color = {0, 0, 127}));
-//----------
+  
+  eff = effDes_paramInput;
+  
+  /* ---------------------------------------------
+  internal connections
+  --------------------------------------------- */
+  //----------
   ScalerDesTrb.u_NcTblDes = NcTblDes_paramInput;
   ScalerDesTrb.u_PRtblDes = PRtblDes_paramInput;
-  ScalerDesTrb.u_NcDes = NcDes_1;
+  ScalerDesTrb.u_NcDes = Nc_1_des;
   ScalerDesTrb.u_PRdes = PRdes;
-  ScalerDesTrb.u_WcDes = WcDes_1;
+  ScalerDesTrb.u_WcDes = Wc_1_des;
   ScalerDesTrb.u_effDes = effDes;
-//----------
+  //----------
   division_NcTbl.u1 = Nc_1;
   feedback_PRtbl.u1 = PR;
-//--------------------
-/* ---------------------------------------------
-    component characteristics
-  --------------------------------------------- */
-  
-  if(time==0.0)then
-    eff=effDes;
-    Wc_1=WcDes_1;
-        
-  else
-    eff = SclTrb.y_effScld * s_effAud + a_effAud;
-    Wc_1 = SclTrb.y_WcScld * s_WcAud + a_WcAud;
-    
-  end if;
-  
-  
-/********************************************************
-  Graphics
-********************************************************/
+  //--------------------
+  connect(feedback_PRtbl.y, division_PRtbl.u1) annotation(
+    Line(points = {{-50.5, 32}, {-31, 32}}, color = {0, 0, 127}));
+  connect(const1.y, feedback_PRtbl.u2) annotation(
+    Line(points = {{-55, 20.5}, {-55, 28}}, color = {0, 0, 127}));
+  connect(division_PRtbl.y, add_PRtbl.u1) annotation(
+    Line(points = {{-19.5, 29}, {-6, 29}}, color = {0, 0, 127}));
+  connect(const.y, add_PRtbl.u2) annotation(
+    Line(points = {{-15, 10.5}, {-15, 23}, {-6, 23}}, color = {0, 0, 127}));
+  connect(ScalerDesTrb.y_s_NcDes, limiter1.u) annotation(
+    Line(points = {{-58, 78}, {-20, 78}, {-20, 57}}, color = {0, 0, 127}));
+  connect(limiter1.y, division_NcTbl.u2) annotation(
+    Line(points = {{-20, 45.5}, {-20, 42}, {-6, 42}}, color = {0, 0, 127}));
+  connect(ScalerDesTrb.y_s_PRdes, limiter.u) annotation(
+    Line(points = {{-58, 74}, {-40, 74}, {-40, 52}, {-40, 52}}, color = {0, 0, 127}));
+  connect(limiter.y, division_PRtbl.u2) annotation(
+    Line(points = {{-40, 40}, {-40, 26}, {-31, 26}}, color = {0, 0, 127}));
+  connect(division_NcTbl.y, TrbTbl_WcEff_NcPR.u_NcTbl) annotation(
+    Line(points = {{5.5, 45}, {10, 45}, {10, 34}, {19, 34}}, color = {0, 0, 127}));
+  connect(add_PRtbl.y, TrbTbl_WcEff_NcPR.u_PRtbl) annotation(
+    Line(points = {{5.5, 26}, {19, 26}}, color = {0, 0, 127}));
+  connect(TrbTbl_WcEff_NcPR.y_Wc, SclTrb.u_Wc) annotation(
+    Line(points = {{42, 34}, {48, 34}, {48, 34}, {48, 34}}, color = {0, 0, 127}));
+  connect(TrbTbl_WcEff_NcPR.y_eff, SclTrb.u_eff) annotation(
+    Line(points = {{42, 26}, {50, 26}, {50, 26}, {48, 26}}, color = {0, 0, 127}));
+  connect(ScalerDesTrb.y_s_WcDes, SclTrb.u_s_Wc) annotation(
+    Line(points = {{-58, 66}, {56, 66}, {56, 42}, {56, 42}}, color = {0, 0, 127}));
+  connect(ScalerDesTrb.y_s_effDes, SclTrb.u_s_eff) annotation(
+    Line(points = {{-58, 62}, {64, 62}, {64, 42}, {64, 42}}, color = {0, 0, 127}));
   annotation(
     defaultComponentName = "Trb",
     Documentation(info = "<html>
