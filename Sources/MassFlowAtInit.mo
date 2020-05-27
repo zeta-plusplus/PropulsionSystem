@@ -107,18 +107,25 @@ model MassFlowAtInit
 initial algorithm
   //********************************************************************************
 initial equation
-  port_1.m_flow= m_flow_init_paramInput;
   //********************************************************************************
 algorithm
   //********************************************************************************
+  /*
+  if noEvent(time<=timeRemoveConstraint) then
+    port_1.m_flow:= m_flow_init_paramInput;
+  end if;
+  */
+  //port_1.m_flow:= m_flow_init_paramInput;
+  
 equation
   
   /* ---------------------------------------------
   design point constraint
   ---------------------------------------------*/
-  if (noEvent(time<=timeRemoveConstraint)) then
+  if noEvent(time<=timeRemoveConstraint) then
     port_1.m_flow= m_flow_init_paramInput;
   end if;
+  
   
 /* ---------------------------------------------
   Connections, interface <-> internal variables

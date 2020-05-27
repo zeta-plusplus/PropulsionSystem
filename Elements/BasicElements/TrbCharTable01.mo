@@ -74,6 +74,13 @@ model TrbCharTable01
   parameter String tableName_eff = "eff_NcPR" "" annotation(
     Dialog(group = "table file read setting"));
   
+  /* ---------------------------------------------
+                    Internal variables
+  --------------------------------------------- */
+  Boolean constrainDesPt(start=true) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
   
   /* ---------------------------------------------
                 Internal objects
@@ -133,22 +140,44 @@ initial algorithm
     determine design point
   --------------------------------------------- */
   effDes := effDes_paramInput;
-  fluid_1_des.m_flow := port_1.m_flow;
   fluid_1_des.p := fluid_1.p;
   fluid_1_des.T := fluid_1.T;
   NmechDes := Nmech;
-  
+  fluid_1_des.m_flow:=port_1.m_flow;
+  PRdes:= PR;
   //********************************************************************************
 initial equation
-  
+ 
   //********************************************************************************
 algorithm
 //##### none #####
 //********************************************************************************
 equation
+  if noEvent(time<=timeRemoveDesConstraint)then
+    constrainDesPt=true;
+  else
+    constrainDesPt=false;
+  end if;
+  /* ---------------------------------------------
+  design point constraint
+  --------------------------------------------- */
   
-  eff = effDes_paramInput;
+  if noEvent(time <= timeRemoveDesConstraint) then
+    eff = effDes_paramInput;
+    //fluid_1_des.m_flow= port_1.m_flow;
+  else
+    eff=SclTrb.y_effScld;
+    //Wc_1= SclTrb.y_WcScld;
+  end if;
   
+  /*
+  when(time<=timeRemoveDesConstraint)then
+    eff = effDes_paramInput;
+  elsewhen(timeRemoveDesConstraint<time)then
+    eff=SclTrb.y_effScld;
+    Wc_1= SclTrb.y_WcScld;
+  end when;
+  */
   /* ---------------------------------------------
   internal connections
   --------------------------------------------- */

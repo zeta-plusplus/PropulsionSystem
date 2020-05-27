@@ -7,7 +7,7 @@ model Turbojet_offdes_temp
   package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
   //redeclare package Medium = engineAir
   //-----
-  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 10, height = 100, offset = 1600, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 10, height = 0, offset = 1600, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {280, 40}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-90, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -25,15 +25,13 @@ model Turbojet_offdes_temp
     Placement(visible = true, transformation(origin = {190, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Elements.BasicElements.DuctCharFixed00 Duct050(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {340, -64}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.NzlCharFixed00 Nzl(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {380, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_fltAlt(duration = 0, height = 0, offset = 10000, startTime = 0) annotation(
     Placement(visible = true, transformation(origin = {-90, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_fltMN(duration = 0, height = 0, offset = 0.8, startTime = 0) annotation(
     Placement(visible = true, transformation(origin = {-90, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.EnginePerformance00 Perf annotation(
     Placement(visible = true, transformation(origin = {430, -250}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Tfuel(duration = 10, height = 200, offset = 400, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_Tfuel(duration = 10, height = 0, offset = 400, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {150, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint2 annotation(
     Placement(visible = true, transformation(origin = {280, 0}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
@@ -57,6 +55,8 @@ model Turbojet_offdes_temp
     Placement(visible = true, transformation(origin = {170, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.TrbCharTable01 trb(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {300, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed01 Nzl(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {380, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 equation
   connect(ramp_Tfuel.y, boundary.T_in) annotation(
     Line(points = {{162, -20}, {166, -20}, {166, -6}, {178, -6}, {178, -6}}, color = {0, 0, 127}));
@@ -66,8 +66,6 @@ equation
     Line(points = {{200, -10}, {224, -10}, {224, -24}, {224, -24}}, color = {0, 127, 255}));
   connect(Constraint2.u_targetValue, ramp_TIT.y) annotation(
     Line(points = {{280, 12}, {280, 29}}, color = {0, 0, 127}));
-  connect(Flt2Fluid.port_amb, Nzl.port_2) annotation(
-    Line(points = {{-40, -40}, {-40, 24}, {400, 24}, {400, -64}}, color = {0, 127, 255}));
   connect(Flt2Fluid.y_V_inf, Inlt.u_V_infini) annotation(
     Line(points = {{-18, -76}, {26, -76}, {26, -88}, {46, -88}}, color = {0, 0, 127}));
   connect(ramp_fltAlt.y, Flt2Fluid.u_alt) annotation(
@@ -86,10 +84,6 @@ equation
     Line(points = {{256, -58}, {256, -258}, {419, -258}}, color = {0, 0, 127}));
   connect(Constraint2.u_variable, temperature040.T) annotation(
     Line(points = {{280, -12}, {280, -30}, {278, -30}}, color = {0, 0, 127}));
-  connect(Duct050.port_2, Nzl.port_1) annotation(
-    Line(points = {{350, -64}, {360, -64}, {360, -64}, {360, -64}}, color = {0, 127, 255}));
-  connect(Nzl.y_Fg, Perf.u_Fg) annotation(
-    Line(points = {{390, -80}, {410, -80}, {410, -242}, {419, -242}}, color = {0, 0, 127}));
   connect(Inlt.y_FdRam, Perf.u_Fram) annotation(
     Line(points = {{74, -88}, {86, -88}, {86, -246}, {419, -246}}, color = {0, 0, 127}));
   connect(speedSensor1.flange, LossRotMech.flange_1) annotation(
@@ -112,6 +106,12 @@ equation
     Line(points = {{320, -64}, {330, -64}, {330, -64}, {330, -64}}, color = {0, 127, 255}));
   connect(LossRotMech.flange_2, trb.flange_1) annotation(
     Line(points = {{230, -80}, {280, -80}, {280, -80}, {280, -80}}));
+  connect(Nzl.y_Fg, Perf.u_Fg) annotation(
+    Line(points = {{390, -80}, {410, -80}, {410, -242}, {419, -242}}, color = {0, 0, 127}));
+  connect(Duct050.port_2, Nzl.port_1) annotation(
+    Line(points = {{350, -64}, {360, -64}, {360, -64}, {360, -64}}, color = {0, 127, 255}));
+  connect(Flt2Fluid.port_amb, Nzl.port_2) annotation(
+    Line(points = {{-40, -40}, {-40, 24}, {400, 24}, {400, -64}}, color = {0, 127, 255}));
   annotation(
     uses(Modelica(version = "3.2.2")),
     Diagram(coordinateSystem(extent = {{-100, -260}, {440, 60}}, preserveAspectRatio = false)),
