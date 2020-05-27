@@ -164,10 +164,10 @@ equation
   
   if noEvent(time <= timeRemoveDesConstraint) then
     eff = effDes_paramInput;
-    //fluid_1_des.m_flow= port_1.m_flow;
+    fluid_1_des.m_flow= port_1.m_flow;
   else
     eff=SclTrb.y_effScld;
-    //Wc_1= SclTrb.y_WcScld;
+    Wc_1= SclTrb.y_WcScld;
   end if;
   
   /*

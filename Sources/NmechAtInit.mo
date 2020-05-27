@@ -41,7 +41,7 @@ model NmechAtInit
   );
   
   //--- others ---
-  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech_init=3000.0 "" annotation(
+  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech_init=Nmech_init_paramInput "" annotation(
     Dialog(tab = "Initialization", group = "others")
   );
   parameter Modelica.SIunits.Angle phi_init=1.0 "" annotation(
@@ -86,28 +86,30 @@ model NmechAtInit
   ) annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
+initial algorithm
+  
 initial equation
   
   
 //********************************************************************************
 algorithm
-  
+  /*
   if noEvent(time<=timeRemoveConstraint)then
     Nmech:= Nmech_init_paramInput;
   end if;
-  
+  */
 //********************************************************************************
 equation
   /* ---------------------------------------------
   design point constraint
   ---------------------------------------------*/
-  /*
+  /**/
   if noEvent(time<=timeRemoveConstraint)then
     Nmech= Nmech_init_paramInput;
-  else
-    Nmech=Nmech_init_paramInput*1.5;
+  //else
+  //  Nmech=Nmech_init_paramInput*1.5;
   end if;
-  */
+  
   
   
 /* ---------------------------------------------

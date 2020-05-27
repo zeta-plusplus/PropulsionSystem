@@ -34,7 +34,7 @@ model MassFlowAtInit
   --------------------------------------------- */
   //********** Initialization Parameters **********
   //--- fluid_1, port_1 ---
-  parameter Modelica.SIunits.MassFlowRate m_flow1_init(displayUnit = "kg/s") = 1.0 "" annotation(
+  parameter Modelica.SIunits.MassFlowRate m_flow1_init(displayUnit = "kg/s") = m_flow_init_paramInput "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
   parameter Modelica.SIunits.Pressure p1_init(displayUnit = "Pa") = 101.3 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
@@ -105,6 +105,7 @@ model MassFlowAtInit
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
 initial algorithm
+  
   //********************************************************************************
 initial equation
   //********************************************************************************
