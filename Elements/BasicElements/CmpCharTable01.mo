@@ -100,6 +100,7 @@ model CmpCharTable01
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
+  
   /* ---------------------------------------------
                     Internal objects
     --------------------------------------------- */
@@ -174,11 +175,12 @@ algorithm
   */ 
 //********************************************************************************
 equation
-  if noEvent(time<=timeRemoveDesConstraint)then
+  if noEvent(time <= timeRemoveDesConstraint) then
     constrainDesPt=true;
   else
     constrainDesPt=false;
   end if;
+  
 /* ---------------------------------------------
   design point constraint
   --------------------------------------------- */

@@ -45,6 +45,14 @@ model NzlDefAeByFlowCharFixed01
   parameter Modelica.SIunits.Time timeRemoveDesConstraint = environment.timeRemoveDesConstraint annotation(
     Dialog(group = "Simulation setting"));
   
+  /* ---------------------------------------------
+                    Internal variables
+  --------------------------------------------- */
+  Boolean constrainDesPt(start=true) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
+  
   
   /* ---------------------------------------------
       Internal objects
@@ -99,10 +107,16 @@ initial equation
 algorithm
 //##### none #####
 equation
-  if noEvent(timeRemoveDesConstraint<time) then
-    AmechTh=AmechThDes;
+  if noEvent(time <= timeRemoveDesConstraint) then
+    constrainDesPt=true;
+  else
+    constrainDesPt=false;
   end if;
   
+
+  if noEvent(timeRemoveDesConstraint<time)then
+    AmechTh=AmechThDes;
+  end if;
   
   /* ---------------------------------------------
   Connections, interface <-> internal variables   

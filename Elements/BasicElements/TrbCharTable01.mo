@@ -152,7 +152,7 @@ algorithm
 //##### none #####
 //********************************************************************************
 equation
-  if noEvent(time<=timeRemoveDesConstraint)then
+  if noEvent(time <= timeRemoveDesConstraint) then
     constrainDesPt=true;
   else
     constrainDesPt=false;
