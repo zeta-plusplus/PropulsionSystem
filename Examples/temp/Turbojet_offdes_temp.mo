@@ -7,7 +7,7 @@ model Turbojet_offdes_temp
   package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
   //redeclare package Medium = engineAir
   //-----
-  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 10, height = 100, offset = 1600, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_TIT(duration = 10, height = 100, offset = 1600, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {280, 40}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-90, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

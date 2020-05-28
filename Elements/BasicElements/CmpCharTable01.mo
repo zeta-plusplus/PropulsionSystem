@@ -95,7 +95,10 @@ model CmpCharTable01
   /* ---------------------------------------------
                     Internal variables
         --------------------------------------------- */
-  Real Rline;
+  Real Rline(start=RlineTblDes_paramInput) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
   Boolean constrainDesPt(start=true) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
@@ -184,14 +187,22 @@ equation
 /* ---------------------------------------------
   design point constraint
   --------------------------------------------- */
+  /*
+  if noEvent(time <= timeRemoveDesConstraint) then
+    SclCmp.y_effScld=PR;
+  end if;
+  */
   
   if noEvent(time <= timeRemoveDesConstraint) then
-    Rline= RlineTblDes_paramInput;
-    fluid_1_des.m_flow= port_1.m_flow;
-    eff = effDes_paramInput;
-    PR = PRdes_paramInput;
+    //Rline= RlineTblDes_paramInput;
+    //fluid_1_des.m_flow= port_1.m_flow;
+    Wc_1=Wc_1_des;
+    PR=PRdes;
+    eff=effDes;
+    //PR = PRdes_paramInput;
+    //eff = effDes_paramInput;
   else
-    Rline= RlineTblDes_paramInput;
+    //Rline= RlineTblDes_paramInput;
     
     Wc_1 = SclCmp.y_WcScld;
     PR = SclCmp.y_PRscld;

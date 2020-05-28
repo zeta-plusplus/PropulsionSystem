@@ -106,6 +106,10 @@ initial equation
   AmechThDes= AmechTh;
 algorithm
 //##### none #####
+  if noEvent(timeRemoveDesConstraint<time)then
+    AmechTh:=AmechThDes;
+  end if;
+  
 equation
   if noEvent(time <= timeRemoveDesConstraint) then
     constrainDesPt=true;
@@ -114,9 +118,6 @@ equation
   end if;
   
 
-  if noEvent(timeRemoveDesConstraint<time)then
-    AmechTh=AmechThDes;
-  end if;
   
   /* ---------------------------------------------
   Connections, interface <-> internal variables   
