@@ -17,7 +17,6 @@ model MassFlowAtInit
     choicesAllMatching = true);
   
   
-  
   /* ---------------------------------------------
               switches
   --------------------------------------------- */
@@ -25,8 +24,6 @@ model MassFlowAtInit
     "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)"
     annotation(
       Dialog(tab="Assumptions"), Evaluate=true);
-  
-  
   
   
   /* ---------------------------------------------
@@ -108,18 +105,12 @@ initial algorithm
   
   //********************************************************************************
 initial equation
+  
   //********************************************************************************
 algorithm
+  
   //********************************************************************************
-  /*
-  if noEvent(time<=timeRemoveConstraint) then
-    port_1.m_flow:= m_flow_init_paramInput;
-  end if;
-  */
-  //port_1.m_flow:= m_flow_init_paramInput;
-  
 equation
-  
   /* ---------------------------------------------
   design point constraint
   ---------------------------------------------*/

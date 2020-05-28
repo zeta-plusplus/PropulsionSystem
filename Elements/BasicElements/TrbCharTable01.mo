@@ -152,31 +152,27 @@ algorithm
 //##### none #####
 //********************************************************************************
 equation
+  /* ---------------------------------------------
+  design point constraint
+  --------------------------------------------- */
   if noEvent(time <= timeRemoveDesConstraint) then
     constrainDesPt=true;
   else
     constrainDesPt=false;
   end if;
-  /* ---------------------------------------------
-  design point constraint
-  --------------------------------------------- */
+  
   
   if noEvent(time <= timeRemoveDesConstraint) then
+    //----- design-point calc -----
     eff = effDes_paramInput;
     fluid_1_des.m_flow= port_1.m_flow;
   else
+    //----- off-design calc -----
     eff=SclTrb.y_effScld;
     Wc_1= SclTrb.y_WcScld;
   end if;
   
-  /*
-  when(time<=timeRemoveDesConstraint)then
-    eff = effDes_paramInput;
-  elsewhen(timeRemoveDesConstraint<time)then
-    eff=SclTrb.y_effScld;
-    Wc_1= SclTrb.y_WcScld;
-  end when;
-  */
+  
   /* ---------------------------------------------
   internal connections
   --------------------------------------------- */

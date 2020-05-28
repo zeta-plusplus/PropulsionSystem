@@ -158,75 +158,36 @@ initial algorithm
   
 //********************************************************************************
 initial equation
-/* ---------------------------------------------
-    determine design point
-  --------------------------------------------- */
-  
-//********************************************************************************
+  //##### none #####
+  //********************************************************************************
 algorithm
-  /*
-  if (time<=timeRemoveDesConstraint)then
-    Rline:= RlineTblDes_paramInput;
-    eff:= effDes_paramInput;
-    PR:= PRdes_paramInput;
-  else
-    Rline:= RlineTblDes_paramInput;
-    
-    PR:= PRdes_paramInput;
-    eff:= effDes_paramInput;
-  end if;
-  */ 
-//********************************************************************************
+  //##### none ##### 
+  //********************************************************************************
 equation
+  /* ---------------------------------------------
+  design point constraint
+  --------------------------------------------- */
   if noEvent(time <= timeRemoveDesConstraint) then
     constrainDesPt=true;
   else
     constrainDesPt=false;
   end if;
   
-/* ---------------------------------------------
-  design point constraint
-  --------------------------------------------- */
-  /*
-  if noEvent(time <= timeRemoveDesConstraint) then
-    SclCmp.y_effScld=PR;
-  end if;
-  */
   
   if noEvent(time <= timeRemoveDesConstraint) then
-    //Rline= RlineTblDes_paramInput;
-    //fluid_1_des.m_flow= port_1.m_flow;
+    //----- design-point calc -----
     Wc_1=Wc_1_des;
     PR=PRdes;
     eff=effDes;
-    //PR = PRdes_paramInput;
-    //eff = effDes_paramInput;
-  else
-    //Rline= RlineTblDes_paramInput;
     
+  else
+    //----- off-design calc -----
     Wc_1 = SclCmp.y_WcScld;
     PR = SclCmp.y_PRscld;
     eff = SclCmp.y_effScld;
     
-    //Wc_1=SclCmp.y_WcScld;
-    //PR = SclCmp.y_PRscld;
-    //eff=SclCmp.y_effScld;
   end if;
   
-  
-  
-  /*
-  when noEvent(constrainDesPt==true)then
-    eff = effDes_paramInput;
-    PR = PRdes_paramInput;
-  end when;
-  
-  when noEvent(constrainDesPt==false)then
-    Wc_1=SclCmp.y_WcScld;
-    PR = SclCmp.y_PRscld;
-    eff=SclCmp.y_effScld;
-  end when;
-  */
   
   /* ---------------------------------------------
   internal connections

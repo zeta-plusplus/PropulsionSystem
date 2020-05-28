@@ -11,9 +11,9 @@ model Turbojet_ex01
     Placement(visible = true, transformation(origin = {-90, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(origin = {-70, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.CmpCharTable00 Cmp(redeclare package Medium = engineAir, NmechDes_paramInput = 9000.0, T1_des_paramInput = 251.833, m_flow_1_des_paramInput = 100.0, p1_des_paramInput = 40310.6, use_tableFile_PR = true, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
+  PropulsionSystem.Elements.BasicElements.CmpCharTable00 Cmp(redeclare package Medium = engineAir, NmechDes_paramInput = 3000.0, T1_des_paramInput = 251.833, m_flow_1_des_paramInput = 100.0, p1_des_paramInput = 40310.6, use_tableFile_PR = true, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {-40, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharTable00 Trb(redeclare package Medium = engineAir, NmechDes_paramInput = 9000.0, T1_des_paramInput = 1600.0, m_flow_1_des_paramInput = 103.297, p1_des_paramInput = 399075, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
+  PropulsionSystem.Elements.BasicElements.TrbCharTable00 Trb(redeclare package Medium = engineAir, NmechDes_paramInput = 3000.0, T1_des_paramInput = 1600.0, m_flow_1_des_paramInput = 103.297, p1_des_paramInput = 399075, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {120, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Fluid.Sensors.Temperature temperature(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {80, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

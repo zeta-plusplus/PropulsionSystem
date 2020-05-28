@@ -10,12 +10,6 @@ model NmechAtInit
         Declaration
     ********************************************************/
   /* ---------------------------------------------
-        switches
-  --------------------------------------------- */
-  
-  
-  
-  /* ---------------------------------------------
         parameters
     --------------------------------------------- */
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech_init_paramInput=3000.0 "mechanical rotation speed, rpm";
@@ -63,7 +57,7 @@ model NmechAtInit
   Modelica.SIunits.AngularVelocity omega(start=Nmech_init*2.0*Modelica.Constants.pi/60.0) "mechanical rotation speed, rad/sec" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech(start=Nmech_init) "mechanical rotation speed, rpm" annotation(
+  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech(start=Nmech_init_paramInput) "mechanical rotation speed, rpm" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
@@ -87,27 +81,18 @@ model NmechAtInit
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
 initial algorithm
-  
+  //Nmech:=Nmech_init_paramInput;
+  //********************************************************************************
 initial equation
-  
-  
-//********************************************************************************
+  //********************************************************************************
 algorithm
-  /*
-  if noEvent(time<=timeRemoveConstraint)then
-    Nmech:= Nmech_init_paramInput;
-  end if;
-  */
-//********************************************************************************
+  //********************************************************************************
 equation
   /* ---------------------------------------------
   design point constraint
   ---------------------------------------------*/
-  /**/
-  if noEvent(time<=timeRemoveDesConstraint)then
+  if (time<=timeRemoveDesConstraint)then
     Nmech= Nmech_init_paramInput;
-  //else
-  //  Nmech=Nmech_init_paramInput*1.5;
   end if;
   
   
