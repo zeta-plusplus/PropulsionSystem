@@ -56,7 +56,7 @@ model MassFlowAtInit
   parameter Modelica.SIunits.MassFlowRate m_flow_init_paramInput=1.0 "" annotation(
     Dialog(group = "Component characteristics"));
   
-  parameter Modelica.SIunits.Time timeRemoveConstraint=environment.timeRemoveDesConstraint "" annotation(
+  parameter Modelica.SIunits.Time timeRemoveDesConstraint=environment.timeRemoveDesConstraint "" annotation(
     Dialog(group = "Simulation setting"));
   
   
@@ -123,7 +123,7 @@ equation
   /* ---------------------------------------------
   design point constraint
   ---------------------------------------------*/
-  if noEvent(time<=timeRemoveConstraint) then
+  if noEvent(time<=timeRemoveDesConstraint) then
     port_1.m_flow= m_flow_init_paramInput;
   end if;
   

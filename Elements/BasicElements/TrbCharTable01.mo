@@ -140,14 +140,13 @@ initial algorithm
     determine design point
   --------------------------------------------- */
   effDes := effDes_paramInput;
+  fluid_1_des.m_flow:=port_1.m_flow;
   fluid_1_des.p := fluid_1.p;
   fluid_1_des.T := fluid_1.T;
   NmechDes := Nmech;
-  fluid_1_des.m_flow:=port_1.m_flow;
-  PRdes:= PR;
   //********************************************************************************
 initial equation
- 
+  PR= PRdes;   
   //********************************************************************************
 algorithm
 //##### none #####

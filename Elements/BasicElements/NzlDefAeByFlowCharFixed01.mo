@@ -42,6 +42,15 @@ model NzlDefAeByFlowCharFixed01
   parameter Modelica.SIunits.Area AmechTh_paramInput= 0.0014 "Throat mechanical area, valid only when switchDetermine_AmechTh==param, value fixed through simulation" annotation(
     Dialog(group = "Geometry"));
   
+  parameter Modelica.SIunits.Time timeRemoveDesConstraint = environment.timeRemoveDesConstraint annotation(
+    Dialog(group = "Simulation setting"));
+  
+  
+  /* ---------------------------------------------
+      Internal objects
+  --------------------------------------------- */
+  inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
+  
   
   
   /* ---------------------------------------------
@@ -66,13 +75,13 @@ initial algorithm
   fluid_1_des.m_flow:= port_1.m_flow;
   fluid_1_des.p:= fluid_1.p;
   fluid_1_des.T:= fluid_1.T;
-  
   //********************************************************************************
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
   PR= PRdes;
+  
   //--------------------
   if (use_u_CdTh==false) then
     CdThDes = CdThDes_paramInput;
@@ -90,6 +99,9 @@ initial equation
 algorithm
 //##### none #####
 equation
+  if noEvent(timeRemoveDesConstraint<time) then
+    AmechTh=AmechThDes;
+  end if;
   
   
   /* ---------------------------------------------

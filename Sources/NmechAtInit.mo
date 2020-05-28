@@ -20,7 +20,7 @@ model NmechAtInit
     --------------------------------------------- */
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech_init_paramInput=3000.0 "mechanical rotation speed, rpm";
   
-  parameter Modelica.SIunits.Time timeRemoveConstraint=environment.timeRemoveDesConstraint "" annotation(
+  parameter Modelica.SIunits.Time timeRemoveDesConstraint=environment.timeRemoveDesConstraint "" annotation(
     Dialog(group = "Simulation setting"));
   
   
@@ -104,7 +104,7 @@ equation
   design point constraint
   ---------------------------------------------*/
   /**/
-  if noEvent(time<=timeRemoveConstraint)then
+  if noEvent(time<=timeRemoveDesConstraint)then
     Nmech= Nmech_init_paramInput;
   //else
   //  Nmech=Nmech_init_paramInput*1.5;
