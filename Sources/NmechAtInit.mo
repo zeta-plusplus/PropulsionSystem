@@ -86,15 +86,19 @@ initial algorithm
 initial equation
   //********************************************************************************
 algorithm
+  /*if (time<=timeRemoveDesConstraint)then
+    Nmech:= Nmech_init_paramInput;
+  end if;
+  */
   //********************************************************************************
 equation
   /* ---------------------------------------------
   design point constraint
   ---------------------------------------------*/
-  if (time<=timeRemoveDesConstraint)then
+  if noEvent(time<=timeRemoveDesConstraint)then
     Nmech= Nmech_init_paramInput;
   end if;
-  
+  /**/
   
   
 /* ---------------------------------------------

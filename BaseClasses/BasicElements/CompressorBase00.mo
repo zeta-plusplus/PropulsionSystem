@@ -320,8 +320,8 @@ initial algorithm
     determine design point
   --------------------------------------------- */
   //----------
-  Nc_1_des := NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
-  Wc_1_des := fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd); 
+  //Nc_1_des := NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
+  //Wc_1_des := fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd); 
   
   /*
   variablesDes.PR:=PRdes;
@@ -362,7 +362,9 @@ initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  //##### NONE #####
+  //----------
+  Nc_1_des = NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
+  Wc_1_des = fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd); 
   
 algorithm
   if(printCmd==true)then

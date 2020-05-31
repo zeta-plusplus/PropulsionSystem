@@ -44,8 +44,6 @@ model CombCharFixed02
     Placement(visible = true, transformation(origin = {40, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealInput u_effComb if use_u_effComb "[nond], combustion efficiency" annotation(
     Placement(visible = true, transformation(origin = {80, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {40, 90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  
-  
   //***************************************************************************
 initial equation
   /* ---------------------------------------------
@@ -75,7 +73,6 @@ equation
   elseif use_u_effComb == false then
     effComb = effComb_paramInput;
   end if;
-
 /********************************************************
   Graphics
 ********************************************************/
@@ -85,6 +82,32 @@ equation
     __OpenModelica_commandLineOptions = "",
     Diagram(coordinateSystem(initialScale = 0.1)),
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-6, Interval = 0.002),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
+  Documentation(info = "<html>
+  <a href=\"modelica://PropulsionSystem/docs/Elements/BasicElements/CombCharFixed02.html\"> Document html page</a>
+  
+  <h4>example/demo models</h4>
+    <ul>
+    <li><a href=\"modelica://PropulsionSystem.Examples.Elements.BasicElements.CombCharFixed02_ex01\"> PropulsionSystem.Examples.Elements.BasicElements.CombCharFixed02_ex01 </a> </li>
+    
+    <li><a href=\"modelica://PropulsionSystem.Examples.Elements.BasicElements.CombCharFixed02_ex02\"> PropulsionSystem.Examples.Elements.BasicElements.CombCharFixed02_ex02 </a> </li>
+    
+    
+  <h4>classes which this component call (those in MSL are not listed) </h4>
+    <ul>
+    <li><a href=\"modelica://PropulsionSystem.Subelements.Combustion00\"> PropulsionSystem.Subelements.Combustion00 </a> </li>
+    
+    <li><a href=\"modelica://PropulsionSystem.Elements.BasicElements.IdealMixer01\"> PropulsionSystem.Elements.BasicElements.IdealMixer01 </a> </li>
+    
+    <li><a href=\"modelica://PropulsionSystem.Elements.BasicElements.HeatInjector00\"> PropulsionSystem.Elements.BasicElements.HeatInjector00 </a> </li>
+    
+    </ul>
+    
+  <h4>classes from which this component extend </h4>
+    <ul>
+    <li><a href=\"modelica://PropulsionSystem.BaseClasses.BasicElements.CombustorBase02\"> PropulsionSystem.BaseClasses.BasicElements.CombustorBase02 </a> </li>
+    </ul>
+
+</html>"));
   
 end CombCharFixed02;

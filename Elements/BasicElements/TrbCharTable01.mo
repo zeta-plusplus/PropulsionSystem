@@ -140,13 +140,17 @@ initial algorithm
     determine design point
   --------------------------------------------- */
   effDes := effDes_paramInput;
-  fluid_1_des.m_flow:=port_1.m_flow;
-  fluid_1_des.p := fluid_1.p;
-  fluid_1_des.T := fluid_1.T;
-  NmechDes := Nmech;
+  //fluid_1_des.m_flow:=port_1.m_flow;
+  //fluid_1_des.p := fluid_1.p;
+  //fluid_1_des.T := fluid_1.T;
+  //NmechDes := Nmech;
   //********************************************************************************
 initial equation
   PR= PRdes;   
+  fluid_1_des.p = fluid_1.p;
+  fluid_1_des.T = fluid_1.T;
+  fluid_1_des.m_flow=port_1.m_flow;
+  NmechDes=Nmech;
   //********************************************************************************
 algorithm
 //##### none #####
@@ -218,7 +222,7 @@ equation
   annotation(
     defaultComponentName = "Trb",
     Documentation(info = "<html>
-  <a href=modelica://PropulsionSystem/docs/Elements/BasicElements/TrbCharFixed00.html> Document html page</a>
+  <a href=\"modelica://PropulsionSystem/docs/Elements/BasicElements/TrbCharFixed00.html\"> Document html page</a>
   
   <h4>example/demo models</h4>
     <ul>
