@@ -71,6 +71,10 @@ model Turbojet_ex04
     Placement(visible = true, transformation(origin = {220, -190}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   PropulsionSystem.Sources.MassFlowSource_T boundary(redeclare package Medium = engineAir, X = {1, 0, 0}, nPorts = 1, use_T_in = true, use_m_flow_in = true)  annotation(
     Placement(visible = true, transformation(origin = {190, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interaction.Show.RealValue realValue_Fg(significantDigits = 5, use_numberPort = true)  annotation(
+    Placement(visible = true, transformation(origin = {430, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interaction.Show.RealValue realValue(significantDigits = 5, use_numberPort = true) annotation(
+    Placement(visible = true, transformation(origin = {100, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(ramp_Tfuel.y, boundary.T_in) annotation(
     Line(points = {{162, -20}, {166, -20}, {166, -6}, {178, -6}, {178, -6}}, color = {0, 0, 127}));
@@ -140,6 +144,10 @@ equation
     Line(points = {{140, -64}, {152, -64}, {152, -40}, {160, -40}, {160, -40}}, color = {0, 127, 255}));
   connect(Cmp.flange_2, speedSensor1.flange) annotation(
     Line(points = {{140, -80}, {170, -80}, {170, -80}, {170, -80}}));
+  connect(Nzl.y_Fg, realValue_Fg.numberPort) annotation(
+    Line(points = {{390, -80}, {412, -80}, {412, -50}, {418, -50}, {418, -50}}, color = {0, 0, 127}));
+  connect(Inlt.y_FdRam, realValue.numberPort) annotation(
+    Line(points = {{74, -88}, {82, -88}, {82, -30}, {88, -30}, {88, -30}}, color = {0, 0, 127}));
   annotation(
     uses(Modelica(version = "3.2.2")),
     Diagram(coordinateSystem(extent = {{-100, -260}, {440, 60}}, preserveAspectRatio = false)),

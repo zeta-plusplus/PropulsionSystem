@@ -7,7 +7,6 @@ model Turboprop_ex01
   package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
   //redeclare package Medium = engineAir
   //-----
-  
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-10, 190}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
@@ -36,7 +35,7 @@ model Turboprop_ex01
     Placement(visible = true, transformation(origin = {-30, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PropActDiskCharTable00 Prop(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-220, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Components.IdealGear idealGear1 annotation(
+  Modelica.Mechanics.Rotational.Components.IdealGear idealGear1(ratio = 1 / 3)  annotation(
     Placement(visible = true, transformation(origin = {-110, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint annotation(
     Placement(visible = true, transformation(origin = {30, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

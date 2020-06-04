@@ -1,13 +1,16 @@
 CmpCharFixed00
 CmpCharTable00
+CmpCharTable01
 TrbCharFixed00
 TrbCharTable00
+TrbCharTable01
 HeatInjector00
 CombCharFixed00
 CombCharFixed01
 CombCharFixed02
 NzlCharFixed00
 NzlDefAeByFlowCharFixed00
+NzlDefAeByFlowCharFixed01
 NzlDefAbyInitCharFixed00
 NzlDefAbyInitCharFixed01
 InltCharFixed00
@@ -42,6 +45,3 @@ constrain_Nmech
 constrain_T
 constrain_dm
 extractPwr
-CmpCharTable01
-TrbCharTable01
-NzlDefAeByFlowCharFixed01

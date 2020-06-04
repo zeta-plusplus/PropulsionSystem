@@ -53,36 +53,56 @@ initial algorithm
   fluid_1_des.m_flow:=port_1.m_flow;
   fluid_1_des.p:=fluid_1.p;
   fluid_1_des.T:=fluid_1.T;
-  NmechDes := Nmech; 
-  
-  //--------------------
-  if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
-    PRdes := PRdes_paramInput;
-  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
-    PRdes := u_PR;
-  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
-    PRdes:= PR;
-  end if; 
-  //--------------------
-  if use_u_eff == false then
-    effDes := effDes_paramInput;
-  elseif use_u_eff==true then
-    effDes := u_eff;
-  end if; 
-  //--------------------
-  
   
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  //##### none #####
+  NmechDes = Nmech;
+  //--------------------
+  if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
+    PRdes = PRdes_paramInput;
+  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
+    PRdes = u_PR;
+  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
+    PRdes= PR;
+  end if; 
+  //--------------------
+  if use_u_eff == false then
+    effDes = effDes_paramInput;
+  elseif use_u_eff==true then
+    effDes = u_eff;
+  end if; 
+  //--------------------
   
   
+//******************************************************************************************
 algorithm
 //##### none #####
   
+//******************************************************************************************
 equation
+  
+  when (time<=environment.timeRemoveDesConstraint)then
+    NmechDes = Nmech;
+    //--------------------
+    if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
+      PRdes = PRdes_paramInput;
+    elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
+      PRdes = u_PR;
+    elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
+      PRdes= PR;
+    end if; 
+    //--------------------
+    if use_u_eff == false then
+      effDes = effDes_paramInput;
+    elseif use_u_eff==true then
+      effDes = u_eff;
+    end if; 
+    //--------------------
+  end when;
+  
+  
   //--------------------
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     PR = PRdes_paramInput;

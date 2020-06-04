@@ -102,7 +102,7 @@ initial algorithm
   if printCmd == true then
     print("\n");
     print("---initialization---" + "\n");
-    print("instance:" + String(getInstanceName()) + "\n");
+    print("instance:" + getInstanceName() + "\n");
     print("port_1.m_flow= " + String(port_1.m_flow) + "\n");
     print("port_1.p= " + String(port_1.p) + "\n");
     print("port_1.h_outflow= " + String(port_1.h_outflow) + "\n");
@@ -157,7 +157,7 @@ algorithm
   --------------------------------------------- */
   if printCmd == true then
     print("\n");
-    print("instance:" + String(getInstanceName()) + "\n");
+    print("instance:" + getInstanceName() + "\n");
     print("port_1.m_flow= " + String(port_1.m_flow) + "\n");
     print("port_1.p= " + String(port_1.p) + "\n");
     print("port_1.h_outflow= " + String(port_1.h_outflow) + "\n");

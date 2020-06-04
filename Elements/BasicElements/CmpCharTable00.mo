@@ -8,8 +8,7 @@ model CmpCharTable00//**********************************************************
     T1_init=T1_des_paramInput,
     Nmech_init=NmechDes_paramInput,
     PR_init=PRdes_paramInput,
-    eff_init=effDes_paramInput,
-    Wc_1(start=Wc_1_des)
+    eff_init=effDes_paramInput
   );
   /********************************************************
                   imports
@@ -144,23 +143,20 @@ model CmpCharTable00//**********************************************************
     Placement(visible = true, transformation(origin = {20, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {20, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   input Modelica.Blocks.Interfaces.RealInput u_a_effAud if use_u_a_effAud "" annotation(
     Placement(visible = true, transformation(origin = {100, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {100, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+
+//******************************************************************************************
 initial algorithm
 /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  NmechDes := NmechDes_paramInput;
   fluid_1_des.m_flow := m_flow_1_des_paramInput;
   fluid_1_des.p:= p1_des_paramInput;
   fluid_1_des.T:=T1_des_paramInput;
-  effDes := effDes_paramInput;
-  PRdes := PRdes_paramInput;
   
+//******************************************************************************************
 initial equation
-/* ---------------------------------------------
-    determine design point
-  --------------------------------------------- */
-  //##### none #####
-  
+
+//******************************************************************************************  
 algorithm
   /* ---------------------------------------------
     interface
@@ -205,7 +201,7 @@ algorithm
     a_effAud:=u_a_effAud;
   end if;
   
-  
+//******************************************************************************************
 equation
   connect(ScalerDesCmp.y_s_NcDes, division_NcTbl.u2) annotation(
     Line(points = {{-58, 78}, {-54, 78}, {-54, 34}, {-42, 34}, {-42, 34}}, color = {0, 0, 127}));
@@ -223,6 +219,11 @@ equation
     Line(points = {{-58, 66}, {30, 66}, {30, 41}}, color = {0, 0, 127}));
   connect(ScalerDesCmp.y_s_effDes, SclCmp.u_s_eff) annotation(
     Line(points = {{-58, 62}, {36, 62}, {36, 41}}, color = {0, 0, 127}));
+  
+  //----------
+  NmechDes = NmechDes_paramInput;
+  effDes = effDes_paramInput;
+  PRdes = PRdes_paramInput;
   //----------
   ScalerDesCmp.u_NcTblDes = NcTblDes_paramInput;
   ScalerDesCmp.u_RlineTblDes = RlineTblDes_paramInput;

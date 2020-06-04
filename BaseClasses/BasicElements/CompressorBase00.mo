@@ -196,6 +196,24 @@ partial model CompressorBase00
   );
   
   
+  //********** variables of design point **********
+  discrete Modelica.SIunits.MassFlowRate Wc_1_des(start=Wc_1_init) "corrected mass flow rate, fluid_1, design point" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(start=Nmech_init) "mechanical rotation speed, rpm" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1_des(start=Nc_1_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete Real PRdes(start=PR_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete Real effDes(start=eff_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
+  
   //********** variables relative to design point **********
   inner Real NcqNcDes_1(start=NcqNcDes_1_init) "ratio of corrected rotational speed with respect to design pt. speed" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
@@ -264,16 +282,16 @@ protected
   /* ---------------------------------------------
           Non-modifiable, calculated parameters
     --------------------------------------------- */
-  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false, start=Nmech_init) "mechanical rotation speed, rpm" annotation(
-    HideResult=false);
-  inner parameter Modelica.SIunits.MassFlowRate Wc_1_des(fixed=false, start=Wc_1_init) "corrected mass flow rate" annotation(
-    HideResult=false);
-  inner parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1_des(fixed=false, start=Nc_1_init) annotation(
-    HideResult=false);
-  parameter Real PRdes(fixed=false, start=PR_init) annotation(
-    HideResult=false);
-  parameter Real effDes(fixed=false, start=eff_init) annotation(
-    HideResult=false);
+  //parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false, start=Nmech_init) "mechanical rotation speed, rpm" annotation(
+  //  HideResult=false);
+  //inner parameter Modelica.SIunits.MassFlowRate Wc_1_des(fixed=false, start=Wc_1_init) "corrected mass flow rate" annotation(
+  //  HideResult=false);
+  //inner parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1_des(fixed=false, start=Nc_1_init) annotation(
+  //  HideResult=false);
+  //parameter Real PRdes(fixed=false, start=PR_init) annotation(
+  //  HideResult=false);
+  //parameter Real effDes(fixed=false, start=eff_init) annotation(
+  //  HideResult=false);
   /**/
   
   parameter PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
@@ -377,6 +395,12 @@ equation
     assert(fluid_1.p <= 0.0, getInstanceName()+", fluid_1.p="+String(fluid_1.p), AssertionLevel.warning);
     assert(fluid_2.p <= 0.0, getInstanceName()+", fluid_2.p="+String(fluid_2.p), AssertionLevel.warning);
   end if;
+  
+  when (time<=environment.timeRemoveDesConstraint)then
+    Wc_1_des = fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
+    Nc_1_des = NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
+  end when;
+  
   
   
 /* ---------------------------------------------
