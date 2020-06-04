@@ -146,12 +146,6 @@ model CmpCharTable00//**********************************************************
 
 //******************************************************************************************
 initial algorithm
-/* ---------------------------------------------
-    determine design point
-  --------------------------------------------- */
-  fluid_1_des.m_flow := m_flow_1_des_paramInput;
-  fluid_1_des.p:= p1_des_paramInput;
-  fluid_1_des.T:=T1_des_paramInput;
   
 //******************************************************************************************
 initial equation
@@ -221,6 +215,9 @@ equation
     Line(points = {{-58, 62}, {36, 62}, {36, 41}}, color = {0, 0, 127}));
   
   //----------
+  fluid_1_des.m_flow = m_flow_1_des_paramInput;
+  fluid_1_des.p= p1_des_paramInput;
+  fluid_1_des.T=T1_des_paramInput;
   NmechDes = NmechDes_paramInput;
   effDes = effDes_paramInput;
   PRdes = PRdes_paramInput;

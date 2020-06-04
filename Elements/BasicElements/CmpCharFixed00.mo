@@ -47,17 +47,15 @@ model CmpCharFixed00
   
   //********************************************************************************
 initial algorithm
-  /* ---------------------------------------------
-    determine design point
-  --------------------------------------------- */
-  fluid_1_des.m_flow:=port_1.m_flow;
-  fluid_1_des.p:=fluid_1.p;
-  fluid_1_des.T:=fluid_1.T;
   
+//********************************************************************************
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  fluid_1_des.m_flow=port_1.m_flow;
+  fluid_1_des.p=fluid_1.p;
+  fluid_1_des.T=fluid_1.T;
   NmechDes = Nmech;
   //--------------------
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
@@ -84,6 +82,9 @@ algorithm
 equation
   
   when (time<=environment.timeRemoveDesConstraint)then
+    fluid_1_des.m_flow=port_1.m_flow;
+    fluid_1_des.p=fluid_1.p;
+    fluid_1_des.T=fluid_1.T;
     NmechDes = Nmech;
     //--------------------
     if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
@@ -117,9 +118,6 @@ equation
   end if; 
   //--------------------
   
-  
- 
- 
   
 /********************************************************
   Graphics
