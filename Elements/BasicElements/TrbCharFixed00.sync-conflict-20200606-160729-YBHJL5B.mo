@@ -48,7 +48,6 @@ model TrbCharFixed00
   Modelica.Blocks.Interfaces.RealInput u_eff if use_u_eff "eff input, valid only when use_u_eff==true" annotation(
     Placement(visible = true, transformation(origin = {-20, -112}, extent = {{-12, -12}, {12, 12}}, rotation = 90), iconTransformation(origin = {-3.55271e-15, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 
-//******************************************************************************************
 initial algorithm
   /* ---------------------------------------------
     determine design point
@@ -58,12 +57,14 @@ initial algorithm
   fluid_1_des.T:= fluid_1.T;
   
   
-//******************************************************************************************
 initial equation
   /* ---------------------------------------------
-  design point calc
+    determine design point
   --------------------------------------------- */
+  /*
   NmechDes = Nmech; 
+  
+  
   //--------------------
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     PRdes = PRdes_paramInput;
@@ -79,18 +80,14 @@ initial equation
     effDes = u_eff;
   end if; 
   //--------------------
+  */
   
-  
-//******************************************************************************************
 algorithm
 //##### none #####
-//******************************************************************************************
 equation
   
   when (time<=environment.timeRemoveDesConstraint)then
-    /* ---------------------------------------------
-    design point calc
-    --------------------------------------------- */
+    //--------------------
     if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
       PRdes = PRdes_paramInput;
     elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then

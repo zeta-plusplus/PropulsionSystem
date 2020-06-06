@@ -61,9 +61,12 @@ initial algorithm
 //******************************************************************************************
 initial equation
   /* ---------------------------------------------
-  design point calc
+    determine design point
   --------------------------------------------- */
+  /*
   NmechDes = Nmech; 
+  
+  
   //--------------------
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     PRdes = PRdes_paramInput;
@@ -79,7 +82,7 @@ initial equation
     effDes = u_eff;
   end if; 
   //--------------------
-  
+  */
   
 //******************************************************************************************
 algorithm
@@ -88,9 +91,7 @@ algorithm
 equation
   
   when (time<=environment.timeRemoveDesConstraint)then
-    /* ---------------------------------------------
-    design point calc
-    --------------------------------------------- */
+    //--------------------
     if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
       PRdes = PRdes_paramInput;
     elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then

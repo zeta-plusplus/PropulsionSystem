@@ -241,6 +241,11 @@ equation
   //fluid_1_des.T=T1_des_paramInput;
   NmechDes = NmechDes_paramInput;
   effDes= effDes_paramInput;
+  
+  when (time<=environment.timeRemoveDesConstraint)then
+    PRdes= PR;
+  end when;
+  
   //----------
   ScalerDesTrb.u_NcTblDes = NcTblDes_paramInput;
   ScalerDesTrb.u_PRtblDes = PRtblDes_paramInput;

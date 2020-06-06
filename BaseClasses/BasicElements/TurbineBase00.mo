@@ -294,16 +294,6 @@ protected
   /* ---------------------------------------------
           Non-modifiable calculated parameters
     --------------------------------------------- */
-  //parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false, start=Nmech_init) "mechanical rotation speed, rpm" annotation(
-  //  HideResult=false);
-  //inner parameter Modelica.SIunits.MassFlowRate Wc_1_des(fixed=false, start=Wc_1_init) "corrected mass flow rate" annotation(
-  //  HideResult=false);
-  //inner parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1_des(fixed=false, start=Nc_1_init) annotation(
-  //  HideResult=false);
-  //parameter Real PRdes(fixed=false, start=PR_init) annotation(
-  //  HideResult=false);
-  //parameter Real effDes(fixed=false, start=eff_init) annotation(
-  //  HideResult=false);
   
   parameter PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
     fixed=false,
@@ -461,7 +451,6 @@ equation
     
     Wc_1_des = fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
     Nc_1_des = NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
-    PRdes=PR;
     //----------
   end when;
   
