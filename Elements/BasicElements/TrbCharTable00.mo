@@ -160,19 +160,22 @@ initial algorithm
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  
   fluid_1_des.m_flow := m_flow_1_des_paramInput;
   fluid_1_des.p:= p1_des_paramInput;
   fluid_1_des.T:=T1_des_paramInput;
+  /*
   NmechDes := NmechDes_paramInput;
   effDes := effDes_paramInput;
-  
+  */
+//********************************************************************************
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
   PRdes = PR;
-  
-  
+    
+//********************************************************************************
 algorithm
   /* ---------------------------------------------
     interface
@@ -231,6 +234,13 @@ equation
     Line(points = {{-58, 62}, {54, 62}, {54, 41}}, color = {0, 0, 127}));
   connect(ScalerDesTrb.y_s_WcDes, SclTrb.u_s_Wc) annotation(
     Line(points = {{-58, 66}, {46, 66}, {46, 41}}, color = {0, 0, 127}));
+  
+  //----------
+  //fluid_1_des.m_flow = m_flow_1_des_paramInput;
+  //fluid_1_des.p= p1_des_paramInput;
+  //fluid_1_des.T=T1_des_paramInput;
+  NmechDes = NmechDes_paramInput;
+  effDes= effDes_paramInput;
   //----------
   ScalerDesTrb.u_NcTblDes = NcTblDes_paramInput;
   ScalerDesTrb.u_PRtblDes = PRtblDes_paramInput;

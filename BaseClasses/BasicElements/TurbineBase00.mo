@@ -195,6 +195,22 @@ partial model TurbineBase00
   );
   
   //********** variables of design point **********
+  discrete Modelica.SIunits.MassFlowRate Wc_1_des(start=Wc_1_init) "corrected mass flow rate, fluid_1, design point" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(start=Nmech_init) "mechanical rotation speed, rpm" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1_des(start=Nc_1_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete Real PRdes(start=PR_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete Real effDes(start=eff_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
   discrete PropulsionSystem.Records.RotationalMachineVariables flange_1_des(
     fixed=false,
     HideResult=false
@@ -272,21 +288,22 @@ partial model TurbineBase00
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {100, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
-  
+    
+//******************************************************************************************
 protected
   /* ---------------------------------------------
           Non-modifiable calculated parameters
     --------------------------------------------- */
-  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false, start=Nmech_init) "mechanical rotation speed, rpm" annotation(
-    HideResult=false);
-  inner parameter Modelica.SIunits.MassFlowRate Wc_1_des(fixed=false, start=Wc_1_init) "corrected mass flow rate" annotation(
-    HideResult=false);
-  inner parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1_des(fixed=false, start=Nc_1_init) annotation(
-    HideResult=false);
-  parameter Real PRdes(fixed=false, start=PR_init) annotation(
-    HideResult=false);
-  parameter Real effDes(fixed=false, start=eff_init) annotation(
-    HideResult=false);
+  //parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false, start=Nmech_init) "mechanical rotation speed, rpm" annotation(
+  //  HideResult=false);
+  //inner parameter Modelica.SIunits.MassFlowRate Wc_1_des(fixed=false, start=Wc_1_init) "corrected mass flow rate" annotation(
+  //  HideResult=false);
+  //inner parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1_des(fixed=false, start=Nc_1_init) annotation(
+  //  HideResult=false);
+  //parameter Real PRdes(fixed=false, start=PR_init) annotation(
+  //  HideResult=false);
+  //parameter Real effDes(fixed=false, start=eff_init) annotation(
+  //  HideResult=false);
   
   parameter PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
     fixed=false,
@@ -317,52 +334,10 @@ protected
     HideResult=false
   );
   
+//******************************************************************************************
 initial algorithm
-  /* ---------------------------------------------
-    determine design point
-  --------------------------------------------- */
   
-  //----------
-  //Nc_1_des:=NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
-  //Wc_1_des:=fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
-  
-  /*
-  variablesDes.eff:=effDes;
-  variablesDes.PR:=PRdes;
-  
-  //----------
-  //fluid_1_des.p:=port_1.p;
-  fluid_1_des.h:=actualStream(port_1.h_outflow);
-  fluid_1_des.X[1:Medium.nXi]:=actualStream(port_1.Xi_outflow);
-  fluid_1_des.C[1:Medium.nC]:=actualStream(port_1.C_outflow);
-  //fluid_1_des.T:=Medium.temperature_phX(fluid_1_des.p, fluid_1_des.h, fluid_1_des.X);
-  fluid_1_des.s:=Medium.specificEntropy(Medium.setState_phX(fluid_1_des.p, fluid_1_des.h, fluid_1_des.X));
-  
-  variablesDes.phi:=0.0;
-  variablesDes.trq:=flange_1.tau + flange_2.tau;
-  variablesDes.trq_inv:=(-1.0)*variablesDes.trq;
-  variablesDes.omega:=omega;
-  variablesDes.Nmech:=NmechDes;
-  
-  variablesDes.pwr:=variablesDes.trq*variablesDes.omega;
-  variablesDes.pwr_inv:=(-1.0)*variablesDes.pwr;
-  variablesDes.dht:=variablesDes.pwr_inv/fluid_1_des.m_flow;
-  
-  fluid_2_des.m_flow:=(-1.0)*fluid_1_des.m_flow;
-  fluid_2_des.X[1:Medium.nXi]:=fluid_1_des.X[1:Medium.nXi];
-  fluid_2_des.C[1:Medium.nC]:=fluid_1_des.C[1:Medium.nC];
-  fluid_2_des.h:=fluid_1_des.h - variablesDes.dht;
-  variablesDes.dht_is:= variablesDes.dht/variablesDes.eff;
-  variablesDes.h_2is:= fluid_1_des.h - variablesDes.dht_is;
-  fluid_2_des.p:=fluid_1_des.p/variablesDes.PR;
-  fluid_2_des.T:=Medium.temperature_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X);
-  fluid_2_des.s:=Medium.specificEntropy(Medium.setState_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X));
-  
-  variablesDes.Nc_1:=Nc_1_des;
-  variablesDes.Wc_1:=Wc_1_des;
-  */
-  
-  
+//******************************************************************************************
 initial equation
   /* ---------------------------------------------
   design point eqn
@@ -385,25 +360,14 @@ initial equation
   Wc_1_des= fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
   
   
-  /* ---------------------------------------------
-    determine design point
-  --------------------------------------------- */
-  /*
-  if(noEvent(0.0>=fluid_1.p))then
-    reinit(fluid_1.p, abs(fluid_1.p));
-  end if;
-  
-  if(noEvent(0.0>=fluid_2.p))then
-    reinit(fluid_2.p, abs(fluid_2.p));
-  end if;
-  */
-  
+//******************************************************************************************  
 algorithm
   
   if(printCmd==true)then
     assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
   end if;
     
+//******************************************************************************************
 equation
   
   if(printCmd==true)then
@@ -493,6 +457,11 @@ equation
     flange_2_des.omega= der(flange_2_des.phi);
     flange_2_des.pwr= flange_2_des.trq*flange_2_des.omega;
     flange_2_des.Nmech= flange_2_des.omega*60.0/(2.0*Modelica.Constants.pi);
+    //----------
+    
+    Wc_1_des = fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
+    Nc_1_des = NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
+    PRdes=PR;
     //----------
   end when;
   

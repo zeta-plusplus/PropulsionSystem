@@ -322,6 +322,7 @@ partial model CompressorBase00
     Placement(visible = true, transformation(origin = {100, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = { 100, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   
+//******************************************************************************************
 protected
   /* ---------------------------------------------
           Non-modifiable, calculated parameters
