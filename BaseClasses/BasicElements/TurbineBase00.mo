@@ -193,6 +193,23 @@ partial model TurbineBase00
   Modelica.SIunits.MassFlowRate m_flow_min(start=m_flow2_init) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
+  
+  //********** variables of design point **********
+  discrete PropulsionSystem.Records.RotationalMachineVariables flange_1_des(
+    fixed=false,
+    HideResult=false
+  ) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete PropulsionSystem.Records.RotationalMachineVariables flange_2_des(
+    fixed=false,
+    HideResult=false
+  ) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
+  
+  
   //********** variables relative to design point **********
   inner Real NcqNcDes_1(start=NcqNcDes_1_init) "ratio of corrected rotational speed with respect to design pt. speed" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
@@ -295,16 +312,6 @@ protected
     s(start=s_fluid_2_init)
   );
   
-  parameter PropulsionSystem.Records.RotationalMachineVariables flange_1_des(
-    fixed=false,
-    HideResult=false
-  );
-  
-  parameter PropulsionSystem.Records.RotationalMachineVariables flange_2_des(
-    fixed=false,
-    HideResult=false
-  );
-  
   parameter PropulsionSystem.Records.CompressorVariables variablesDes(
     fixed=false,
     HideResult=false
@@ -314,6 +321,7 @@ initial algorithm
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  
   //----------
   //Nc_1_des:=NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
   //Wc_1_des:=fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
@@ -357,11 +365,24 @@ initial algorithm
   
 initial equation
   /* ---------------------------------------------
-    determine design point
+  design point eqn
   --------------------------------------------- */
   //----------
-  Nc_1_des=NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
-  Wc_1_des=fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
+  flange_1_des.trq= flange_1.tau;
+  flange_1_des.phi= flange_1.phi;
+  flange_2_des.trq= flange_2.tau;
+  flange_2_des.phi= flange_2.phi;
+  //----------
+  flange_1_des.omega= der(flange_1_des.phi);
+  flange_1_des.pwr= flange_1_des.trq*flange_1_des.omega;
+  flange_1_des.Nmech= flange_1_des.omega*60.0/(2.0*Modelica.Constants.pi);
+  flange_2_des.omega= der(flange_2_des.phi);
+  flange_2_des.pwr= flange_2_des.trq*flange_2_des.omega;
+  flange_2_des.Nmech= flange_2_des.omega*60.0/(2.0*Modelica.Constants.pi);
+  
+  //----------
+  Nc_1_des= NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
+  Wc_1_des= fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
   
   
   /* ---------------------------------------------
@@ -382,9 +403,6 @@ algorithm
   if(printCmd==true)then
     assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
   end if;
-  
-  
-  
     
 equation
   
@@ -459,6 +477,24 @@ equation
   NqNdes = Nmech / NmechDes;
   NcqNcDes_1 = Nc_1 / Nc_1_des;
   
+  
+  when (time<=environment.timeRemoveDesConstraint)then
+    /* ---------------------------------------------
+    design point eqn
+    --------------------------------------------- */
+    flange_1_des.trq= flange_1.tau;
+    flange_1_des.phi= flange_1.phi;
+    flange_2_des.trq= flange_2.tau;
+    flange_2_des.phi= flange_2.phi;
+    //----------
+    flange_1_des.omega= der(flange_1_des.phi);
+    flange_1_des.pwr= flange_1_des.trq*flange_1_des.omega;
+    flange_1_des.Nmech= flange_1_des.omega*60.0/(2.0*Modelica.Constants.pi);
+    flange_2_des.omega= der(flange_2_des.phi);
+    flange_2_des.pwr= flange_2_des.trq*flange_2_des.omega;
+    flange_2_des.Nmech= flange_2_des.omega*60.0/(2.0*Modelica.Constants.pi);
+    //----------
+  end when;
   
 /********************************************************
   Graphics
