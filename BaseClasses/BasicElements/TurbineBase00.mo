@@ -211,6 +211,33 @@ partial model TurbineBase00
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
+  discrete PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
+    fixed=false,
+    HideResult=false,
+    nX=Medium.nX,
+    nC=Medium.nC,
+    m_flow(start=m_flow1_init),
+    p(start=p1_init),
+    T(start=T1_init),
+    h(start=h1_init),
+    s(start=s_fluid_1_init)
+  ) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
+    fixed=false,
+    HideResult=false,
+    nX=Medium.nX,
+    nC=Medium.nC,
+    m_flow(start=m_flow2_init),
+    p(start=p2_init),
+    T(start=T2_init),
+    h(start=h2_init),
+    s(start=s_fluid_2_init)
+  ) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
   discrete PropulsionSystem.Records.RotationalMachineVariables flange_1_des(
     fixed=false,
     HideResult=false
@@ -224,6 +251,12 @@ partial model TurbineBase00
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
+  discrete PropulsionSystem.Records.CompressorVariables variablesDes(
+    fixed=false,
+    HideResult=false
+  ) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
   
   //********** variables relative to design point **********
@@ -295,34 +328,6 @@ protected
           Non-modifiable calculated parameters
     --------------------------------------------- */
   
-  parameter PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
-    fixed=false,
-    HideResult=false,
-    nX=Medium.nX,
-    nC=Medium.nC,
-    m_flow(start=m_flow1_init),
-    p(start=p1_init),
-    T(start=T1_init),
-    h(start=h1_init),
-    s(start=s_fluid_1_init)
-  );
-  
-  parameter PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
-    fixed=false,
-    HideResult=false,
-    nX=Medium.nX,
-    nC=Medium.nC,
-    m_flow(start=m_flow2_init),
-    p(start=p2_init),
-    T(start=T2_init),
-    h(start=h2_init),
-    s(start=s_fluid_2_init)
-  );
-  
-  parameter PropulsionSystem.Records.CompressorVariables variablesDes(
-    fixed=false,
-    HideResult=false
-  );
   
 //******************************************************************************************
 initial algorithm
@@ -332,6 +337,10 @@ initial equation
   /* ---------------------------------------------
   design point eqn
   --------------------------------------------- */
+  fluid_1_des.X= fluid_1.Xi;
+  fluid_1_des.C= actualStream(port_1.C_outflow);
+  fluid_1_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
+  fluid_1_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
   //----------
   flange_1_des.trq= flange_1.tau;
   flange_1_des.phi= flange_1.phi;
@@ -344,11 +353,34 @@ initial equation
   flange_2_des.omega= der(flange_2_des.phi);
   flange_2_des.pwr= flange_2_des.trq*flange_2_des.omega;
   flange_2_des.Nmech= flange_2_des.omega*60.0/(2.0*Modelica.Constants.pi);
-  
   //----------
   Nc_1_des= NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
   Wc_1_des= fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
-  
+  //----------
+  variablesDes.PR= PRdes;
+  variablesDes.eff= effDes;
+  fluid_2_des.m_flow= -1.0*fluid_1_des.m_flow;
+  fluid_2_des.p= fluid_1_des.p/variablesDes.PR;
+  variablesDes.h_2is= Medium.isentropicEnthalpy(fluid_2_des.p, Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
+  variablesDes.dht_is= fluid_1_des.h - variablesDes.h_2is;
+  variablesDes.dht= variablesDes.eff* variablesDes.dht_is;
+  fluid_2_des.h= fluid_1_des.h - variablesDes.dht;
+  fluid_2_des.X= fluid_1_des.X;
+  fluid_2_des.C= fluid_2_des.C;
+  fluid_2_des.T= Medium.temperature_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X);
+  fluid_2_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X));
+  //----------
+  variablesDes.pwr= (fluid_1_des.m_flow*fluid_1_des.h) + (fluid_2_des.m_flow*fluid_2_des.h);
+  variablesDes.Nmech= NmechDes;
+  variablesDes.omega= variablesDes.Nmech*(2.0*Modelica.Constants.pi)/60.0;
+  variablesDes.trq= variablesDes.pwr/variablesDes.omega;
+  //----------
+  variablesDes.Nc_1= Nc_1_des;
+  variablesDes.phi= flange_1_des.phi;
+  variablesDes.pwr_inv= -1.0*variablesDes.pwr;
+  variablesDes.trq_inv= -1.0*variablesDes.trq;
+  variablesDes.Wc_1= Wc_1_des;
+  //----------
   
 //******************************************************************************************  
 algorithm
@@ -436,6 +468,11 @@ equation
     /* ---------------------------------------------
     design point eqn
     --------------------------------------------- */
+    fluid_1_des.X= fluid_1.Xi;
+    fluid_1_des.C= actualStream(port_1.C_outflow);
+    fluid_1_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
+    fluid_1_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
+    //----------
     flange_1_des.trq= flange_1.tau;
     flange_1_des.phi= flange_1.phi;
     flange_2_des.trq= flange_2.tau;
@@ -448,9 +485,32 @@ equation
     flange_2_des.pwr= flange_2_des.trq*flange_2_des.omega;
     flange_2_des.Nmech= flange_2_des.omega*60.0/(2.0*Modelica.Constants.pi);
     //----------
-    
     Wc_1_des = fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
     Nc_1_des = NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
+    //----------
+    variablesDes.PR= PRdes;
+    variablesDes.eff= effDes;
+    fluid_2_des.m_flow= -1.0*fluid_1_des.m_flow;
+    fluid_2_des.p= fluid_1_des.p/variablesDes.PR;
+    variablesDes.h_2is= Medium.isentropicEnthalpy(fluid_2_des.p, Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
+    variablesDes.dht_is= fluid_1_des.h - variablesDes.h_2is;
+    variablesDes.dht= variablesDes.eff* variablesDes.dht_is;
+    fluid_2_des.h= fluid_1_des.h - variablesDes.dht;
+    fluid_2_des.X= fluid_1_des.X;
+    fluid_2_des.C= fluid_2_des.C;
+    fluid_2_des.T= Medium.temperature_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X);
+    fluid_2_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X));
+    //----------
+    variablesDes.pwr= (fluid_1_des.m_flow*fluid_1_des.h) + (fluid_2_des.m_flow*fluid_2_des.h);
+    variablesDes.Nmech= NmechDes;
+    variablesDes.omega= variablesDes.Nmech*(2.0*Modelica.Constants.pi)/60.0;
+    variablesDes.trq= variablesDes.pwr/variablesDes.omega;
+    //----------
+    variablesDes.Nc_1= Nc_1_des;
+    variablesDes.phi= flange_1_des.phi;
+    variablesDes.pwr_inv= -1.0*variablesDes.pwr;
+    variablesDes.trq_inv= -1.0*variablesDes.trq;
+    variablesDes.Wc_1= Wc_1_des;
     //----------
   end when;
   

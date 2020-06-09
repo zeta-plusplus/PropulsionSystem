@@ -157,17 +157,7 @@ model TrbCharTable00
     Placement(visible = true, transformation(origin = {20, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {60, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   //********************************************************************************
 initial algorithm
-  /* ---------------------------------------------
-    determine design point
-  --------------------------------------------- */
   
-  fluid_1_des.m_flow := m_flow_1_des_paramInput;
-  fluid_1_des.p:= p1_des_paramInput;
-  fluid_1_des.T:=T1_des_paramInput;
-  /*
-  NmechDes := NmechDes_paramInput;
-  effDes := effDes_paramInput;
-  */
 //********************************************************************************
 initial equation
   /* ---------------------------------------------
@@ -236,9 +226,9 @@ equation
     Line(points = {{-58, 66}, {46, 66}, {46, 41}}, color = {0, 0, 127}));
   
   //----------
-  //fluid_1_des.m_flow = m_flow_1_des_paramInput;
-  //fluid_1_des.p= p1_des_paramInput;
-  //fluid_1_des.T=T1_des_paramInput;
+  fluid_1_des.m_flow = m_flow_1_des_paramInput;
+  fluid_1_des.p= p1_des_paramInput;
+  fluid_1_des.T=T1_des_paramInput;
   NmechDes = NmechDes_paramInput;
   effDes= effDes_paramInput;
   

@@ -212,6 +212,7 @@ partial model CompressorBase00
   discrete Real effDes(start=eff_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
+  
   discrete PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
     fixed=false,
     HideResult=false,
@@ -238,6 +239,7 @@ partial model CompressorBase00
   ) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
+  
   discrete PropulsionSystem.Records.RotationalMachineVariables flange_1_des(
     fixed=false,
     HideResult=false
@@ -250,7 +252,8 @@ partial model CompressorBase00
   ) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  discrete PropulsionSystem.Records.CompressorVariables variablesDes(
+  
+discrete PropulsionSystem.Records.CompressorVariables variablesDes(
     fixed=false,
     HideResult=false
   ) annotation(

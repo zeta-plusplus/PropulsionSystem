@@ -50,19 +50,16 @@ model TrbCharFixed00
 
 //******************************************************************************************
 initial algorithm
-  /* ---------------------------------------------
-    determine design point
-  --------------------------------------------- */
-  fluid_1_des.m_flow := port_1.m_flow;
-  fluid_1_des.p:= fluid_1.p;
-  fluid_1_des.T:= fluid_1.T;
-  
   
 //******************************************************************************************
 initial equation
   /* ---------------------------------------------
   design point calc
   --------------------------------------------- */
+  fluid_1_des.m_flow= port_1.m_flow;
+  fluid_1_des.p= fluid_1.p;
+  fluid_1_des.T= fluid_1.T;
+  
   NmechDes = Nmech; 
   //--------------------
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
@@ -91,6 +88,11 @@ equation
     /* ---------------------------------------------
     design point calc
     --------------------------------------------- */
+    fluid_1_des.m_flow=port_1.m_flow;
+    fluid_1_des.p=fluid_1.p;
+    fluid_1_des.T=fluid_1.T;
+    NmechDes=Nmech;
+    
     if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
       PRdes = PRdes_paramInput;
     elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
@@ -105,7 +107,7 @@ equation
       effDes = u_eff;
     end if; 
     //--------------------
-    NmechDes=Nmech;
+    
   end when;
   
   //--------------------
