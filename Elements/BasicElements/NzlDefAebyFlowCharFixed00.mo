@@ -50,10 +50,13 @@ model NzlDefAeByFlowCharFixed00
     Placement(visible = true, transformation(origin = {-40, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {0, -67}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Interfaces.RealInput u_kAmechTh if use_u_kAmechTh "AmechTh input, valid only when switchDetermine_AmechTh==viaRealInput" annotation(
     Placement(visible = true, transformation(origin = {0, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {60, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  //********************************************************************************
-initial algorithm
-  fluid_1_des.m_flow:= m_flow_1_des_paramInput;
   
+  
+//********************************************************************************
+initial algorithm
+
+  fluid_1_des.m_flow:= m_flow_1_des_paramInput;
+  /*  
 //--------------------
   if use_u_CdTh == false then
     CdThDes := CdThDes_paramInput;
@@ -67,39 +70,80 @@ initial algorithm
     CvDes := u_Cv;
   end if;
 //--------------------
+*/
+
+//********************************************************************************
 initial equation
 /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  PR = PRdes;
-  m_flow_th = fluid_1_des.m_flow;
+  //--------------------
+  if (use_u_CdTh == false) then
+    CdThDes= CdThDes_paramInput;
+  elseif (use_u_Cv == true) then
+    CdThDes= u_CdTh;
+  end if;
+  //--------------------
+  if (use_u_Cv == false) then
+    CvDes= CvDes_paramInput;
+  elseif (use_u_Cv == true) then
+    CvDes= u_Cv;
+  end if;
+  //--------------------
+  PR= PRdes;
+  m_flow_th= fluid_1_des.m_flow;
   
   
+//********************************************************************************
 algorithm
-//##### none #####
+
+//********************************************************************************
 equation
-/* ---------------------------------------------
+  
+  when (time<=environment.timeRemoveDesConstraint)then
+    /* ---------------------------------------------
+    design point eqn
+    --------------------------------------------- */
+    //--------------------
+    if use_u_CdTh == false then
+      CdThDes = CdThDes_paramInput;
+    elseif use_u_Cv == true then
+      CdThDes = u_CdTh;
+    end if;
+    //--------------------
+    if use_u_Cv == false then
+      CvDes = CvDes_paramInput;
+    elseif use_u_Cv == true then
+      CvDes = u_Cv;
+    end if;
+    //--------------------
+    
+  end when;
+  
+  
+  /* ---------------------------------------------
   Connections, interface <-> internal variables   
   --------------------------------------------- */
-//--------------------
+  //--------------------
   if use_u_CdTh == false then
     CdTh = CdThDes_paramInput;
   elseif use_u_Cv == true then
     CdTh = u_CdTh;
   end if;
-//--------------------
+  //--------------------
   if use_u_Cv == false then
     Cv = CvDes_paramInput;
   elseif use_u_Cv == true then
     Cv = u_Cv;
   end if;
-//--------------------
+  //--------------------
   if use_u_kAmechTh == false then
     AmechTh = AmechThDes;
   elseif use_u_kAmechTh == true then
     AmechTh = u_kAmechTh * AmechThDes;
   end if;
-//--------------------
+  //--------------------
+
 /********************************************************
   Graphics
 ********************************************************/

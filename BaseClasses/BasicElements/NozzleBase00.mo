@@ -130,7 +130,6 @@ partial model NozzleBase00
   
   
   
-  
   /* ---------------------------------------------
       Internal variables
   --------------------------------------------- */
@@ -215,10 +214,23 @@ partial model NozzleBase00
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
+  //********** variables of design point **********
+  discrete Real PRdes(start=PR_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete Real CdThDes(start=CdTh_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete Real CvDes(start=Cv_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
   
   /* ---------------------------------------------
       Internal objects
   --------------------------------------------- */
+  inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
+  
   Medium.BaseProperties fluid_1(
     p(start = p1_init, min=0.0+1.0e-10), 
     T(start = T1_init, min=0.0+1.0e-10), 
@@ -299,6 +311,16 @@ protected
   /* ---------------------------------------------
           Non-modifiable parameters
   --------------------------------------------- */
+  /*
+  parameter Real PRdes(fixed=false, start=PR_init) annotation(
+    HideResult=false);
+  parameter Real CdThDes(fixed=false, start=CdTh_init) annotation(
+    HideResult=false);
+  parameter Real CvDes(fixed=false, start=Cv_init) annotation(
+    HideResult=false);
+  
+  */
+  
   parameter Modelica.SIunits.MassFlowRate m_flow_des_1(fixed=false, start=m_flow1_init) annotation(
     HideResult=false);
   parameter Modelica.SIunits.Pressure pDes_1(fixed=false, start=p1_init) annotation(
@@ -306,15 +328,9 @@ protected
   parameter Modelica.SIunits.Temperature Tdes_1(fixed=false, start=T1_init) annotation(
     HideResult=false);
   
-  parameter Real PRdes(fixed=false, start=PR_init) annotation(
-    HideResult=false);
   parameter Modelica.SIunits.Area AeThDes(fixed=false, start=AeTh_init) annotation(
     HideResult=false);
   parameter Modelica.SIunits.Area AmechThDes(fixed=false, start=AmechTh_init) annotation(
-    HideResult=false);
-  parameter Real CdThDes(fixed=false, start=CdTh_init) annotation(
-    HideResult=false);
-  parameter Real CvDes(fixed=false, start=Cv_init) annotation(
     HideResult=false);
   
   parameter PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
@@ -457,6 +473,15 @@ equation
   elseif (switch_defineFg == switchDefineFg.ThroatFlowAndPressure) then
     Fg = Cv*V_th*m_flow_th + (fluidStat_th.p - fluid_2.p) * AeTh;
   end if;
+  
+  when (time<=environment.timeRemoveDesConstraint)then
+    /* ---------------------------------------------
+    design point eqn
+    --------------------------------------------- */
+    PRdes= PR;
+    //----------
+    
+  end when;
   
   
 /********************************************************
