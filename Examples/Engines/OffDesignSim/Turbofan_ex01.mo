@@ -39,13 +39,13 @@ model Turbofan_ex01
     Placement(visible = true, transformation(origin = {0, -50}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.TrbCharTable00 Trb041(redeclare package Medium = engineAir, NmechDes_paramInput = 9000, T1_des_paramInput = 1600, effDes_paramInput = 0.85, m_flow_1_des_paramInput = 93.5793, p1_des_paramInput = 790169, pathName_tableFileInLibPackage = "modelica://PropulsionSystem/tableData/table_Turbine_WcEff_NcPR00.txt", use_tableFile_Wc = true, use_tableFile_eff = true)  annotation(
     Placement(visible = true, transformation(origin = {140, -50}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.NzlDefAbyInitCharFixed00 Nzl070(redeclare package Medium = engineAir, m_flow_des_1_paramInput = 93.5793) annotation(
+  PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed01 Nzl070(redeclare package Medium = engineAir, m_flow_des_1_paramInput = 93.5793) annotation(
     Placement(visible = true, transformation(origin = {280, 80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.TrbCharTable00 Trb049(redeclare package Medium = engineAir, NmechDes_paramInput = 3000, T1_des_paramInput = 1329.58, effDes_paramInput = 0.85, m_flow_1_des_paramInput = 93.5793, p1_des_paramInput = 285788, pathName_tableFileInLibPackage = "modelica://PropulsionSystem/tableData/table_Turbine_WcEff_NcPR00.txt", use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {220, 80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CmpCharTable00 Cmp120(redeclare package Medium = engineAir, NmechDes_paramInput = 3000, PRdes_paramInput = 1.5, T1_des_paramInput = 251.833, effDes_paramInput = 0.9, m_flow_1_des_paramInput = 909.091, p1_des_paramInput = 40310.6, pathName_tableFileInLibPackage = "modelica://PropulsionSystem/tableData/table_Compressor_WcPReff_NcRline00.txt", use_tableFile_PR = true, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {-180, 100}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.NzlDefAbyInitCharFixed00 Nzl170(redeclare package Medium = engineAir, m_flow_des_1_paramInput = 909.091) annotation(
+  PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed01 Nzl170(redeclare package Medium = engineAir, m_flow_des_1_paramInput = 909.091) annotation(
     Placement(visible = true, transformation(origin = {140, 120}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Math.Add add1 annotation(
     Placement(visible = true, transformation(origin = {320, -30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
