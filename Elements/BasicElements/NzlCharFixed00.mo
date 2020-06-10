@@ -96,9 +96,31 @@ initial equation
   end if; 
   //--------------------
   
+//********************************************************************************
 algorithm
-//##### none #####
+
+//********************************************************************************
 equation
+  
+  when (time<=environment.timeRemoveDesConstraint)then
+    /* ---------------------------------------------
+    design point eqn
+    --------------------------------------------- */
+    //--------------------
+    if use_u_CdTh == false then
+      CdThDes = CdThDes_paramInput;
+    elseif use_u_Cv == true then
+      CdThDes = u_CdTh;
+    end if;
+    //--------------------
+    if use_u_Cv == false then
+      CvDes = CvDes_paramInput;
+    elseif use_u_Cv == true then
+      CvDes = u_Cv;
+    end if;
+    //--------------------
+    
+  end when;
   
   
   /* ---------------------------------------------
@@ -125,9 +147,7 @@ equation
   //--------------------
   
   
-
-
-
+  
 /********************************************************
   Graphics
 ********************************************************/
