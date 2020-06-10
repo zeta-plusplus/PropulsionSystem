@@ -64,15 +64,20 @@ model NzlCharFixed00
 
   //********************************************************************************
 initial algorithm
+  /*
   fluid_1_des.m_flow:= port_1.m_flow;
   fluid_1_des.p:= fluid_1.p;
   fluid_1_des.T:= fluid_1.T;
-  
+  */
   //********************************************************************************
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  fluid_1_des.m_flow= port_1.m_flow;
+  fluid_1_des.p= fluid_1.p;
+  fluid_1_des.T= fluid_1.T;
+  
   PR= PRdes;
   //--------------------
   if (use_u_CdTh==false) then
@@ -106,6 +111,10 @@ equation
     /* ---------------------------------------------
     design point eqn
     --------------------------------------------- */
+    fluid_1_des.m_flow= port_1.m_flow;
+    fluid_1_des.p= fluid_1.p;
+    fluid_1_des.T= fluid_1.T;
+    
     //--------------------
     if use_u_CdTh == false then
       CdThDes = CdThDes_paramInput;

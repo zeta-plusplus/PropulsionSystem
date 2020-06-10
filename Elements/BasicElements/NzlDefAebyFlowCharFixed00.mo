@@ -77,6 +77,9 @@ initial equation
 /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  fluid_1_des.m_flow= m_flow_1_des_paramInput;
+  fluid_1_des.p= fluid_1.p;
+  fluid_1_des.T= fluid_1.T;
   //--------------------
   if (use_u_CdTh == false) then
     CdThDes= CdThDes_paramInput;
@@ -104,6 +107,9 @@ equation
     /* ---------------------------------------------
     design point eqn
     --------------------------------------------- */
+    fluid_1_des.m_flow= m_flow_1_des_paramInput;
+    fluid_1_des.p= fluid_1.p;
+    fluid_1_des.T= fluid_1.T;
     //--------------------
     if use_u_CdTh == false then
       CdThDes = CdThDes_paramInput;
