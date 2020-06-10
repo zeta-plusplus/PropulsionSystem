@@ -28,7 +28,7 @@ model Turbofan_ex04
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate010(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-290, 16}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint annotation(
-    Placement(visible = true, transformation(origin = {-290, -40}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {-290, -30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.Rotational.Sensors.SpeedSensor speedSensor1 annotation(
     Placement(visible = true, transformation(origin = {60, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Elements.BasicElements.DuctCharFixed00 Duct055(redeclare package Medium = engineAir) annotation(
@@ -38,7 +38,7 @@ model Turbofan_ex04
   PropulsionSystem.Elements.BasicElements.NzlCharFixed00 Nzl070(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {400, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_m_flow_inlet(duration = 0, height = 0, offset = 1000, startTime = 0) annotation(
-    Placement(visible = true, transformation(origin = {-290, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement(visible = true, transformation(origin = {-290, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_NmechShH(duration = 0, height = 0, offset = 9000, startTime = 0) annotation(
     Placement(visible = true, transformation(origin = {60, -180}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
@@ -94,15 +94,23 @@ model Turbofan_ex04
   Modelica.Blocks.Sources.Ramp ramp_Nmech_ShL(duration = 0, height = 0, offset = 3000, startTime = 0) annotation(
     Placement(visible = true, transformation(origin = {-10, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CmpCharFixed00 Cmp120(redeclare package Medium = engineAir, PRdes_paramInput = 1.5, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput, use_u_eff = true)  annotation(
-    Placement(visible = true, transformation(origin = {-150, 120}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.IdealSpltCharFixed00 Splt(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {-200, 16}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-150, 130}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
   Modelica.Blocks.Math.Add add1 annotation(
     Placement(visible = true, transformation(origin = {420, -150}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Sources.Ramp ramp_Cmp120_PR(duration = 10, height = 0.7, offset = 1.1, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-162, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_Cmp120_eff(duration = 10, height = 0, offset = 0.9, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-150, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  Modelica.Fluid.Sensors.MassFlowRate massFlowRate(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {-200, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  Modelica.Fluid.Sensors.MassFlowRate massFlowRate1(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {-184, 16}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Division division annotation(
+    Placement(visible = true, transformation(origin = {-250, 70}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  FluidSystemComponents.Utilities.ConstrainVariable Constraint4 annotation(
+    Placement(visible = true, transformation(origin = {-290, 70}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_BPR(duration = 10, height = 0, offset = 10, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {-320, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(Flt2Fluid.port_amb, Nzl170.port_2) annotation(
     Line(points = {{-340, 40}, {-340, 164}, {260, 164}, {260, 136}}, color = {0, 127, 255}));
@@ -111,17 +119,15 @@ equation
   connect(Duct130.port_2, Nzl170.port_1) annotation(
     Line(points = {{180, 136}, {220, 136}}, color = {0, 127, 255}));
   connect(Cmp120.port_2, Duct130.port_1) annotation(
-    Line(points = {{-120, 144}, {20, 144}, {20, 136}, {160, 136}}, color = {0, 127, 255}));
+    Line(points = {{-120, 154}, {20, 154}, {20, 136}, {160, 136}}, color = {0, 127, 255}));
   connect(Nzl170.y_Fg, add1.u2) annotation(
     Line(points = {{250, 120}, {372, 120}, {372, -126}, {414, -126}, {414, -138}}, color = {0, 0, 127}));
   connect(ramp_Cmp120_eff.y, Cmp120.u_eff) annotation(
-    Line(points = {{-150, 51}, {-150, 102}}, color = {0, 0, 127}));
+    Line(points = {{-150, 51}, {-150, 112}}, color = {0, 0, 127}));
   connect(ramp_Cmp120_PR.y, Cmp120.u_PR) annotation(
-    Line(points = {{-162, 81}, {-162, 96}}, color = {0, 0, 127}));
+    Line(points = {{-162, 81}, {-162, 106}}, color = {0, 0, 127}));
   connect(Cmp120.flange_2, Cmp020.flange_1) annotation(
-    Line(points = {{-120, 120}, {-112, 120}, {-112, 40}, {-100, 40}}));
-  connect(Splt.port_3, Cmp120.port_1) annotation(
-    Line(points = {{-194, 20}, {-190, 20}, {-190, 144}, {-180, 144}}, color = {0, 127, 255}));
+    Line(points = {{-120, 130}, {-112, 130}, {-112, 40}, {-100, 40}}));
   connect(Trb049.port_2, Duct055.port_1) annotation(
     Line(points = {{320, 64}, {329, 64}, {329, 56}, {340, 56}}, color = {0, 127, 255}));
   connect(Duct055.port_2, Nzl070.port_1) annotation(
@@ -186,8 +192,6 @@ equation
     Line(points = {{-60, 40}, {70, 40}}));
   connect(speedSensor2.flange, LossRotMechShL.flange_1) annotation(
     Line(points = {{70, 40}, {90, 40}}));
-  connect(Splt.port_2, Cmp020.port_1) annotation(
-    Line(points = {{-194, 16}, {-106, 16}, {-106, 56}, {-100, 56}}, color = {0, 127, 255}));
   connect(Perf.y_Fn, Constraint2.u_variable) annotation(
     Line(points = {{452, -184}, {470, -184}, {470, -172}, {470, -172}}, color = {0, 0, 127}));
   connect(Inlt.y_FdRam, Perf.u_Fram) annotation(
@@ -196,22 +200,36 @@ equation
     Line(points = {{420, -161}, {420, -182}, {429, -182}}, color = {0, 0, 127}));
   connect(Constraint2.u_targetValue, ramp_Fn.y) annotation(
     Line(points = {{470, -148}, {470, -141}}, color = {0, 0, 127}));
-  connect(Inlt.port_2, Splt.port_1) annotation(
-    Line(points = {{-220, 16}, {-206, 16}, {-206, 16}, {-206, 16}}, color = {0, 127, 255}));
-  connect(ramp_m_flow_inlet.y, Constraint.u_targetValue) annotation(
-    Line(points = {{-290, -59}, {-290, -52}}, color = {0, 0, 127}));
   connect(ramp_fltMN.y, Flt2Fluid.u_MN) annotation(
     Line(points = {{-378, 30}, {-370, 30}, {-370, 28}, {-362, 28}, {-362, 28}}, color = {0, 0, 127}));
   connect(ramp_fltAlt.y, Flt2Fluid.u_alt) annotation(
     Line(points = {{-379, 70}, {-367, 70}, {-367, 36}, {-363, 36}}, color = {0, 0, 127}));
   connect(Flt2Fluid.y_V_inf, Inlt.u_V_infini) annotation(
-    Line(points = {{-318, 4}, {-274, 4}, {-274, -8}, {-254, -8}}, color = {0, 0, 127}));
+    Line(points = {{-318, 4}, {-308, 4}, {-308, -8}, {-254, -8}}, color = {0, 0, 127}));
   connect(Flt2Fluid.port_inlet, massFlowRate010.port_a) annotation(
     Line(points = {{-320, 16}, {-300, 16}}, color = {0, 127, 255}));
   connect(massFlowRate010.port_b, Inlt.port_1) annotation(
     Line(points = {{-280, 16}, {-260, 16}}, color = {0, 127, 255}));
-  connect(massFlowRate010.m_flow, Constraint.u_variable) annotation(
-    Line(points = {{-290, 5}, {-290, -27}}, color = {0, 0, 127}));
+  connect(Inlt.port_2, massFlowRate.port_a) annotation(
+    Line(points = {{-220, 16}, {-200, 16}, {-200, 80}}, color = {0, 127, 255}));
+  connect(massFlowRate.port_b, Cmp120.port_1) annotation(
+    Line(points = {{-200, 100}, {-200, 154}, {-180, 154}}, color = {0, 127, 255}));
+  connect(Inlt.port_2, massFlowRate1.port_a) annotation(
+    Line(points = {{-220, 16}, {-194, 16}, {-194, 16}, {-194, 16}}, color = {0, 127, 255}));
+  connect(massFlowRate1.port_b, Cmp020.port_1) annotation(
+    Line(points = {{-174, 16}, {-120, 16}, {-120, 56}, {-100, 56}}, color = {0, 127, 255}));
+  connect(ramp_m_flow_inlet.y, Constraint.u_targetValue) annotation(
+    Line(points = {{-290, -49}, {-290, -41}}, color = {0, 0, 127}));
+  connect(Constraint.u_variable, massFlowRate010.m_flow) annotation(
+    Line(points = {{-290, -19}, {-290, 6}}, color = {0, 0, 127}));
+  connect(division.u1, massFlowRate.m_flow) annotation(
+    Line(points = {{-238, 76}, {-224.5, 76}, {-224.5, 90}, {-211, 90}}, color = {0, 0, 127}));
+  connect(division.u2, massFlowRate1.m_flow) annotation(
+    Line(points = {{-238, 64}, {-184, 64}, {-184, 28}}, color = {0, 0, 127}));
+  connect(Constraint4.u_variable, division.y) annotation(
+    Line(points = {{-279, 70}, {-261, 70}}, color = {0, 0, 127}));
+  connect(ramp_BPR.y, Constraint4.u_targetValue) annotation(
+    Line(points = {{-309, 70}, {-301, 70}}, color = {0, 0, 127}));
   annotation(
     uses(Modelica(version = "3.2.2")),
     Diagram(coordinateSystem(extent = {{-400, -200}, {480, 180}}, preserveAspectRatio = false)),
