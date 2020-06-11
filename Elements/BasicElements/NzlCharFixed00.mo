@@ -99,7 +99,13 @@ initial equation
   
 //********************************************************************************
 algorithm
-
+  /*
+  when(time<=environment.timeRemoveDesConstraint)then
+    AmechThDes:= AmechTh;
+    AeThDes:= AeTh;
+  end when;
+  */
+  
 //********************************************************************************
 equation
   
@@ -124,7 +130,8 @@ equation
       CvDes = u_Cv;
     end if;
     //--------------------
-    
+    AmechThDes= AmechTh;
+    AeThDes= AeTh;
   end when;
   
   

@@ -56,7 +56,7 @@ model NzlDefAeByFlowCharFixed00
 initial algorithm
 
   fluid_1_des.m_flow:= m_flow_1_des_paramInput;
-  /*  
+  /*
 //--------------------
   if use_u_CdTh == false then
     CdThDes := CdThDes_paramInput;
@@ -99,7 +99,7 @@ initial equation
   
 //********************************************************************************
 algorithm
-
+  
 //********************************************************************************
 equation
   
@@ -123,9 +123,10 @@ equation
       CvDes = u_Cv;
     end if;
     //--------------------
-    
+    AeThDes= AeTh;
+    AmechThDes= AmechTh;
   end when;
-  
+    
   
   /* ---------------------------------------------
   Connections, interface <-> internal variables   

@@ -253,6 +253,13 @@ partial model NozzleBase00
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
+  discrete Modelica.SIunits.Area AeThDes(start=AeTh_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete Modelica.SIunits.Area AmechThDes(start=AmechTh_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
   
   /* ---------------------------------------------
       Internal objects
@@ -339,12 +346,13 @@ protected
   /* ---------------------------------------------
           Non-modifiable parameters
   --------------------------------------------- */
+  
+  /*
   parameter Modelica.SIunits.Area AeThDes(fixed=false, start=AeTh_init) annotation(
     HideResult=false);
   parameter Modelica.SIunits.Area AmechThDes(fixed=false, start=AmechTh_init) annotation(
     HideResult=false);
   
-  /*
   parameter Real PRdes(fixed=false, start=PR_init) annotation(
     HideResult=false);
   parameter Real CdThDes(fixed=false, start=CdTh_init) annotation(
