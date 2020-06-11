@@ -239,6 +239,20 @@ partial model NozzleBase00
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
+  discrete PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
+    fixed=false,
+    HideResult=false,
+    nX=Medium.nX,
+    nC=Medium.nC,
+    m_flow(start=m_flow2_init),
+    p(start=p2_init),
+    T(start=T2_init),
+    h(start=h2_init),
+    s(start=s_fluid_2_init)
+  ) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
   
   /* ---------------------------------------------
       Internal objects
@@ -325,6 +339,11 @@ protected
   /* ---------------------------------------------
           Non-modifiable parameters
   --------------------------------------------- */
+  parameter Modelica.SIunits.Area AeThDes(fixed=false, start=AeTh_init) annotation(
+    HideResult=false);
+  parameter Modelica.SIunits.Area AmechThDes(fixed=false, start=AmechTh_init) annotation(
+    HideResult=false);
+  
   /*
   parameter Real PRdes(fixed=false, start=PR_init) annotation(
     HideResult=false);
@@ -340,7 +359,12 @@ protected
     nC=Medium.nC
   );
   
-  */
+  parameter PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
+    fixed=false,
+    HideResult=false,
+    nX=Medium.nX,
+    nC=Medium.nC
+  );
   
   parameter Modelica.SIunits.MassFlowRate m_flow_des_1(fixed=false, start=m_flow1_init) annotation(
     HideResult=false);
@@ -349,18 +373,8 @@ protected
   parameter Modelica.SIunits.Temperature Tdes_1(fixed=false, start=T1_init) annotation(
     HideResult=false);
   
-  parameter Modelica.SIunits.Area AeThDes(fixed=false, start=AeTh_init) annotation(
-    HideResult=false);
-  parameter Modelica.SIunits.Area AmechThDes(fixed=false, start=AmechTh_init) annotation(
-    HideResult=false);
+  */
   
-  
-  parameter PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
-    fixed=false,
-    HideResult=false,
-    nX=Medium.nX,
-    nC=Medium.nC
-  );
   
   
 initial equation
@@ -373,8 +387,16 @@ initial equation
   fluid_1_des.C= actualStream(port_1.C_outflow);
   fluid_1_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
   fluid_1_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
-  
-  
+  //----------
+  fluid_2_des.m_flow= port_2.m_flow;
+  fluid_2_des.p= fluid_2.p;
+  fluid_2_des.T= fluid_2.T;
+  fluid_2_des.X= fluid_2.Xi;
+  fluid_2_des.C= actualStream(port_2.C_outflow);
+  fluid_2_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X));
+  fluid_2_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X));
+  //----------
+
 algorithm
   if(printCmd==true)then
     assert(fluid_1.h < fluidStat_th_fullExp.h, getInstanceName()+", nozzle inverse flow condition, fluid_1.h < fluidStat_th_fullExp.h" + "\n" + ", fluid_1.h=" + String(fluid_1.h) + ", fluidStat_th_fullExp.h=" + String(fluidStat_th_fullExp.h), AssertionLevel.warning);
@@ -506,7 +528,14 @@ equation
     fluid_1_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
     fluid_1_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
     //----------
-    
+    fluid_2_des.m_flow= port_2.m_flow;
+    fluid_2_des.p= fluid_2.p;
+    fluid_2_des.T= fluid_2.T;
+    fluid_2_des.X= fluid_2.Xi;
+    fluid_2_des.C= actualStream(port_2.C_outflow);
+    fluid_2_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X));
+    fluid_2_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X));
+    //----------
   end when;
   
   
