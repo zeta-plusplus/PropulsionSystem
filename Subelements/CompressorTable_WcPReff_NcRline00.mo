@@ -202,9 +202,11 @@ initial equation
   sizeTbl_Wc=size(combiTable2D_Wc.table);
   sizeTbl_PR=size(combiTable2D_PR.table);
   sizeTbl_eff=size(combiTable2D_eff.table);
+  /*
   n_Wc=sizeTbl_Wc[0]*sizeTbl_Wc[1];
   n_PR=sizeTbl_PR[0]*sizeTbl_PR[1];
   n_eff=sizeTbl_eff[0]*sizeTbl_eff[1];
+  */
   
 equation
   connect(combiTable2D_Wc.y, y_Wc) annotation(
