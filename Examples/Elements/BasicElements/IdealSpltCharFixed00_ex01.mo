@@ -27,6 +27,8 @@ model IdealSpltCharFixed00_ex01
     Placement(visible = true, transformation(origin = {10, -30}, extent = {{-10, -6}, {10, 6}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_BPR(duration = 10, height = 5, offset = 10, startTime = 10)  annotation(
     Placement(visible = true, transformation(origin = {10, 10}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  inner PropulsionSystem.EngineSimEnvironment environment annotation(
+    Placement(visible = true, transformation(origin = {-70, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(ramp_BPR.y, Splt.u_BPR) annotation(
     Line(points = {{10, -2}, {10, -2}, {10, -22}, {10, -22}}, color = {0, 0, 127}));
