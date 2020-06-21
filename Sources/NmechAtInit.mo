@@ -95,10 +95,9 @@ equation
   /* ---------------------------------------------
   design point constraint
   ---------------------------------------------*/
-  if noEvent(time<=timeRemoveDesConstraint)then
+  if noEvent(time<=environment.timeRemoveDesConstraint)then
     Nmech= Nmech_init_paramInput;
   end if;
-  /**/
   
   
 /* ---------------------------------------------

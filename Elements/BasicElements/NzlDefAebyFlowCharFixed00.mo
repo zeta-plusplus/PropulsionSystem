@@ -126,7 +126,7 @@ equation
     AeThDes= AeTh;
     AmechThDes= AmechTh;
   end when;
-    
+  
   
   /* ---------------------------------------------
   Connections, interface <-> internal variables   
@@ -150,6 +150,8 @@ equation
     AmechTh = u_kAmechTh * AmechThDes;
   end if;
   //--------------------
+  
+  
 
 /********************************************************
   Graphics

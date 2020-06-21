@@ -149,8 +149,9 @@ model CmpCharTable01
   //********************************************************************************
 initial algorithm
 //--------------------
-  PRdes := PRdes_paramInput;
-  effDes := effDes_paramInput;
+  //PRdes := PRdes_paramInput;
+  //effDes := effDes_paramInput;
+  
   //fluid_1_des.m_flow:= port_1.m_flow ;
   //fluid_1_des.p:=fluid_1.p ;
   //fluid_1_des.T:=fluid_1.T ;
@@ -158,10 +159,12 @@ initial algorithm
   
 //********************************************************************************
 initial equation
+  /*
   fluid_1_des.p=fluid_1.p ;
   fluid_1_des.T=fluid_1.T ;
   fluid_1_des.m_flow= port_1.m_flow ;
   NmechDes=Nmech;
+  */
   //##### none #####
   //********************************************************************************
 algorithm
@@ -171,14 +174,27 @@ equation
   /* ---------------------------------------------
   design point constraint
   --------------------------------------------- */
-  if noEvent(time <= timeRemoveDesConstraint) then
+  PRdes= PRdes_paramInput;
+  effDes= effDes_paramInput;
+  
+  when (time<=environment.timeRemoveDesConstraint)then
+    fluid_1_des.m_flow=port_1.m_flow;
+    fluid_1_des.p=fluid_1.p;
+    fluid_1_des.T=fluid_1.T;
+    NmechDes = Nmech;
+    //--------------------
+    
+  end when;
+  
+  
+  if noEvent(time <= environment.timeRemoveDesConstraint) then
     constrainDesPt=true;
   else
     constrainDesPt=false;
   end if;
   
   
-  if noEvent(time <= timeRemoveDesConstraint) then
+  if noEvent(time <= environment.timeRemoveDesConstraint) then
     //----- design-point calc -----
     Wc_1=Wc_1_des;
     PR=PRdes;

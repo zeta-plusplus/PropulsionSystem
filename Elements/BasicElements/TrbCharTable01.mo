@@ -139,18 +139,21 @@ initial algorithm
 /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  effDes := effDes_paramInput;
+  //effDes := effDes_paramInput;
+  
   //fluid_1_des.m_flow:=port_1.m_flow;
   //fluid_1_des.p := fluid_1.p;
   //fluid_1_des.T := fluid_1.T;
   //NmechDes := Nmech;
   //********************************************************************************
 initial equation
+  /*
   PR= PRdes;   
   fluid_1_des.p = fluid_1.p;
   fluid_1_des.T = fluid_1.T;
   fluid_1_des.m_flow=port_1.m_flow;
   NmechDes=Nmech;
+  */
   //********************************************************************************
 algorithm
 //##### none #####
@@ -159,14 +162,29 @@ equation
   /* ---------------------------------------------
   design point constraint
   --------------------------------------------- */
-  if noEvent(time <= timeRemoveDesConstraint) then
+  effDes=effDes_paramInput;
+  
+  when (time<=environment.timeRemoveDesConstraint)then
+    /* ---------------------------------------------
+    design point calc
+    --------------------------------------------- */
+    fluid_1_des.m_flow=port_1.m_flow;
+    fluid_1_des.p=fluid_1.p;
+    fluid_1_des.T=fluid_1.T;
+    NmechDes=Nmech;
+    //--------------------
+    PRdes=PR;
+    
+  end when;
+  
+  if noEvent(time <= environment.timeRemoveDesConstraint) then
     constrainDesPt=true;
   else
     constrainDesPt=false;
   end if;
   
   
-  if noEvent(time <= timeRemoveDesConstraint) then
+  if noEvent(time <= environment.timeRemoveDesConstraint) then
     //----- design-point calc -----
     eff = effDes_paramInput;
     fluid_1_des.m_flow= port_1.m_flow;

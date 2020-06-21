@@ -114,7 +114,7 @@ equation
   /* ---------------------------------------------
   design point constraint
   ---------------------------------------------*/
-  if noEvent(time<=timeRemoveDesConstraint) then
+  if noEvent(time<=environment.timeRemoveDesConstraint) then
     port_1.m_flow= m_flow_init_paramInput;
   end if;
   
