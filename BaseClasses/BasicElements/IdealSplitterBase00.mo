@@ -3,20 +3,20 @@ within PropulsionSystem.BaseClasses.BasicElements;
 partial model IdealSplitterBase00
   /********************************************************
                               imports
-    ********************************************************/
+  ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
   /********************************************************
             Declaration
-    ********************************************************/
+  ********************************************************/
   /* ---------------------------------------------
                      Package
-    --------------------------------------------- */
+  --------------------------------------------- */
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation(
     choicesAllMatching = true);
   /* ---------------------------------------------
                      switch
-    --------------------------------------------- */
+  --------------------------------------------- */
   parameter Boolean printCmd = false "" annotation(
     Evaluate = true,
     HideResult = true,
@@ -27,7 +27,7 @@ partial model IdealSplitterBase00
   
   /* ---------------------------------------------
                       parameters
-    --------------------------------------------- */
+  --------------------------------------------- */
   //********** Initialization Parameters **********
   //--- fluid_1, port_1 ---
   parameter Modelica.SIunits.MassFlowRate m_flow1_init(displayUnit = "kg/s") = 1.0 "" annotation(
@@ -58,18 +58,16 @@ partial model IdealSplitterBase00
     Dialog(tab = "Initialization", group = "fluid_3"));
   
   
-  
-  
   /* ---------------------------------------------
                  Internal variables
-    --------------------------------------------- */
+  --------------------------------------------- */
   Real BPR "ratio of m_flow, port_3 to port_2";
   
   
   
   /* ---------------------------------------------
              Internal objects
-    --------------------------------------------- */
+  --------------------------------------------- */
   Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
   Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of inlet";
   Medium.BaseProperties fluid_3(p.start = p3_init, T.start = T3_init, state.p.start = p3_init, state.T.start = T3_init, h.start = h3_init) "flow station of outlet";
@@ -77,7 +75,7 @@ partial model IdealSplitterBase00
   
   /* ---------------------------------------------
                    Interface
-    --------------------------------------------- */
+  --------------------------------------------- */
   Modelica.Fluid.Interfaces.FluidPort_a port_1(redeclare package Medium = Medium, m_flow(start = m_flow1_init), h_outflow.start = h1_init) annotation(
     Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-60, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_b port_2(redeclare package Medium = Medium, m_flow(start = m_flow2_init), h_outflow.start = h2_init) annotation(
@@ -113,44 +111,9 @@ initial algorithm
     print("port_3.p= " + String(port_3.p) + "\n");
     print("port_3.h_outflow= " + String(port_3.h_outflow) + "\n");
   end if;
+  
+  //********************************************************************************
 algorithm
-/* ---------------------------------------------
-    Connections, interface <-> internal variables   
-  --------------------------------------------- */
-//-- fluidPort_1 --
-  fluid_1.p := port_1.p;
-  fluid_1.h := actualStream(port_1.h_outflow);
-  fluid_1.Xi := actualStream(port_1.Xi_outflow);
-  port_1.h_outflow := fluid_1.h;
-  port_1.Xi_outflow := fluid_1.Xi;
-    
-  
-    
-  /* ---------------------------------------------
-  Eqns describing physics
-  --------------------------------------------- */
-  fluid_2.Xi := fluid_1.Xi;
-  fluid_2.h := fluid_1.h;
-  fluid_3.Xi := fluid_1.Xi;
-  fluid_3.h := fluid_1.h;
-  
-  port_2.m_flow:= (-1.0)*1.0/(1.0+BPR)*port_1.m_flow;
-  port_3.m_flow:= (-1.0)*BPR/(1.0+BPR)*port_1.m_flow;
-  fluid_3.p := fluid_1.p;
-  fluid_2.p := fluid_1.p;
-/* ---------------------------------------------
-    Connections, interface <-> internal variables   
-  --------------------------------------------- */
-//-- fluidPort_2 --
-  port_2.p := fluid_2.p;
-  port_2.h_outflow:= fluid_2.h;
-  port_2.Xi_outflow:= fluid_2.Xi;
-//-- fluidPort_3 --
-  port_3.p := fluid_3.p;
-  port_3.h_outflow:= fluid_3.h;
-  port_3.Xi_outflow:= fluid_3.Xi;
-  
-  
   
   /* ---------------------------------------------
     debug print, command window   
@@ -168,8 +131,45 @@ algorithm
     print("port_3.p= " + String(port_3.p) + "\n");
     print("port_3.h_outflow= " + String(port_3.h_outflow) + "\n");
   end if;
+  
+  //********************************************************************************
 equation
-// ##### NONE #####
+  
+  /* ---------------------------------------------
+    Connections, interface <-> internal variables   
+  --------------------------------------------- */  
+  //-- fluidPort_1 --
+  fluid_1.p = port_1.p;
+  fluid_1.h = actualStream(port_1.h_outflow);
+  fluid_1.Xi = actualStream(port_1.Xi_outflow);
+  port_1.h_outflow = fluid_1.h;
+  port_1.Xi_outflow = fluid_1.Xi;
+  
+  //-- fluidPort_2 --
+  port_2.p = fluid_2.p;
+  port_2.h_outflow = fluid_2.h;
+  port_2.Xi_outflow = fluid_2.Xi;
+  
+  //-- fluidPort_3 --
+  port_3.p = fluid_3.p;
+  port_3.h_outflow = fluid_3.h;
+  port_3.Xi_outflow = fluid_3.Xi;
+  
+  
+  /* ---------------------------------------------
+  Eqns describing physics
+  --------------------------------------------- */  
+  fluid_2.Xi = fluid_1.Xi;
+  fluid_2.h = fluid_1.h;
+  fluid_3.Xi = fluid_1.Xi;
+  fluid_3.h = fluid_1.h;
+  
+  port_2.m_flow= (-1.0)*1.0/(1.0+BPR)*port_1.m_flow;
+  port_3.m_flow= (-1.0)*BPR/(1.0+BPR)*port_1.m_flow;
+  fluid_3.p= fluid_1.p;
+  fluid_2.p= fluid_1.p;
+  
+  
 /********************************************************
   Graphics
 ********************************************************/
