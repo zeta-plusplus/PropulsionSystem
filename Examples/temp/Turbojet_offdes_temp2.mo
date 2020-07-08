@@ -1,6 +1,6 @@
 within PropulsionSystem.Examples.temp;
 
-model Turbojet_offdes_temp
+model Turbojet_offdes_temp2
   extends Modelica.Icons.Example;
   //-----
   //package engineAir = Modelica.Media.Air.DryAirNasa;
@@ -47,16 +47,24 @@ model Turbojet_offdes_temp
     Placement(visible = true, transformation(origin = {240, -190}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   PropulsionSystem.Sources.MassFlowSource_T boundary(redeclare package Medium = engineAir, X = {1, 0, 0}, nPorts = 1, use_T_in = true, use_m_flow_in = true) annotation(
     Placement(visible = true, transformation(origin = {190, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Sources.MassFlowAtInit massFlowAtInit(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {10, -64}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CmpCharTable01 cmp(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {120, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Sources.NmechAtInit NmechAtInit annotation(
-    Placement(visible = true, transformation(origin = {170, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.TrbCharTable01 trb(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {300, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed01 nzl(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {380, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Fluid.Sensors.MassFlowRate massFlowRate010(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {10, -64}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
+  FluidSystemComponents.Utilities.ConstrainVariableBeforeTimer constraint(timeToEndConstraint = 0.1)  annotation(
+    Placement(visible = true, transformation(origin = {10, -130}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  FluidSystemComponents.Utilities.ConstrainVariableBeforeTimer Constraint(timeToEndConstraint = 0.1)  annotation(
+    Placement(visible = true, transformation(origin = {190, -150}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Blocks.Sources.Constant const(k = 1)  annotation(
+    Placement(visible = true, transformation(origin = {10, -160}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  Modelica.Blocks.Sources.Constant const1(k = 3000) annotation(
+    Placement(visible = true, transformation(origin = {190, -180}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm annotation(
+    Placement(visible = true, transformation(origin = {190, -120}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
   connect(ramp_Tfuel.y, boundary.T_in) annotation(
     Line(points = {{162, -20}, {166, -20}, {166, -6}, {178, -6}, {178, -6}}, color = {0, 0, 127}));
@@ -88,18 +96,10 @@ equation
     Line(points = {{74, -88}, {86, -88}, {86, -246}, {419, -246}}, color = {0, 0, 127}));
   connect(speedSensor1.flange, LossRotMech.flange_1) annotation(
     Line(points = {{190, -80}, {210, -80}}));
-  connect(Flt2Fluid.port_inlet, massFlowAtInit.port_1) annotation(
-    Line(points = {{-20, -64}, {0, -64}, {0, -64}, {0, -64}}, color = {0, 127, 255}));
-  connect(massFlowAtInit.port_2, Inlt.port_1) annotation(
-    Line(points = {{20, -64}, {40, -64}, {40, -64}, {40, -64}}, color = {0, 127, 255}));
   connect(Inlt.port_2, cmp.port_1) annotation(
     Line(points = {{80, -64}, {100, -64}, {100, -64}, {100, -64}}, color = {0, 127, 255}));
   connect(cmp.port_2, Duct030.port_1) annotation(
     Line(points = {{140, -64}, {140, -64}, {140, -40}, {160, -40}, {160, -40}}, color = {0, 127, 255}));
-  connect(cmp.flange_2, NmechAtInit.flange_1) annotation(
-    Line(points = {{140, -80}, {160, -80}, {160, -80}, {160, -80}}));
-  connect(NmechAtInit.flange_2, speedSensor1.flange) annotation(
-    Line(points = {{180, -80}, {190, -80}, {190, -80}, {190, -80}}));
   connect(temperature040.port, trb.port_1) annotation(
     Line(points = {{270, -40}, {280, -40}, {280, -64}, {280, -64}}, color = {0, 127, 255}));
   connect(trb.port_2, Duct050.port_1) annotation(
@@ -112,6 +112,22 @@ equation
     Line(points = {{390, -80}, {402, -80}, {402, -242}, {420, -242}, {420, -242}}, color = {0, 0, 127}));
   connect(Flt2Fluid.port_amb, nzl.port_2) annotation(
     Line(points = {{-40, -40}, {-40, -40}, {-40, 34}, {400, 34}, {400, -64}, {400, -64}}, color = {0, 127, 255}));
+  connect(cmp.flange_2, speedSensor1.flange) annotation(
+    Line(points = {{140, -80}, {190, -80}, {190, -80}, {190, -80}}));
+  connect(Flt2Fluid.port_inlet, massFlowRate010.port_a) annotation(
+    Line(points = {{-20, -64}, {0, -64}, {0, -64}, {0, -64}}, color = {0, 127, 255}));
+  connect(massFlowRate010.port_b, Inlt.port_1) annotation(
+    Line(points = {{20, -64}, {40, -64}, {40, -64}, {40, -64}}, color = {0, 127, 255}));
+  connect(constraint.u_variable, massFlowRate010.m_flow) annotation(
+    Line(points = {{10, -118}, {10, -118}, {10, -74}, {10, -74}}, color = {0, 0, 127}));
+  connect(const.y, constraint.u_targetValue) annotation(
+    Line(points = {{10, -148}, {10, -148}, {10, -140}, {10, -140}}, color = {0, 0, 127}));
+  connect(const1.y, Constraint.u_targetValue) annotation(
+    Line(points = {{190, -169}, {190, -161}}, color = {0, 0, 127}));
+  connect(speedSensor1.w, from_rpm.u) annotation(
+    Line(points = {{190, -100}, {190, -108}}, color = {0, 0, 127}));
+  connect(Constraint.u_variable, from_rpm.y) annotation(
+    Line(points = {{190, -139}, {190, -130}}, color = {0, 0, 127}));
   annotation(
     uses(Modelica(version = "3.2.2")),
     Diagram(coordinateSystem(extent = {{-100, -260}, {440, 60}}, preserveAspectRatio = false)),
@@ -120,4 +136,4 @@ equation
     __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian,newInst",
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
-end Turbojet_offdes_temp;
+end Turbojet_offdes_temp2;

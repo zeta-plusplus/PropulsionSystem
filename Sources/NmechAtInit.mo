@@ -57,7 +57,7 @@ model NmechAtInit
   Modelica.SIunits.AngularVelocity omega(start=Nmech_init*2.0*Modelica.Constants.pi/60.0) "mechanical rotation speed, rad/sec" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech(start=Nmech_init_paramInput) "mechanical rotation speed, rpm" annotation(
+  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech(fixed=true, start=Nmech_init_paramInput) "mechanical rotation speed, rpm" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
@@ -95,10 +95,15 @@ equation
   /* ---------------------------------------------
   design point constraint
   ---------------------------------------------*/
-  if noEvent(time<=environment.timeRemoveDesConstraint)then
+  /*when(time<=environment.timeRemoveDesConstraint)then
+    Nmech= Nmech_init_paramInput;
+  end when;
+  */
+  
+  /*if noEvent(time<=environment.timeRemoveDesConstraint)then
     Nmech= Nmech_init_paramInput;
   end if;
-  
+  */
   
 /* ---------------------------------------------
   Eqns describing physics

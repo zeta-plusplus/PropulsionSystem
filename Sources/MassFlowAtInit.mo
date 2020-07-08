@@ -86,7 +86,7 @@ model MassFlowAtInit
   --------------------------------------------- */
   Modelica.Fluid.Interfaces.FluidPort_a port_1(
     redeclare package Medium = Medium, 
-    m_flow(start = m_flow1_init, min=if (allowFlowReversal) then -Constants.inf else 0.0), 
+    m_flow(fixed=true, start = m_flow1_init, min=if (allowFlowReversal) then -Constants.inf else 0.0), 
     h_outflow(start = h1_init),
     p(start=p1_init)
   )
@@ -114,10 +114,15 @@ equation
   /* ---------------------------------------------
   design point constraint
   ---------------------------------------------*/
-  if noEvent(time<=environment.timeRemoveDesConstraint) then
+  /*when (time<=environment.timeRemoveDesConstraint) then
+    port_1.m_flow= m_flow_init_paramInput;
+  end when;
+  */
+  
+  /*if noEvent(time<=environment.timeRemoveDesConstraint) then
     port_1.m_flow= m_flow_init_paramInput;
   end if;
-  
+  */
   
 /* ---------------------------------------------
   Connections, interface <-> internal variables
