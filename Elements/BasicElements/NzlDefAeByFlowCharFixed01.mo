@@ -16,11 +16,6 @@ model NzlDefAeByFlowCharFixed01
   /* ---------------------------------------------
           switches    
   --------------------------------------------- */
-  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_AmechTh = PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated "switch how to determine AmechTh" annotation(
-    Dialog(group = "switch"),
-    choicesAllMatching = true,
-    Evaluate = true,
-    HideResult = true);
   parameter Boolean use_u_CdTh = false "get CdTh from the real input connector" annotation(
     Evaluate = true,
     HideResult = true,
@@ -44,19 +39,13 @@ model NzlDefAeByFlowCharFixed01
     Dialog(group = "Characteristics"));
   parameter Real CvDes_paramInput = 0.99 "flow velocity coefficient, valid only when use_u_Cv==false, value fixed through simulation" annotation(
     Dialog(group = "Characteristics"));
-  parameter Modelica.SIunits.Area AmechTh_paramInput= 0.0014 "Throat mechanical area, valid only when switchDetermine_AmechTh==param, value fixed through simulation" annotation(
-    Dialog(group = "Geometry"));
   
-  parameter Modelica.SIunits.Time timeRemoveDesConstraint = environment.timeRemoveDesConstraint annotation(
+  /*parameter Modelica.SIunits.Time timeRemoveDesConstraint = environment.timeRemoveDesConstraint annotation(
     Dialog(group = "Simulation setting"));
-  
+  */
   /* ---------------------------------------------
                     Internal variables
   --------------------------------------------- */
-  Boolean constrainDesPt(start=true) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  
   
   
   /* ---------------------------------------------
@@ -142,11 +131,6 @@ algorithm
   
 //********************************************************************************
 equation
-  if noEvent(time <= timeRemoveDesConstraint) then
-    constrainDesPt=true;
-  else
-    constrainDesPt=false;
-  end if;
   
   
   when (time<=environment.timeRemoveDesConstraint)then

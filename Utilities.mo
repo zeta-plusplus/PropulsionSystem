@@ -40,7 +40,6 @@ model Utilities
       ""
       annotation(
       Dialog(group = "Characteristics"));
-    
     //----- switches -----
     parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_targetVal 
       = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput 
@@ -49,8 +48,6 @@ model Utilities
       choicesAllMatching = true,
       Evaluate = true,
       HideResult = true);
-    
-    
     //********** Interfaces **********
     Modelica.Blocks.Interfaces.RealInput u_variable
       annotation(
@@ -214,6 +211,12 @@ model Utilities
       Icon(graphics = {Rectangle(origin = {0, -1}, fillColor = {225, 225, 225}, fillPattern = FillPattern.Solid, extent = {{-100, 101}, {100, -99}}), Text(origin = {-12, -95}, extent = {{-88, 15}, {112, -5}}, textString = "%name"), Text(origin = {-37, 18}, extent = {{-63, 50}, {137, 10}}, textString = "Solver", fontSize = 26), Text(origin = {-37, -18}, extent = {{-63, 50}, {137, 10}}, textString = "Independent", fontSize = 26), Text(origin = {-37, -60}, extent = {{-63, 50}, {137, 10}}, textString = "Variable", fontSize = 26)}, coordinateSystem(initialScale = 0.1)));
     
   end SetSolverIndependent;
+
+  model VariableBySolver
+    equation
+  
+    end VariableBySolver;
+  
 
 
 
