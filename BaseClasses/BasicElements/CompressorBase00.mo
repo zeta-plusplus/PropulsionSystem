@@ -217,7 +217,7 @@ partial model CompressorBase00
   discrete PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
     fixed=false,
     HideResult=false,
-    nX=Medium.nX,
+    nX=Medium.nXi,
     nC=Medium.nC,
     m_flow(start=m_flow1_init),
     p(start=p1_init),
@@ -230,7 +230,7 @@ partial model CompressorBase00
   discrete PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
     fixed=false,
     HideResult=false,
-    nX=Medium.nX,
+    nX=Medium.nXi,
     nC=Medium.nC,
     m_flow(start=m_flow2_init),
     p(start=p2_init),
@@ -341,10 +341,10 @@ initial equation
   /* ---------------------------------------------
   design point eqn
   --------------------------------------------- */
-  fluid_1_des.X= fluid_1.Xi;
+  fluid_1_des.X[1:Medium.nXi]= fluid_1.Xi;
   fluid_1_des.C= actualStream(port_1.C_outflow);
-  fluid_1_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
-  fluid_1_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
+  fluid_1_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
+  fluid_1_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
   //----------
   flange_1_des.trq= flange_1.tau;
   flange_1_des.phi= flange_1.phi;
@@ -362,14 +362,14 @@ initial equation
   variablesDes.eff=effDes;
   fluid_2_des.m_flow= -1.0*fluid_1_des.m_flow;
   fluid_2_des.p= fluid_1_des.p*PRdes;
-  variablesDes.h_2is= Medium.isentropicEnthalpy(fluid_2_des.p, Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
+  variablesDes.h_2is= Medium.isentropicEnthalpy(fluid_2_des.p, Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
   variablesDes.dht_is= variablesDes.h_2is-fluid_1_des.h;
   variablesDes.dht= variablesDes.dht_is/variablesDes.eff;
   fluid_2_des.h= fluid_1_des.h+variablesDes.dht;
   fluid_2_des.X= fluid_1_des.X;
   fluid_2_des.C= fluid_1_des.C;
-  fluid_2_des.T= Medium.temperature_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X);
-  fluid_2_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X));
+  fluid_2_des.T= Medium.temperature_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X[1:Medium.nXi]);
+  fluid_2_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X[1:Medium.nXi]));
   //----------
   variablesDes.pwr= (fluid_1_des.m_flow*fluid_1_des.h) + (fluid_2_des.m_flow*fluid_2_des.h);
   variablesDes.Nmech= NmechDes;
@@ -483,10 +483,10 @@ equation
     /* ---------------------------------------------
     design point eqn
     --------------------------------------------- */
-    fluid_1_des.X= fluid_1.Xi;
+    fluid_1_des.X[1:Medium.nXi]= fluid_1.Xi;
     fluid_1_des.C= actualStream(port_1.C_outflow);
-    fluid_1_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
-    fluid_1_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
+    fluid_1_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
+    fluid_1_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
     //----------
     flange_1_des.trq= flange_1.tau;
     flange_1_des.phi= flange_1.phi;
@@ -504,14 +504,14 @@ equation
     variablesDes.eff=effDes;
     fluid_2_des.m_flow= -1.0*fluid_1_des.m_flow;
     fluid_2_des.p= fluid_1_des.p*PRdes;
-    variablesDes.h_2is= Medium.isentropicEnthalpy(fluid_2_des.p, Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X));
+    variablesDes.h_2is= Medium.isentropicEnthalpy(fluid_2_des.p, Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
     variablesDes.dht_is= variablesDes.h_2is-fluid_1_des.h;
     variablesDes.dht= variablesDes.dht_is/variablesDes.eff;
     fluid_2_des.h= fluid_1_des.h+variablesDes.dht;
     fluid_2_des.X= fluid_1_des.X;
     fluid_2_des.C= fluid_1_des.C;
-    fluid_2_des.T= Medium.temperature_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X);
-    fluid_2_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X));
+    fluid_2_des.T= Medium.temperature_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X[1:Medium.nXi]);
+    fluid_2_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X[1:Medium.nXi]));
     //----------
     variablesDes.pwr= (fluid_1_des.m_flow*fluid_1_des.h) + (fluid_2_des.m_flow*fluid_2_des.h);
     variablesDes.Nmech= NmechDes;

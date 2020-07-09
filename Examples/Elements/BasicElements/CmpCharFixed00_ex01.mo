@@ -3,8 +3,8 @@ within PropulsionSystem.Examples.Elements.BasicElements;
 model CmpCharFixed00_ex01
   extends Modelica.Icons.Example;
   //-----
-  //package engineAir = Modelica.Media.Air.DryAirNasa;
-  package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
+  package engineAir = Modelica.Media.Air.DryAirNasa;
+  //package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
   //redeclare package Medium = engineAir
   //-----
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
