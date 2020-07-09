@@ -22,15 +22,15 @@ model NzlCharFixed01_temp
     Placement(visible = true, transformation(origin = {50, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed01 Nzl(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  FluidSystemComponents.Utilities.ConstrainVariableBeforeTimer Constraint(timeToEndConstraint = 0.1)  annotation(
-    Placement(visible = true, transformation(origin = {-20, -20}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  inner EngineSimEnvironment environment annotation(
+  inner EngineSimEnvironment environment(timeRemoveDesConstraint = 1)  annotation(
     Placement(visible = true, transformation(origin = {-54, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Utilities.ConstrainVariableDesignPoint ConstraintDesPt annotation(
+    Placement(visible = true, transformation(origin = {-20, -20}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
-  connect(ramp_m_flow.y, Constraint.u_targetValue) annotation(
-    Line(points = {{-20, -38}, {-20, -38}, {-20, -32}, {-20, -32}}, color = {0, 0, 127}));
-  connect(massFlowRate1.m_flow, Constraint.u_variable) annotation(
-    Line(points = {{-20, -2}, {-20, -9}}, color = {0, 0, 127}));
+  connect(ConstraintDesPt.u_targetValue, ramp_m_flow.y) annotation(
+    Line(points = {{-20, -32}, {-20, -32}, {-20, -38}, {-20, -38}}, color = {0, 0, 127}));
+  connect(massFlowRate1.m_flow, ConstraintDesPt.u_variable) annotation(
+    Line(points = {{-20, -2}, {-20, -2}, {-20, -8}, {-20, -8}}, color = {0, 0, 127}));
   connect(Nzl.port_2, boundary1.ports[1]) annotation(
     Line(points = {{30, 8}, {30, 20}}, color = {0, 127, 255}));
   connect(massFlowRate1.port_b, Nzl.port_1) annotation(

@@ -16,6 +16,12 @@ model NzlDefAeByFlowCharFixed01
   /* ---------------------------------------------
           switches    
   --------------------------------------------- */
+  parameter Boolean use_u_kAmechTh = false "multipulier on Amech" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true),
+    Dialog(group = "switch"));
+  
   parameter Boolean use_u_CdTh = false "get CdTh from the real input connector" annotation(
     Evaluate = true,
     HideResult = true,
@@ -24,13 +30,7 @@ model NzlDefAeByFlowCharFixed01
     Evaluate = true,
     HideResult = true,
     choices(checkBox = true), Dialog(group = "switch"));
-  parameter Boolean use_u_kAmechTh = false "multipulier on Amech" annotation(
-    Evaluate = true,
-    HideResult = true,
-    choices(checkBox = true),
-    Dialog(group = "switch"));
-  
-  
+  /**/
   
   /* ---------------------------------------------
           parameters    
@@ -141,22 +141,13 @@ equation
     fluid_1_des.p= fluid_1.p;
     /**/
     fluid_1_des.T= fluid_1.T;
-    
     //--------------------
-    if use_u_CdTh == false then
-      CdThDes = CdThDes_paramInput;
-    elseif use_u_Cv == true then
-      CdThDes = u_CdTh;
-    end if;
+    CdThDes = CdThDes_paramInput;
+    CvDes = CvDes_paramInput;
     //--------------------
-    if use_u_Cv == false then
-      CvDes = CvDes_paramInput;
-    elseif use_u_Cv == true then
-      CvDes = u_Cv;
-    end if;
-    //--------------------
-    AeThDes= AeTh;
+    //AeThDes= AeTh;
     AmechThDes= AmechTh;
+    AeThDes= AmechTh*CdThDes;
   end when;
   
   //AeThDes= AeTh;
