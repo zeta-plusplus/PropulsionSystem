@@ -1,7 +1,7 @@
 within PropulsionSystem.BaseClasses.BasicElements;
 
 partial model CompressorBaseDefDesPt00
-  
+  extends PropulsionSystem.BaseClasses.BasicElements.CompressorBase00;
   /********************************************************
       Declaration
   ********************************************************/
@@ -36,7 +36,6 @@ equation
     /* ---------------------------------------------
     design point eqn
     --------------------------------------------- */
-    Wc_1_des = fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
     
     
     
