@@ -337,49 +337,49 @@ initial equation
     /* ---------------------------------------------
     design point eqn
     --------------------------------------------- */
-    
+    /*
     fluid_1_des.X[1:Medium.nXi]= fluid_1.Xi;
     fluid_1_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
     fluid_1_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
     fluid_1_des.C= actualStream(port_1.C_outflow);
+    */
     
-    /*
     fluid_1_des.X[1:Medium.nXi]= fluid_1.Xi;
     fluid_1_des.C= port_1.C_outflow;
     fluid_1_des.h= fluid_1.h;
     fluid_1_des.s= s_fluid_1;
-    */
+    
     //----------
     flange_1_des.trq= flange_1.tau;
     flange_1_des.phi= flange_1.phi;
     flange_2_des.trq= flange_2.tau;
     flange_2_des.phi= flange_2.phi;
     //----------
-    
+    /*
     flange_1_des.omega= der(flange_1_des.phi);
     flange_1_des.pwr= flange_1_des.trq*flange_1_des.omega;
     flange_1_des.Nmech= flange_1_des.omega*60.0/(2.0*Modelica.Constants.pi);
     flange_2_des.omega= der(flange_2_des.phi);
     flange_2_des.pwr= flange_2_des.trq*flange_2_des.omega;
     flange_2_des.Nmech= flange_2_des.omega*60.0/(2.0*Modelica.Constants.pi);
+    */
     
-    /*
     flange_1_des.omega= omega;
     flange_1_des.pwr= flange_1.tau*omega;
     flange_1_des.Nmech= Nmech;
     flange_2_des.omega= omega;
     flange_2_des.pwr= flange_2.tau*omega;
     flange_2_des.Nmech= Nmech;
-    */
+    
     //----------
-    
-    Wc_1_des = fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
-    Nc_1_des = NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
-    
     /*
     Wc_1_des = fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
     Nc_1_des = NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
     */
+    
+    Wc_1_des = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
+    Nc_1_des = Nmech / sqrt(fluid_1.T / environment.Tstd);
+    
     //----------
     
     variablesDes.PR= PRdes;
@@ -514,49 +514,49 @@ equation
     /* ---------------------------------------------
     design point eqn
     --------------------------------------------- */
-    
+    /*
     fluid_1_des.X[1:Medium.nXi]= fluid_1.Xi;
     fluid_1_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
     fluid_1_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
     fluid_1_des.C= actualStream(port_1.C_outflow);
+    */
     
-    /*
     fluid_1_des.X[1:Medium.nXi]= fluid_1.Xi;
     fluid_1_des.C= port_1.C_outflow;
     fluid_1_des.h= fluid_1.h;
     fluid_1_des.s= s_fluid_1;
-    */
+    
     //----------
     flange_1_des.trq= flange_1.tau;
     flange_1_des.phi= flange_1.phi;
     flange_2_des.trq= flange_2.tau;
     flange_2_des.phi= flange_2.phi;
     //----------
-    
+    /*
     flange_1_des.omega= der(flange_1_des.phi);
     flange_1_des.pwr= flange_1_des.trq*flange_1_des.omega;
     flange_1_des.Nmech= flange_1_des.omega*60.0/(2.0*Modelica.Constants.pi);
     flange_2_des.omega= der(flange_2_des.phi);
     flange_2_des.pwr= flange_2_des.trq*flange_2_des.omega;
     flange_2_des.Nmech= flange_2_des.omega*60.0/(2.0*Modelica.Constants.pi);
+    */
     
-    /*
     flange_1_des.omega= omega;
     flange_1_des.pwr= flange_1.tau*omega;
     flange_1_des.Nmech= Nmech;
     flange_2_des.omega= omega;
     flange_2_des.pwr= flange_2.tau*omega;
     flange_2_des.Nmech= Nmech;
-    */
+    
     //----------
-    
-    Wc_1_des = fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
-    Nc_1_des = NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
-    
     /*
     Wc_1_des = fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
     Nc_1_des = NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
     */
+    
+    Wc_1_des = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
+    Nc_1_des = Nmech / sqrt(fluid_1.T / environment.Tstd);
+    
     //----------
     
     variablesDes.PR= PRdes;
