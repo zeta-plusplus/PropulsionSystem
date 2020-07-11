@@ -152,8 +152,10 @@ initial equation
   fluid_1_des.p = fluid_1.p;
   fluid_1_des.T = fluid_1.T;
   fluid_1_des.m_flow=port_1.m_flow;
-  NmechDes=Nmech;
+  
   */
+  NmechDes=Nmech;
+  
   //********************************************************************************
 algorithm
 //##### none #####
