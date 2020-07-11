@@ -376,8 +376,10 @@ initial equation
   variablesDes.Nmech= NmechDes;
   variablesDes.omega= omega;
   variablesDes.trq= trq;
-  Wc_1_des = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
-  Nc_1_des = NmechDes / sqrt(fluid_1.T / environment.Tstd);
+  //Wc_1_des = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
+  //Nc_1_des = NmechDes / sqrt(fluid_1.T / environment.Tstd);
+  Wc_1_des= Wc_1;
+  Nc_1_des= Nc_1;
   //----------
   variablesDes.Nc_1= Nc_1;
   variablesDes.phi= phi;
@@ -555,8 +557,10 @@ equation
     variablesDes.Nmech= NmechDes;
     variablesDes.omega= omega;
     variablesDes.trq= trq;
-    Wc_1_des = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
-    Nc_1_des = NmechDes / sqrt(fluid_1.T / environment.Tstd);
+    //Wc_1_des = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
+    //Nc_1_des = NmechDes / sqrt(fluid_1.T / environment.Tstd);
+    Wc_1_des= Wc_1;
+    Nc_1_des= Nc_1;
     //----------
     /*
     variablesDes.Nc_1= Nc_1_des;
