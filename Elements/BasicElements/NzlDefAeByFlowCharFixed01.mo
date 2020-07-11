@@ -145,9 +145,9 @@ equation
     CdThDes = CdThDes_paramInput;
     CvDes = CvDes_paramInput;
     //--------------------
-    //AeThDes= AeTh;
+    AeThDes= AeTh;
     AmechThDes= AmechTh;
-    AeThDes= AmechTh*CdThDes;
+    //AeThDes= AmechTh*CdThDes;
   end when;
   
   //AeThDes= AeTh;
