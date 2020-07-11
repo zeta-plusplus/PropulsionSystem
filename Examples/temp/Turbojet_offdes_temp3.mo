@@ -45,7 +45,7 @@ model Turbojet_offdes_temp3
     Placement(visible = true, transformation(origin = {30, -150}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Constant const(k = 10)  annotation(
     Placement(visible = true, transformation(origin = {-110, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const1(k = 10) annotation(
+  Modelica.Blocks.Sources.Constant const1(k = 3000) annotation(
     Placement(visible = true, transformation(origin = {30, -180}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Math.UnitConversions.To_rpm to_rpm1 annotation(
     Placement(visible = true, transformation(origin = {30, -120}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
