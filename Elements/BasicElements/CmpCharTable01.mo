@@ -95,7 +95,7 @@ model CmpCharTable01
   /* ---------------------------------------------
                     Internal variables
         --------------------------------------------- */
-  Real Rline(start=RlineTblDes_paramInput) "" annotation(
+  discrete Real Rline(start=RlineTblDes_paramInput) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
@@ -183,7 +183,7 @@ equation
     fluid_1_des.T=fluid_1.T;
     NmechDes = Nmech;
     //--------------------
-    
+    //Rline=RlineTblDes_paramInput;
   end when;
   
   

@@ -21,7 +21,7 @@ model ConstrainVariableDesignPoint
   Modelica.Blocks.Interfaces.RealInput u_variable annotation(
     Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_targetValue "" annotation(
-    Placement(visible = true, transformation(origin = {120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 180), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+    Placement(visible = true, transformation(origin = {120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 180), iconTransformation(origin = {120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 180)));
   //******************************************************************************************
 protected
   //******************************************************************************************
@@ -49,6 +49,6 @@ equation
   annotation(
     defaultComponentName = "ConstraintDesPt",
     Diagram,
-    Icon(graphics = {Rectangle(fillColor = {85, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {-3, -83}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "%name"), Text(origin = {-3, 37}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -37}}, textString = "Constraint", fontSize = 34), Text(origin = {-3, -3}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -37}}, textString = "Des. Pt.", fontSize = 34)}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Rectangle(fillColor = {85, 0, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {-3, -83}, lineColor = {255, 255, 255}, extent = {{-97, 3}, {103, -17}}, textString = "%name"), Text(origin = {-3, 37}, lineColor = {255, 255, 255}, extent = {{-95, 3}, {101, -37}}, textString = "Constraint", fontSize = 34), Text(origin = {-3, -3}, lineColor = {255, 255, 255}, extent = {{-89, 3}, {95, -35}}, textString = "Des. Pt.", fontSize = 34)}, coordinateSystem(initialScale = 0.1)));
 
 end ConstrainVariableDesignPoint;

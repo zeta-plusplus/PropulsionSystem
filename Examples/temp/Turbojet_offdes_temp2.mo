@@ -53,19 +53,31 @@ model Turbojet_offdes_temp2
     Placement(visible = true, transformation(origin = {300, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed01 nzl(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {380, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  Modelica.Fluid.Sensors.MassFlowRate massFlowRate010(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {10, -64}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
-  FluidSystemComponents.Utilities.ConstrainVariableBeforeTimer constraint(timeToEndConstraint = 0.1)  annotation(
-    Placement(visible = true, transformation(origin = {10, -130}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  FluidSystemComponents.Utilities.ConstrainVariableBeforeTimer Constraint(timeToEndConstraint = 0.1)  annotation(
-    Placement(visible = true, transformation(origin = {190, -150}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Sources.Constant const(k = 1)  annotation(
     Placement(visible = true, transformation(origin = {10, -160}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Constant const1(k = 3000) annotation(
     Placement(visible = true, transformation(origin = {190, -180}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm annotation(
     Placement(visible = true, transformation(origin = {190, -120}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  PropulsionSystem.Utilities.ConstrainVariableDesignPoint ConstraintDesPt annotation(
+    Placement(visible = true, transformation(origin = {10, -130}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  PropulsionSystem.Utilities.ConstrainVariableDesignPoint ConstraintDesPt1 annotation(
+    Placement(visible = true, transformation(origin = {190, -150}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Fluid.Sensors.MassFlowRate massFlowRate1(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {10, -64}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
 equation
+  connect(massFlowRate1.m_flow, ConstraintDesPt.u_variable) annotation(
+    Line(points = {{10, -76}, {10, -76}, {10, -118}, {10, -118}}, color = {0, 0, 127}));
+  connect(massFlowRate1.port_b, Inlt.port_1) annotation(
+    Line(points = {{20, -64}, {42, -64}, {42, -64}, {40, -64}}, color = {0, 127, 255}));
+  connect(Flt2Fluid.port_inlet, massFlowRate1.port_a) annotation(
+    Line(points = {{-20, -64}, {0, -64}, {0, -64}, {0, -64}}, color = {0, 127, 255}));
+  connect(from_rpm.y, ConstraintDesPt1.u_variable) annotation(
+    Line(points = {{190, -130}, {190, -130}, {190, -138}, {190, -138}}, color = {0, 0, 127}));
+  connect(const1.y, ConstraintDesPt1.u_targetValue) annotation(
+    Line(points = {{190, -168}, {190, -168}, {190, -162}, {190, -162}}, color = {0, 0, 127}));
+  connect(const.y, ConstraintDesPt.u_targetValue) annotation(
+    Line(points = {{10, -148}, {10, -148}, {10, -142}, {10, -142}}, color = {0, 0, 127}));
   connect(ramp_Tfuel.y, boundary.T_in) annotation(
     Line(points = {{162, -20}, {166, -20}, {166, -6}, {178, -6}, {178, -6}}, color = {0, 0, 127}));
   connect(VarBySolver.y_independent, boundary.m_flow_in) annotation(
@@ -114,22 +126,9 @@ equation
     Line(points = {{-40, -40}, {-40, -40}, {-40, 34}, {400, 34}, {400, -64}, {400, -64}}, color = {0, 127, 255}));
   connect(cmp.flange_2, speedSensor1.flange) annotation(
     Line(points = {{140, -80}, {190, -80}, {190, -80}, {190, -80}}));
-  connect(Flt2Fluid.port_inlet, massFlowRate010.port_a) annotation(
-    Line(points = {{-20, -64}, {0, -64}, {0, -64}, {0, -64}}, color = {0, 127, 255}));
-  connect(massFlowRate010.port_b, Inlt.port_1) annotation(
-    Line(points = {{20, -64}, {40, -64}, {40, -64}, {40, -64}}, color = {0, 127, 255}));
-  connect(constraint.u_variable, massFlowRate010.m_flow) annotation(
-    Line(points = {{10, -118}, {10, -118}, {10, -74}, {10, -74}}, color = {0, 0, 127}));
-  connect(const.y, constraint.u_targetValue) annotation(
-    Line(points = {{10, -148}, {10, -148}, {10, -140}, {10, -140}}, color = {0, 0, 127}));
-  connect(const1.y, Constraint.u_targetValue) annotation(
-    Line(points = {{190, -169}, {190, -161}}, color = {0, 0, 127}));
   connect(speedSensor1.w, from_rpm.u) annotation(
     Line(points = {{190, -100}, {190, -108}}, color = {0, 0, 127}));
-  connect(Constraint.u_variable, from_rpm.y) annotation(
-    Line(points = {{190, -139}, {190, -130}}, color = {0, 0, 127}));
   annotation(
-    uses(Modelica(version = "3.2.2")),
     Diagram(coordinateSystem(extent = {{-100, -260}, {440, 60}}, preserveAspectRatio = false)),
     Icon(coordinateSystem(preserveAspectRatio = false)),
     version = "",
