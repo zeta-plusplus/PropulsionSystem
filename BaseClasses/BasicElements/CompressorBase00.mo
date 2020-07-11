@@ -361,6 +361,8 @@ initial equation
   //----------
   variablesDes.PR=PRdes;
   variablesDes.eff=effDes;
+  //variablesDes.PR=PR;
+  //variablesDes.eff=eff;
   fluid_2_des.m_flow= port_2.m_flow;
   fluid_2_des.p= fluid_2.p;
   variablesDes.h_2is= h_2is;
