@@ -359,8 +359,8 @@ initial equation
   flange_2_des.pwr= flange_2.tau*omega;
   flange_2_des.Nmech= Nmech;
   //----------
-  variablesDes.PR=PR;
-  variablesDes.eff=eff;
+  variablesDes.PR=PRdes;
+  variablesDes.eff=effDes;
   fluid_2_des.m_flow= port_2.m_flow;
   fluid_2_des.p= fluid_2.p;
   variablesDes.h_2is= h_2is;
@@ -373,11 +373,11 @@ initial equation
   fluid_2_des.s= s_fluid_2;
   //----------
   variablesDes.pwr= pwr;
-  variablesDes.Nmech= Nmech;
+  variablesDes.Nmech= NmechDes;
   variablesDes.omega= omega;
   variablesDes.trq= trq;
   Wc_1_des = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
-  Nc_1_des = Nmech / sqrt(fluid_1.T / environment.Tstd);
+  Nc_1_des = NmechDes / sqrt(fluid_1.T / environment.Tstd);
   //----------
   variablesDes.Nc_1= Nc_1;
   variablesDes.phi= phi;
@@ -530,8 +530,8 @@ equation
     fluid_2_des.T= Medium.temperature_phX(fluid_2_des.p, fluid_2_des.h, fluid_2_des.X[1:Medium.nXi]);
     fluid_2_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X[1:Medium.nXi]));
     */
-    variablesDes.PR=PR;
-    variablesDes.eff=eff;
+    variablesDes.PR=PRdes;
+    variablesDes.eff=effDes;
     fluid_2_des.m_flow= port_2.m_flow;
     fluid_2_des.p= fluid_2.p;
     variablesDes.h_2is= h_2is;
@@ -552,11 +552,11 @@ equation
     Nc_1_des = NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
     */
     variablesDes.pwr= pwr;
-    variablesDes.Nmech= Nmech;
+    variablesDes.Nmech= NmechDes;
     variablesDes.omega= omega;
     variablesDes.trq= trq;
     Wc_1_des = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
-    Nc_1_des = Nmech / sqrt(fluid_1.T / environment.Tstd);
+    Nc_1_des = NmechDes / sqrt(fluid_1.T / environment.Tstd);
     //----------
     /*
     variablesDes.Nc_1= Nc_1_des;
