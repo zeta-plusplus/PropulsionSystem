@@ -5,3 +5,5 @@ NmechAtInit
 MassFlowSource
 FlowSink
 BaseClasses
+MassFlowAtDesignPoint
+NmechAtDesignPoint
