@@ -154,7 +154,12 @@ initial equation
   fluid_1_des.m_flow=port_1.m_flow;
   
   */
+  fluid_1_des.m_flow=port_1.m_flow;
+  fluid_1_des.p = fluid_1.p;
+  fluid_1_des.T = fluid_1.T;
   NmechDes=Nmech;
+  
+  PRdes=PR;
   
   //********************************************************************************
 algorithm
@@ -170,12 +175,15 @@ equation
     /* ---------------------------------------------
     design point calc
     --------------------------------------------- */
-    fluid_1_des.m_flow=port_1.m_flow;
-    fluid_1_des.p=fluid_1.p;
-    fluid_1_des.T=fluid_1.T;
-    NmechDes=Nmech;
+    //fluid_1_des.m_flow=port_1.m_flow;
+    //fluid_1_des.p=fluid_1.p;
+    //fluid_1_des.T=fluid_1.T;
+    NmechDes=pre(NmechDes);
     //--------------------
-    PRdes=PR;
+    fluid_1_des.m_flow= pre(fluid_1_des.m_flow);
+    fluid_1_des.p= pre(fluid_1_des.p);
+    fluid_1_des.T= pre(fluid_1_des.T);
+    PRdes=pre(PRdes);
     
   end when;
   

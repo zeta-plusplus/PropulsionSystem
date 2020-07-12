@@ -233,7 +233,8 @@ equation
   effDes= effDes_paramInput;
   
   when (time<=environment.timeRemoveDesConstraint)then
-    PRdes= PR;
+    //PRdes= PR;
+    PRdes= pre(PRdes);
   end when;
   
   //----------

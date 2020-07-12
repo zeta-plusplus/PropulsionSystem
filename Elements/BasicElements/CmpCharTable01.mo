@@ -165,6 +165,12 @@ initial equation
   fluid_1_des.m_flow= port_1.m_flow ;
   NmechDes=Nmech;
   */
+  
+  fluid_1_des.p=fluid_1.p;
+  fluid_1_des.T=fluid_1.T;
+  fluid_1_des.m_flow= port_1.m_flow;
+  NmechDes=Nmech;
+  
   //##### none #####
   //********************************************************************************
 algorithm
@@ -178,10 +184,15 @@ equation
   effDes= effDes_paramInput;
   
   when (time<=environment.timeRemoveDesConstraint)then
-    fluid_1_des.m_flow=port_1.m_flow;
-    fluid_1_des.p=fluid_1.p;
-    fluid_1_des.T=fluid_1.T;
-    NmechDes = Nmech;
+    //fluid_1_des.m_flow=port_1.m_flow;
+    //fluid_1_des.p=fluid_1.p;
+    //fluid_1_des.T=fluid_1.T;
+    
+    fluid_1_des.m_flow= pre(fluid_1_des.m_flow);
+    fluid_1_des.p= pre(fluid_1_des.p);
+    fluid_1_des.T= pre(fluid_1_des.T);
+    
+    NmechDes= pre(NmechDes);
     //--------------------
     //Rline=RlineTblDes_paramInput;
   end when;
