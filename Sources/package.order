@@ -1,9 +1,9 @@
 FlightCondition2InletFluid00
 MassFlowSource_T
+MassFlowAtDesignPoint
+NmechAtDesignPoint
 MassFlowAtInit
 NmechAtInit
 MassFlowSource
 FlowSink
 BaseClasses
-MassFlowAtDesignPoint
-NmechAtDesignPoint
