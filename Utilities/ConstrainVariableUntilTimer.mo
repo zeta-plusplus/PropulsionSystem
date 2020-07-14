@@ -12,9 +12,9 @@ model ConstrainVariableUntilTimer
   /* ---------------------------------------------
       Internal variables
   --------------------------------------------- */
-  Real augVar1;
+  Real auxVar1;
   Real k_u_variable;
-  Real k_augVar1;
+  Real k_auxVar1;
   
   
   /* ---------------------------------------------
@@ -35,9 +35,9 @@ model ConstrainVariableUntilTimer
 protected
   //******************************************************************************************
 initial equation
-  augVar1=0.0;
+  auxVar1=0.0;
   k_u_variable=1.0;
-  k_augVar1=0.0;
+  k_auxVar1=0.0;
 //******************************************************************************************
 algorithm
 //******************************************************************************************
@@ -47,13 +47,13 @@ equation
   
   if(time<=timeToEndConstraint)then
     k_u_variable=1;
-    k_augVar1=0;
+    k_auxVar1=0;
   else
     k_u_variable=0;
-    k_augVar1=1;
+    k_auxVar1=1;
   end if;
   
-  Constraint.u_variable=k_u_variable*u_variable + augVar1;
+  Constraint.u_variable=k_u_variable*u_variable + auxVar1;
   
   annotation(
     defaultComponentName = "Constraint",
