@@ -1,6 +1,6 @@
 within PropulsionSystem.Examples.Elements.BasicElements;
 
-model NzlDefAeByFlowCharFixed01_ex01
+model NzlDefAeByFlowCharFixed01_ex02
   extends Modelica.Icons.Example;
   //-----
   package engineAir = Modelica.Media.Air.DryAirNasa;
@@ -20,13 +20,17 @@ model NzlDefAeByFlowCharFixed01_ex01
     Placement(visible = true, transformation(origin = {-90, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_p_amb(duration = 10, height = 0.0, offset = 1.0 * 101.325 * 1000, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {50, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed01 Nzl(redeclare package Medium = engineAir, use_u_kAmechTh = false) annotation(
+  PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed01 Nzl(redeclare package Medium = engineAir, use_u_kAmechTh = true) annotation(
     Placement(visible = true, transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner PropulsionSystem.EngineSimEnvironment environment(timeRemoveDesConstraint = 1) annotation(
     Placement(visible = true, transformation(origin = {-50, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Utilities.ConstrainVariableDesignPoint ConstraintDesPt annotation(
     Placement(visible = true, transformation(origin = {-20, -20}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Blocks.Sources.Ramp ramp_kAmech(duration = 10, height = -0.2, offset = 1.0, startTime = 50) annotation(
+    Placement(visible = true, transformation(origin = {26, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 equation
+  connect(ramp_kAmech.y, Nzl.u_kAmechTh) annotation(
+    Line(points = {{26, -18}, {26, -18}, {26, -8}, {26, -8}}, color = {0, 0, 127}));
   connect(ConstraintDesPt.u_targetValue, ramp_m_flow.y) annotation(
     Line(points = {{-20, -32}, {-20, -32}, {-20, -38}, {-20, -38}}, color = {0, 0, 127}));
   connect(massFlowRate1.m_flow, ConstraintDesPt.u_variable) annotation(
@@ -44,4 +48,4 @@ equation
   annotation(
     experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-06, Interval = 0.18),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
-end NzlDefAeByFlowCharFixed01_ex01;
+end NzlDefAeByFlowCharFixed01_ex02;
