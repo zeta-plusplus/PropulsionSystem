@@ -81,6 +81,17 @@ initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
+  fluid_1_des.m_flow= port_1.m_flow;
+  fluid_1_des.p= fluid_1.p;
+  /**/
+  fluid_1_des.T= fluid_1.T;
+  //--------------------
+  CdThDes = CdThDes_paramInput;
+  CvDes = CvDes_paramInput;
+  //--------------------
+  AeThDes= AeTh;
+  AmechThDes= AmechTh;
+  //AeThDes= AmechTh*CdThDes;
   /*
   fluid_1_des.m_flow= port_1.m_flow;
   fluid_1_des.p= fluid_1.p;
@@ -137,17 +148,26 @@ equation
     /* ---------------------------------------------
     design point eqn
     --------------------------------------------- */
-    fluid_1_des.m_flow= port_1.m_flow;
-    fluid_1_des.p= fluid_1.p;
+    //fluid_1_des.m_flow= port_1.m_flow;
+    //fluid_1_des.p= fluid_1.p;
     /**/
-    fluid_1_des.T= fluid_1.T;
+    //fluid_1_des.T= fluid_1.T;
     //--------------------
-    CdThDes = CdThDes_paramInput;
-    CvDes = CvDes_paramInput;
+    //CdThDes = CdThDes_paramInput;
+    //CvDes = CvDes_paramInput;
     //--------------------
-    AeThDes= AeTh;
-    AmechThDes= AmechTh;
+    //AeThDes= AeTh;
+    //AmechThDes= AmechTh;
     //AeThDes= AmechTh*CdThDes;
+    
+    fluid_1_des.m_flow= pre(fluid_1_des.m_flow);
+    fluid_1_des.p= pre(fluid_1_des.p);
+    fluid_1_des.T= pre(fluid_1_des.T);
+    CdThDes = pre(CdThDes);
+    CvDes = pre(CvDes);
+    AeThDes= pre(AeThDes);
+    AmechThDes= pre(AmechTh);
+    
   end when;
   
   //AeThDes= AeTh;
