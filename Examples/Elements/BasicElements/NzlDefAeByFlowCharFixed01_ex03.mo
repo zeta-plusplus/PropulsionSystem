@@ -1,6 +1,6 @@
 within PropulsionSystem.Examples.Elements.BasicElements;
 
-model NzlDefAeByFlowCharFixed01_ex02
+model NzlDefAeByFlowCharFixed01_ex03
   extends Modelica.Icons.Example;
   //-----
   package engineAir = Modelica.Media.Air.DryAirNasa;
@@ -16,11 +16,13 @@ model NzlDefAeByFlowCharFixed01_ex02
     Placement(visible = true, transformation(origin = {-90, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_p_amb(duration = 10, height = 0.0, offset = 1.0 * 101.325 * 1000, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {50, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed01 Nzl(redeclare package Medium = engineAir, use_u_kAmechTh = false) annotation(
+  PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed01 Nzl(redeclare package Medium = engineAir, use_u_kAmechTh = true) annotation(
     Placement(visible = true, transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner PropulsionSystem.EngineSimEnvironment environment(timeRemoveDesConstraint = 1) annotation(
     Placement(visible = true, transformation(origin = {-50, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Sources.MassFlowAtDesignPoint MassFlowDes(redeclare package Medium = engineAir, m_flow_des_paramInput = 2)  annotation(
+  Modelica.Blocks.Sources.Ramp ramp_kAmech(duration = 10, height = -0.2, offset = 1.0, startTime = 50) annotation(
+    Placement(visible = true, transformation(origin = {26, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  Sources.MassFlowAtDesignPoint MassFlowDes(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-20, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(MassFlowDes.port_2, Nzl.port_1) annotation(
@@ -29,6 +31,8 @@ equation
     Line(points = {{-40, 10}, {-30, 10}, {-30, 10}, {-30, 10}}, color = {0, 127, 255}));
   connect(ramp_p_in.y, boundary.p_in) annotation(
     Line(points = {{-79, 20}, {-73, 20}, {-73, 18}, {-62, 18}}, color = {0, 0, 127}));
+  connect(ramp_kAmech.y, Nzl.u_kAmechTh) annotation(
+    Line(points = {{26, -18}, {26, -18}, {26, -8}, {26, -8}}, color = {0, 0, 127}));
   connect(Nzl.port_2, boundary1.ports[1]) annotation(
     Line(points = {{30, 8}, {30, 20}}, color = {0, 127, 255}));
   connect(boundary1.p_in, ramp_p_amb.y) annotation(
@@ -36,4 +40,4 @@ equation
   annotation(
     experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-06, Interval = 0.18),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
-end NzlDefAeByFlowCharFixed01_ex02;
+end NzlDefAeByFlowCharFixed01_ex03;
