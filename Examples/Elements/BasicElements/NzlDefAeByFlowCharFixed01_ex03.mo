@@ -20,7 +20,7 @@ model NzlDefAeByFlowCharFixed01_ex03
     Placement(visible = true, transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner PropulsionSystem.EngineSimEnvironment environment(timeRemoveDesConstraint = 1) annotation(
     Placement(visible = true, transformation(origin = {-50, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_kAmech(duration = 10, height = -0.2, offset = 1.0, startTime = 50) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_kAmech(duration = 10, height = -0.1, offset = 1.0, startTime = 50) annotation(
     Placement(visible = true, transformation(origin = {26, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Sources.MassFlowAtDesignPoint MassFlowDes(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-20, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -39,5 +39,7 @@ equation
     Line(points = {{38, 42}, {38, 42}, {38, 50}, {50, 50}, {50, 60}, {50, 60}}, color = {0, 0, 127}));
   annotation(
     experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-06, Interval = 0.18),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
+  Diagram(coordinateSystem(extent = {{-100, -60}, {100, 100}})),
+  __OpenModelica_commandLineOptions = "");
 end NzlDefAeByFlowCharFixed01_ex03;

@@ -35,5 +35,7 @@ equation
     Line(points = {{38, 42}, {38, 42}, {38, 50}, {50, 50}, {50, 60}, {50, 60}}, color = {0, 0, 127}));
   annotation(
     experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-06, Interval = 0.18),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
+  Diagram(coordinateSystem(extent = {{-100, -40}, {100, 100}})),
+  __OpenModelica_commandLineOptions = "");
 end NzlDefAeByFlowCharFixed01_ex02;

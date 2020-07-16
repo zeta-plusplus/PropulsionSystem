@@ -14,8 +14,6 @@ model NzlDefAeByFlowCharFixed01_ex01
     Placement(visible = true, transformation(origin = {30, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate1(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-20, 8}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_m_flow(duration = 10, height = 0, offset = 2, startTime = 10) annotation(
-    Placement(visible = true, transformation(origin = {-20, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_p_in(duration = 10, height = 1.0 * 101.325 * 1000, offset = 1.5 * 101.325 * 1000, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-90, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_p_amb(duration = 10, height = 0.0, offset = 1.0 * 101.325 * 1000, startTime = 30) annotation(
@@ -26,9 +24,11 @@ model NzlDefAeByFlowCharFixed01_ex01
     Placement(visible = true, transformation(origin = {-50, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Utilities.ConstrainVariableDesignPoint ConstraintDesPt annotation(
     Placement(visible = true, transformation(origin = {-20, -20}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Blocks.Sources.Constant const(k = 2)  annotation(
+    Placement(visible = true, transformation(origin = {-20, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 equation
-  connect(ConstraintDesPt.u_targetValue, ramp_m_flow.y) annotation(
-    Line(points = {{-20, -32}, {-20, -32}, {-20, -38}, {-20, -38}}, color = {0, 0, 127}));
+  connect(const.y, ConstraintDesPt.u_targetValue) annotation(
+    Line(points = {{-20, -38}, {-20, -38}, {-20, -32}, {-20, -32}}, color = {0, 0, 127}));
   connect(massFlowRate1.m_flow, ConstraintDesPt.u_variable) annotation(
     Line(points = {{-20, -2}, {-20, -2}, {-20, -8}, {-20, -8}}, color = {0, 0, 127}));
   connect(Nzl.port_2, boundary1.ports[1]) annotation(
@@ -43,5 +43,7 @@ equation
     Line(points = {{-40, 8}, {-30, 8}, {-30, 8}, {-30, 8}}, color = {0, 127, 255}));
   annotation(
     experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-06, Interval = 0.18),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
+  Diagram(coordinateSystem(extent = {{-100, -60}, {100, 100}})),
+  __OpenModelica_commandLineOptions = "");
 end NzlDefAeByFlowCharFixed01_ex01;
