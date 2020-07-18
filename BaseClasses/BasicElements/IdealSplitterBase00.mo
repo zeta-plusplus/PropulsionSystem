@@ -84,7 +84,8 @@ partial model IdealSplitterBase00
     Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {60, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {-90, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-32, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-
+  
+  
 //********************************************************************************
 protected
   /* ---------------------------------------------
