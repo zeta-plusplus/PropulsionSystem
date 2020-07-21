@@ -39,7 +39,7 @@ model Turbojet_ex03
     Placement(visible = true, transformation(origin = {-60, -64}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Sources.NmechAtDesignPoint NmechDes(NmechDes_paramInput = 3000.0)  annotation(
     Placement(visible = true, transformation(origin = {30, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Nzl_kAmech(duration = 10, height = 0.1, offset = 1.0, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_Nzl_kAmech(duration = 10, height = -0.1, offset = 1.0, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {172, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 equation
   connect(ramp_Nzl_kAmech.y, Nzl.u_kAmechTh) annotation(
