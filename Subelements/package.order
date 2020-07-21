@@ -13,3 +13,4 @@ CompressorEllipticalCurve
 TurbineMap_WcEff
 TurbineExponentialCurve
 InletMap_effRam
+readCompressorTable00

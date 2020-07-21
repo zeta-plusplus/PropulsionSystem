@@ -64,7 +64,7 @@ model MassFlowAtDesignPoint
   --------------------------------------------- */
   Modelica.Fluid.Interfaces.FluidPort_a port_1(
     redeclare package Medium = Medium, 
-    m_flow(fixed=true, start = m_flow1_init, min=if (allowFlowReversal) then -Constants.inf else 0.0), 
+    m_flow(fixed=true, start = m_flow1_init, min=if (allowFlowReversal) then -Modelica.Constants.inf else 0.0), 
     h_outflow(start = h1_init),
     p(start=p1_init)
   )
@@ -73,7 +73,7 @@ model MassFlowAtDesignPoint
   
   Modelica.Fluid.Interfaces.FluidPort_b port_2(
     redeclare package Medium = Medium, 
-    m_flow(start = m_flow2_init, max=if allowFlowReversal then +Constants.inf else 0.0), 
+    m_flow(start = m_flow2_init, max=if allowFlowReversal then +Modelica.Constants.inf else 0.0), 
     h_outflow(start = h2_init),
     p(start=p2_init)
   )

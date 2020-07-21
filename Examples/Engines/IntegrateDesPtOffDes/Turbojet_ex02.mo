@@ -22,7 +22,7 @@ model Turbojet_ex02
   PropulsionSystem.Elements.BasicElements.InltCharFixed00 Inlt(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-100, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.EnginePerformance00 Perf annotation(
-    Placement(visible = true, transformation(origin = {260, -140}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {260, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Sources.FlightCondition2InletFluid00 Flt2Fluid(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-160, -60}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CombCharFixed02 Comb(redeclare package Medium = engineAir) annotation(
@@ -40,6 +40,12 @@ model Turbojet_ex02
   PropulsionSystem.Sources.NmechAtDesignPoint NmechDes(NmechDes_paramInput = 3000.0)  annotation(
     Placement(visible = true, transformation(origin = {30, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(Inlt.y_FdRam, Perf.u_Fram) annotation(
+    Line(points = {{-86, -88}, {-76, -88}, {-76, -112}, {238, -112}}, color = {0, 0, 127}));
+  connect(Comb.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
+    Line(points = {{56, -58}, {56, -136}, {238, -136}}, color = {0, 0, 127}));
+  connect(Nzl.y_Fg, Perf.u_Fg) annotation(
+    Line(points = {{170, -80}, {216, -80}, {216, -104}, {238, -104}}, color = {0, 0, 127}));
   connect(Cmp.flange_2, NmechDes.flange_1) annotation(
     Line(points = {{0, -80}, {20, -80}}));
   connect(Cmp.port_2, Comb.port_1) annotation(
@@ -50,8 +56,6 @@ equation
     Line(points = {{40, -80}, {80, -80}, {80, -80}, {80, -80}}));
   connect(Inlt.port_2, MassFlowDes.port_1) annotation(
     Line(points = {{-80, -64}, {-70, -64}, {-70, -64}, {-70, -64}}, color = {0, 127, 255}));
-  connect(Nzl.y_Fg, Perf.u_Fg) annotation(
-    Line(points = {{170, -80}, {216, -80}, {216, -124}, {238, -124}, {238, -124}}, color = {0, 0, 127}));
   connect(Flt2Fluid.port_amb, Nzl.port_2) annotation(
     Line(points = {{-160, -40}, {-160, -40}, {-160, 66}, {180, 66}, {180, -64}, {180, -64}}, color = {0, 127, 255}));
   connect(Trb.port_2, Nzl.port_1) annotation(
@@ -60,14 +64,10 @@ equation
     Line(points = {{80, -64}, {80, -64}, {80, -40}, {80, -40}}, color = {0, 127, 255}));
   connect(Comb.port_2, temperature.port) annotation(
     Line(points = {{59.5, -40}, {80, -40}}, color = {0, 127, 255}));
-  connect(Comb.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
-    Line(points = {{56, -58}, {56, -156}, {238, -156}}, color = {0, 0, 127}));
   connect(boundary.ports[1], Comb.port_fuel) annotation(
     Line(points = {{10, -10}, {24, -10}, {24, -24}}, color = {0, 127, 255}));
   connect(VarBySolver.y_independent, boundary.m_flow_in) annotation(
     Line(points = {{-28, 20}, {-22, 20}, {-22, -2}, {-10, -2}, {-10, -2}}, color = {0, 0, 127}));
-  connect(Inlt.y_FdRam, Perf.u_Fram) annotation(
-    Line(points = {{-86, -88}, {-76, -88}, {-76, -132}, {238, -132}}, color = {0, 0, 127}));
   connect(ramp_TIT.y, Constraint.u_targetValue) annotation(
     Line(points = {{90, 19}, {90, 11}}, color = {0, 0, 127}));
   connect(Constraint.u_variable, temperature.T) annotation(
