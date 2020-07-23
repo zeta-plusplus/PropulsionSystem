@@ -1,7 +1,6 @@
 within PropulsionSystem.BaseClasses.BasicElements;
 
-partial model CompressorBaseDefDesPt00
-  //extends PropulsionSystem.BaseClasses.BasicElements.CompressorBase00;
+partial model TurbineBaseDefDesPt00
   /********************************************************
       Declaration
   ********************************************************/
@@ -24,5 +23,4 @@ equation
   
   
   
-  
-end CompressorBaseDefDesPt00;
+end TurbineBaseDefDesPt00;

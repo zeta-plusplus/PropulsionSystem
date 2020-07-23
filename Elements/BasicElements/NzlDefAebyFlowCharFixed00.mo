@@ -4,6 +4,8 @@ model NzlDefAeByFlowCharFixed00
   extends PropulsionSystem.BaseClasses.BasicElements.NozzleBase00(
     m_flow1_init=m_flow_1_des_paramInput
   );
+  extends PropulsionSystem.BaseClasses.BasicElements.NozzleBaseDefDesPt00;
+  
   /********************************************************
               imports   
         ********************************************************/

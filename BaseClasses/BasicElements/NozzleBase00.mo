@@ -225,6 +225,7 @@ partial model NozzleBase00
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
+  
   discrete PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
     fixed=false,
     HideResult=false,
@@ -236,27 +237,6 @@ partial model NozzleBase00
     h(start=h1_init),
     s(start=s_fluid_1_init)
   ) annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  
-  discrete PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
-    fixed=false,
-    HideResult=false,
-    nX=Medium.nXi,
-    nC=Medium.nC,
-    m_flow(start=m_flow2_init),
-    p(start=p2_init),
-    T(start=T2_init),
-    h(start=h2_init),
-    s(start=s_fluid_2_init)
-  ) annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  
-  discrete Modelica.SIunits.Area AeThDes(start=AeTh_init) annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  discrete Modelica.SIunits.Area AmechThDes(start=AmechTh_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
@@ -391,11 +371,14 @@ initial equation
   --------------------------------------------- */
   AeThDes= AmechTh*CdThDes;
   //----------
+  /*
   fluid_1_des.X[1:Medium.nXi]= fluid_1.Xi;
   fluid_1_des.C= actualStream(port_1.C_outflow);
   fluid_1_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
   fluid_1_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
+  */
   //----------
+  /*
   fluid_2_des.m_flow= port_2.m_flow;
   fluid_2_des.p= fluid_2.p;
   fluid_2_des.T= fluid_2.T;
@@ -403,6 +386,7 @@ initial equation
   fluid_2_des.C= actualStream(port_2.C_outflow);
   fluid_2_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X[1:Medium.nXi]));
   fluid_2_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X[1:Medium.nXi]));
+  */
   //----------
 
 algorithm
@@ -531,11 +515,14 @@ equation
     --------------------------------------------- */
     PRdes= PR;
     //----------
+    /*
     fluid_1_des.X[1:Medium.nXi]= fluid_1.Xi;
     fluid_1_des.C= actualStream(port_1.C_outflow);
     fluid_1_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
     fluid_1_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
+    */
     //----------
+    /*
     fluid_2_des.m_flow= port_2.m_flow;
     fluid_2_des.p= fluid_2.p;
     fluid_2_des.T= fluid_2.T;
@@ -543,6 +530,7 @@ equation
     fluid_2_des.C= actualStream(port_2.C_outflow);
     fluid_2_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X[1:Medium.nXi]));
     fluid_2_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X[1:Medium.nXi]));
+    */
     //----------
   end when;
   
