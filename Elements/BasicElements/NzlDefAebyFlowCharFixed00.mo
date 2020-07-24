@@ -56,24 +56,11 @@ model NzlDefAeByFlowCharFixed00
   
 //********************************************************************************
 initial algorithm
-
+  
   fluid_1_des.m_flow:= m_flow_1_des_paramInput;
-  /*
-//--------------------
-  if use_u_CdTh == false then
-    CdThDes := CdThDes_paramInput;
-  elseif use_u_Cv == true then
-    CdThDes := u_CdTh;
-  end if;
-//--------------------
-  if use_u_Cv == false then
-    CvDes := CvDes_paramInput;
-  elseif use_u_Cv == true then
-    CvDes := u_Cv;
-  end if;
-//--------------------
-*/
-
+  
+  
+  
 //********************************************************************************
 initial equation
   /* ---------------------------------------------
@@ -178,4 +165,6 @@ equation
 
 </html>"),
     Icon(graphics = {Line(origin = {60.16, 13.94}, points = {{0, 25}, {0, -53}}, thickness = 3), Line(origin = {60, -60}, points = {{0, 34}, {0, -36}})}, coordinateSystem(initialScale = 0.1)));
+  
+  
 end NzlDefAeByFlowCharFixed00;

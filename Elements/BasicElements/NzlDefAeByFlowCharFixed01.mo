@@ -21,16 +21,7 @@ model NzlDefAeByFlowCharFixed01
     HideResult = true,
     choices(checkBox = true),
     Dialog(group = "switch"));
-  /*
-  parameter Boolean use_u_CdTh = false "get CdTh from the real input connector" annotation(
-    Evaluate = true,
-    HideResult = true,
-    choices(checkBox = true), Dialog(group = "switch"));
-  parameter Boolean use_u_Cv = false "get Cv from the real input connector" annotation(
-    Evaluate = true,
-    HideResult = true,
-    choices(checkBox = true), Dialog(group = "switch"));
-  */
+  
   
   /* ---------------------------------------------
           parameters    
@@ -40,9 +31,7 @@ model NzlDefAeByFlowCharFixed01
   parameter Real CvDes_paramInput = 0.99 "flow velocity coefficient, valid only when use_u_Cv==false, value fixed through simulation" annotation(
     Dialog(group = "Characteristics"));
   
-  /*parameter Modelica.SIunits.Time timeRemoveDesConstraint = environment.timeRemoveDesConstraint annotation(
-    Dialog(group = "Simulation setting"));
-  */
+  
   /* ---------------------------------------------
                     Internal variables
   --------------------------------------------- */
@@ -54,16 +43,6 @@ model NzlDefAeByFlowCharFixed01
   inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
   
   
-  
-  /* ---------------------------------------------
-          Interface   
-  --------------------------------------------- */
-  /*
-  Modelica.Blocks.Interfaces.RealInput u_CdTh if use_u_CdTh "CdTh input, valid only when use_u_CdTh==true" annotation(
-    Placement(visible = true, transformation(origin = {-80, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {-40, -79}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Blocks.Interfaces.RealInput u_Cv if use_u_Cv "Cv input, valid only when use_u_Cv==true" annotation(
-    Placement(visible = true, transformation(origin = {-40, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {0, -67}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  */
   Modelica.Blocks.Interfaces.RealInput u_kAmechTh if use_u_kAmechTh "AmechTh input, valid only when switchDetermine_AmechTh==viaRealInput" annotation(
     Placement(visible = true, transformation(origin = {0, -111}, extent = {{-11, -11}, {11, 11}}, rotation = 90), iconTransformation(origin = {60, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
@@ -71,77 +50,17 @@ model NzlDefAeByFlowCharFixed01
   //********************************************************************************
 initial algorithm
 
-  /*
-  fluid_1_des.m_flow:= port_1.m_flow;
-  fluid_1_des.p:= fluid_1.p;
-  fluid_1_des.T:= fluid_1.T;
-  */
+  
   
   //********************************************************************************
 initial equation
   
-  /* ---------------------------------------------
-    determine design point
-  --------------------------------------------- */
-  /*
-  fluid_1_des.m_flow= port_1.m_flow;
-  fluid_1_des.p= fluid_1.p;
-  fluid_1_des.T= fluid_1.T;
-  //--------------------
-  //--------------------
-  AeThDes= AeTh;
-  AmechThDes= AmechTh;
-  //AeThDes= AmechTh*CdThDes;
-  */
+  
   kAmechTh=1.0;
   CdThDes = CdThDes_paramInput;
   CvDes = CvDes_paramInput;
-  /*
-  fluid_1_des.m_flow= port_1.m_flow;
-  fluid_1_des.p= fluid_1.p;
-  fluid_1_des.T= fluid_1.T;
-  //--------------------
-  if (use_u_CdTh == false) then
-    CdThDes= CdThDes_paramInput;
-  elseif (use_u_Cv == true) then
-    CdThDes= u_CdTh;
-  end if;
-  //--------------------
-  if (use_u_Cv == false) then
-    CvDes= CvDes_paramInput;
-  elseif (use_u_Cv == true) then
-    CvDes= u_Cv;
-  end if;
-  //--------------------
-  PR= PRdes;
-  m_flow_th= fluid_1_des.m_flow;
-  */
   
-  /* ---------------------------------------------
-    determine design point
-  --------------------------------------------- */
-  /*
-  PR= PRdes;
   
-  //--------------------
-  if (use_u_CdTh==false) then
-    CdThDes = CdThDes_paramInput;
-  elseif (use_u_Cv==true) then
-    CdThDes = u_CdTh;
-  end if; 
-  //--------------------
-  if (use_u_Cv==false) then
-    CvDes = CvDes_paramInput;
-  elseif (use_u_Cv==true) then
-    CvDes = u_Cv;
-  end if; 
-  //--------------------
-  AmechThDes= AmechTh;
-algorithm
-  if noEvent(timeRemoveDesConstraint<time)then
-    AmechTh:=AmechThDes;
-  end if;
-  */
   
   
 //********************************************************************************
@@ -163,30 +82,11 @@ equation
     //--------------------
     AeThDes= AeTh;
     AmechThDes= AmechTh;
-    //AeThDes= AmechTh*CdThDes;
-    /**/
-    /*
-    fluid_1_des.m_flow= pre(fluid_1_des.m_flow);
-    fluid_1_des.p= pre(fluid_1_des.p);
-    fluid_1_des.T= pre(fluid_1_des.T);
     
-    CdThDes = pre(CdThDes);
-    CvDes = pre(CvDes);
-    AeThDes= pre(AeThDes);
-    AmechThDes= pre(AmechTh);
-    */
+    
   end when;
   
-  //AeThDes= AeTh;
-  /*
-  if(environment.timeRemoveDesConstraint<=time)then
-    if use_u_kAmechTh == false then
-      AmechTh = AmechThDes;
-    elseif use_u_kAmechTh == true then
-      AmechTh = u_kAmechTh * AmechThDes;
-    end if;
-  end if;
-  */
+  
   
   /* ---------------------------------------------
   Connections, interface <-> internal variables   
@@ -205,17 +105,6 @@ equation
   Cv = CvDes_paramInput; 
   //--------------------
   AmechTh = kAmechTh * AmechThDes;
-  /*
-  if(time<=environment.timeRemoveDesConstraint)then
-    AmechTh = AmechThDes;
-  else
-    if use_u_kAmechTh == false then
-      AmechTh = AmechThDes;
-    elseif use_u_kAmechTh == true then
-      AmechTh = u_kAmechTh * AmechThDes;
-    end if;
-  end if;
-  */
   //--------------------
   
   

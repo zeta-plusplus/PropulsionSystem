@@ -214,6 +214,7 @@ partial model NozzleBase00
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
+  
   //********** variables of design point **********
   discrete Real PRdes(start=PR_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
@@ -225,20 +226,6 @@ partial model NozzleBase00
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
-  
-  discrete PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
-    fixed=false,
-    HideResult=false,
-    nX=Medium.nXi,
-    nC=Medium.nC,
-    m_flow(start=m_flow1_init),
-    p(start=p1_init),
-    T(start=T1_init),
-    h(start=h1_init),
-    s(start=s_fluid_1_init)
-  ) annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
   
   
   /* ---------------------------------------------
@@ -323,72 +310,17 @@ partial model NozzleBase00
     Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
 protected
-  /* ---------------------------------------------
-          Non-modifiable parameters
-  --------------------------------------------- */
-  
-  /*
-  parameter Modelica.SIunits.Area AeThDes(fixed=false, start=AeTh_init) annotation(
-    HideResult=false);
-  parameter Modelica.SIunits.Area AmechThDes(fixed=false, start=AmechTh_init) annotation(
-    HideResult=false);
-  
-  parameter Real PRdes(fixed=false, start=PR_init) annotation(
-    HideResult=false);
-  parameter Real CdThDes(fixed=false, start=CdTh_init) annotation(
-    HideResult=false);
-  parameter Real CvDes(fixed=false, start=Cv_init) annotation(
-    HideResult=false);
-  
-  parameter PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
-    fixed=false,
-    HideResult=false,
-    nX=Medium.nX,
-    nC=Medium.nC
-  );
-  
-  parameter PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
-    fixed=false,
-    HideResult=false,
-    nX=Medium.nX,
-    nC=Medium.nC
-  );
-  
-  parameter Modelica.SIunits.MassFlowRate m_flow_des_1(fixed=false, start=m_flow1_init) annotation(
-    HideResult=false);
-  parameter Modelica.SIunits.Pressure pDes_1(fixed=false, start=p1_init) annotation(
-    HideResult=false);
-  parameter Modelica.SIunits.Temperature Tdes_1(fixed=false, start=T1_init) annotation(
-    HideResult=false);
-  
-  */
   
   
-  
+  //********************************************************************************
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
   AeThDes= AmechTh*CdThDes;
   //----------
-  /*
-  fluid_1_des.X[1:Medium.nXi]= fluid_1.Xi;
-  fluid_1_des.C= actualStream(port_1.C_outflow);
-  fluid_1_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
-  fluid_1_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
-  */
-  //----------
-  /*
-  fluid_2_des.m_flow= port_2.m_flow;
-  fluid_2_des.p= fluid_2.p;
-  fluid_2_des.T= fluid_2.T;
-  fluid_2_des.X[1:Medium.nXi]= fluid_2.Xi;
-  fluid_2_des.C= actualStream(port_2.C_outflow);
-  fluid_2_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X[1:Medium.nXi]));
-  fluid_2_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X[1:Medium.nXi]));
-  */
-  //----------
-
+  
+  
 algorithm
   if(printCmd==true)then
     assert(fluid_1.h < fluidStat_th_fullExp.h, getInstanceName()+", nozzle inverse flow condition, fluid_1.h < fluidStat_th_fullExp.h" + "\n" + ", fluid_1.h=" + String(fluid_1.h) + ", fluidStat_th_fullExp.h=" + String(fluidStat_th_fullExp.h), AssertionLevel.warning);
@@ -515,23 +447,7 @@ equation
     --------------------------------------------- */
     PRdes= PR;
     //----------
-    /*
-    fluid_1_des.X[1:Medium.nXi]= fluid_1.Xi;
-    fluid_1_des.C= actualStream(port_1.C_outflow);
-    fluid_1_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
-    fluid_1_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_1_des.p, fluid_1_des.T, fluid_1_des.X[1:Medium.nXi]));
-    */
-    //----------
-    /*
-    fluid_2_des.m_flow= port_2.m_flow;
-    fluid_2_des.p= fluid_2.p;
-    fluid_2_des.T= fluid_2.T;
-    fluid_2_des.X[1:Medium.nXi]= fluid_2.Xi;
-    fluid_2_des.C= actualStream(port_2.C_outflow);
-    fluid_2_des.h= Medium.specificEnthalpy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X[1:Medium.nXi]));
-    fluid_2_des.s= Medium.specificEntropy(Medium.setState_pTX(fluid_2_des.p, fluid_2_des.T, fluid_2_des.X[1:Medium.nXi]));
-    */
-    //----------
+    
   end when;
   
   

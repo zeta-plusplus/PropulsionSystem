@@ -1,11 +1,9 @@
 within PropulsionSystem.BaseClasses.BasicElements;
 
 partial model NozzleBaseDefDesPt00
-  //extends PropulsionSystem.BaseClasses.BasicElements.NozzleBase00;
   /********************************************************
       Declaration
   ********************************************************/
-  /*
   discrete PropulsionSystem.Records.ThermoFluidProperties fluid_1_des(
     fixed=false,
     HideResult=false,
@@ -19,7 +17,6 @@ partial model NozzleBaseDefDesPt00
   ) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  */
   
   discrete PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
     fixed=false,
@@ -38,6 +35,7 @@ partial model NozzleBaseDefDesPt00
   discrete Modelica.SIunits.Area AeThDes(start=AeTh_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
+  
   discrete Modelica.SIunits.Area AmechThDes(start=AmechTh_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );

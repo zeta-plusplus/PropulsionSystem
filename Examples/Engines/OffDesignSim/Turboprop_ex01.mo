@@ -99,4 +99,6 @@ equation
 
 annotation(
     Diagram(coordinateSystem(extent = {{-300, -200}, {300, 200}})),
-    __OpenModelica_commandLineOptions = "");end Turboprop_ex01;
+    __OpenModelica_commandLineOptions = "",
+  experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-6, Interval = 0.002),
+  __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "plt", s = "dassl"));end Turboprop_ex01;

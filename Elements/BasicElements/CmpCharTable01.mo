@@ -2,6 +2,9 @@ within PropulsionSystem.Elements.BasicElements;
 
 model CmpCharTable01
   extends PropulsionSystem.BaseClasses.BasicElements.CompressorBase00;
+  extends PropulsionSystem.BaseClasses.BasicElements.CompressorBaseDefDesPt00;
+  
+  
   /********************************************************
               imports   
     ********************************************************/

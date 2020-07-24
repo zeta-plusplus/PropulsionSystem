@@ -99,12 +99,7 @@ initial equation
   
 //********************************************************************************
 algorithm
-  /*
-  when(time<=environment.timeRemoveDesConstraint)then
-    AmechThDes:= AmechTh;
-    AeThDes:= AeTh;
-  end when;
-  */
+  
   
 //********************************************************************************
 equation

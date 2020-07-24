@@ -1,7 +1,7 @@
 within PropulsionSystem.Elements.BasicElements;
 
-model CmpCharTable00//********************************************************************************
-
+model CmpCharTable00
+  //********************************************************************************
   extends PropulsionSystem.BaseClasses.BasicElements.CompressorBase00(
     m_flow1_init=m_flow_1_des_paramInput,
     p1_init=p1_des_paramInput,
@@ -10,14 +10,19 @@ model CmpCharTable00//**********************************************************
     PR_init=PRdes_paramInput,
     eff_init=effDes_paramInput
   );
+  extends PropulsionSystem.BaseClasses.BasicElements.CompressorBaseDefDesPt00;
+  
+  
   /********************************************************
                   imports
-        ********************************************************/
+  ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
+  
+  
   /********************************************************
                   Declaration
-        ********************************************************/
+  ********************************************************/
   /* ---------------------------------------------
                   switches
   --------------------------------------------- */

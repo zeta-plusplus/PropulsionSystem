@@ -71,5 +71,5 @@ equation
     version = "",
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 140, Tolerance = 1e-06, Interval = 0.0466822),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "plt"));
 end Turbojet_ex01;
