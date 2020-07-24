@@ -151,33 +151,17 @@ model CmpCharTable01
     --------------------------------------------- */
   //********************************************************************************
 initial algorithm
-//--------------------
-  //PRdes := PRdes_paramInput;
-  //effDes := effDes_paramInput;
-  
-  //fluid_1_des.m_flow:= port_1.m_flow ;
-  //fluid_1_des.p:=fluid_1.p ;
-  //fluid_1_des.T:=fluid_1.T ;
-  //NmechDes:=Nmech;
-  
+    
 //********************************************************************************
 initial equation
-  /*
-  fluid_1_des.p=fluid_1.p ;
-  fluid_1_des.T=fluid_1.T ;
-  fluid_1_des.m_flow= port_1.m_flow ;
-  NmechDes=Nmech;
-  */
-  
   fluid_1_des.p=fluid_1.p;
   fluid_1_des.T=fluid_1.T;
   fluid_1_des.m_flow= port_1.m_flow;
   NmechDes=Nmech;
   
-  //##### none #####
   //********************************************************************************
 algorithm
-  //##### none ##### 
+  
   //********************************************************************************
 equation
   /* ---------------------------------------------
@@ -187,17 +171,11 @@ equation
   effDes= effDes_paramInput;
   
   when (time<=environment.timeRemoveDesConstraint)then
-    //fluid_1_des.m_flow=port_1.m_flow;
-    //fluid_1_des.p=fluid_1.p;
-    //fluid_1_des.T=fluid_1.T;
-    
     fluid_1_des.m_flow= pre(fluid_1_des.m_flow);
     fluid_1_des.p= pre(fluid_1_des.p);
     fluid_1_des.T= pre(fluid_1_des.T);
-    
     NmechDes= pre(NmechDes);
     //--------------------
-    //Rline=RlineTblDes_paramInput;
   end when;
   
   
@@ -213,13 +191,11 @@ equation
     Wc_1=Wc_1_des;
     PR=PRdes;
     eff=effDes;
-    
   else
     //----- off-design calc -----
     Wc_1 = SclCmp.y_WcScld;
     PR = SclCmp.y_PRscld;
     eff = SclCmp.y_effScld;
-    
   end if;
   
   

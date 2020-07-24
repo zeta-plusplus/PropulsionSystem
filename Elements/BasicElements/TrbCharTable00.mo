@@ -8,6 +8,8 @@ model TrbCharTable00
     Nmech_init=NmechDes_paramInput,
     eff_init=effDes_paramInput
   );
+  extends PropulsionSystem.BaseClasses.BasicElements.TurbineBaseDefDesPt00;
+  
   /********************************************************
             imports   
     ********************************************************/
@@ -233,7 +235,7 @@ equation
   effDes= effDes_paramInput;
   
   when (time<=environment.timeRemoveDesConstraint)then
-    //PRdes= PR;
+    //----------
     PRdes= pre(PRdes);
   end when;
   

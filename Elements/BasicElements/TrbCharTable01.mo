@@ -2,6 +2,8 @@ within PropulsionSystem.Elements.BasicElements;
 
 model TrbCharTable01
   extends PropulsionSystem.BaseClasses.BasicElements.TurbineBase00;
+  extends PropulsionSystem.BaseClasses.BasicElements.TurbineBaseDefDesPt00;
+  
   /********************************************************
             imports   
       ********************************************************/
@@ -129,31 +131,12 @@ model TrbCharTable01
     Placement(visible = true, transformation(origin = {-20, 51}, extent = {{-5, -5}, {5, 5}}, rotation = -90)));
   
   
-  /* ---------------------------------------------
-            Interface   
-      --------------------------------------------- */
-  
-  
   //********************************************************************************
 initial algorithm
-/* ---------------------------------------------
-    determine design point
-  --------------------------------------------- */
-  //effDes := effDes_paramInput;
   
-  //fluid_1_des.m_flow:=port_1.m_flow;
-  //fluid_1_des.p := fluid_1.p;
-  //fluid_1_des.T := fluid_1.T;
-  //NmechDes := Nmech;
+  
   //********************************************************************************
 initial equation
-  /*
-  PR= PRdes;   
-  fluid_1_des.p = fluid_1.p;
-  fluid_1_des.T = fluid_1.T;
-  fluid_1_des.m_flow=port_1.m_flow;
-  
-  */
   fluid_1_des.m_flow=port_1.m_flow;
   fluid_1_des.p = fluid_1.p;
   fluid_1_des.T = fluid_1.T;
@@ -163,7 +146,8 @@ initial equation
   
   //********************************************************************************
 algorithm
-//##### none #####
+  
+  
 //********************************************************************************
 equation
   /* ---------------------------------------------
@@ -175,16 +159,12 @@ equation
     /* ---------------------------------------------
     design point calc
     --------------------------------------------- */
-    //fluid_1_des.m_flow=port_1.m_flow;
-    //fluid_1_des.p=fluid_1.p;
-    //fluid_1_des.T=fluid_1.T;
     NmechDes=pre(NmechDes);
     //--------------------
     fluid_1_des.m_flow= pre(fluid_1_des.m_flow);
     fluid_1_des.p= pre(fluid_1_des.p);
     fluid_1_des.T= pre(fluid_1_des.T);
     PRdes=pre(PRdes);
-    
   end when;
   
   if noEvent(time <= environment.timeRemoveDesConstraint) then
