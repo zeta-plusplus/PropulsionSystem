@@ -9,9 +9,9 @@ model StirlingTypeAlpha_ex01
   //-----
   inner Modelica.Fluid.System system(energyDynamics = Modelica.Fluid.Types.Dynamics.DynamicFreeInitial, m_flow_start = 1, massDynamics = Modelica.Fluid.Types.Dynamics.DynamicFreeInitial, momentumDynamics = Modelica.Fluid.Types.Dynamics.DynamicFreeInitial) annotation(
     Placement(visible = true, transformation(origin = {-190, 170}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Machines.SweptVolume hotVolume(redeclare package Medium = engineAir, clearance = 0.05 * Modelica.Constants.pi / 4 * 0.1 ^ 2, nPorts = 1, pistonCrossArea = Modelica.Constants.pi / 4 * 0.1 ^ 2, s(fixed = false), use_HeatTransfer = true, use_portsData = false) annotation(
+  Modelica.Fluid.Machines.SweptVolume hotVolume(redeclare package Medium = engineAir, clearance = 0.05 * Modelica.Constants.pi / 4 * 0.2 ^ 2, nPorts = 1, pistonCrossArea = Modelica.Constants.pi / 4 * 0.2 ^ 2, s(fixed = false), use_HeatTransfer = true, use_portsData = false) annotation(
     Placement(visible = true, transformation(origin = {-60, 120}, extent = {{-20, 20}, {20, -20}}, rotation = 0)));
-  Modelica.Fluid.Machines.SweptVolume coldVolume(redeclare package Medium = engineAir, clearance = 0.05 * Modelica.Constants.pi / 4 * 0.1 ^ 2, nPorts = 1, pistonCrossArea = Modelica.Constants.pi / 4 * 0.1 ^ 2, s(fixed = false), use_HeatTransfer = true, use_portsData = false) annotation(
+  Modelica.Fluid.Machines.SweptVolume coldVolume(redeclare package Medium = engineAir, clearance = 0.05 * Modelica.Constants.pi / 4 * 0.2 ^ 2, nPorts = 1, pistonCrossArea = Modelica.Constants.pi / 4 * 0.2 ^ 2, s(fixed = false), use_HeatTransfer = true, use_portsData = false) annotation(
     Placement(visible = true, transformation(origin = {80, 120}, extent = {{20, 20}, {-20, -20}}, rotation = 0)));
   Modelica.Fluid.Vessels.ClosedVolume volume(redeclare package Medium = engineAir, V = 0.1 * Modelica.Constants.pi / 4 * 0.1 ^ 2, nPorts = 2, use_portsData = false) annotation(
     Placement(visible = true, transformation(origin = {10, 170}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -27,39 +27,39 @@ model StirlingTypeAlpha_ex01
     Placement(visible = true, transformation(origin = {50, 160}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature hotHeatSource annotation(
     Placement(visible = true, transformation(origin = {-130, 120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_TH(duration = 10, height = 800, offset = 288.15 + 100, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_TH(duration = 10, height = 900, offset = 288.15 + 10, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-170, 120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  inner Modelica.Mechanics.MultiBody.World world annotation(
+  inner Modelica.Mechanics.MultiBody.World world(animateGravity = false)  annotation(
     Placement(visible = true, transformation(origin = {-170, -160}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Joints.Revolute revolute1(n = {1, 0, 0}, useAxisFlange = true) annotation(
     Placement(visible = true, transformation(origin = {-100, -160}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Parts.BodyCylinder bodyCylinder1(r = {0.1, 0, 0}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.BodyCylinder bodyCylinder1(density = 2700, r = {0.1, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {-70, -160}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Parts.BodyBox bodyBox1(r = {0, 0.1, 0}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.BodyBox bodyBox1(density = 2700, r = {0, 0.1, 0}) annotation(
     Placement(visible = true, transformation(origin = {-50, -140}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Parts.BodyCylinder bodyCylinder2(r = {0.1, 0, 0}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.BodyCylinder bodyCylinder2(density = 2700, r = {0.1, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {-30, -130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Parts.BodyBox bodyBox2(r = {0, -0.1, 0}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.BodyBox bodyBox2(density = 2700, r = {0, -0.1, 0}) annotation(
     Placement(visible = true, transformation(origin = {-10, -140}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Mechanics.MultiBody.Parts.BodyCylinder bodyCylinder3(r = {0.1, 0, 0}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.BodyCylinder bodyCylinder3(density = 2700, r = {0.1, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {10, -160}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation1(r = {0.05, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {-30, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Parts.BodyBox bodyBox3(r = {0, 0, -0.1}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.BodyBox bodyBox3(density = 2700, r = {0, 0, -0.1}) annotation(
     Placement(visible = true, transformation(origin = {30, -140}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Parts.BodyCylinder bodyCylinder4(r = {0.1, 0, 0}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.BodyCylinder bodyCylinder4(density = 2700, r = {0.1, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {50, -130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Parts.BodyBox bodyBox4(r = {0, 0, 0.1}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.BodyBox bodyBox4(density = 2700, r = {0, 0, 0.1}) annotation(
     Placement(visible = true, transformation(origin = {70, -140}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation2(r = {0.05, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {50, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Joints.RevolutePlanarLoopConstraint revolute(n = {1, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {-30, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Parts.BodyBox bodyBox5(r = {0, 0.2, 0}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.BodyBox bodyBox5(density = 2700, r = {0, 0.2, 0}) annotation(
     Placement(visible = true, transformation(origin = {-30, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Mechanics.MultiBody.Joints.Revolute revolute2(n = {1, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {-30, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Parts.BodyCylinder bodyCylinder5(diameter = 0.15, r = {0, 0.1, 0}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.BodyCylinder bodyCylinder5(density = 2700,diameter = 0.15, r = {0, 0.1, 0}) annotation(
     Placement(visible = true, transformation(origin = {-30, 20}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Joints.Prismatic prismatic1(animation = false,boxWidthDirection = {0, -1, 0}, n = {0, -1, 0}, useAxisFlange = true) annotation(
     Placement(visible = true, transformation(origin = {-30, 50}, extent = {{-10, 10}, {10, -10}}, rotation = -90)));
@@ -67,19 +67,19 @@ model StirlingTypeAlpha_ex01
     Placement(visible = true, transformation(origin = {-110, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Joints.Revolute revolute3(n = {1, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {50, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Parts.BodyBox bodyBox6(r = {0, 0.16, 0.1}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.BodyBox bodyBox6(density = 2700, r = {0, 0.16, 0.1}) annotation(
     Placement(visible = true, transformation(origin = {50, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Mechanics.MultiBody.Joints.RevolutePlanarLoopConstraint revolute4(n = {1, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {50, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Parts.BodyCylinder bodyCylinder6(diameter = 0.15, r = {0, 0.1, 0}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.BodyCylinder bodyCylinder6(density = 2700,diameter = 0.15, r = {0, 0.1, 0}) annotation(
     Placement(visible = true, transformation(origin = {50, 20}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Joints.Prismatic prismatic2(animation = false,n = {0, -1, 0}, s(fixed = false, start = 0.04), useAxisFlange = true) annotation(
     Placement(visible = true, transformation(origin = {50, 50}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation4(animation = false, r = {0.2, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {10, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 50, w(fixed = true, start = 10)) annotation(
+  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 100, w(fixed = true, start = 5)) annotation(
     Placement(visible = true, transformation(origin = {-80, -200}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Components.Inertia inertia2(J = 50, w(fixed = true, start = 10)) annotation(
+  Modelica.Mechanics.Rotational.Components.Inertia inertia2(J = 10, w(fixed = false, start = 10)) annotation(
     Placement(visible = true, transformation(origin = {10, -200}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.LossRotMechCharFixed00 LossRotMech(eff_paramInput = 0.95)  annotation(
     Placement(visible = true, transformation(origin = {-50, -200}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
@@ -170,6 +170,6 @@ equation
     Diagram(coordinateSystem(extent = {{-220, -220}, {160, 180}})),
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 60, Tolerance = 1e-06, Interval = 0.12),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "plt", s = "dassl"));
 
 end StirlingTypeAlpha_ex01;
