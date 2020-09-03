@@ -1,6 +1,6 @@
 within PropulsionSystem.Examples.Engines.Transient;
 
-model Pulsejet_ex02
+model Pulsejet_ex03
   extends Modelica.Icons.Example;
   //-----
   package engineAir = Modelica.Media.Air.DryAirNasa;
@@ -9,9 +9,7 @@ model Pulsejet_ex02
   //-----
   inner Modelica.Fluid.System system(T_ambient(displayUnit = "K") = 15 + 273.15, m_flow_start = 200) annotation(
     Placement(visible = true, transformation(origin = {-90, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Pipes.StaticPipe pipe040(redeclare package Medium = engineAir, diameter = 0.1, length = 0.5) annotation(
-    Placement(visible = true, transformation(origin = {180, 36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Vessels.ClosedVolume Vol036(redeclare package Medium = engineAir, V = 10.0e-3, nPorts = 2, use_HeatTransfer = true, use_portsData = false) annotation(
+  Modelica.Fluid.Vessels.ClosedVolume Comb036(redeclare package Medium = engineAir, V = 20.0e-3, nPorts = 2, use_HeatTransfer = true, use_portsData = false) annotation(
     Placement(visible = true, transformation(origin = {150, 26}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   Modelica.Fluid.Pipes.StaticPipe pipe020(redeclare package Medium = engineAir, diameter = 0.1, length = 0.2) annotation(
     Placement(visible = true, transformation(origin = {60, 36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -39,30 +37,28 @@ model Pulsejet_ex02
     Placement(visible = true, transformation(origin = {120, 36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Vessels.ClosedVolume Vol030(redeclare package Medium = engineAir, V = 1e-3, nPorts = 2, use_HeatTransfer = false, use_portsData = false) annotation(
     Placement(visible = true, transformation(origin = {90, 26}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
-  Modelica.Fluid.Vessels.ClosedVolume Vol070(redeclare package Medium = engineAir, V = 1e-3, nPorts = 2, use_HeatTransfer = true, use_portsData = false) annotation(
-    Placement(visible = true, transformation(origin = {210, 26}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_MnFlt(duration = 10, height = -0.2, offset = 0.2, startTime = 20) annotation(
     Placement(visible = true, transformation(origin = {-90, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Fluid.Pipes.DynamicPipe pipe040(redeclare package Medium = engineAir, diameter = 0.1, length = 1, nNodes = 2, useLumpedPressure = true) annotation(
+    Placement(visible = true, transformation(origin = {190, 36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(pipe040.port_b, Nzl070.port_1) annotation(
+    Line(points = {{200, 36}, {230, 36}}, color = {0, 127, 255}));
+  connect(Comb036.ports[2], pipe040.port_a) annotation(
+    Line(points = {{150, 36}, {180, 36}}, color = {0, 127, 255}));
   connect(ramp_MnFlt.y, Flt2Fluid.u_MN) annotation(
     Line(points = {{-78, 50}, {-70, 50}, {-70, 48}, {-62, 48}, {-62, 48}}, color = {0, 0, 127}));
   connect(trapezoid1.y, Constraint.u_targetValue) annotation(
     Line(points = {{170, -49}, {172, -49}, {172, -49}, {170, -49}, {170, -43}, {171, -43}, {171, -43}, {170, -43}}, color = {0, 0, 127}));
   connect(temperatureSensor1.T, Constraint.u_variable) annotation(
     Line(points = {{160, -10}, {170, -10}, {170, -19}}, color = {0, 0, 127}));
-  connect(Vol070.ports[2], Nzl070.port_1) annotation(
-    Line(points = {{210, 36}, {230, 36}, {230, 36}, {230, 36}}, color = {0, 127, 255}));
-  connect(pipe040.port_b, Vol070.ports[1]) annotation(
-    Line(points = {{190, 36}, {206, 36}, {206, 36}, {210, 36}}, color = {0, 127, 255}));
-  connect(Vol036.ports[2], pipe040.port_a) annotation(
-    Line(points = {{150, 36}, {170, 36}}, color = {0, 127, 255}));
   connect(Vol030.ports[2], Valve030.port_1) annotation(
     Line(points = {{90, 36}, {110, 36}, {110, 36}, {110, 36}}, color = {0, 127, 255}));
   connect(pipe020.port_b, Vol030.ports[1]) annotation(
     Line(points = {{70, 36}, {86, 36}, {86, 36}, {90, 36}}, color = {0, 127, 255}));
-  connect(Valve030.port_2, Vol036.ports[1]) annotation(
+  connect(Valve030.port_2, Comb036.ports[1]) annotation(
     Line(points = {{130, 36}, {148, 36}, {148, 36}, {150, 36}}, color = {0, 127, 255}));
-  connect(Vol036.heatPort, temperatureSensor1.port) annotation(
+  connect(Comb036.heatPort, temperatureSensor1.port) annotation(
     Line(points = {{140, 26}, {140, -10}}, color = {191, 0, 0}));
   connect(Flt2Fluid.port_amb, Nzl070.port_2) annotation(
     Line(points = {{-40, 60}, {-40, 70}, {270, 70}, {270, 36}}, color = {0, 127, 255}));
@@ -85,4 +81,4 @@ equation
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
     Diagram(coordinateSystem(extent = {{-100, -160}, {300, 100}})),
     __OpenModelica_commandLineOptions = "");
-end Pulsejet_ex02;
+end Pulsejet_ex03;
