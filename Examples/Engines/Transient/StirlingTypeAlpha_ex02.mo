@@ -1,6 +1,6 @@
-within PropulsionSystem.Examples.temp;
+within PropulsionSystem.Examples.Engines.Transient;
 
-model StirlingTypeAlpha_temp
+model StirlingTypeAlpha_ex02
   extends Modelica.Icons.Example;
   //-----
   package engineAir = Modelica.Media.Air.DryAirNasa;
@@ -31,7 +31,7 @@ model StirlingTypeAlpha_temp
     Placement(visible = true, transformation(origin = {-230, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner Modelica.Mechanics.MultiBody.World world(animateGravity = false, animateWorld = false) annotation(
     Placement(visible = true, transformation(origin = {-210, -160}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Joints.Revolute revolute1(cylinderDiameter = 0.05, cylinderLength = 0.05,n = {1, 0, 0}, useAxisFlange = true) annotation(
+  Modelica.Mechanics.MultiBody.Joints.Revolute revolute1(cylinderDiameter = 0.05, cylinderLength = 0.05, n = {1, 0, 0}, useAxisFlange = true) annotation(
     Placement(visible = true, transformation(origin = {-100, -160}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Parts.BodyCylinder bodyCylinder1(density = 2700, r = {0.1, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {-70, -160}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -105,17 +105,17 @@ model StirlingTypeAlpha_temp
     Placement(visible = true, transformation(origin = {160, -300}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation7(animation = false, r = {bodyCylinder1.r[1] + bodyCylinder8.r[1] + bodyCylinder2.r[1], 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {10, -320}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation8(animation = false, r = { bodyCylinder9.r[1] +bodyCylinder3.r[1] + bodyCylinder10.r[1] + bodyCylinder4.r[1], 0, 0}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation8(animation = false, r = {bodyCylinder9.r[1] + bodyCylinder3.r[1] + bodyCylinder10.r[1] + bodyCylinder4.r[1], 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {150, -320}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Machines.SweptVolume hotVolume1(redeclare package Medium = engineAir, clearance = 0.05 * Modelica.Constants.pi / 4 * 0.2 ^ 2,nPorts = 1, pistonCrossArea = Modelica.Constants.pi / 4 * 0.2 ^ 2, use_HeatTransfer = true, use_portsData = false)  annotation(
+  Modelica.Fluid.Machines.SweptVolume hotVolume1(redeclare package Medium = engineAir, clearance = 0.05 * Modelica.Constants.pi / 4 * 0.2 ^ 2, nPorts = 1, pistonCrossArea = Modelica.Constants.pi / 4 * 0.2 ^ 2, use_HeatTransfer = true, use_portsData = false) annotation(
     Placement(visible = true, transformation(origin = {-10, -360}, extent = {{20, 20}, {-20, -20}}, rotation = 180)));
-  Modelica.Fluid.Pipes.StaticPipe pipe2(redeclare package Medium = engineAir, diameter = 0.05, length = 0.1)  annotation(
+  Modelica.Fluid.Pipes.StaticPipe pipe2(redeclare package Medium = engineAir, diameter = 0.05, length = 0.1) annotation(
     Placement(visible = true, transformation(origin = {50, -390}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Vessels.ClosedVolume volume1(redeclare package Medium = engineAir, V = 0.1 * Modelica.Constants.pi / 4 * 0.1 ^ 2, nPorts = 2, use_portsData = false) annotation(
     Placement(visible = true, transformation(origin = {80, -380}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Pipes.StaticPipe pipe3(redeclare package Medium = engineAir, diameter = 0.05, length = 0.1)  annotation(
+  Modelica.Fluid.Pipes.StaticPipe pipe3(redeclare package Medium = engineAir, diameter = 0.05, length = 0.1) annotation(
     Placement(visible = true, transformation(origin = {110, -390}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Machines.SweptVolume coldVolume1(redeclare package Medium = engineAir, clearance = 0.05 * Modelica.Constants.pi / 4 * 0.2 ^ 2,nPorts = 1, pistonCrossArea = Modelica.Constants.pi / 4 * 0.2 ^ 2, use_HeatTransfer = true, use_portsData = false)  annotation(
+  Modelica.Fluid.Machines.SweptVolume coldVolume1(redeclare package Medium = engineAir, clearance = 0.05 * Modelica.Constants.pi / 4 * 0.2 ^ 2, nPorts = 1, pistonCrossArea = Modelica.Constants.pi / 4 * 0.2 ^ 2, use_HeatTransfer = true, use_portsData = false) annotation(
     Placement(visible = true, transformation(origin = {180, -360}, extent = {{-20, 20}, {20, -20}}, rotation = 180)));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor thermalConductor4(G = 200) annotation(
     Placement(visible = true, transformation(origin = {218, -360}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
@@ -123,7 +123,7 @@ model StirlingTypeAlpha_temp
     Placement(visible = true, transformation(origin = {-60, -360}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation1(animation = false, r = {0, bodyBox5.r[2] + 0.25, 0}) annotation(
     Placement(visible = true, transformation(origin = {-130, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation2(animation = false, r = {0,  -fixedTranslation1.r[2], 0}) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation2(animation = false, r = {0, -fixedTranslation1.r[2], 0}) annotation(
     Placement(visible = true, transformation(origin = {-120, -260}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Parts.BodyCylinder bodyCylinder8(density = 2700, r = {0.05, 0, 0}) annotation(
     Placement(visible = true, transformation(origin = {-30, -130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -277,6 +277,4 @@ equation
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 30, Tolerance = 1e-06, Interval = 0.05),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
-  
-  
-end StirlingTypeAlpha_temp;
+end StirlingTypeAlpha_ex02;
