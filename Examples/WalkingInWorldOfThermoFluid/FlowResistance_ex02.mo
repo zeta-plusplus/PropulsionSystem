@@ -37,30 +37,30 @@ model FlowResistance_ex02
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate1(redeclare package Medium = liquid1) annotation(
     Placement(visible = true, transformation(origin = {-40, 30}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   InteractiveSimulation.Output.dispVarPyConsole02_00 dispVarPyConsole(nVariables = 4, nameVariables = {"time[s]", "m_flow[kg/s]", "P_I[kPa]", "T_O[K}"})  annotation(
-    Placement(visible = true, transformation(origin = {110, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {130, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain1(k = 1 / 1000)  annotation(
-    Placement(visible = true, transformation(origin = {20, -5}, extent = {{-5, -5}, {5, 5}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {16, -5}, extent = {{-5, -5}, {5, 5}}, rotation = -90)));
 equation
+  connect(gain1.y, dispVarPyConsole.u_variables[3]) annotation(
+    Line(points = {{16, -11}, {16, -20}, {119, -20}}, color = {0, 0, 127}));
+  connect(pressure1.p, gain1.u) annotation(
+    Line(points = {{16, 20}, {16, 1}}, color = {0, 0, 127}));
+  connect(temperature.T, dispVarPyConsole.u_variables[4]) annotation(
+    Line(points = {{78, 20}, {82, 20}, {82, -20}, {119, -20}}, color = {0, 0, 127}));
+  connect(massFlowRate1.m_flow, dispVarPyConsole.u_variables[2]) annotation(
+    Line(points = {{-40, 18}, {-40, -20}, {119, -20}}, color = {0, 0, 127}));
+  connect(timeSignalOut1.y, dispVarPyConsole.u_variables[1]) annotation(
+    Line(points = {{-19, -40}, {12, -40}, {12, -20}, {119, -20}}, color = {0, 0, 127}));
   connect(Accumulate.y, add1.u1) annotation(
     Line(points = {{-119, 60}, {-117, 60}, {-117, 66}, {-113, 66}}, color = {0, 0, 127}));
   connect(keyboardInput1.keyUp, Accumulate.u) annotation(
     Line(points = {{-159, 66}, {-155, 66}, {-155, 60}, {-142, 60}}, color = {255, 0, 255}));
-  connect(gain1.y, dispVarPyConsole.u_variables[3]) annotation(
-    Line(points = {{20, -10}, {20, -10}, {20, -20}, {100, -20}, {100, -20}}, color = {0, 0, 127}));
-  connect(pressure1.p, gain1.u) annotation(
-    Line(points = {{16, 20}, {20, 20}, {20, 2}, {20, 2}}, color = {0, 0, 127}));
   connect(pressure1.port, pipe.port_a) annotation(
     Line(points = {{4, 30}, {20, 30}}, color = {0, 127, 255}));
   connect(volume.ports[2], pressure1.port) annotation(
     Line(points = {{-10, 30}, {4, 30}}, color = {0, 127, 255}));
   connect(pipe.port_b, volume1.ports[1]) annotation(
     Line(points = {{40, 30}, {60, 30}}, color = {0, 127, 255}));
-  connect(timeSignalOut1.y, dispVarPyConsole.u_variables[1]) annotation(
-    Line(points = {{-19, -40}, {12, -40}, {12, -20}, {99, -20}}, color = {0, 0, 127}));
-  connect(temperature.T, dispVarPyConsole.u_variables[4]) annotation(
-    Line(points = {{78, 20}, {86, 20}, {86, -20}, {99, -20}}, color = {0, 0, 127}));
-  connect(massFlowRate1.m_flow, dispVarPyConsole.u_variables[2]) annotation(
-    Line(points = {{-40, 18}, {-40, -20}, {99, -20}}, color = {0, 0, 127}));
   connect(boundary.ports[1], massFlowRate1.port_a) annotation(
     Line(points = {{-60, 30}, {-50, 30}, {-50, 30}, {-50, 30}}, color = {0, 127, 255}));
   connect(massFlowRate1.port_b, volume.ports[1]) annotation(
