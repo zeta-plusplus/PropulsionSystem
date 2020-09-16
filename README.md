@@ -12,7 +12,9 @@ Some models/components of this library are used in models of following other lib
 
 ## Documentation
 link to top-page of documentation (notice under development):  
-https://zeta-plusplus.github.io/PropulsionSystem/
+https://zeta-plusplus.github.io/PropulsionSystem/  
+
+Please also refer to example models in "Examples" package.
 
 ## Responsibility
 Anybody can use components and example models without any charge for any purpose as long as GPL v3 is not violated. However, please use them with your own responsibility. The autheor cannot take any responsibilty for result of calculation of components and example models.
