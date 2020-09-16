@@ -7,7 +7,7 @@ All library source cords and example models are licensed with GPL v3.
 This is the library of thermo-fluid and thermodynamic calculation components mainly for modeling of aircraft's propulsion system. 
 Those components can be used not only in aircraft propulsion but also in other thermo-fluid/thermodynamic system such as turbocharger of automotive engine, air conditioning system, and so on.  
 Some models/components of this library are used in models of following other library by same author;  
-AircraftDynamics: https://github.com/zeta-plusplus/AircraftDynamics  
+ -. AircraftDynamics: https://github.com/zeta-plusplus/AircraftDynamics  
 
 ## Documentation
 link to top-page of documentation (notice under development):  
@@ -19,9 +19,9 @@ Anybody can use components and example models without any charge for any purpose
 ## Causion
 ### dependency
 Many of models packed in this library depend on following libraries. Please download/clone and load it too.  
-FluidSystemComponents(by same author): https://github.com/zeta-plusplus/FluidSystemComponents  
-InteractiveSimulation (by same author): https://github.com/zeta-plusplus/InteractiveSimulation  
-Modelcia_DeviceDrivers (by Another author. This library is part of default OpenModelica 3rd party library): https://github.com/modelica-3rdparty/Modelica_DeviceDrivers  
+ -. FluidSystemComponents(by same author): https://github.com/zeta-plusplus/FluidSystemComponents  
+ -. InteractiveSimulation (by same author): https://github.com/zeta-plusplus/InteractiveSimulation  
+ -. Modelcia_DeviceDrivers (by Another author. This library is part of default OpenModelica 3rd party library): https://github.com/modelica-3rdparty/Modelica_DeviceDrivers  
 
 ### under very active development
 many source codes are modified and old unorganized codes are deleted very often. Be causious if you use by cloning the repository. Download of branch named with "stable_" is recommended.
