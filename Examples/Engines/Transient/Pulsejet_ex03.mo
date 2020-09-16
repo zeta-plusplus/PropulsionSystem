@@ -79,6 +79,6 @@ equation
   annotation(
     experiment(StartTime = 0, StopTime = 40, Tolerance = 1e-06, Interval = 0.08),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
-    Diagram(coordinateSystem(extent = {{-100, -160}, {300, 100}})),
+    Diagram(coordinateSystem(extent = {{-100, -100}, {300, 100}})),
     __OpenModelica_commandLineOptions = "");
 end Pulsejet_ex03;
