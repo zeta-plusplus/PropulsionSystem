@@ -6,6 +6,7 @@ All library source cords and example models are licensed with GPL v3.
 ## Purpose & Usage
 This is the library of thermo-fluid and thermodynamic calculation components mainly for modeling of aircraft's propulsion system. 
 Those components can be used not only in aircraft propulsion but also in other thermo-fluid/thermodynamic system such as turbocharger of automotive engine, air conditioning system, and so on.  
+
 Some models/components of this library are used in models of following other library by same author;  
  -. AircraftDynamics: https://github.com/zeta-plusplus/AircraftDynamics  
 
