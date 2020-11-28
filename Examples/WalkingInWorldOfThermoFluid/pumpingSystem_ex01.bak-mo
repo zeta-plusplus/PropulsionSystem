@@ -1,0 +1,34 @@
+within PropulsionSystem.Examples.WalkingInWorldOfThermoFluid;
+
+model pumpingSystem_ex01
+  extends Modelica.Icons.Example;
+  //----------
+  replaceable package liquid1 = Modelica.Media.Water.StandardWaterOnePhase;
+  //redeclare package Medium = liquid1
+  //----------
+  inner Modelica.Fluid.System system annotation(
+    Placement(visible = true, transformation(origin = {-50, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Fluid.Sources.Boundary_pT boundary(T = 288.15, nPorts = 1, p = 101.325 * 1000)  annotation(
+    Placement(visible = true, transformation(origin = {-70, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Fluid.Machines.Pump pump1 annotation(
+    Placement(visible = true, transformation(origin = {-30, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Fluid.Pipes.StaticPipe pipe annotation(
+    Placement(visible = true, transformation(origin = {10, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Fluid.Sources.Boundary_pT boundary1(nPorts = 1, p = 101.325 * 1000)  annotation(
+    Placement(visible = true, transformation(origin = {70, 10}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Sources.Speed speed1 annotation(
+    Placement(visible = true, transformation(origin = {-60, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Sensors.PowerSensor powerSensor1 annotation(
+    Placement(visible = true, transformation(origin = {-30, 40}, extent = {{-10, 10}, {10, -10}}, rotation = -90)));
+equation
+  connect(speed1.flange, powerSensor1.flange_a) annotation(
+    Line(points = {{-50, 50}, {-30, 50}, {-30, 50}, {-30, 50}}));
+  connect(powerSensor1.flange_b, pump1.shaft) annotation(
+    Line(points = {{-30, 30}, {-30, 30}, {-30, 20}, {-30, 20}}));
+  connect(pipe.port_b, boundary1.ports[1]) annotation(
+    Line(points = {{20, 10}, {60, 10}, {60, 10}, {60, 10}}, color = {0, 127, 255}));
+  connect(pump1.port_b, pipe.port_a) annotation(
+    Line(points = {{-20, 10}, {0, 10}, {0, 10}, {0, 10}}, color = {0, 127, 255}));
+  connect(boundary.ports[1], pump1.port_a) annotation(
+    Line(points = {{-60, 10}, {-40, 10}, {-40, 10}, {-40, 10}}, color = {0, 127, 255}));
+end pumpingSystem_ex01;
