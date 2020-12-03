@@ -102,8 +102,14 @@ model OttoCycleIdealMV
       --------------------------------------------- */
   Modelica.SIunits.Power pwr(start = pwr_init) "power via shaft, positive if fluid generates power" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  Modelica.SIunits.Power pwrOut(start = -1.0*pwr_init) "power via shaft, positive if fluid generates power" annotation(
+    Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  
   Modelica.SIunits.Torque trq(start = trq_init) "trq via shaft" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  Modelica.SIunits.Torque trqOut(start = -1.0*trq_init) "trq via shaft" annotation(
+    Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  
   Modelica.SIunits.AngularVelocity omega(start = Nmech_init * 2.0 * Modelica.Constants.pi / 60.0) "mechanical rotation speed, rad/sec" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.Angle phi(start = phi_init) "mechanical rotation displacement, rad" annotation(
@@ -143,37 +149,37 @@ model OttoCycleIdealMV
   Medium.BaseProperties fluidState_2(p(start = p_state2_init, min = 0.0 + 1.0e-10), T(start = T_state2_init, min = 0.0 + 1.0e-10), state.p(start = p_state2_init, min = 0.0 + 1.0e-10), state.T(start = T_state2_init, min = 0.0 + 1.0e-10), h(start = h_state2_init, min = 0.0 + 1.0e-10)) "fluid state 2";
   Medium.BaseProperties fluidState_3(p(start = p_state3_init, min = 0.0 + 1.0e-10), T(start = T_state3_init, min = 0.0 + 1.0e-10), state.p(start = p_state3_init, min = 0.0 + 1.0e-10), state.T(start = T_state3_init, min = 0.0 + 1.0e-10), h(start = h_state3_init, min = 0.0 + 1.0e-10)) "fluid state 3";
   Medium.BaseProperties fluidState_4(p(start = p_state4_init, min = 0.0 + 1.0e-10), T(start = T_state4_init, min = 0.0 + 1.0e-10), state.p(start = p_state4_init, min = 0.0 + 1.0e-10), state.T(start = T_state4_init, min = 0.0 + 1.0e-10), h(start = h_state4_init, min = 0.0 + 1.0e-10)) "fluid state 4";
-  
-  Modelica.Blocks.Sources.RealExpression u_fracFuel(y = 0.01) annotation(
-    Placement(visible = true, transformation(origin = {-70, 76}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression u_Nmech(y = 3000) annotation(
-    Placement(visible = true, transformation(origin = {-70, 56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression u_p_state1(y = 101.325 * 1000) annotation(
-    Placement(visible = true, transformation(origin = {-70, 36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression u_T_state1(y = 15 + 273.15) annotation(
-    Placement(visible = true, transformation(origin = {-70, 16}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression param_CR(y = 8.0) annotation(
-    Placement(visible = true, transformation(origin = {-10, 76}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression param_VolDisp(y = 100 * 10.0 ^ (-6.0)) annotation(
-    Placement(visible = true, transformation(origin = {-10, 56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.RealExpression param_LHV_fuel(y = 42.8 * 10.0 ^ 6.0) annotation(
-    Placement(visible = true, transformation(origin = {-10, 36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+          Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 10, height = 0.002, offset = 0.01, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {-70, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 10, height = 0, offset = 3000, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {-70, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_p_state1(duration = 10, height = 0, offset = 101.325 * 1000, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {-70, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_T_state1(duration = 10, height = 0, offset = 15 + 273.15, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {-70, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+          Modelica.Blocks.Sources.Constant const_CR(k = 8.0) annotation(
+    Placement(visible = true, transformation(origin = {30, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant const_VolDisp(k = 100 * 10.0 ^ (-6.0)) annotation(
+    Placement(visible = true, transformation(origin = {30, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant const_LHV_fuel(k = 42.8 * 10.0 ^ 6.0) annotation(
+    Placement(visible = true, transformation(origin = {30, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+
 //******************************************************************************************
 equation
 /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
-  fracFuel = u_fracFuel.y;
-  Nmech = u_Nmech.y;
-  fluidState_1.p = u_p_state1.y;
-  fluidState_1.T = u_T_state1.y;
+  fracFuel = ramp_fracFuel.y;
+  Nmech = ramp_Nmech.y;
+  fluidState_1.p = ramp_p_state1.y;
+  fluidState_1.T = ramp_T_state1.y;
 /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
 //-- component characteristics --
-  CR = param_CR.y;
-  VolDisp = param_VolDisp.y;
-  LHV_fuel = param_LHV_fuel.y;
+  CR = const_CR.y;
+  VolDisp = const_VolDisp.y;
+  LHV_fuel = const_LHV_fuel.y;
   V_flow = 1.0 / 2.0 * VolDisp * Nmech * 1.0 / 60.0;
   Vol1 = Vol2 + VolDisp;
   m_flow = fluidState_1.d * V_flow;
@@ -207,4 +213,9 @@ equation
   der(phi) = omega;
   omega * trq = pwr;
   Nmech = omega * 60.0 / (2.0 * Modelica.Constants.pi);
-end OttoCycleIdealMV;
+  pwrOut= -1.0*pwr;
+  trqOut= -1.0*trq;
+  
+annotation(
+    experiment(StartTime = 0, StopTime = 30, Tolerance = 1e-6, Interval = 0.06),
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));end OttoCycleIdealMV;
