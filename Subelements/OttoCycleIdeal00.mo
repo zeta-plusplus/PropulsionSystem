@@ -139,18 +139,18 @@ equation
 /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
-  //---  ---
+  //--- u ---
   fracFuel = u_fracFuel;
   fluidState_1.p = u_p_fluidState_1;
   fluidState_1.T = u_T_fluidState_1;
   fluidState_1.Xi= u_Xi_fluidState_1;
   
-  //---  ---
+  //--- par ---
   CR = par_CR;
   VolDisp = par_VolDisp;
   LHV_fuel = par_LHV_fuel;
   
-  //---  ---
+  //--- y ---
   y_p_fluidState_4= fluidState_4.p;
   y_T_fluidState_4= fluidState_4.T;
   y_h_fluidState_4= fluidState_4.h;
