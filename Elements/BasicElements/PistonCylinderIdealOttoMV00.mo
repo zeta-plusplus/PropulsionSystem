@@ -119,22 +119,36 @@ model PistonCylinderIdealOttoMV00
   Modelica.SIunits.Angle phi(start = phi_init) "mechanical rotation displacement, rad" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   
+  
+  
+  */
+  Modelica.SIunits.Volume VolDisp "displacement";
+  Real CR "Compression Ratio";
+  
   Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech(start = Nmech_init) "mechanical rotation speed, rpm" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   
   Modelica.SIunits.VolumeFlowRate V_flow "volume flow rate through piston-cylinder";
-  
-  */
   Modelica.SIunits.MassFlowRate m_flow "mass flow rate through piston-cylinder";
   Modelica.SIunits.Work WoutCycle "work output, single cycle";
+  
+  Modelica.SIunits.MassFlowRate m_flow_max(start=m_flow1_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.MassFlowRate m_flow_min(start=m_flow2_init) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
   
   /* ---------------------------------------------
             Internal objects
   --------------------------------------------- */
+  /*
   Medium.BaseProperties fluid_port_1(
     p(start = p1_init, min = 0.0 + 1.0e-10), T(start = T1_init, min = 0.0 + 1.0e-10), state.p(start = p1_init, min = 0.0 + 1.0e-10), state.T(start = T1_init, min = 0.0 + 1.0e-10), h(start = h1_init, min = 0.0 + 1.0e-10)
-  ) "fluid state 1";
+  ) "fluid state of port_1";
+  */
+  
   
   PropulsionSystem.Subelements.OttoCycleIdeal00 OttoCycle(redeclare package Medium = Medium) annotation(
     Placement(visible = true, transformation(origin = {-3.55271e-15, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
@@ -149,29 +163,58 @@ model PistonCylinderIdealOttoMV00
     p(start=p1_init, min=0.0+1.0e-10)
   ) annotation(
     Placement(visible = true, transformation(origin = {-100, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
   //******************************************************************************************
+  Modelica.Fluid.Interfaces.FluidPort_b port_2(
+    redeclare package Medium = Medium, 
+    m_flow(start = m_flow2_init, min=if (allowFlowReversal) then -Constants.inf else 0.0), 
+    h_outflow(start = h2_init, min=0.0+1.0e-10), 
+    p(start=p2_init, min=0.0+1.0e-10)
+  ) annotation(
+    Placement(visible = true, transformation(origin = {100, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(u_fracFuel, OttoCycle.u_fracFuel) annotation(
     Line(points = {{-120, 30}, {-22, 30}}, color = {0, 0, 127}));
   /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
-  //-- fluidPort_1 --
-  fluid_port_1.p = port_1.p;
-  fluid_port_1.h = actualStream(port_1.h_outflow);
-  fluid_port_1.Xi = actualStream(port_1.Xi_outflow);
-  
-  port_1.h_outflow= fluid_port_1.h;
-  port_1.Xi_outflow= fluid_port_1.Xi;
-  
+  Nmech=1000;
+  V_flow = 1.0 / 2.0 * VolDisp * Nmech * 1.0 / 60.0;
+  m_flow = OttoCycle.fluidState_1.d * V_flow;
+  //m_flow=1;
+  //---
   m_flow= port_1.m_flow;
-  m_flow=1;
+  OttoCycle.u_p_fluidState_1= port_1.p;
+  OttoCycle.u_T_fluidState_1= Medium.temperature_phX(port_1.p, actualStream(port_1.h_outflow), actualStream(port_1.Xi_outflow));
+  OttoCycle.u_Xi_fluidState_1= actualStream(port_1.Xi_outflow);
+  //---
+  OttoCycle.y_p_fluidState_4= port_2.p;
+  OttoCycle.y_h_fluidState_4 = actualStream(port_2.h_outflow);
+  OttoCycle.y_Xi_fluidState_4 = actualStream(port_2.Xi_outflow);
+  (-1.0)*m_flow= port_2.m_flow;
+  // distinguish inlet side
+  m_flow_max = max(port_1.m_flow, port_2.m_flow);
+  m_flow_min= min(port_1.m_flow, port_2.m_flow);
+  //---
+  if (allowFlowReversal==false)then
+    port_1.h_outflow = OttoCycle.fluidState_1.h;
+    port_1.Xi_outflow= OttoCycle.fluidState_1.Xi;
+  else
+    if(m_flow_max == port_1.m_flow)then
+      port_1.h_outflow = OttoCycle.fluidState_1.h;
+      port_1.Xi_outflow= OttoCycle.fluidState_1.Xi;
+    elseif(m_flow_max == port_2.m_flow)then
+      OttoCycle.y_h_fluidState_4 = actualStream(port_2.h_outflow);
+      OttoCycle.y_Xi_fluidState_4 = actualStream(port_2.Xi_outflow);
+    else
+      port_1.h_outflow = OttoCycle.fluidState_1.h;
+      port_1.Xi_outflow= OttoCycle.fluidState_1.Xi;
+    end if;
+  end if;
   
   //---
-  OttoCycle.u_p_fluidState_1=fluid_port_1.p;
-  OttoCycle.u_T_fluidState_1=fluid_port_1.T;
-  OttoCycle.u_Xi_fluidState_1=fluid_port_1.Xi;
+  OttoCycle.par_CR = CR_paramInput;
+  OttoCycle.par_VolDisp = VolDisp;
+  OttoCycle.par_LHV_fuel = LHV_fuel_paramInput;
   
   //---
   WoutCycle = OttoCycle.y_WoutCycle;
@@ -181,9 +224,8 @@ equation
   Eqns describing physics
   --------------------------------------------- */
   //---
-  OttoCycle.par_CR = CR_paramInput;
-  OttoCycle.par_VolDisp = VolDisp_paramInput;
-  OttoCycle.par_LHV_fuel = LHV_fuel_paramInput;
+  CR= CR_paramInput;
+  VolDisp= VolDisp_paramInput;
   
   /*
   //---
@@ -197,7 +239,7 @@ equation
   
   annotation(
     defaultComponentName = "PistonCylinder",
-    Icon(graphics = {Line(origin = {1.54381, 1.6701}, points = {{-88, -102}, {86, -102}}, thickness = 6), Line(origin = {0.38918, -10.2841}, points = {{-60, -40}, {-60, 60}, {-60, 100}, {60, 100}, {60, 60}, {60, -40}}, thickness = 2), Rectangle(origin = {-1, 41}, fillPattern = FillPattern.Solid, extent = {{-56, -1}, {58, -33}}), Line(origin = {13.78, -87.87}, points = {{-13.7819, 111.869}, {16.2181, 27.8688}, {-13.7819, -12.1312}}, thickness = 2.5), Line(origin = {-40, 89}, points = {{0, 9}, {0, -11}}, thickness = 0.75), Line(origin = {-45.6153, 104.79}, points = {{14, -27}, {-2, -27}}, thickness = 0.75), Line(origin = {39.3395, 91}, points = {{0, 9}, {0, -11}}, thickness = 0.75), Line(origin = {34.3847, 124.112}, points = {{14, -27}, {-2, -27}}, thickness = 0.75), Line(origin = {-61, 89.6778}, points = {{-39, 10}, {21, 10}, {21, -12}}, pattern = LinePattern.Dot, thickness = 1), Line(origin = {-51, 99.661}, points = {{151, 0}, {91, 0}, {91, -20}}, pattern = LinePattern.Dot, thickness = 1), Text(origin = {-29, 112}, extent = {{-51, 8}, {109, -6}}, textString = "%name")}, coordinateSystem(extent = {{-100, -120}, {100, 120}}, initialScale = 0.1)),
+    Icon(graphics = {Line(origin = {1.54, 1.67}, points = {{-88, -102}, {86, -102}}, thickness = 5), Line(origin = {0.39, -10.28}, points = {{-60, -40}, {-60, 60}, {-60, 100}, {60, 100}, {60, 60}, {60, -40}}, thickness = 1.5), Rectangle(origin = {-1, 41}, fillPattern = FillPattern.Solid, extent = {{-54, -1}, {56, -33}}), Line(origin = {13.78, -87.87}, points = {{-13.7819, 111.869}, {16.2181, 27.8688}, {-13.7819, -12.1312}}, thickness = 2), Line(origin = {-40, 89}, points = {{0, 9}, {0, -11}}, thickness = 0.75), Line(origin = {-45.6153, 104.79}, points = {{14, -27}, {-2, -27}}, thickness = 0.75), Line(origin = {39.3395, 91}, points = {{0, 9}, {0, -11}}, thickness = 0.75), Line(origin = {34.3847, 124.112}, points = {{14, -27}, {-2, -27}}, thickness = 0.75), Line(origin = {-61, 89.6778}, points = {{-39, 10}, {21, 10}, {21, -12}}, pattern = LinePattern.Dot, thickness = 1), Line(origin = {-51, 99.661}, points = {{151, 0}, {91, 0}, {91, -20}}, pattern = LinePattern.Dot, thickness = 1), Text(origin = {-29, 112}, extent = {{-51, 8}, {109, -6}}, textString = "%name")}, coordinateSystem(extent = {{-100, -120}, {100, 120}}, initialScale = 0.1)),
     __OpenModelica_commandLineOptions = "",
   experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-6, Interval = 0.1),
   __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));

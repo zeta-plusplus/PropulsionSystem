@@ -18,7 +18,6 @@ partial model CompressorBase00
     choicesAllMatching = true);
   
   
-  
   /* ---------------------------------------------
       switch
   --------------------------------------------- */
