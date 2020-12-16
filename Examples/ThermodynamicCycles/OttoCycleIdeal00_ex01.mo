@@ -21,7 +21,7 @@ model OttoCycleIdeal00_ex01
     Placement(visible = true, transformation(origin = {-30, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 10, height = 0, offset = 0.01, startTime = 10)  annotation(
     Placement(visible = true, transformation(origin = {-80, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Subelements.OttoCycleIdeal00 OttoCycle(redeclare package Medium = engineAir) annotation(
+  PropulsionSystem.Subelements.OttoCycleIdeal00 OttoCycle(redeclare package Medium = engineAir, switch_u_thermoState = PropulsionSystem.Types.switches.switch_input_ThermodynamicState.use_T_for_ThermodynamicState) annotation(
     Placement(visible = true, transformation(origin = {40, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 equation
   connect(const_Xi_fluidState_1.y, OttoCycle.u_Xi_fluidState_1) annotation(

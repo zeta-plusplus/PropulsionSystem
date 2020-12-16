@@ -19,6 +19,13 @@ block OttoCycleIdeal00
     choicesAllMatching = true);
   
   
+  parameter PropulsionSystem.Types.switches.switch_input_ThermodynamicState switch_u_thermoState = PropulsionSystem.Types.switches.switch_input_ThermodynamicState.use_T_for_ThermodynamicState "" annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching = true,
+    Evaluate = true,
+    HideResult = true);
+  
+  
   /* ---------------------------------------------
           parameters
   --------------------------------------------- */
