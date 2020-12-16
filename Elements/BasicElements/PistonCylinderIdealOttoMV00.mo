@@ -192,16 +192,19 @@ equation
   m_flow = OttoCycle.fluidState_1.d * V_flow;
   m_flow_fuel= m_flow*u_fracFuel;
   //---
-  m_flow= port_1.m_flow;
   OttoCycle.u_p_fluidState_1= port_1.p;
   OttoCycle.u_T_fluidState_1= Medium.temperature_phX(port_1.p, actualStream(port_1.h_outflow), actualStream(port_1.Xi_outflow));
-  OttoCycle.u_Xi_fluidState_1= actualStream(port_1.Xi_outflow);
+  OttoCycle.u_Xi_fluidState_1[1:Medium.nXi]= actualStream(port_1.Xi_outflow);
   //---
   OttoCycle.y_p_fluidState_4= port_2.p;
   OttoCycle.y_h_fluidState_4 = actualStream(port_2.h_outflow);
-  OttoCycle.y_Xi_fluidState_4 = actualStream(port_2.Xi_outflow);
+  OttoCycle.y_Xi_fluidState_4[1:Medium.nXi] = actualStream(port_2.Xi_outflow);
+  //---
+  m_flow= port_1.m_flow;
   (-1.0)*m_flow= port_2.m_flow;
-  // distinguish inlet side
+  port_1.C_outflow = inStream(port_2.C_outflow);
+  port_2.C_outflow = inStream(port_1.C_outflow);
+  //--- distinguish inlet side ---
   m_flow_max = max(port_1.m_flow, port_2.m_flow);
   m_flow_min= min(port_1.m_flow, port_2.m_flow);
   //---
@@ -214,7 +217,7 @@ equation
       port_1.Xi_outflow= OttoCycle.fluidState_1.Xi;
     elseif(m_flow_max == port_2.m_flow)then
       OttoCycle.y_h_fluidState_4 = actualStream(port_2.h_outflow);
-      OttoCycle.y_Xi_fluidState_4 = actualStream(port_2.Xi_outflow);
+      OttoCycle.y_Xi_fluidState_4[1:Medium.nXi] = actualStream(port_2.Xi_outflow);
     else
       port_1.h_outflow = OttoCycle.fluidState_1.h;
       port_1.Xi_outflow= OttoCycle.fluidState_1.Xi;

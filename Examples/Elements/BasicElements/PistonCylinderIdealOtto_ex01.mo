@@ -3,15 +3,15 @@ within PropulsionSystem.Examples.Elements.BasicElements;
 model PistonCylinderIdealOtto_ex01
   extends Modelica.Icons.Example;
   //-----
-  //package engineAir = Modelica.Media.Air.DryAirNasa;
-  package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
+  package engineAir = Modelica.Media.Air.DryAirNasa;
+  //package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
   //redeclare package Medium = engineAir
   //-----
   PropulsionSystem.Elements.BasicElements.PistonCylinderIdealOttoMV00 PistonCylinder(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-20, -4}, extent = {{-20, -24}, {20, 24}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(origin = {-90, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = engineAir, T = 15 + 273.15, nPorts = 2, p = 101.325 * 1000, use_T_in = true, use_p_in = true) annotation(
+  Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = engineAir, T = 15 + 273.15, nPorts = 1, p = 101.325 * 1000, use_T_in = true, use_p_in = true) annotation(
     Placement(visible = true, transformation(origin = {-50, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 10, height = 0, offset = 0.01, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-70, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -29,13 +29,15 @@ model PistonCylinderIdealOtto_ex01
     Placement(visible = true, transformation(origin = {110, -24}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
     Placement(visible = true, transformation(origin = {80, -24}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.NzlCharFixed00 Nzl(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {20, 8}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Fluid.Sources.MassFlowSource_T boundary1(redeclare package Medium = engineAir, nPorts = 1, use_m_flow_in = true)  annotation(
+    Placement(visible = true, transformation(origin = {30, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  FluidSystemComponents.Utilities.VariableBySolver VarBySolver annotation(
+    Placement(visible = true, transformation(origin = {70, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 equation
-  connect(boundary.ports[2], Nzl.port_2) annotation(
-    Line(points = {{-40, 50}, {30, 50}, {30, 16}, {30, 16}}, color = {0, 127, 255}));
-  connect(PistonCylinder.port_2, Nzl.port_1) annotation(
-    Line(points = {{0, 16}, {10, 16}, {10, 16}, {10, 16}}, color = {0, 127, 255}));
+  connect(boundary1.m_flow_in, VarBySolver.y_independent) annotation(
+    Line(points = {{40, 58}, {50, 58}, {50, 50}, {58, 50}, {58, 50}}, color = {0, 0, 127}));
+  connect(PistonCylinder.port_2, boundary1.ports[1]) annotation(
+    Line(points = {{0, 16}, {12, 16}, {12, 50}, {20, 50}, {20, 50}}, color = {0, 127, 255}));
   connect(from_rpm1.u, ramp_Nmech.y) annotation(
     Line(points = {{92, -24}, {100, -24}, {100, -24}, {100, -24}}, color = {0, 0, 127}));
   connect(speed1.w_ref, from_rpm1.y) annotation(
