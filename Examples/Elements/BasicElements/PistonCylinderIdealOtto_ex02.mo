@@ -1,6 +1,6 @@
 within PropulsionSystem.Examples.Elements.BasicElements;
 
-model PistonCylinderIdealOtto_ex01
+model PistonCylinderIdealOtto_ex02
   extends Modelica.Icons.Example;
   //-----
   //package engineAir = Modelica.Media.Air.DryAirNasa;
@@ -29,13 +29,13 @@ model PistonCylinderIdealOtto_ex01
     Placement(visible = true, transformation(origin = {110, -24}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
     Placement(visible = true, transformation(origin = {80, -24}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.NzlCharFixed00 Nzl(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {20, 8}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  FluidSystemComponents.CommonAnyFluid.Components.ExpansionToAmbient ExpToAmb(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {50, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(boundary.ports[2], Nzl.port_2) annotation(
-    Line(points = {{-40, 50}, {30, 50}, {30, 16}, {30, 16}}, color = {0, 127, 255}));
-  connect(PistonCylinder.port_2, Nzl.port_1) annotation(
-    Line(points = {{0, 16}, {10, 16}, {10, 16}, {10, 16}}, color = {0, 127, 255}));
+  connect(PistonCylinder.port_2, ExpToAmb.port_1) annotation(
+    Line(points = {{0, 16}, {0, 16}, {0, 30}, {40, 30}, {40, 30}}, color = {0, 127, 255}));
+  connect(boundary.ports[2], ExpToAmb.port_2) annotation(
+    Line(points = {{-40, 50}, {56, 50}, {56, 40}}, color = {0, 127, 255}));
   connect(from_rpm1.u, ramp_Nmech.y) annotation(
     Line(points = {{92, -24}, {100, -24}, {100, -24}, {100, -24}}, color = {0, 0, 127}));
   connect(speed1.w_ref, from_rpm1.y) annotation(
@@ -57,4 +57,4 @@ equation
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
   Diagram(coordinateSystem(extent = {{-120, -100}, {120, 100}})),
   __OpenModelica_commandLineOptions = "");
-end PistonCylinderIdealOtto_ex01;
+end PistonCylinderIdealOtto_ex02;

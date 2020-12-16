@@ -1,10 +1,10 @@
 within PropulsionSystem.Examples.Elements.BasicElements;
 
-model PistonCylinderIdealOtto_ex01
+model PistonCylinderIdealOtto_ex03
   extends Modelica.Icons.Example;
   //-----
-  //package engineAir = Modelica.Media.Air.DryAirNasa;
-  package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
+  package engineAir = Modelica.Media.Air.DryAirNasa;
+  //package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
   //redeclare package Medium = engineAir
   //-----
   PropulsionSystem.Elements.BasicElements.PistonCylinderIdealOttoMV00 PistonCylinder(redeclare package Medium = engineAir) annotation(
@@ -30,11 +30,15 @@ model PistonCylinderIdealOtto_ex01
   Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
     Placement(visible = true, transformation(origin = {80, -24}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.NzlCharFixed00 Nzl(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {20, 8}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {50, 8}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.DuctCharFixed00 Duct(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {20, 16}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(Duct.port_2, Nzl.port_1) annotation(
+    Line(points = {{30, 16}, {40, 16}, {40, 16}, {40, 16}}, color = {0, 127, 255}));
   connect(boundary.ports[2], Nzl.port_2) annotation(
-    Line(points = {{-40, 50}, {30, 50}, {30, 16}, {30, 16}}, color = {0, 127, 255}));
-  connect(PistonCylinder.port_2, Nzl.port_1) annotation(
+    Line(points = {{-40, 50}, {60, 50}, {60, 16}}, color = {0, 127, 255}));
+  connect(PistonCylinder.port_2, Duct.port_1) annotation(
     Line(points = {{0, 16}, {10, 16}, {10, 16}, {10, 16}}, color = {0, 127, 255}));
   connect(from_rpm1.u, ramp_Nmech.y) annotation(
     Line(points = {{92, -24}, {100, -24}, {100, -24}, {100, -24}}, color = {0, 0, 127}));
@@ -57,4 +61,4 @@ equation
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
   Diagram(coordinateSystem(extent = {{-120, -100}, {120, 100}})),
   __OpenModelica_commandLineOptions = "");
-end PistonCylinderIdealOtto_ex01;
+end PistonCylinderIdealOtto_ex03;
