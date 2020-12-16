@@ -5,7 +5,7 @@ block OttoCycleIdeal00
       imports
   ********************************************************/
   import Modelica.Constants;
-  
+  import PropulsionSystem.Types.switches;
   
   /********************************************************
       Declaration
@@ -19,7 +19,7 @@ block OttoCycleIdeal00
     choicesAllMatching = true);
   
   
-  parameter PropulsionSystem.Types.switches.switch_input_ThermodynamicState switch_u_thermoState = PropulsionSystem.Types.switches.switch_input_ThermodynamicState.use_T_for_ThermodynamicState "" annotation(
+  parameter switches.switch_input_ThermodynamicState switch_u_thermoState = switches.switch_input_ThermodynamicState.use_T_for_ThermodynamicState "" annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
     Evaluate = true,
@@ -113,11 +113,16 @@ block OttoCycleIdeal00
   Types.SubelementBus subelementBus1 annotation(
     Placement(visible = true, transformation(origin = {0, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_p_fluidState_1(unit = "Pa", displayUnit = "Pa") annotation(
-    Placement(visible = true, transformation(origin = {-120, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealInput u_T_fluidState_1(unit = "K", displayUnit = "K") annotation(
-    Placement(visible = true, transformation(origin = {-120, -50}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-120, -10}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  Modelica.Blocks.Interfaces.RealInput u_T_fluidState_1(unit = "K", displayUnit = "K") if (switch_u_thermoState == switches.switch_input_ThermodynamicState.use_T_for_ThermodynamicState) annotation(
+    Placement(visible = true, transformation(origin = {-120, -40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  Modelica.Blocks.Interfaces.RealInput u_h_fluidState_1(unit= "J/kg",displayUnit = "J/kg") if (switch_u_thermoState == switches.switch_input_ThermodynamicState.use_h_for_ThermodynamicState) annotation(
+    Placement(visible = true, transformation(origin = {-120, -70}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
   Modelica.Blocks.Interfaces.RealInput u_Xi_fluidState_1[Medium.nXi] annotation(
-    Placement(visible = true, transformation(origin = {-120, -90}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-120, -100}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_fracFuel annotation(
     Placement(visible = true, transformation(origin = {-120, 50}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput par_CR annotation(
@@ -149,7 +154,7 @@ block OttoCycleIdeal00
     Placement(visible = true, transformation(origin = {-50, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {-50, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealOutput y_p_fluidState_3(unit= "Pa",displayUnit = "Pa") annotation(
     Placement(visible = true, transformation(origin = {50, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {50, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  //******************************************************************************************
+            //******************************************************************************************
 equation
 /* ---------------------------------------------
   Connections, interface <-> internal variables
@@ -157,8 +162,14 @@ equation
 //--- u ---
   fracFuel = u_fracFuel;
   fluidState_1.p = u_p_fluidState_1;
-  fluidState_1.T = u_T_fluidState_1;
   fluidState_1.Xi= u_Xi_fluidState_1;
+  
+  if (switch_u_thermoState == switches.switch_input_ThermodynamicState.use_T_for_ThermodynamicState)then
+    fluidState_1.T = u_T_fluidState_1;
+  elseif (switch_u_thermoState == switches.switch_input_ThermodynamicState.use_h_for_ThermodynamicState)then
+    fluidState_1.h = u_h_fluidState_1;
+  end if;
+  
 //--- par ---
   CR = par_CR;
   VolDisp = par_VolDisp;
