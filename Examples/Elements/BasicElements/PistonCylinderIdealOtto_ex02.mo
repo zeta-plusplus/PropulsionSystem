@@ -53,7 +53,7 @@ equation
   connect(ramp_p1.y, boundary.p_in) annotation(
     Line(points = {{-79, 60}, {-71, 60}, {-71, 58}, {-63, 58}, {-63, 58}, {-63, 58}, {-63, 58}}, color = {0, 0, 127}));
   annotation(
-    experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-06, Interval = 0.140281),
+    experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-06, Interval = 0.140562),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
   Diagram(coordinateSystem(extent = {{-120, -100}, {120, 100}})),
   __OpenModelica_commandLineOptions = "");
