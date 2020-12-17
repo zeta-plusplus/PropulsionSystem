@@ -110,8 +110,8 @@ block OttoCycleIdeal00
     p(start = p_state4_init, min = 0.0 + 1.0e-10), T(start = T_state4_init, min = 0.0 + 1.0e-10), state.p(start = p_state4_init, min = 0.0 + 1.0e-10), state.T(start = T_state4_init, min = 0.0 + 1.0e-10), h(start = h_state4_init, min = 0.0 + 1.0e-10)
   ) "fluid state 4";
   
-  Types.SubelementBus subelementBus1 annotation(
-    Placement(visible = true, transformation(origin = {0, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Types.SubelementBus subelementBus1 annotation(
+    Placement(visible = true, transformation(origin = {0, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {70, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_p_fluidState_1(unit = "Pa", displayUnit = "Pa") annotation(
     Placement(visible = true, transformation(origin = {-120, -10}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
@@ -124,7 +124,7 @@ block OttoCycleIdeal00
   Modelica.Blocks.Interfaces.RealInput u_Xi_fluidState_1[Medium.nXi] annotation(
     Placement(visible = true, transformation(origin = {-120, -100}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_fracFuel annotation(
-    Placement(visible = true, transformation(origin = {-120, 50}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-120, 50}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-114, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput par_CR annotation(
     Placement(visible = true, transformation(origin = {-90, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {-80, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealInput par_VolDisp(unit= "m3", displayUnit= "m3") annotation(
@@ -132,7 +132,7 @@ block OttoCycleIdeal00
   Modelica.Blocks.Interfaces.RealInput par_LHV_fuel(unit = "J/kg", displayUnit = "J/kg") annotation(
     Placement(visible = true, transformation(origin = {-10, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealOutput y_WoutCycle(unit="J", displayUnit="J") annotation(
-    Placement(visible = true, transformation(origin = {110, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {110, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {20, -114}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealOutput y_p_fluidState_4(unit = "Pa", displayUnit = "Pa") annotation(
     Placement(visible = true, transformation(origin = {110, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_T_fluidState_4(unit = "K", displayUnit = "K") annotation(
@@ -140,20 +140,24 @@ block OttoCycleIdeal00
   Modelica.Blocks.Interfaces.RealOutput y_Xi_fluidState_4[Medium.nXi] annotation(
     Placement(visible = true, transformation(origin = {110, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_m_fuel(quantity="Mass", unit="kg", displayUnit="kg") annotation(
-    Placement(visible = true, transformation(origin = {110, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {110, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {114, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_h_fluidState_4(unit= "J/kg",displayUnit = "J/kg") annotation(
     Placement(visible = true, transformation(origin = {110, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_m_fluid(quantity="Mass", unit="kg", displayUnit="kg") annotation(
-    Placement(visible = true, transformation(origin = {110, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {110, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {114, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   Modelica.Blocks.Interfaces.RealOutput y_T_fluidState_3(unit= "K", displayUnit = "K") annotation(
-    Placement(visible = true, transformation(origin = {80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {-10, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealOutput y_T_fluidState_2(unit = "K",displayUnit = "K") annotation(
-    Placement(visible = true, transformation(origin = {-20, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {-20, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {-20, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {-60, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealOutput y_p_fluidState_2(unit= "Pa",displayUnit = "Pa") annotation(
-    Placement(visible = true, transformation(origin = {-50, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {-50, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {-50, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {-80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealOutput y_p_fluidState_3(unit= "Pa",displayUnit = "Pa") annotation(
-    Placement(visible = true, transformation(origin = {50, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {50, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {50, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {-30, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+          Modelica.Blocks.Interfaces.RealOutput y_Q_4_1(displayUnit = "J", unit = "J") annotation(
+    Placement(visible = true, transformation(origin = {120, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {50, -114}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Blocks.Interfaces.RealOutput y_Q_2_3(displayUnit = "J", unit = "J") annotation(
+    Placement(visible = true, transformation(origin = {130, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {80, -114}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
             //******************************************************************************************
 equation
 /* ---------------------------------------------
@@ -162,14 +166,13 @@ equation
 //--- u ---
   fracFuel = u_fracFuel;
   fluidState_1.p = u_p_fluidState_1;
-  fluidState_1.Xi= u_Xi_fluidState_1;
+  fluidState_1.Xi= u_Xi_fluidState_1[1:Medium.nXi];
   
   if (switch_u_thermoState == switches.switch_input_ThermodynamicState.use_T_for_ThermodynamicState)then
     fluidState_1.T = u_T_fluidState_1;
   elseif (switch_u_thermoState == switches.switch_input_ThermodynamicState.use_h_for_ThermodynamicState)then
     fluidState_1.h = u_h_fluidState_1;
   end if;
-  
 //--- par ---
   CR = par_CR;
   VolDisp = par_VolDisp;
@@ -178,17 +181,18 @@ equation
   y_p_fluidState_4 = fluidState_4.p;
   y_T_fluidState_4= fluidState_4.T;
   y_h_fluidState_4= fluidState_4.h;
-  y_Xi_fluidState_4= fluidState_4.Xi;
+  y_Xi_fluidState_4[1:Medium.nXi]= fluidState_4.Xi;
   
   y_m_fluid= massFluidCycle;
   y_m_fuel= massFuelCycle;
   y_WoutCycle= WoutCycle;
+  y_Q_4_1= Q_4_1;
+  y_Q_2_3= Q_2_3;
   
   y_p_fluidState_2 = fluidState_2.p;
   y_T_fluidState_2= fluidState_2.T;
   y_p_fluidState_3 = fluidState_3.p;
   y_T_fluidState_3= fluidState_3.T;
-  
 /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */

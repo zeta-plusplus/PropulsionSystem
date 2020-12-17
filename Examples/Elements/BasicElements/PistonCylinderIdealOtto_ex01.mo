@@ -3,8 +3,8 @@ within PropulsionSystem.Examples.Elements.BasicElements;
 model PistonCylinderIdealOtto_ex01
   extends Modelica.Icons.Example;
   //-----
-  package engineAir = Modelica.Media.Air.DryAirNasa;
-  //package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
+  //package engineAir = Modelica.Media.Air.DryAirNasa;
+  package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
   //redeclare package Medium = engineAir
   //-----
   PropulsionSystem.Elements.BasicElements.PistonCylinderIdealOttoMV00 PistonCylinder(redeclare package Medium = engineAir) annotation(
@@ -29,23 +29,23 @@ model PistonCylinderIdealOtto_ex01
     Placement(visible = true, transformation(origin = {110, -24}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
     Placement(visible = true, transformation(origin = {80, -24}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Fluid.Sources.MassFlowSource_T boundary1(redeclare package Medium = engineAir, nPorts = 1, use_m_flow_in = true)  annotation(
+  Modelica.Fluid.Sources.MassFlowSource_T boundary1(redeclare package Medium = engineAir, m_flow = -1, nPorts = 1, use_m_flow_in = true)  annotation(
     Placement(visible = true, transformation(origin = {30, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   FluidSystemComponents.Utilities.VariableBySolver VarBySolver annotation(
     Placement(visible = true, transformation(origin = {70, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 equation
+  connect(ramp_fracFuel.y, PistonCylinder.u_fracFuel) annotation(
+    Line(points = {{-58, -10}, {-50, -10}, {-50, 10}, {-34, 10}, {-34, 10}}, color = {0, 0, 127}));
+  connect(PistonCylinder.flange_2, powerSensor1.flange_a) annotation(
+    Line(points = {{0, -24}, {10, -24}, {10, -24}, {10, -24}}));
   connect(boundary1.m_flow_in, VarBySolver.y_independent) annotation(
-    Line(points = {{40, 58}, {50, 58}, {50, 50}, {58, 50}, {58, 50}}, color = {0, 0, 127}));
+    Line(points = {{40, 58}, {54, 58}, {54, 50}, {58, 50}, {58, 50}}, color = {0, 0, 127}));
   connect(PistonCylinder.port_2, boundary1.ports[1]) annotation(
     Line(points = {{0, 16}, {12, 16}, {12, 50}, {20, 50}, {20, 50}}, color = {0, 127, 255}));
   connect(from_rpm1.u, ramp_Nmech.y) annotation(
     Line(points = {{92, -24}, {100, -24}, {100, -24}, {100, -24}}, color = {0, 0, 127}));
   connect(speed1.w_ref, from_rpm1.y) annotation(
     Line(points = {{62, -24}, {68, -24}, {68, -24}, {68, -24}}, color = {0, 0, 127}));
-  connect(ramp_fracFuel.y, PistonCylinder.u_fracFuel) annotation(
-    Line(points = {{-59, -10}, {-54, -10}, {-54, -10}, {-49, -10}, {-49, 10}, {-35, 10}}, color = {0, 0, 127}));
-  connect(PistonCylinder.flange_2, powerSensor1.flange_a) annotation(
-    Line(points = {{0, -24}, {5, -24}, {5, -24}, {10, -24}, {10, -24}, {10, -24}, {10, -24}, {10, -24}}));
   connect(boundary.ports[1], PistonCylinder.port_1) annotation(
     Line(points = {{-40, 50}, {-40, 16}}, color = {0, 127, 255}));
   connect(powerSensor1.flange_b, speed1.flange) annotation(
@@ -55,7 +55,7 @@ equation
   connect(ramp_p1.y, boundary.p_in) annotation(
     Line(points = {{-79, 60}, {-71, 60}, {-71, 58}, {-63, 58}, {-63, 58}, {-63, 58}, {-63, 58}}, color = {0, 0, 127}));
   annotation(
-    experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-06, Interval = 0.140281),
+    experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-06, Interval = 0.140562),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
   Diagram(coordinateSystem(extent = {{-120, -100}, {120, 100}})),
   __OpenModelica_commandLineOptions = "");
