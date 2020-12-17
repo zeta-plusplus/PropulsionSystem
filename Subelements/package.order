@@ -7,6 +7,7 @@ TurbineTable_WcEff_NcPR00
 SclTrb_WcEff00
 ScalerDesTrb_WcEffNcPR00
 PropellerTable_CTCP_Jtheta00
+OttoCycleIdeal00
 dPqP_Wc2ndOrder
 CompressorMap_WcPReff
 CompressorEllipticalCurve
@@ -14,4 +15,4 @@ TurbineMap_WcEff
 TurbineExponentialCurve
 InletMap_effRam
 readCompressorTable00
-OttoCycleIdeal00
+
