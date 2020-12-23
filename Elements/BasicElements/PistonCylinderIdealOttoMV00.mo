@@ -1,6 +1,7 @@
 within PropulsionSystem.Elements.BasicElements;
 
 model PistonCylinderIdealOttoMV00
+  extends PropulsionSystem.BaseClasses.BasicElements.PistonCylinderBase00;
   /********************************************************
               imports
           ********************************************************/
@@ -8,17 +9,6 @@ model PistonCylinderIdealOttoMV00
   /********************************************************
               Declaration
           ********************************************************/
-  /* ---------------------------------------------
-              Package
-          --------------------------------------------- */
-  replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation(
-    choicesAllMatching = true);
-  /* ---------------------------------------------
-                  switch
-              --------------------------------------------- */
-  parameter Boolean allowFlowReversal = false "= true to allow flow reversal, false restricts to design direction (port_a -> port_b)" annotation(
-    Dialog(tab = "Assumptions"),
-    Evaluate = true);
   /* ---------------------------------------------
                   parameters
               --------------------------------------------- */
@@ -103,6 +93,8 @@ model PistonCylinderIdealOttoMV00
   Modelica.SIunits.VolumeFlowRate V_flow "volume flow rate through piston-cylinder";
   Modelica.SIunits.MassFlowRate m_flow "mass flow rate through piston-cylinder";
   Modelica.SIunits.Volume VolDisp "displacement";
+  Modelica.SIunits.Volume VolBDC "volume, at BDC(bottom dead center)";
+  Modelica.SIunits.Volume VolTDC "volume, at TDC(top dead center)";
   Real CR "Compression Ratio";
   Modelica.SIunits.Work WoutCycle "work output, single cycle";
   Modelica.SIunits.Power pwr(start = pwr_init) "power via shaft, positive if fluid generates power" annotation(
@@ -117,9 +109,9 @@ model PistonCylinderIdealOttoMV00
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.HeatFlowRate Q_reject(start = Q_reject_init) "heat rejected from fluid" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
-  Modelica.SIunits.EnthalpyFlowRate dH_1_2 "" annotation(
+  Modelica.SIunits.EnthalpyFlowRate dH_1_2_cycle "" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
-  Modelica.SIunits.EnergyFlowRate dU_1_2 "" annotation(
+  Modelica.SIunits.EnergyFlowRate dU_1_2_cycle "" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   /* ---------------------------------------------
                   Internal objects
@@ -156,6 +148,8 @@ equation
 /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
+  VolBDC = VolTDC + VolDisp;
+  CR= VolBDC / VolTDC;
   V_flow = 1.0 / 2.0 * VolDisp * Nmech * 1.0 / 60.0;
   m_flow = fluid_1.d * V_flow;
   m_flow_fuel = m_flow * u_fracFuel;
@@ -219,17 +213,18 @@ equation
   pwr_cmp = 1.0 / 2.0 * OttoCycle.W_1_2 * Nmech * 1.0 / 60.0;
   Q_add = 1.0 / 2.0 * OttoCycle.y_Q_2_3 * Nmech * 1.0 / 60.0;
   Q_reject = 1.0 / 2.0 * OttoCycle.y_Q_4_1 * Nmech * 1.0 / 60.0;
-  dH_1_2 = (OttoCycle.y_m_fluid*1.0/2.0*Nmech*1.0/60.0) * (fluid_2.h - fluid_1.h);
-  dU_1_2 = (OttoCycle.y_m_fluid*1.0/2.0*Nmech*1.0/60.0) * (fluid_2.u - fluid_1.u);
+  dH_1_2_cycle = (VolBDC*fluid_1.d*1.0/2.0*Nmech*1.0/60.0) * (fluid_2.h - fluid_1.h);
+  dU_1_2_cycle = (VolBDC*fluid_1.d*1.0/2.0*Nmech*1.0/60.0) * (fluid_2.u - fluid_1.u);
   der(phi) = omega;
   omega * trq = pwr;
   Nmech = omega * 60.0 / (2.0 * Modelica.Constants.pi);
   trqOut = -1.0 * trq;
   trq = flange_1.tau + flange_2.tau;
+  
   annotation(
     defaultComponentName = "PistonCylinder",
-    Icon(graphics = {Line(origin = {0.39, -10.28}, points = {{-60, -40}, {-60, 60}, {-60, 100}, {60, 100}, {60, 60}, {60, -40}}, thickness = 1.5), Line(origin = {-40, 89}, points = {{0, 9}, {0, -11}}, thickness = 0.75), Line(origin = {-45.6153, 104.79}, points = {{14, -27}, {-2, -27}}, thickness = 0.75), Line(origin = {39.3395, 91}, points = {{0, 9}, {0, -11}}, thickness = 0.75), Line(origin = {34.3847, 124.112}, points = {{14, -27}, {-2, -27}}, thickness = 0.75), Line(origin = {-61, 89.6778}, points = {{-39, 10}, {21, 10}, {21, -12}}, pattern = LinePattern.Dot, thickness = 1), Line(origin = {-51, 99.661}, points = {{151, 0}, {91, 0}, {91, -20}}, pattern = LinePattern.Dot, thickness = 1), Text(origin = {-29, 112}, extent = {{-51, 8}, {109, -6}}, textString = "%name"), Rectangle(origin = {47, -105}, fillColor = {170, 0, 127}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-27, 11}, {53, -3}}), Rectangle(origin = {20, -95}, rotation = 60, fillColor = {170, 0, 127}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-11, 5}, {51, -7}}), Rectangle(origin = {-7, -59}, fillColor = {170, 0, 127}, fillPattern = FillPattern.HorizontalCylinder, extent = {{7, 11}, {49, -3}}), Rectangle(origin = {-22, -94}, rotation = 60, fillColor = {170, 0, 127}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-11, 5}, {51, -9}}), Rectangle(origin = {-73, -105}, fillColor = {170, 0, 127}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-27, 11}, {53, -3}}), Rectangle(origin = {15, -42}, rotation = 110, fillColor = {170, 0, 127}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-19, 3}, {57, -7}}), Rectangle(origin = {-1, 40}, fillColor = {170, 0, 127}, fillPattern = FillPattern.VerticalCylinder, extent = {{-54, -1}, {56, -33}})}, coordinateSystem(extent = {{-100, -120}, {100, 120}}, initialScale = 0.1)),
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.1),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
+  Icon(coordinateSystem(extent = {{-100, -120}, {100, 120}})));
 end PistonCylinderIdealOttoMV00;
