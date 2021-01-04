@@ -8,7 +8,7 @@ model PistonCylinderIdealOtto_ex03
   //redeclare package Medium = engineAir
   //-----
   PropulsionSystem.Elements.BasicElements.PistonCylinderIdealOttoMV00 PistonCylinder(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {-20, -8}, extent = {{-20, -24}, {20, 24}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-20, -12}, extent = {{-20, -24}, {20, 24}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(origin = {-90, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = engineAir, T = 15 + 273.15, nPorts = 2, p = 101.325 * 1000, use_T_in = true, use_p_in = true) annotation(
@@ -36,20 +36,20 @@ model PistonCylinderIdealOtto_ex03
   Modelica.Fluid.Sources.Boundary_pT boundary1(redeclare package Medium = engineAir, T = 15 + 273.15, nPorts = 1, p = 101.325 * 1000)  annotation(
     Placement(visible = true, transformation(origin = {56, 60}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
-  connect(powerSensor1.flange_b, speed1.flange) annotation(
-    Line(points = {{30, -32}, {35, -32}, {35, -32}, {40, -32}, {40, -32}, {40, -32}, {40, -32}, {40, -32}}));
+  connect(PistonCylinder.port_2, pipe.port_a) annotation(
+    Line(points = {{0, 8}, {5, 8}, {5, 16}, {10, 16}}, color = {0, 127, 255}));
+  connect(ramp_fracFuel.y, PistonCylinder.u_fracFuel) annotation(
+    Line(points = {{-59, -10}, {-49, -10}, {-49, 2}, {-35, 2}}, color = {0, 0, 127}));
+  connect(boundary.ports[1], PistonCylinder.port_1) annotation(
+    Line(points = {{-40, 50}, {-40, 8}}, color = {0, 127, 255}));
   connect(PistonCylinder.flange_2, powerSensor1.flange_a) annotation(
     Line(points = {{0, -32}, {10, -32}}));
+  connect(powerSensor1.flange_b, speed1.flange) annotation(
+    Line(points = {{30, -32}, {35, -32}, {35, -32}, {40, -32}, {40, -32}, {40, -32}, {40, -32}, {40, -32}}));
   connect(speed1.w_ref, from_rpm1.y) annotation(
     Line(points = {{62, -32}, {68, -32}, {68, -32}, {68, -32}}, color = {0, 0, 127}));
   connect(from_rpm1.u, ramp_Nmech.y) annotation(
     Line(points = {{92, -32}, {100, -32}, {100, -32}, {100, -32}}, color = {0, 0, 127}));
-  connect(boundary.ports[1], PistonCylinder.port_1) annotation(
-    Line(points = {{-40, 50}, {-40, 16}}, color = {0, 127, 255}));
-  connect(ramp_fracFuel.y, PistonCylinder.u_fracFuel) annotation(
-    Line(points = {{-59, -10}, {-49, -10}, {-49, 9}, {-35, 9}}, color = {0, 0, 127}));
-  connect(PistonCylinder.port_2, pipe.port_a) annotation(
-    Line(points = {{0, 16}, {10, 16}}, color = {0, 127, 255}));
   connect(boundary1.ports[1], ExpToAmb.port_2) annotation(
     Line(points = {{56, 50}, {56, 26}}, color = {0, 127, 255}));
   connect(pipe.port_b, ExpToAmb.port_1) annotation(
