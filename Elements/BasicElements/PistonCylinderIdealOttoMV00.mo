@@ -66,7 +66,6 @@ equation
   VolDisp = VolDisp_paramInput;
   //---
   pwr = 1.0 / 2.0 * (-1.0) * WoutCycle * Nmech * 1.0 / 60.0;
-  pwrOut = -1.0 * pwr;
   
   pwr_exp = 1.0 / 2.0 * OttoCycle.W_3_4 * Nmech * 1.0 / 60.0;
   pwr_cmp = 1.0 / 2.0 * OttoCycle.W_1_2 * Nmech * 1.0 / 60.0;
