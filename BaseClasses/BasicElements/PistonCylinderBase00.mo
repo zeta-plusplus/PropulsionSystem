@@ -72,6 +72,12 @@ partial model PistonCylinderBase00
     Dialog(tab = "Initialization", group = "others"));
   parameter Modelica.SIunits.HeatFlowRate Q_reject_init = -100 "heat rejected from fluid" annotation(
     Dialog(tab = "Initialization", group = "others"));
+  parameter Modelica.SIunits.SpecificEntropy s_fluid_1_init=6800.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.SpecificEntropy s_fluid_2_init=7000.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
   
   
   
@@ -116,6 +122,12 @@ partial model PistonCylinderBase00
   Modelica.SIunits.EnergyFlowRate dU_1_2_cycle "" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   
+  Modelica.SIunits.SpecificEntropy s_fluid_1(start=s_fluid_1_init) "specific entropy, fluid_1" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.SpecificEntropy s_fluid_2(start=s_fluid_2_init) "specific entropy, fluid_2" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
   
   /* ---------------------------------------------
@@ -191,8 +203,6 @@ equation
   port_1.m_flow = m_flow;
   port_1.m_flow + port_2.m_flow = 0.0;
   
-  pwr = 1.0 / 2.0 * (-1.0) * WoutCycle * Nmech * 1.0 / 60.0;
-  pwrOut = -1.0 * pwr;
   der(phi) = omega;
   omega * trq = pwr;
   Nmech = omega * 60.0 / (2.0 * Modelica.Constants.pi);
@@ -202,6 +212,8 @@ equation
   dH_1_2_cycle = (VolBDC*fluid_1.d*1.0/2.0*Nmech*1.0/60.0) * (fluid_2.h - fluid_1.h);
   dU_1_2_cycle = (VolBDC*fluid_1.d*1.0/2.0*Nmech*1.0/60.0) * (fluid_2.u - fluid_1.u);
   
+  s_fluid_1= Medium.specificEntropy(fluid_1.state);
+  s_fluid_2= Medium.specificEntropy(fluid_2.state);
   
   
   annotation(
