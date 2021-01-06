@@ -213,8 +213,6 @@ partial model NozzleBase00
   ) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  
-  
   //********** variables of design point **********
   discrete Real PRdes(start=PR_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
@@ -310,17 +308,13 @@ partial model NozzleBase00
     Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
 protected
-  
-  
   //********************************************************************************
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
   AeThDes= AmechTh*CdThDes;
-  //----------
-  
-  
+//----------
 algorithm
   if(printCmd==true)then
     assert(fluid_1.h < fluidStat_th_fullExp.h, getInstanceName()+", nozzle inverse flow condition, fluid_1.h < fluidStat_th_fullExp.h" + "\n" + ", fluid_1.h=" + String(fluid_1.h) + ", fluidStat_th_fullExp.h=" + String(fluidStat_th_fullExp.h), AssertionLevel.warning);
@@ -386,30 +380,29 @@ equation
     
     
   fluid_2Tot.p = fluid_1.p;
-  //-- energy conservation --
+//-- energy conservation --
   port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2Tot.h = 0;
   
   PR = fluid_1.p / fluid_2.p;
-  //-- full expansion --
+//-- full expansion --
   fluid_1.h = h_2is + sign(V_2is) * abs(V_2is) ^ 2.0 * (1.0 / 2.0);
   h_2is = Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
   V_2 = Cv * V_2is;
   fluid_1.h = fluid_2.h + sign(V_2) * abs(V_2) ^ 2.0 / 2.0;
-  //--- throat, p, T ---
+//--- throat, p, T ---
   fluid_th.p = fluid_1.p;
   fluid_th.h = fluid_1.h;
-  //--- throat, static, p, T ---
+//--- throat, static, p, T ---
   fluidStat_th_fullExp.p = fluid_2.p;
   fluidStat_th_choked.p = fluid_2.p;
-  //V_th_fullExp= sqrt( 2.0*(fluid_1.h - fluidStat_th_fullExp.h ) );
+//V_th_fullExp= sqrt( 2.0*(fluid_1.h - fluidStat_th_fullExp.h ) );
   fluid_1.h - fluidStat_th_fullExp.h = 1.0 / 2.0 * (sign(V_th_fullExp) * abs(V_th_fullExp) ^ 2.0);
-  //--- velocity if choked state ---
+//--- velocity if choked state ---
   V_th_choked = 1.0 * Medium.velocityOfSound(fluidStat_th_choked.state);
   fluidStat_th_choked.h = fluid_1.h - 1.0 / 2.0 * (sign(V_th_choked) * abs(V_th_choked) ^ 2.0);
-  //--- throat fully-expanded ---
+//--- throat fully-expanded ---
   fluidStat_th_fullExp.h = Medium.isentropicEnthalpy(fluidStat_th_fullExp.p, fluid_1.state);
-  
-  /*--------------------
+/*--------------------
   evaluate choked or not
   --------------------*/
   if V_th_fullExp >= V_th_choked then
@@ -441,22 +434,18 @@ equation
   elseif (switch_defineFg == switchDefineFg.ThroatFlowAndPressure) then
     Fg = Cv*V_th*m_flow_th + (fluidStat_th.p - fluid_2.p) * AeTh;
   end if;
-  
-  when (time<=environment.timeRemoveDesConstraint)then
-    /* ---------------------------------------------
+  when time <= environment.timeRemoveDesConstraint then
+/* ---------------------------------------------
     design point eqn
     --------------------------------------------- */
-    PRdes= PR;
-    //----------
-    
+    PRdes = PR;
+//----------
   end when;
-  
-  
 /********************************************************
   Graphics
 ********************************************************/
   annotation(
-    Icon(graphics = {Polygon(origin = {0, 10}, fillColor = {255, 250, 80}, fillPattern = FillPattern.HorizontalCylinder, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-74, 108}, extent = {{-26, -8}, {154, -28}}, textString = "%name"), Rectangle(origin = {-94, 80}, fillColor = {112, 112, 112}, fillPattern = FillPattern.Solid, extent = {{-6, 2}, {14, -2}}), Text(origin = {72, 77}, extent = {{-16, 1}, {20, -23}}, textString = "amb"), Line(origin = {81.88, 37.0395}, points = {{-23, 2}, {17, 2}, {17, 42}}, pattern = LinePattern.Dot, thickness = 0.5), Text(origin = {-58, 22}, extent = {{-22, -2}, {78, -42}}, textString = "Nzl")}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Polygon(origin = {0, 10}, fillColor = {255, 250, 80}, fillPattern = FillPattern.HorizontalCylinder, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-74, 108}, extent = {{-26, -8}, {154, -28}}, textString = "%name"), Rectangle(origin = {-94, 80}, fillColor = {112, 112, 112}, fillPattern = FillPattern.Solid, extent = {{-6, 2}, {14, -2}}), Text(origin = {56, 81}, extent = {{-40, -1}, {30, -21}}, textString = "after expansion"), Line(origin = {81.88, 37.0395}, points = {{-23, 2}, {17, 2}, {17, 42}}, pattern = LinePattern.Dot, thickness = 0.5), Text(origin = {-58, 22}, extent = {{-22, -2}, {78, -42}}, textString = "Nzl")}, coordinateSystem(initialScale = 0.1)));
   
   
 end NozzleBase00;

@@ -1,7 +1,7 @@
 within PropulsionSystem.Elements.BasicElements;
 
 model PistonCylinderIdealOttoMV00
-  extends PropulsionSystem.BaseClasses.BasicElements.PistonCylinderBase00;
+  extends PropulsionSystem.BaseClasses.BasicElements.PistonCylinder4strkBase00;
   /********************************************************
               imports
   ********************************************************/

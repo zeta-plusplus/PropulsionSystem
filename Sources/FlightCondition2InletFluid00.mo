@@ -71,6 +71,26 @@ model FlightCondition2InletFluid00
     Dialog(tab = "Initialization", group = "fluidAmb"));
   parameter Modelica.SIunits.SpecificEnthalpy hAmb_init(displayUnit = "J/kg") = Tamb_init * 1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluidAmb"));
+  //--- others ---
+  parameter Modelica.SIunits.SpecificEntropy s_fluid_amb_init=6800.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  parameter Modelica.SIunits.SpecificEntropy s_fluid_inlet_init=7000.0 "" annotation(
+    Dialog(tab = "Initialization", group = "others")
+  );
+  
+  
+  /* ---------------------------------------------
+      Internal variables
+  --------------------------------------------- */
+  Modelica.SIunits.SpecificEntropy s_fluid_amb(start=s_fluid_amb_init) "specific entropy, fluid_1" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.SpecificEntropy s_fluid_inlet(start=s_fluid_inlet_init) "specific entropy, fluid_2" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
+  
   /* ---------------------------------------------
           Internal objects
       --------------------------------------------- */
@@ -94,7 +114,7 @@ model FlightCondition2InletFluid00
     Placement(visible = true, transformation(origin = {-120, -40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   input Modelica.Blocks.Interfaces.RealInput u_C_fluid[Medium.nC] if use_u_C "trace substance of fluid, valid only when use_u_C==true" annotation(
     Placement(visible = true, transformation(origin = {-120, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_b port_amb(redeclare package Medium = Medium, m_flow(start = m_flowAmb_init, min = if allowFlowReversal then -Constants.inf else 0.0), h_outflow(start = hAmb_init), p(start = pAmb_init)) annotation(
+  Modelica.Fluid.Interfaces.FluidPort_b port_amb(redeclare package Medium = Medium, m_flow(start = m_flowAmb_init, min = if allowFlowReversal then -Constants.inf else 0.0), h_outflow(start = hAmb_init), p(start = pAmb_init)) "ambient p, exhaust h" annotation(
     Placement(visible = true, transformation(origin = {70, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_b port_inlet(redeclare package Medium = Medium, m_flow(start = m_flow2Inlet_init, max = if allowFlowReversal then +Constants.inf else 0.0), h_outflow(start = h2Inlet_init), p(start = p2Inlet_init)) annotation(
     Placement(visible = true, transformation(origin = {100, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -177,6 +197,10 @@ equation
     sourceFluid2Inlet.C_in = C_fluid_paramInput;
   end if;
 //--------------------
+  
+  s_fluid_amb= Medium.specificEntropy(AltMN2pTh.fluidAmb.state);
+  s_fluid_inlet= Medium.specificEntropy(AltMN2pTh.fluidTot.state);
+  
 /********************************************************
   Graphics
 ********************************************************/

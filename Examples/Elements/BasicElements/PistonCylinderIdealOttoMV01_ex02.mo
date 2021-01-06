@@ -31,12 +31,16 @@ model PistonCylinderIdealOttoMV01_ex02
     Placement(visible = true, transformation(origin = {56, 60}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderIdealOttoMV01 PistonCylinder(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-20.3333, -10.6}, extent = {{-19.6667, -23.6}, {19.6667, 23.6}}, rotation = 0)));
-  Modelica.Fluid.Fittings.SimpleGenericOrifice orifice(redeclare package Medium = engineAir, diameter = 0.001, zeta = 1.0)  annotation(
-    Placement(visible = true, transformation(origin = {-60, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  FluidSystemComponents.CommonAnyFluid.Components.VariableZetaOrifice00 Orifice(redeclare package Medium = engineAir, AmechTh_paramInput = Modelica.Constants.pi / 4.0 * 0.01 ^ 2)  annotation(
+    Placement(visible = true, transformation(origin = {-60, 20}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_zeta(duration = 10, height = 1, offset = 1, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {-80, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(orifice.port_b, PistonCylinder.port_1) annotation(
+  connect(ramp_zeta.y, Orifice.u_zeta) annotation(
+    Line(points = {{-68, 50}, {-64, 50}, {-64, 30}, {-64, 30}}, color = {0, 0, 127}));
+  connect(Orifice.port_2, PistonCylinder.port_1) annotation(
     Line(points = {{-50, 20}, {-40, 20}, {-40, 10}, {-40, 10}}, color = {0, 127, 255}));
-  connect(boundary.ports[1], orifice.port_a) annotation(
+  connect(boundary.ports[1], Orifice.port_1) annotation(
     Line(points = {{-80, 20}, {-70, 20}, {-70, 20}, {-70, 20}}, color = {0, 127, 255}));
   connect(ramp_fracFuel.y, PistonCylinder.u_fracFuel) annotation(
     Line(points = {{-59, -30}, {-50, -30}, {-50, 3}, {-35, 3}}, color = {0, 0, 127}));
