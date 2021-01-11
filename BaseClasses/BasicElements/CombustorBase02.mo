@@ -87,6 +87,12 @@ model CombustorBase02
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
+  Modelica.SIunits.SpecificEntropy s_fluid_1(start=s_fluid_1_init) "specific entropy, fluid_1" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Modelica.SIunits.SpecificEntropy s_fluid_2(start=s_fluid_2_init) "specific entropy, fluid_2" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
 
   /* ---------------------------------------------
@@ -249,6 +255,10 @@ equation
   //--------------------
   Combustion.u_effComb= effComb;
   
+  
+  //--------------------
+  s_fluid_1= Medium.specificEntropy(fluid_1.state);
+  s_fluid_2= Medium.specificEntropy(fluid_2.state);
   
 /********************************************************
   Graphics
