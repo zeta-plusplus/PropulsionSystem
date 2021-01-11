@@ -52,6 +52,8 @@ model Ramjet_ex01
   Modelica.Blocks.Sources.Trapezoid trapezoid_MnFlt(amplitude = -0.5, falling = 10, nperiod = 1, offset = 0.9, period = 50, rising = 10, startTime = 10, width = 30)  annotation(
     Placement(visible = true, transformation(origin = {-90, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(Inlt.y_FdRam, Perf.u_Fram) annotation(
+    Line(points = {{74, -28}, {74, -66}, {339, -66}}, color = {0, 0, 127}));
   connect(trapezoid_MnFlt.y, Flt2Fluid.u_MN) annotation(
     Line(points = {{-78, 10}, {-74, 10}, {-74, 8}, {-62, 8}, {-62, 8}}, color = {0, 0, 127}));
   connect(s_comb_out.port, Duct1.port_1) annotation(
@@ -70,8 +72,6 @@ equation
     Line(points = {{30, -4}, {40, -4}, {40, -4}, {40, -4}}, color = {0, 127, 255}));
   connect(Flt2Fluid.y_V_inf, Inlt.u_V_infini) annotation(
     Line(points = {{-18, -16}, {-8, -16}, {-8, -28}, {46, -28}}, color = {0, 0, 127}));
-  connect(Inlt.y_FdRam, Perf.u_Fram) annotation(
-    Line(points = {{74, -28}, {74, -66}, {339, -66}}, color = {0, 0, 127}));
   connect(s_amb.port, Nzl.port_2) annotation(
     Line(points = {{-40, 40}, {-40, 40}, {-40, 68}, {320, 68}, {320, -4}, {320, -4}}, color = {0, 127, 255}));
   connect(Flt2Fluid.port_amb, s_amb.port) annotation(
