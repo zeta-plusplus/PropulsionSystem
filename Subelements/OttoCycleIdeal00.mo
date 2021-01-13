@@ -85,6 +85,7 @@ block OttoCycleIdeal00
   Modelica.SIunits.Work W_1_2 "work, compression, state 1 -> 2";
   Modelica.SIunits.Work W_3_4 "work, expansion, state 3 -> 4";
   Real CR "Compression Ratio";
+  Real ER "Expansion Ratio";
   Real fracFuel "Fraction of fuel in fluid";
   /* ---------------------------------------------
               Internal objects
@@ -198,13 +199,14 @@ equation
   Q_2_3 = massFluidCycle * (fluidState_3.u - fluidState_2.u);
   s_state_3 = Medium.specificEntropy(fluidState_3.state);
 //--- state3 <-> state4 ---
-  Vol4 / Vol3 = CR;
+  Vol4 / Vol3 = ER;
   fluidState_4.d = massFluidCycle / Vol4;
   s_state_4 = Medium.specificEntropy(fluidState_4.state);
   fluidState_4.Xi = fluidState_3.Xi;
   s_state_4 = s_state_3;
   W_3_4 = massFluidCycle * (fluidState_4.u - fluidState_3.u);
 //--- state4 <-> state1 ---
+  Vol4=Vol1;
   Q_4_1 = massFluidCycle * (fluidState_1.u - fluidState_4.u);
 //---
   WoutCycle = (-1.0) * (W_1_2 + W_3_4);

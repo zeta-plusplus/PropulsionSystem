@@ -8,6 +8,7 @@ SclTrb_WcEff00
 ScalerDesTrb_WcEffNcPR00
 PropellerTable_CTCP_Jtheta00
 OttoCycleIdeal00
+DieselCycleIdeal00
 dPqP_Wc2ndOrder
 CompressorMap_WcPReff
 CompressorEllipticalCurve
