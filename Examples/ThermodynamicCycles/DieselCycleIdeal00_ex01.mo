@@ -19,7 +19,7 @@ model DieselCycleIdeal00_ex01
     Placement(visible = true, transformation(origin = {-30, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const_Xi_fluidState_1[engineAir.nXi](k = {0.0, 0.768, 0.232}) annotation(
     Placement(visible = true, transformation(origin = {-30, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 10, height = -0.1, offset = 0.1, startTime = 50) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 10, height = -0.099, offset = 0.1, startTime = 50) annotation(
     Placement(visible = true, transformation(origin = {-80, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_h_fluidState_1(duration = 10, height = 50 * 1.004 * 1000, offset = 288.15 * 1.004 * 1000, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-30, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

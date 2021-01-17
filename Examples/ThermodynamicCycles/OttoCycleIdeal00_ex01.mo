@@ -19,7 +19,7 @@ model OttoCycleIdeal00_ex01
     Placement(visible = true, transformation(origin = {-30, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const_Xi_fluidState_1[engineAir.nXi](k = {0.0, 0.768, 0.232}) annotation(
     Placement(visible = true, transformation(origin = {-30, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 10, height = -0.1, offset = 0.1, startTime = 50) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 10, height = -0.099, offset = 0.1, startTime = 50) annotation(
     Placement(visible = true, transformation(origin = {-80, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Subelements.OttoCycleIdeal00 OttoCycle(redeclare package Medium = engineAir, switch_u_thermoState = PropulsionSystem.Types.switches.switch_input_ThermodynamicState.use_h_for_ThermodynamicState) annotation(
     Placement(visible = true, transformation(origin = {40, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
@@ -45,6 +45,6 @@ equation
   annotation(
     Diagram(coordinateSystem(extent = {{-100, -140}, {100, 100}})),
     __OpenModelica_commandLineOptions = "",
-    experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-06, Interval = 0.14),
+    experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-06, Interval = 0.140281),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
 end OttoCycleIdeal00_ex01;
