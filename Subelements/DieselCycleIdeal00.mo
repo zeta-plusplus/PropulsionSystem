@@ -101,7 +101,7 @@ block DieselCycleIdeal00
   Modelica.SIunits.Volume arr_V[5];
   Modelica.SIunits.SpecificVolume arr_v[5];
   Modelica.SIunits.Temperature arr_T[5];
-  Boolean flag_warnInsuffEnergy(start=false) "warning flag, true if energy input is insufficient";
+  Boolean flag_stall "flag, true if |Q_2_3|<|W_2_3+W_3_4|";
   
   
   
@@ -234,15 +234,25 @@ equation
   Q_4_1 = massFluidCycle * (fluidState_1.u - fluidState_4.u);
 //---
   WoutCycle = (-1.0)*(W_2_3 + W_3_4 + W_1_2);
-  
-  effThermal= WoutCycle/(massFuelCycle*LHV_fuel); 
-  
-  if(Q_2_3 < (-1.0)*(W_2_3 + W_3_4))then
-    flag_warnInsuffEnergy=true;
+  //---
+  if(Q_2_3 < (-1.0)*W_3_4)then
+    flag_stall=true;
   else
-    flag_warnInsuffEnergy=false;
+    flag_stall=false;
   end if;
   
+  //---
+  if(flag_stall==false)then
+    if(0.0<massFuelCycle)then
+      effThermal= WoutCycle/(massFuelCycle*LHV_fuel); 
+    else
+      effThermal=0.0;
+    end if;
+  else
+    effThermal=0.0;
+  end if;
+  
+  //---
   arr_h[1]=fluidState_1.h;
   arr_h[2]=fluidState_2.h;
   arr_h[3]=fluidState_3.h;
