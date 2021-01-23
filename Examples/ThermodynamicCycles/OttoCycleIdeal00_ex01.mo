@@ -46,5 +46,5 @@ equation
     Diagram(coordinateSystem(extent = {{-100, -140}, {100, 100}})),
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-06, Interval = 0.140281),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"));
 end OttoCycleIdeal00_ex01;
