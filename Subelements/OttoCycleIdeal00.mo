@@ -15,14 +15,36 @@ block OttoCycleIdeal00
       --------------------------------------------- */
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation(
     choicesAllMatching = true);
+  /* ---------------------------------------------
+              parameters
+      --------------------------------------------- */
+  //********** Others **********
   parameter switches.switch_input_ThermodynamicState switch_u_thermoState = switches.switch_input_ThermodynamicState.use_T_for_ThermodynamicState "" annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
     Evaluate = true,
-    HideResult = true);
-  /* ---------------------------------------------
-              parameters
-      --------------------------------------------- */
+    HideResult = false);
+  parameter Integer nPts_hs_p2=10 "" annotation(
+    Dialog(group = "Others"),
+    choicesAllMatching = true,
+    Evaluate = true,
+    HideResult = false);
+  parameter Integer nPts_hs_p3=10 "" annotation(
+    Dialog(group = "Others"),
+    choicesAllMatching = true,
+    Evaluate = true,
+    HideResult = false);
+  parameter Integer nPts_hs_p4=10 "" annotation(
+    Dialog(group = "Others"),
+    choicesAllMatching = true,
+    Evaluate = true,
+    HideResult = false);
+  parameter Integer nPts_hs_p1=10 "" annotation(
+    Dialog(group = "Others"),
+    choicesAllMatching = true,
+    Evaluate = true,
+    HideResult = false);
+  
   //********** Initialization Parameters **********
   //--- fluidState_1 ---
   parameter Modelica.SIunits.Pressure p_state1_init(displayUnit = "Pa") = 101.3 * 1000 "" annotation(
@@ -157,7 +179,14 @@ block OttoCycleIdeal00
     Placement(visible = true, transformation(origin = {50, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {60, -116}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealOutput y_Q_2_3(displayUnit = "J", unit = "J") annotation(
     Placement(visible = true, transformation(origin = {80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {80, -116}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-
+  PropulsionSystem.Utilities.arr_hs_const_p_00 arr_hs_p2(redeclare package Medium=Medium, nPts = nPts_hs_p2) annotation(
+    Placement(visible = true, transformation(origin = {-30, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Utilities.arr_hs_const_p_00 arr_hs_p4(redeclare package Medium=Medium, nPts = nPts_hs_p4) annotation(
+    Placement(visible = true, transformation(origin = {-30, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Utilities.arr_hs_const_p_00 arr_hs_p3(redeclare package Medium=Medium, nPts = nPts_hs_p3) annotation(
+    Placement(visible = true, transformation(origin = {-30, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Utilities.arr_hs_const_p_00 arr_hs_p1(redeclare package Medium=Medium, nPts = nPts_hs_p1) annotation(
+    Placement(visible = true, transformation(origin = {-30, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
 /* ---------------------------------------------
   Connections, interface <-> internal variables
@@ -192,6 +221,27 @@ equation
   y_T_fluidState_2 = fluidState_2.T;
   y_p_fluidState_3 = fluidState_3.p;
   y_T_fluidState_3 = fluidState_3.T;
+  //--- ---
+  connect(arr_hs_p2.u_sUpper, s_state_3);
+  connect(arr_hs_p2.u_sLower, s_state_2);
+  connect(arr_hs_p2.u_p, fluidState_2.p);
+  connect(arr_hs_p2.u_Xi, fluidState_2.Xi);
+  
+  connect(arr_hs_p3.u_sUpper, s_state_3);
+  connect(arr_hs_p3.u_sLower, s_state_2);
+  connect(arr_hs_p3.u_p, fluidState_3.p);
+  connect(arr_hs_p3.u_Xi, fluidState_3.Xi);
+  
+  connect(arr_hs_p4.u_sUpper, s_state_4);
+  connect(arr_hs_p4.u_sLower, s_state_1);
+  connect(arr_hs_p4.u_p, fluidState_4.p);
+  connect(arr_hs_p4.u_Xi, fluidState_4.Xi);
+  
+  connect(arr_hs_p1.u_sUpper, s_state_4);
+  connect(arr_hs_p1.u_sLower, s_state_1);
+  connect(arr_hs_p1.u_p, fluidState_1.p);
+  connect(arr_hs_p1.u_Xi, fluidState_1.Xi);
+  
 /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
@@ -230,27 +280,24 @@ equation
   Q_4_1 = massFluidCycle * (fluidState_1.u - fluidState_4.u);
 //---
   WoutCycle = (-1.0) * (W_1_2 + W_3_4);
-  
-  //---
-  if(Q_2_3 < (-1.0)*W_3_4)then
-    flag_stall=true;
+//---
+  if Q_2_3 < (-1.0) * W_3_4 then
+    flag_stall = true;
   else
-    flag_stall=false;
+    flag_stall = false;
   end if;
-  
-  //---
-  if(flag_stall==false)then
-    if(0.0<massFuelCycle)then
-      effThermal= WoutCycle/(massFuelCycle*LHV_fuel); 
+//---
+  if flag_stall == false then
+    if 0.0 < massFuelCycle then
+      effThermal = WoutCycle / (massFuelCycle * LHV_fuel);
     else
-      effThermal=0.0;
+      effThermal = 0.0;
     end if;
   else
-    effThermal=0.0;
+    effThermal = 0.0;
   end if;
-  
-  //---
-  arr_h[1]=fluidState_1.h;
+//---
+  arr_h[1] = fluidState_1.h;
   arr_h[2]=fluidState_2.h;
   arr_h[3]=fluidState_3.h;
   arr_h[4]=fluidState_4.h;
