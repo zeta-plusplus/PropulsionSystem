@@ -44,6 +44,18 @@ block OttoCycleIdeal00
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = false);
+  parameter Integer nPts_pv_s1_par=10 "" annotation(
+    Dialog(group = "Others"),
+    choicesAllMatching = true,
+    Evaluate = true,
+    HideResult = false);
+  parameter Integer nPts_pv_s3_par=10 "" annotation(
+    Dialog(group = "Others"),
+    choicesAllMatching = true,
+    Evaluate = true,
+    HideResult = false);
+  
+  
   
   //********** Initialization Parameters **********
   //--- fluidState_1 ---
@@ -187,6 +199,10 @@ block OttoCycleIdeal00
     Placement(visible = true, transformation(origin = {-30, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Utilities.arr_hs_const_p_00 arr_hs_p1(redeclare package Medium=Medium, nPts_par = nPts_hs_p1_par) annotation(
     Placement(visible = true, transformation(origin = {-30, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Utilities.arr_pv_const_s_00 arr_pv_s1(redeclare package Medium=Medium, nPts_par = nPts_pv_s1_par) annotation(
+    Placement(visible = true, transformation(origin = {30, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Utilities.arr_pv_const_s_00 arr_pv_s3(redeclare package Medium=Medium, nPts_par = nPts_pv_s3_par) annotation(
+    Placement(visible = true, transformation(origin = {30, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
 /* ---------------------------------------------
   Connections, interface <-> internal variables
@@ -226,21 +242,31 @@ equation
   connect(arr_hs_p2.u_sLower, s_state_2);
   connect(arr_hs_p2.u_p, fluidState_2.p);
   connect(arr_hs_p2.u_Xi, fluidState_2.Xi);
-  
+  //---
   connect(arr_hs_p3.u_sUpper, s_state_3);
   connect(arr_hs_p3.u_sLower, s_state_2);
   connect(arr_hs_p3.u_p, fluidState_3.p);
   connect(arr_hs_p3.u_Xi, fluidState_3.Xi);
-  
+  //---
   connect(arr_hs_p4.u_sUpper, s_state_4);
   connect(arr_hs_p4.u_sLower, s_state_1);
   connect(arr_hs_p4.u_p, fluidState_4.p);
   connect(arr_hs_p4.u_Xi, fluidState_4.Xi);
-  
+  //---
   connect(arr_hs_p1.u_sUpper, s_state_4);
   connect(arr_hs_p1.u_sLower, s_state_1);
   connect(arr_hs_p1.u_p, fluidState_1.p);
   connect(arr_hs_p1.u_Xi, fluidState_1.Xi);
+  //--- ---
+  connect(arr_pv_s1.u_pUpper, fluidState_2.p);
+  connect(arr_pv_s1.u_pLower, fluidState_1.p);
+  connect(arr_pv_s1.u_s, s_state_1);
+  connect(arr_pv_s1.u_Xi, fluidState_1.Xi);
+  //---
+  connect(arr_pv_s3.u_pUpper, fluidState_3.p);
+  connect(arr_pv_s3.u_pLower, fluidState_4.p);
+  connect(arr_pv_s3.u_s, s_state_3);
+  connect(arr_pv_s3.u_Xi, fluidState_3.Xi);
   
 /* ---------------------------------------------
   Eqns describing physics
