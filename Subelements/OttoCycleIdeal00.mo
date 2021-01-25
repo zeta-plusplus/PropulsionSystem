@@ -24,22 +24,22 @@ block OttoCycleIdeal00
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = false);
-  parameter Integer nPts_hs_p2=10 "" annotation(
+  parameter Integer nPts_hs_p2_par=10 "" annotation(
     Dialog(group = "Others"),
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = false);
-  parameter Integer nPts_hs_p3=10 "" annotation(
+  parameter Integer nPts_hs_p3_par=10 "" annotation(
     Dialog(group = "Others"),
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = false);
-  parameter Integer nPts_hs_p4=10 "" annotation(
+  parameter Integer nPts_hs_p4_par=10 "" annotation(
     Dialog(group = "Others"),
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = false);
-  parameter Integer nPts_hs_p1=10 "" annotation(
+  parameter Integer nPts_hs_p1_par=10 "" annotation(
     Dialog(group = "Others"),
     choicesAllMatching = true,
     Evaluate = true,
@@ -179,13 +179,13 @@ block OttoCycleIdeal00
     Placement(visible = true, transformation(origin = {50, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {60, -116}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Interfaces.RealOutput y_Q_2_3(displayUnit = "J", unit = "J") annotation(
     Placement(visible = true, transformation(origin = {80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {80, -116}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  PropulsionSystem.Utilities.arr_hs_const_p_00 arr_hs_p2(redeclare package Medium=Medium, nPts = nPts_hs_p2) annotation(
+  PropulsionSystem.Utilities.arr_hs_const_p_00 arr_hs_p2(redeclare package Medium=Medium, nPts_par = nPts_hs_p2_par) annotation(
     Placement(visible = true, transformation(origin = {-30, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Utilities.arr_hs_const_p_00 arr_hs_p4(redeclare package Medium=Medium, nPts = nPts_hs_p4) annotation(
+  PropulsionSystem.Utilities.arr_hs_const_p_00 arr_hs_p4(redeclare package Medium=Medium, nPts_par = nPts_hs_p4_par) annotation(
     Placement(visible = true, transformation(origin = {-30, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Utilities.arr_hs_const_p_00 arr_hs_p3(redeclare package Medium=Medium, nPts = nPts_hs_p3) annotation(
+  PropulsionSystem.Utilities.arr_hs_const_p_00 arr_hs_p3(redeclare package Medium=Medium, nPts_par = nPts_hs_p3_par) annotation(
     Placement(visible = true, transformation(origin = {-30, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Utilities.arr_hs_const_p_00 arr_hs_p1(redeclare package Medium=Medium, nPts = nPts_hs_p1) annotation(
+  PropulsionSystem.Utilities.arr_hs_const_p_00 arr_hs_p1(redeclare package Medium=Medium, nPts_par = nPts_hs_p1_par) annotation(
     Placement(visible = true, transformation(origin = {-30, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
 /* ---------------------------------------------

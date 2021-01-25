@@ -19,13 +19,14 @@ block arr_hs_const_p_00
   /* ---------------------------------------------
           Parameter
   --------------------------------------------- */
-  parameter Integer nPts=10;
+  parameter Integer nPts_par=10;
   
   /* ---------------------------------------------
               Internal variables
   --------------------------------------------- */
-  Modelica.SIunits.SpecificEnthalpy arr_h[nPts];
-  Modelica.SIunits.SpecificEntropy arr_s[nPts];
+  Integer nPts;
+  Modelica.SIunits.SpecificEnthalpy arr_h[nPts_par];
+  Modelica.SIunits.SpecificEntropy arr_s[nPts_par];
   Modelica.SIunits.SpecificEntropy ds;
   
   
@@ -43,9 +44,10 @@ block arr_hs_const_p_00
 
 //***********************************************************************************************
 equation
+  nPts=nPts_par;
   ds= (u_sUpper -u_sLower)/(nPts -1);
   
-  for i in 1:nPts loop
+  for i in 1:nPts_par loop
     arr_s[i]= u_sLower + ds*(i-1);
     arr_h[i]=Medium.specificEnthalpy_psX(u_p, arr_s[i], u_Xi);
   end for;
