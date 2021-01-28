@@ -120,7 +120,7 @@ block OttoCycleIdeal00
   Modelica.SIunits.Volume arr_V[5];
   Modelica.SIunits.SpecificVolume arr_v[5];
   Modelica.SIunits.Temperature arr_T[5];
-  Boolean flag_stall "flag, true if |Q_2_3|<|W_3_4|";
+  Boolean flag_W34_gt_Q23 "flag, true if |Q_2_3|<|W_3_4|";
   /* ---------------------------------------------
                   Internal objects
               --------------------------------------------- */
@@ -351,20 +351,18 @@ equation
   WoutCycle = (-1.0) * (W_1_2 + W_3_4);
 //---
   if Q_2_3 < (-1.0) * W_3_4 then
-    flag_stall = true;
+    flag_W34_gt_Q23 = true;
   else
-    flag_stall = false;
+    flag_W34_gt_Q23 = false;
   end if;
 //---
-  if flag_stall == false then
-    if 0.0 < massFuelCycle then
-      effThermal = WoutCycle / (massFuelCycle * LHV_fuel);
-    else
-      effThermal = 0.0;
-    end if;
+  
+  if 0.0 <= massFuelCycle then
+    effThermal = WoutCycle / (massFuelCycle * LHV_fuel);
   else
     effThermal = 0.0;
   end if;
+  
 //---
   arr_h[1] = fluidState_1.h;
   arr_h[2] = fluidState_2.h;
