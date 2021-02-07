@@ -32,7 +32,7 @@ model PistonCylinderIdealOttoMV00
               Interface
   --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_fracFuel annotation(
-    Placement(visible = true, transformation(origin = {-120, 30}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-74, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-120, 30}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-74, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_m_flow_fuel(quantity = "MassFlowRate", unit = "kg/s", displayUnit = "kg/s") annotation(
     Placement(visible = true, transformation(origin = {110, 38}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {80, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //******************************************************************************************
@@ -43,28 +43,28 @@ equation
   Connections, interface <-> internal variables
   --------------------------------------------- */
   m_flow_fuel = m_flow * u_fracFuel;
-  //---
+//---
   OttoCycle.u_p_fluidState_1 = fluid_1.p;
   OttoCycle.u_u_fluidState_1 = fluid_1.u;
   OttoCycle.u_Xi_fluidState_1[1:Medium.nXi] = fluid_1.Xi;
-  //---
+//---
   fluid_2.Xi = OttoCycle.y_Xi_fluidState_4;
   fluid_2.p = OttoCycle.y_p_fluidState_4;
   fluid_2.u = OttoCycle.y_u_fluidState_4;
-  //---
+//---
   OttoCycle.par_CR = CR_paramInput;
   OttoCycle.par_VolDisp = VolDisp;
   OttoCycle.par_LHV_fuel = LHV_fuel_paramInput;
-  //---
+//---
   WoutCycle = OttoCycle.y_WoutCycle;
   y_m_flow_fuel = m_flow_fuel;
-  /* ---------------------------------------------
+/* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
-  //---
+//---
   CR = CR_paramInput;
   VolDisp = VolDisp_paramInput;
-  //---
+//---
   pwr = 1.0 / 2.0 * (-1.0) * WoutCycle * Nmech * 1.0 / 60.0;
   
   pwr_exp = 1.0 / 2.0 * OttoCycle.W_3_4 * Nmech * 1.0 / 60.0;
