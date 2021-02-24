@@ -9,6 +9,7 @@ ScalerDesTrb_WcEffNcPR00
 PropellerTable_CTCP_Jtheta00
 CombustionEfficiency00
 OttoCycleIdeal00
+OttoCycleIdeal01
 DieselCycleIdeal00
 dPqP_Wc2ndOrder
 CompressorMap_WcPReff
@@ -17,3 +18,4 @@ TurbineMap_WcEff
 TurbineExponentialCurve
 InletMap_effRam
 readCompressorTable00
+OttoCycleIdeal02
