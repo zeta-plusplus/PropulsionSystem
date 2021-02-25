@@ -7,6 +7,7 @@ block CombustionEfficiency00
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
   import PropulsionSystem.Functions;
+  import PropulsionSystem.Subelements.Functions.Combustion;
   
   
   /* ---------------------------------------------
@@ -38,7 +39,7 @@ block CombustionEfficiency00
         Functions    
   --------------------------------------------- */
   replaceable function efficiencyCharacteristic=
-    Functions.effCombGasoline00
+    Combustion.effCombGasoline00
       "Function to calculate efficiency"
     annotation(Dialog(group="Characteristics", enable=true),
                choicesAllMatching=true);
@@ -78,21 +79,21 @@ equation
   FAR= 1.0/AFR;
   
   if(switchFuel==switches.switch_fuel.gasoline)then
-    (effComb, lambda, AFR, flagValid)= Functions.effCombGasoline00(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, flagValid)= Combustion.effCombGasoline00(fracAir= u_fracAir, fracFuel= u_fracFuel);
   elseif(switchFuel==switches.switch_fuel.diesel)then
-    (effComb, lambda, AFR, flagValid)= Functions.effCombDiesel00(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, flagValid)= Combustion.effCombDiesel00(fracAir= u_fracAir, fracFuel= u_fracFuel);
   elseif(switchFuel==switches.switch_fuel.kerosene)then
-    (effComb, lambda, AFR, flagValid)= Functions.effCombKerosene00(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, flagValid)= Combustion.effCombKerosene00(fracAir= u_fracAir, fracFuel= u_fracFuel);
   elseif(switchFuel==switches.switch_fuel.hydrogen)then
-    (effComb, lambda, AFR, flagValid)= Functions.effCombHydrogen00(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, flagValid)= Combustion.effCombHydrogen00(fracAir= u_fracAir, fracFuel= u_fracFuel);
   elseif(switchFuel==switches.switch_fuel.methanol)then
-    (effComb, lambda, AFR, flagValid)= Functions.effCombMethanol00(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, flagValid)= Combustion.effCombMethanol00(fracAir= u_fracAir, fracFuel= u_fracFuel);
   elseif(switchFuel==switches.switch_fuel.ethanol)then
-    (effComb, lambda, AFR, flagValid)= Functions.effCombEthanol00(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, flagValid)= Combustion.effCombEthanol00(fracAir= u_fracAir, fracFuel= u_fracFuel);
   elseif(switchFuel==switches.switch_fuel.userDefined)then
-    (effComb, lambda, AFR, flagValid)= Functions.efficiencyCharacteristic(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, flagValid)= Combustion.efficiencyCharacteristic(fracAir= u_fracAir, fracFuel= u_fracFuel);
   else
-    (effComb, lambda, AFR, flagValid)= Functions.effCombGasoline00(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, flagValid)= Combustion.effCombGasoline00(fracAir= u_fracAir, fracFuel= u_fracFuel);
   end if;
   
   
