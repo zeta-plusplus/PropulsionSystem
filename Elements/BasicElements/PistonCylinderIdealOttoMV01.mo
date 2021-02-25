@@ -22,15 +22,20 @@ model PistonCylinderIdealOttoMV01
     --------------------------------------------- */
   Modelica.SIunits.MassFlowRate m_flow_fuel "mass flow rate of fuel" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
-  Modelica.SIunits.SpecificEnthalpy h2_pumping "enthalpy by puming" annotation(
+  Modelica.SIunits.SpecificEnthalpy dh_state4_port2 "enthalpy change by puming, state4 to port2" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
-  Modelica.SIunits.SpecificEnthalpy dh_pumping "enthalpy change by puming" annotation(
+  Modelica.SIunits.Power pwrPumping "power of pumping, positive== pwr into fluid, or loss for 'engine'" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
-  Modelica.SIunits.Power pwr_pumping "power of pumping, negative==pwr into component" annotation(
+  Modelica.SIunits.Power pwrIntk "power of intake stroke, positive== pwr into fluid, or loss for 'engine'" annotation(
+    Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  Modelica.SIunits.Power pwrExh "power of exhaust stroke, positive== pwr into fluid, or loss for 'engine'" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   
-  /*
-  */
+  Modelica.SIunits.Power pwrCycle "power by cycle, negative==pwr outof component" annotation(
+    Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  
+  Modelica.SIunits.Work WintkCycle "work of intake stroke, single cycle, positive== into fluid";
+  Modelica.SIunits.Work WexhCycle "work of exhaust stroke, single cycle, positive== into fluid";
   
   
   /* ---------------------------------------------
@@ -62,8 +67,7 @@ equation
   OttoCycle.u_u_fluidState_1 = fluid_1.u;
   OttoCycle.u_Xi_fluidState_1[1:Medium.nXi] = fluid_1.Xi;
   //---
-  fluid_2.Xi = OttoCycle.y_Xi_fluidState_4;
-  fluid_2.u = OttoCycle.y_u_fluidState_4 + pwr_pumping/port_2.m_flow;
+    //fluid_2.u = OttoCycle.y_u_fluidState_4 + pwr_pumping/port_2.m_flow;
   //---
   OttoCycle.par_CR = CR_paramInput;
   OttoCycle.par_VolDisp = VolDisp;
@@ -80,12 +84,22 @@ equation
   CR = CR_paramInput;
   VolDisp = VolDisp_paramInput;
   //---
-  h2_pumping=Medium.specificEnthalpy_psX(fluid_2.p, s_fluid_1, fluid_2.Xi);
-  dh_pumping= h2_pumping - fluid_1.h;
-  port_1.m_flow*fluid_1.h + (-1.0)*pwr_pumping + port_2.m_flow*h2_pumping =0.0;
+  fluid_2.Xi = OttoCycle.y_Xi_fluidState_4;
+  dh_state4_port2= fluid_2.h - OttoCycle.y_h_fluidState_4;
+  
+  WintkCycle= fluid_1.p*(-1.0)*VolDisp;
+  WexhCycle= fluid_2.p*VolDisp;
+  pwrIntk= (1.0/2.0* Nmech* 1.0/60.0)*WintkCycle;
+  pwrExh= (1.0/2.0* Nmech* 1.0/60.0)*WexhCycle;
+  pwrPumping= pwrIntk + pwrExh;
+  
+  fluid_2.h= OttoCycle.y_h_fluidState_4 + pwrPumping/(-1.0*port_2.m_flow);  
+  
+  //(port_1.m_flow*fluid_1.h) + (pwr_pumping) + (port_2.m_flow*fluid_2.h) =0.0;
   
   //---
-  pwr = 1.0 / 2.0 * (-1.0) * WoutCycle * Nmech * 1.0 / 60.0 + pwr_pumping;
+  pwrCycle= 1.0 / 2.0 * (-1.0) * WoutCycle * Nmech * 1.0 / 60.0;
+  pwr = pwrCycle + pwrPumping;
   
   pwr_exp = 1.0 / 2.0 * OttoCycle.W_3_4 * Nmech * 1.0 / 60.0;
   pwr_cmp = 1.0 / 2.0 * OttoCycle.W_1_2 * Nmech * 1.0 / 60.0;
