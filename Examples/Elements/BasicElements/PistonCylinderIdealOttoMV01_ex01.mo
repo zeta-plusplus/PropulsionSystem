@@ -13,7 +13,7 @@ model PistonCylinderIdealOttoMV01_ex01
     Placement(visible = true, transformation(origin = {-50, 62}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 10, height = 0, offset = 0.01, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-70, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_p1(duration = 10, height = -20 * 1000, offset = 1 *101.325 * 1000, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_p1(duration = 10, height = 0 * 1000, offset = 1 *101.325 * 1000, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-90, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_T1(duration = 10, height = 0, offset = 15 + 273.15, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-90, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -31,23 +31,23 @@ model PistonCylinderIdealOttoMV01_ex01
     Placement(visible = true, transformation(origin = {56, 60}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderIdealOttoMV01 PistonCylinder(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-20.3333, -10.6}, extent = {{-19.6667, -23.6}, {19.6667, 23.6}}, rotation = 0)));
-  Modelica.Fluid.Fittings.SimpleGenericOrifice orifice(redeclare package Medium = engineAir, diameter = 0.01, zeta = 1)  annotation(
-    Placement(visible = true, transformation(origin = {30, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Fittings.SimpleGenericOrifice orifice1(redeclare package Medium = engineAir, diameter = 0.01, zeta = 0.5) annotation(
-    Placement(visible = true, transformation(origin = {-40, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Fluid.Pipes.StaticPipe pipe(redeclare package Medium = engineAir, diameter = 0.02, length = 0.2)  annotation(
+    Placement(visible = true, transformation(origin = {-40, 36}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Fluid.Pipes.StaticPipe pipe1(redeclare package Medium = engineAir, diameter = 0.02, length = 0.5)  annotation(
+    Placement(visible = true, transformation(origin = {20, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(pipe.port_b, PistonCylinder.port_1) annotation(
+    Line(points = {{-40, 26}, {-40, 26}, {-40, 10}, {-40, 10}}, color = {0, 127, 255}));
+  connect(boundary.ports[1], pipe.port_a) annotation(
+    Line(points = {{-40, 62}, {-40, 62}, {-40, 46}, {-40, 46}}, color = {0, 127, 255}));
+  connect(pipe1.port_b, boundary1.ports[1]) annotation(
+    Line(points = {{30, 10}, {56, 10}, {56, 50}, {56, 50}}, color = {0, 127, 255}));
+  connect(PistonCylinder.port_2, pipe1.port_a) annotation(
+    Line(points = {{0, 10}, {10, 10}, {10, 10}, {10, 10}}, color = {0, 127, 255}));
   connect(ramp_p1.y, boundary.p_in) annotation(
     Line(points = {{-79, 60}, {-74.5, 60}, {-74.5, 70}, {-62, 70}}, color = {0, 0, 127}));
   connect(ramp_T1.y, boundary.T_in) annotation(
     Line(points = {{-79, 30}, {-69, 30}, {-69, 66}, {-62, 66}}, color = {0, 0, 127}));
-  connect(boundary.ports[1], orifice1.port_a) annotation(
-    Line(points = {{-40, 62}, {-40, 40}}, color = {0, 127, 255}));
-  connect(orifice1.port_b, PistonCylinder.port_1) annotation(
-    Line(points = {{-40, 20}, {-40, 20}, {-40, 10}, {-40, 10}}, color = {0, 127, 255}));
-  connect(orifice.port_b, boundary1.ports[1]) annotation(
-    Line(points = {{40, 10}, {56, 10}, {56, 50}, {56, 50}}, color = {0, 127, 255}));
-  connect(PistonCylinder.port_2, orifice.port_a) annotation(
-    Line(points = {{0, 10}, {20, 10}, {20, 10}, {20, 10}}, color = {0, 127, 255}));
   connect(ramp_fracFuel.y, PistonCylinder.u_fracFuel) annotation(
     Line(points = {{-58, -10}, {-50, -10}, {-50, 3}, {-35, 3}}, color = {0, 0, 127}));
   connect(PistonCylinder.flange_2, powerSensor1.flange_a) annotation(
