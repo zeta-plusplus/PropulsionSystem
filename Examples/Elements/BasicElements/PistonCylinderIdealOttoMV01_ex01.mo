@@ -30,7 +30,7 @@ model PistonCylinderIdealOttoMV01_ex01
   Modelica.Fluid.Pipes.StaticPipe pipe(redeclare package Medium = engineAir, diameter = 0.05, length = 0.2)  annotation(
     Placement(visible = true, transformation(origin = {-40, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Fluid.Pipes.StaticPipe pipe1(redeclare package Medium = engineAir, diameter = 0.05, length = 0.5)  annotation(
-    Placement(visible = true, transformation(origin = {20, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {20, 9}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sources.Torque torque1 annotation(
     Placement(visible = true, transformation(origin = {80, -30}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 1e-3, w(fixed = true, start = 2000 * (2 * Modelica.Constants.pi / 60)))  annotation(
@@ -40,6 +40,16 @@ model PistonCylinderIdealOttoMV01_ex01
   Modelica.Mechanics.Rotational.Components.Fixed fixed1 annotation(
     Placement(visible = true, transformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(PistonCylinder.port_2, pipe1.port_a) annotation(
+    Line(points = {{-1, 9}, {10, 9}}, color = {0, 127, 255}));
+  connect(pipe1.port_b, boundary1.ports[1]) annotation(
+    Line(points = {{30, 9}, {56, 9}, {56, 50}}, color = {0, 127, 255}));
+  connect(PistonCylinder.flange_2, powerSensor1.flange_a) annotation(
+    Line(points = {{-1, -30}, {10, -30}}));
+  connect(ramp_fracFuel.y, PistonCylinder.u_fracFuel) annotation(
+    Line(points = {{-58, -10}, {-50, -10}, {-50, 3}, {-35, 3}}, color = {0, 0, 127}));
+  connect(pipe.port_b, PistonCylinder.port_1) annotation(
+    Line(points = {{-40, 20}, {-40, 9}}, color = {0, 127, 255}));
   connect(torque1.tau, ramp_trq.y) annotation(
     Line(points = {{92, -30}, {110, -30}, {110, -30}, {110, -30}}, color = {0, 0, 127}));
   connect(inertia1.flange_b, damper1.flange_a) annotation(
@@ -52,20 +62,10 @@ equation
     Line(points = {{30, -30}, {40, -30}, {40, -30}, {40, -30}}));
   connect(boundary.ports[1], pipe.port_a) annotation(
     Line(points = {{-40, 62}, {-40, 40}}, color = {0, 127, 255}));
-  connect(pipe.port_b, PistonCylinder.port_1) annotation(
-    Line(points = {{-40, 20}, {-40, 10}}, color = {0, 127, 255}));
-  connect(pipe1.port_b, boundary1.ports[1]) annotation(
-    Line(points = {{30, 10}, {56, 10}, {56, 50}, {56, 50}}, color = {0, 127, 255}));
-  connect(PistonCylinder.port_2, pipe1.port_a) annotation(
-    Line(points = {{0, 10}, {10, 10}, {10, 10}, {10, 10}}, color = {0, 127, 255}));
   connect(ramp_p1.y, boundary.p_in) annotation(
     Line(points = {{-79, 60}, {-74.5, 60}, {-74.5, 70}, {-62, 70}}, color = {0, 0, 127}));
   connect(ramp_T1.y, boundary.T_in) annotation(
     Line(points = {{-79, 30}, {-69, 30}, {-69, 66}, {-62, 66}}, color = {0, 0, 127}));
-  connect(ramp_fracFuel.y, PistonCylinder.u_fracFuel) annotation(
-    Line(points = {{-58, -10}, {-50, -10}, {-50, 3}, {-35, 3}}, color = {0, 0, 127}));
-  connect(PistonCylinder.flange_2, powerSensor1.flange_a) annotation(
-    Line(points = {{-1, -30}, {10, -30}}));
   annotation(
     experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-06, Interval = 0.140562),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
