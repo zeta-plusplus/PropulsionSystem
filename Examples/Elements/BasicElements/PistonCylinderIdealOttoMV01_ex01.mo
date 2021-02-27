@@ -13,33 +13,47 @@ model PistonCylinderIdealOttoMV01_ex01
     Placement(visible = true, transformation(origin = {-50, 62}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 10, height = 0, offset = 0.01, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-70, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_p1(duration = 10, height = 0 * 1000, offset = 1 *101.325 * 1000, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_p1(duration = 10, height = 5 * 1000, offset = 1 *101.325 * 1000, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-90, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_T1(duration = 10, height = 0, offset = 15 + 273.15, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-90, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-70, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Sources.Speed speed1 annotation(
-    Placement(visible = true, transformation(origin = {50, -30}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sensors.PowerSensor powerSensor1 annotation(
     Placement(visible = true, transformation(origin = {20, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 10, height = 0, offset = 1000, startTime = 50) annotation(
-    Placement(visible = true, transformation(origin = {110, -30}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
-    Placement(visible = true, transformation(origin = {80, -30}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_trq(duration = 10, height = 0, offset = 0, startTime = 50) annotation(
+    Placement(visible = true, transformation(origin = {120, -30}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT boundary1(redeclare package Medium = engineAir, T = 15 + 273.15, nPorts = 1, p = 101.325 * 1000) annotation(
     Placement(visible = true, transformation(origin = {56, 60}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderIdealOttoMV01 PistonCylinder(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-20.3333, -10.6}, extent = {{-19.6667, -23.6}, {19.6667, 23.6}}, rotation = 0)));
-  Modelica.Fluid.Pipes.StaticPipe pipe(redeclare package Medium = engineAir, diameter = 0.02, length = 0.2)  annotation(
-    Placement(visible = true, transformation(origin = {-40, 36}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Fluid.Pipes.StaticPipe pipe1(redeclare package Medium = engineAir, diameter = 0.02, length = 0.5)  annotation(
+  Modelica.Fluid.Pipes.StaticPipe pipe(redeclare package Medium = engineAir, diameter = 0.05, length = 0.2)  annotation(
+    Placement(visible = true, transformation(origin = {-40, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Fluid.Pipes.StaticPipe pipe1(redeclare package Medium = engineAir, diameter = 0.05, length = 0.5)  annotation(
     Placement(visible = true, transformation(origin = {20, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Sources.Torque torque1 annotation(
+    Placement(visible = true, transformation(origin = {80, -30}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 1e-3, w(fixed = true, start = 2000 * (2 * Modelica.Constants.pi / 60)))  annotation(
+    Placement(visible = true, transformation(origin = {50, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Components.Damper damper1(d = 1e-2)  annotation(
+    Placement(visible = true, transformation(origin = {80, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Components.Fixed fixed1 annotation(
+    Placement(visible = true, transformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(pipe.port_b, PistonCylinder.port_1) annotation(
-    Line(points = {{-40, 26}, {-40, 26}, {-40, 10}, {-40, 10}}, color = {0, 127, 255}));
+  connect(torque1.tau, ramp_trq.y) annotation(
+    Line(points = {{92, -30}, {110, -30}, {110, -30}, {110, -30}}, color = {0, 0, 127}));
+  connect(inertia1.flange_b, damper1.flange_a) annotation(
+    Line(points = {{60, -30}, {64, -30}, {64, -60}, {70, -60}, {70, -60}}));
+  connect(inertia1.flange_b, torque1.flange) annotation(
+    Line(points = {{60, -30}, {70, -30}, {70, -30}, {70, -30}}));
+  connect(damper1.flange_b, fixed1.flange) annotation(
+    Line(points = {{90, -60}, {110, -60}, {110, -60}, {110, -60}}));
+  connect(powerSensor1.flange_b, inertia1.flange_a) annotation(
+    Line(points = {{30, -30}, {40, -30}, {40, -30}, {40, -30}}));
   connect(boundary.ports[1], pipe.port_a) annotation(
-    Line(points = {{-40, 62}, {-40, 62}, {-40, 46}, {-40, 46}}, color = {0, 127, 255}));
+    Line(points = {{-40, 62}, {-40, 40}}, color = {0, 127, 255}));
+  connect(pipe.port_b, PistonCylinder.port_1) annotation(
+    Line(points = {{-40, 20}, {-40, 10}}, color = {0, 127, 255}));
   connect(pipe1.port_b, boundary1.ports[1]) annotation(
     Line(points = {{30, 10}, {56, 10}, {56, 50}, {56, 50}}, color = {0, 127, 255}));
   connect(PistonCylinder.port_2, pipe1.port_a) annotation(
@@ -52,15 +66,9 @@ equation
     Line(points = {{-58, -10}, {-50, -10}, {-50, 3}, {-35, 3}}, color = {0, 0, 127}));
   connect(PistonCylinder.flange_2, powerSensor1.flange_a) annotation(
     Line(points = {{-1, -30}, {10, -30}}));
-  connect(powerSensor1.flange_b, speed1.flange) annotation(
-    Line(points = {{30, -30}, {35, -30}, {35, -30}, {40, -30}, {40, -30}, {40, -30}, {40, -30}, {40, -30}}));
-  connect(speed1.w_ref, from_rpm1.y) annotation(
-    Line(points = {{62, -30}, {68, -30}, {68, -30}, {68, -30}}, color = {0, 0, 127}));
-  connect(from_rpm1.u, ramp_Nmech.y) annotation(
-    Line(points = {{92, -30}, {100, -30}, {100, -30}, {100, -30}}, color = {0, 0, 127}));
   annotation(
     experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-06, Interval = 0.140562),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
-    Diagram(coordinateSystem(extent = {{-120, -100}, {120, 100}})),
+    Diagram(coordinateSystem(extent = {{-120, -100}, {140, 100}})),
     __OpenModelica_commandLineOptions = "");
 end PistonCylinderIdealOttoMV01_ex01;

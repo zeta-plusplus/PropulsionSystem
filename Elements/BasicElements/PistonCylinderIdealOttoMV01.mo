@@ -37,6 +37,8 @@ model PistonCylinderIdealOttoMV01
   Modelica.SIunits.Work WintkCycle "work of intake stroke, single cycle, positive== into fluid";
   Modelica.SIunits.Work WexhCycle "work of exhaust stroke, single cycle, positive== into fluid";
   
+  Real pwrPumpingqPwrCycle "|pwrPumping / pwrCycle|";
+  
   
   /* ---------------------------------------------
                     Internal objects
@@ -67,7 +69,6 @@ equation
   OttoCycle.u_u_fluidState_1 = fluid_1.u;
   OttoCycle.u_Xi_fluidState_1[1:Medium.nXi] = fluid_1.Xi;
   //---
-    //fluid_2.u = OttoCycle.y_u_fluidState_4 + pwr_pumping/port_2.m_flow;
   //---
   OttoCycle.par_CR = CR_paramInput;
   OttoCycle.par_VolDisp = VolDisp;
@@ -92,10 +93,9 @@ equation
   pwrIntk= (1.0/2.0* Nmech* 1.0/60.0)*WintkCycle;
   pwrExh= (1.0/2.0* Nmech* 1.0/60.0)*WexhCycle;
   pwrPumping= pwrIntk + pwrExh;
-  
+  pwrPumpingqPwrCycle= pwrPumping / (-1.0*pwrCycle);
+  //---
   fluid_2.h= OttoCycle.y_h_fluidState_4 + pwrPumping/(-1.0*port_2.m_flow);  
-  
-  //(port_1.m_flow*fluid_1.h) + (pwr_pumping) + (port_2.m_flow*fluid_2.h) =0.0;
   
   //---
   pwrCycle= 1.0 / 2.0 * (-1.0) * WoutCycle * Nmech * 1.0 / 60.0;
