@@ -11,9 +11,9 @@ model OttoCycleIdeal01_ex02
   Modelica.Blocks.Sources.Constant const_Qin(k = 100 *1000) annotation(
     Placement(visible = true, transformation(origin = {-80, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const_VolDisp(k = 1 * 10.0 ^ (-6.0)) annotation(
-    Placement(visible = true, transformation(origin = {-70, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-10, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const_CR(k = 1.002) annotation(
-    Placement(visible = true, transformation(origin = {-70, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-10, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_p_fluidState_1(duration = 10, height = 0 * 1000, offset = 101.325 * 1000, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-30, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_T_fluidState_1(duration = 10, height = 0, offset = 15 + 273.15, startTime = 30) annotation(
@@ -25,14 +25,14 @@ model OttoCycleIdeal01_ex02
   Modelica.Blocks.Sources.Ramp ramp_h_fluidState_1(duration = 10, height = 0 * 1.004 * 1000, offset = 288.15 * 1.004 * 1000, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-30, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(const_CR.y, OttoCycle.par_CR) annotation(
+    Line(points = {{1, 20}, {24, 20}, {24, 2}}, color = {0, 0, 127}));
+  connect(const_VolDisp.y, OttoCycle.par_VolDisp) annotation(
+    Line(points = {{1, 50}, {32, 50}, {32, 2}}, color = {0, 0, 127}));
   connect(ramp_h_fluidState_1.y, OttoCycle.u_h_fluidState_1) annotation(
     Line(points = {{-18, -90}, {2, -90}, {2, -32}, {16, -32}}, color = {0, 0, 127}));
   connect(const_Xi_fluidState_1.y, OttoCycle.u_Xi_fluidState_1) annotation(
     Line(points = {{-19, -120}, {10, -120}, {10, -44}, {16, -44}}, color = {0, 0, 127}, thickness = 0.5));
-  connect(const_CR.y, OttoCycle.par_CR) annotation(
-    Line(points = {{-58, 20}, {24, 20}, {24, 2}}, color = {0, 0, 127}));
-  connect(const_VolDisp.y, OttoCycle.par_VolDisp) annotation(
-    Line(points = {{-58, 50}, {32, 50}, {32, 2}}, color = {0, 0, 127}));
   connect(ramp_p_fluidState_1.y, OttoCycle.u_p_fluidState_1) annotation(
     Line(points = {{-18, -30}, {-12, -30}, {-12, -20}, {16, -20}}, color = {0, 0, 127}));
   connect(ramp_T_fluidState_1.y, OttoCycle.u_T_fluidState_1) annotation(
