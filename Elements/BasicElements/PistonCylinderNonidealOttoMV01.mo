@@ -8,16 +8,28 @@ model PistonCylinderNonidealOttoMV01
   import Modelica.Constants;
   /********************************************************
                   Declaration
-              ********************************************************/
+  ********************************************************/
+  /* ---------------------------------------------
+        switches
+  --------------------------------------------- */
+  parameter PropulsionSystem.Types.switches.switch_fuel switchFuelType = PropulsionSystem.Types.switches.switch_fuel.gasoline 
+    "switch, fuel type, determines function used in effComb calculation."
+    annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching = true,
+    Evaluate = true,
+    HideResult = true);
+  
+  
   /* ---------------------------------------------
                       parameters
-                  --------------------------------------------- */
+  --------------------------------------------- */
   parameter Real CR_paramInput = 12.0 "compression ratio";
   parameter Modelica.SIunits.Volume VolDisp_paramInput = 100.0 * 10.0 ^ (-6.0) "displacement";
   parameter Modelica.SIunits.SpecificEnthalpy LHV_fuel_paramInput = 43.4 * 10.0 ^ 6.0 "lower heating value of fuel";
   /* ---------------------------------------------
                       Internal variables
-      --------------------------------------------- */
+  --------------------------------------------- */
   Modelica.SIunits.MassFlowRate m_flow_fuel "mass flow rate of fuel" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.SpecificEnthalpy dh_state4_port2 "enthalpy change by puming, state4 to port2" annotation(
@@ -32,23 +44,37 @@ model PistonCylinderNonidealOttoMV01
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.Work WintkCycle "work of intake stroke, single cycle, positive== into fluid";
   Modelica.SIunits.Work WexhCycle "work of exhaust stroke, single cycle, positive== into fluid";
-  Real pwrPumpingqPwrCycle "|pwrPumping / pwrCycle|";
+  Real pwrPumpingqPwrCycle "pwrPumping / pwrCycle, positive==loss";
+  
+  
   /* ---------------------------------------------
                       Internal objects
-    --------------------------------------------- */
-  PropulsionSystem.Subelements.OttoCycleNonideal00 OttoCycle(redeclare package Medium = Medium, switch_u_thermoState = PropulsionSystem.Types.switches.switch_input_ThermodynamicState.use_u_for_ThermodynamicState) annotation(
-    Placement(visible = true, transformation(origin = {10, 10}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
+  --------------------------------------------- */
+  PropulsionSystem.Subelements.OttoCycleNonideal00 OttoCycle(redeclare package Medium = Medium, switch_u_thermoState =  PropulsionSystem.Types.switches.switch_input_ThermodynamicState.use_u_for_ThermodynamicState) annotation(
+    Placement(visible = true, transformation(origin = {3.55271e-15, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  PropulsionSystem.Subelements.CombustionEfficiency00 calcEffComb(switchFuel= switchFuelType) annotation(
+    Placement(visible = true, transformation(origin = {-50, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  
   /* ---------------------------------------------
                       Interface
-    --------------------------------------------- */
+  --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_fracFuel annotation(
-    Placement(visible = true, transformation(origin = {-120, 30}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-74, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-74, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_m_flow_fuel(quantity = "MassFlowRate", unit = "kg/s", displayUnit = "kg/s") annotation(
     Placement(visible = true, transformation(origin = {110, 38}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {80, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput u_fracAir annotation(
+    Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-74, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //******************************************************************************************
 equation
+  connect(u_fracFuel, calcEffComb.u_fracFuel) annotation(
+    Line(points = {{-120, 0}, {-92, 0}, {-92, 24}, {-62, 24}, {-62, 24}}, color = {0, 0, 127}));
+  connect(u_fracAir, calcEffComb.u_fracAir) annotation(
+    Line(points = {{-120, 40}, {-70, 40}, {-70, 36}, {-62, 36}, {-62, 36}}, color = {0, 0, 127}));
   connect(u_fracFuel, OttoCycle.u_fracFuel) annotation(
-    Line(points = {{-120, 30}, {-70, 30}, {-70, 22}, {-24, 22}}, color = {0, 0, 127}));
+    Line(points = {{-120, 0}, {-71.5, 0}, {-71.5, -12}, {-23, -12}}, color = {0, 0, 127}));
+  connect(calcEffComb.y_effComb, OttoCycle.u_effComb) annotation(
+    Line(points = {{-38, 36}, {-30, 36}, {-30, -4}, {-22, -4}, {-22, -4}}, color = {0, 0, 127}));
 /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */

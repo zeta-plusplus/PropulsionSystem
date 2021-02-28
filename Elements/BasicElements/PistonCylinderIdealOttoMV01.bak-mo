@@ -37,7 +37,7 @@ model PistonCylinderIdealOttoMV01
   Modelica.SIunits.Work WintkCycle "work of intake stroke, single cycle, positive== into fluid";
   Modelica.SIunits.Work WexhCycle "work of exhaust stroke, single cycle, positive== into fluid";
   
-  Real pwrPumpingqPwrCycle "pwrPumping / pwrCycle, positive==loss";
+  Real pwrPumpingqPwrCycle "|pwrPumping / pwrCycle|";
   
   
   /* ---------------------------------------------
