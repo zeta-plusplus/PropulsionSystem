@@ -45,6 +45,8 @@ model PistonCylinderNonidealOttoMV01
   Modelica.SIunits.Work WintkCycle "work of intake stroke, single cycle, positive== into fluid";
   Modelica.SIunits.Work WexhCycle "work of exhaust stroke, single cycle, positive== into fluid";
   Real pwrPumpingqPwrCycle "pwrPumping / pwrCycle, positive==loss";
+  Modelica.SIunits.Pressure arr_p[8];
+  Modelica.SIunits.Volume arr_V[8];
   
   
   /* ---------------------------------------------
@@ -115,10 +117,31 @@ equation
   pwr_cmp = 1.0 / 2.0 * OttoCycle.W_1_2 * Nmech * 1.0 / 60.0;
   Q_add = 1.0 / 2.0 * OttoCycle.y_Q_2_3 * Nmech * 1.0 / 60.0;
   Q_reject = 1.0 / 2.0 * OttoCycle.y_Q_4_1 * Nmech * 1.0 / 60.0;
+  //---
+  arr_V[1] = OttoCycle.Vol1;
+  arr_V[2] = OttoCycle.Vol2;
+  arr_V[3] = OttoCycle.Vol3;
+  arr_V[4] = OttoCycle.Vol4;
+  arr_V[5] = OttoCycle.Vol4;
+  arr_V[6] = OttoCycle.Vol2;
+  arr_V[7] = OttoCycle.Vol2;
+  arr_V[8] = OttoCycle.Vol1;
+  //---
+  arr_p[1] = OttoCycle.fluidState_1.p;
+  arr_p[2] = OttoCycle.fluidState_2.p;
+  arr_p[3] = OttoCycle.fluidState_3.p;
+  arr_p[4] = OttoCycle.fluidState_4.p;
+  arr_p[5] = fluid_2.p;
+  arr_p[6] = fluid_2.p;
+  arr_p[7] = fluid_1.p;
+  arr_p[8] = fluid_1.p;
+  
+  //---
   annotation(
     defaultComponentName = "PistonCylinder",
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
     Icon(coordinateSystem(extent = {{-100, -120}, {100, 120}})));
+  
 end PistonCylinderNonidealOttoMV01;

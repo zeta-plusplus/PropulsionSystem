@@ -4,7 +4,7 @@ model CombustionEfficiency00_ex01
   extends Modelica.Icons.Example;
   PropulsionSystem.Subelements.CombustionEfficiency00 calcEffComb(switchFuel = PropulsionSystem.Types.switches.switch_fuel.gasoline)  annotation(
     Placement(visible = true, transformation(origin = {0, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 10, height = 0.199, offset = 0.001, startTime = 10)  annotation(
+  Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 10, height = 0.18, offset = 0.02, startTime = 10)  annotation(
     Placement(visible = true, transformation(origin = {-70, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Feedback feedback1 annotation(
     Placement(visible = true, transformation(origin = {-40, 36}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
