@@ -44,6 +44,12 @@ block OttoCycleNonideal00
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = false);
+  parameter Integer nPts_pV_par[4] = {10, 10, 10, 10} "" annotation(
+    Dialog(group = "Others"),
+    choicesAllMatching = true,
+    Evaluate = true,
+    HideResult = false);
+  
   //********** Initialization Parameters **********
   //--- fluidState_1 ---
   parameter Modelica.SIunits.Pressure p_state1_init(displayUnit = "Pa") = 101.3 * 1000 "" annotation(
@@ -130,13 +136,16 @@ block OttoCycleNonideal00
   Medium.BaseProperties fluidState_3(p(start = p_state3_init, min = 0.0 + 1.0e-10), T(start = T_state3_init, min = 0.0 + 1.0e-10), state.p(start = p_state3_init, min = 0.0 + 1.0e-10), state.T(start = T_state3_init, min = 0.0 + 1.0e-10), h(start = h_state3_init, min = 0.0 + 1.0e-10)) "fluid state 3";
   Medium.BaseProperties fluidState_4(p(start = p_state4_init, min = 0.0 + 1.0e-10), T(start = T_state4_init, min = 0.0 + 1.0e-10), state.p(start = p_state4_init, min = 0.0 + 1.0e-10), state.T(start = T_state4_init, min = 0.0 + 1.0e-10), h(start = h_state4_init, min = 0.0 + 1.0e-10)) "fluid state 4";
   PropulsionSystem.Utilities.arr_hs_const_p_00 curve_hs[4](redeclare package Medium = Medium, nPts_par = nPts_hs_par) annotation(
-    Placement(visible = true, transformation(origin = {-30, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-30, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Utilities.arr_pv_const_s_00 curve_pv[4](redeclare package Medium = Medium, nPts_par = nPts_pv_par) annotation(
-    Placement(visible = true, transformation(origin = {-30, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-30, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Utilities.arr_Ts_const_p_00 curve_Ts[4](redeclare package Medium = Medium, nPts_par = nPts_Ts_par) annotation(
-    Placement(visible = true, transformation(origin = {-30, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-30, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Utilities.arr_us_const_p_00 curve_us[4](redeclare package Medium = Medium, nPts_par = nPts_us_par) annotation(
-    Placement(visible = true, transformation(origin = {-30, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-30, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Utilities.arr_pV_const_s_00 curve_pV[4](redeclare package Medium = Medium, nPts_par = nPts_pV_par) annotation(
+    Placement(visible = true, transformation(origin = {-30, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
   /* ---------------------------------------------
         Interface
     --------------------------------------------- */
@@ -192,39 +201,176 @@ block OttoCycleNonideal00
     Placement(visible = true, transformation(origin = {80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {80, -120}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   //*************************************************************************************
 equation
-  connect(curve_pv[4].u_Xi, fluidState_4.Xi) annotation(
+  connect(curve_hs[4].u_Xi, fluidState_4.Xi) annotation(
     Line);
-  connect(curve_pv[4].u_s, s_state_4) annotation(
+  connect(curve_hs[4].u_p, fluidState_4.p) annotation(
     Line);
-  connect(curve_pv[4].u_pLower, fluidState_4.p) annotation(
+  connect(curve_hs[4].u_sUpper, s_state_4) annotation(
     Line);
-  connect(curve_pv[4].u_pUpper, fluidState_3.p) annotation(
+  connect(curve_hs[4].u_sLower, s_state_1) annotation(
     Line);
-  connect(curve_pv[3].u_Xi, fluidState_3.Xi) annotation(
+  connect(curve_hs[3].u_Xi, fluidState_3.Xi) annotation(
     Line);
-  connect(curve_pv[3].u_s, s_state_3) annotation(
+  connect(curve_hs[3].u_p, fluidState_3.p) annotation(
     Line);
-  connect(curve_pv[3].u_pLower, fluidState_4.p) annotation(
+  connect(curve_hs[3].u_sUpper, s_state_3) annotation(
     Line);
-  connect(curve_pv[3].u_pUpper, fluidState_3.p) annotation(
+  connect(curve_hs[3].u_sLower, s_state_2) annotation(
     Line);
-  connect(curve_pv[2].u_Xi, fluidState_2.Xi) annotation(
+  connect(curve_hs[2].u_Xi, fluidState_2.Xi) annotation(
     Line);
-  connect(curve_pv[2].u_s, s_state_2) annotation(
+  connect(curve_hs[2].u_p, fluidState_2.p) annotation(
     Line);
-  connect(curve_pv[2].u_pLower, fluidState_1.p) annotation(
+  connect(curve_hs[2].u_sUpper, s_state_3) annotation(
     Line);
-  connect(curve_pv[2].u_pUpper, fluidState_2.p) annotation(
+  connect(curve_hs[2].u_sLower, s_state_2) annotation(
     Line);
-  connect(curve_pv[1].u_Xi, fluidState_1.Xi) annotation(
+  connect(curve_hs[1].u_Xi, fluidState_1.Xi) annotation(
     Line);
-  connect(curve_pv[1].u_s, s_state_1) annotation(
+  connect(curve_hs[1].u_p, fluidState_1.p) annotation(
     Line);
-  connect(curve_pv[1].u_pLower, fluidState_1.p) annotation(
+  connect(curve_hs[1].u_sUpper, s_state_4) annotation(
+    Line);
+  connect(curve_hs[1].u_sLower, s_state_1) annotation(
     Line);
   connect(curve_pv[1].u_pUpper, fluidState_2.p) annotation(
     Line);
-/* ---------------------------------------------
+  connect(curve_pv[1].u_pLower, fluidState_1.p) annotation(
+    Line);
+  connect(curve_pv[1].u_s, s_state_1) annotation(
+    Line);
+  connect(curve_pv[1].u_Xi, fluidState_1.Xi) annotation(
+    Line);
+  connect(curve_pv[2].u_pUpper, fluidState_2.p) annotation(
+    Line);
+  connect(curve_pv[2].u_pLower, fluidState_1.p) annotation(
+    Line);
+  connect(curve_pv[2].u_s, s_state_2) annotation(
+    Line);
+  connect(curve_pv[2].u_Xi, fluidState_2.Xi) annotation(
+    Line);
+  connect(curve_pv[3].u_pUpper, fluidState_3.p) annotation(
+    Line);
+  connect(curve_pv[3].u_pLower, fluidState_4.p) annotation(
+    Line);
+  connect(curve_pv[3].u_s, s_state_3) annotation(
+    Line);
+  connect(curve_pv[3].u_Xi, fluidState_3.Xi) annotation(
+    Line);
+  connect(curve_pv[4].u_pUpper, fluidState_3.p) annotation(
+    Line);
+  connect(curve_pv[4].u_pLower, fluidState_4.p) annotation(
+    Line);
+  connect(curve_pv[4].u_s, s_state_4) annotation(
+    Line);
+  
+  connect(curve_pv[4].u_Xi, fluidState_4.Xi) annotation(
+    Line);
+  connect(curve_Ts[4].u_Xi, fluidState_4.Xi) annotation(
+    Line);
+  connect(curve_Ts[4].u_p, fluidState_4.p) annotation(
+    Line);
+  connect(curve_Ts[4].u_sUpper, s_state_4) annotation(
+    Line);
+  connect(curve_Ts[4].u_sLower, s_state_1) annotation(
+    Line);
+  connect(curve_Ts[3].u_Xi, fluidState_3.Xi) annotation(
+    Line);
+  connect(curve_Ts[3].u_p, fluidState_3.p) annotation(
+    Line);
+  connect(curve_Ts[3].u_sUpper, s_state_3) annotation(
+    Line);
+  connect(curve_Ts[3].u_sLower, s_state_2) annotation(
+    Line);
+  connect(curve_Ts[2].u_Xi, fluidState_2.Xi) annotation(
+    Line);
+  connect(curve_Ts[2].u_p, fluidState_2.p) annotation(
+    Line);
+  connect(curve_Ts[2].u_sUpper, s_state_3) annotation(
+    Line);
+  connect(curve_Ts[2].u_sLower, s_state_2) annotation(
+    Line);
+  connect(curve_Ts[1].u_Xi, fluidState_1.Xi) annotation(
+    Line);
+  connect(curve_Ts[1].u_p, fluidState_1.p) annotation(
+    Line);
+  connect(curve_Ts[1].u_sUpper, s_state_4) annotation(
+    Line);
+  connect(curve_Ts[1].u_sLower, s_state_1) annotation(
+    Line);
+  connect(curve_us[4].u_Xi, fluidState_4.Xi) annotation(
+    Line);
+  connect(curve_us[4].u_p, fluidState_4.p) annotation(
+    Line);
+  connect(curve_us[4].u_sUpper, s_state_4) annotation(
+    Line);
+  connect(curve_us[4].u_sLower, s_state_1) annotation(
+    Line);
+  connect(curve_us[3].u_Xi, fluidState_3.Xi) annotation(
+    Line);
+  connect(curve_us[3].u_p, fluidState_3.p) annotation(
+    Line);
+  connect(curve_us[3].u_sUpper, s_state_3) annotation(
+    Line);
+  connect(curve_us[3].u_sLower, s_state_2) annotation(
+    Line);
+  connect(curve_us[2].u_Xi, fluidState_2.Xi) annotation(
+    Line);
+  connect(curve_us[2].u_p, fluidState_2.p) annotation(
+    Line);
+  connect(curve_us[2].u_sUpper, s_state_3) annotation(
+    Line);
+  connect(curve_us[2].u_sLower, s_state_2) annotation(
+    Line);
+  connect(curve_us[1].u_Xi, fluidState_1.Xi) annotation(
+    Line);
+  connect(curve_us[1].u_p, fluidState_1.p) annotation(
+    Line);
+  connect(curve_us[1].u_sUpper, s_state_4) annotation(
+    Line);
+  connect(curve_us[1].u_sLower, s_state_1) annotation(
+    Line);
+  connect(curve_pV[4].u_m, massFluidCycle) annotation(
+    Line);
+  connect(curve_pV[4].u_Xi, fluidState_4.Xi) annotation(
+    Line);
+  connect(curve_pV[4].u_s, s_state_4) annotation(
+    Line);
+  connect(curve_pV[4].u_pLower, fluidState_4.p) annotation(
+    Line);
+  connect(curve_pV[4].u_pUpper, fluidState_3.p) annotation(
+    Line);
+  connect(curve_pV[3].u_m, massFluidCycle) annotation(
+    Line);
+  connect(curve_pV[3].u_Xi, fluidState_3.Xi) annotation(
+    Line);
+  connect(curve_pV[3].u_s, s_state_3) annotation(
+    Line);
+  connect(curve_pV[3].u_pLower, fluidState_4.p) annotation(
+    Line);
+  connect(curve_pV[3].u_pUpper, fluidState_3.p) annotation(
+    Line);
+  connect(curve_pV[2].u_m, massFluidCycle) annotation(
+    Line);
+  connect(curve_pV[2].u_Xi, fluidState_2.Xi) annotation(
+    Line);
+  connect(curve_pV[2].u_s, s_state_2) annotation(
+    Line);
+  connect(curve_pV[2].u_pLower, fluidState_1.p) annotation(
+    Line);
+  connect(curve_pV[2].u_pUpper, fluidState_2.p) annotation(
+    Line);
+  connect(curve_pV[1].u_m, massFluidCycle) annotation(
+    Line);
+  connect(curve_pV[1].u_Xi, fluidState_1.Xi) annotation(
+    Line);
+  connect(curve_pV[1].u_s, s_state_1) annotation(
+    Line);
+  connect(curve_pV[1].u_pLower, fluidState_1.p) annotation(
+    Line);
+  connect(curve_pV[1].u_pUpper, fluidState_2.p) annotation(
+    Line);
+  /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
 //--- u ---
@@ -259,65 +405,6 @@ equation
   y_p_fluidState_3 = fluidState_3.p;
   y_T_fluidState_3 = fluidState_3.T;
 //--- ---
-  connect(curve_hs[1].u_sLower, s_state_1);
-  connect(curve_hs[1].u_sUpper, s_state_4);
-  connect(curve_hs[1].u_p, fluidState_1.p);
-  connect(curve_hs[1].u_Xi, fluidState_1.Xi);
-//---
-  connect(curve_hs[2].u_sLower, s_state_2);
-  connect(curve_hs[2].u_sUpper, s_state_3);
-  connect(curve_hs[2].u_p, fluidState_2.p);
-  connect(curve_hs[2].u_Xi, fluidState_2.Xi);
-//---
-  connect(curve_hs[3].u_sLower, s_state_2);
-  connect(curve_hs[3].u_sUpper, s_state_3);
-  connect(curve_hs[3].u_p, fluidState_3.p);
-  connect(curve_hs[3].u_Xi, fluidState_3.Xi);
-//---
-  connect(curve_hs[4].u_sLower, s_state_1);
-  connect(curve_hs[4].u_sUpper, s_state_4);
-  connect(curve_hs[4].u_p, fluidState_4.p);
-  connect(curve_hs[4].u_Xi, fluidState_4.Xi);
-//--- ---
-  connect(curve_Ts[1].u_sLower, s_state_1);
-  connect(curve_Ts[1].u_sUpper, s_state_4);
-  connect(curve_Ts[1].u_p, fluidState_1.p);
-  connect(curve_Ts[1].u_Xi, fluidState_1.Xi);
-//---
-  connect(curve_Ts[2].u_sLower, s_state_2);
-  connect(curve_Ts[2].u_sUpper, s_state_3);
-  connect(curve_Ts[2].u_p, fluidState_2.p);
-  connect(curve_Ts[2].u_Xi, fluidState_2.Xi);
-//---
-  connect(curve_Ts[3].u_sLower, s_state_2);
-  connect(curve_Ts[3].u_sUpper, s_state_3);
-  connect(curve_Ts[3].u_p, fluidState_3.p);
-  connect(curve_Ts[3].u_Xi, fluidState_3.Xi);
-//---
-  connect(curve_Ts[4].u_sLower, s_state_1);
-  connect(curve_Ts[4].u_sUpper, s_state_4);
-  connect(curve_Ts[4].u_p, fluidState_4.p);
-  connect(curve_Ts[4].u_Xi, fluidState_4.Xi);
-//--- ---
-  connect(curve_us[1].u_sLower, s_state_1);
-  connect(curve_us[1].u_sUpper, s_state_4);
-  connect(curve_us[1].u_p, fluidState_1.p);
-  connect(curve_us[1].u_Xi, fluidState_1.Xi);
-//---
-  connect(curve_us[2].u_sLower, s_state_2);
-  connect(curve_us[2].u_sUpper, s_state_3);
-  connect(curve_us[2].u_p, fluidState_2.p);
-  connect(curve_us[2].u_Xi, fluidState_2.Xi);
-//---
-  connect(curve_us[3].u_sLower, s_state_2);
-  connect(curve_us[3].u_sUpper, s_state_3);
-  connect(curve_us[3].u_p, fluidState_3.p);
-  connect(curve_us[3].u_Xi, fluidState_3.Xi);
-//---
-  connect(curve_us[4].u_sLower, s_state_1);
-  connect(curve_us[4].u_sUpper, s_state_4);
-  connect(curve_us[4].u_p, fluidState_4.p);
-  connect(curve_us[4].u_Xi, fluidState_4.Xi);
 /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
