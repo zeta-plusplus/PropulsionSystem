@@ -50,6 +50,6 @@ equation
   Vlower = arr_V[nPts_par];
   Vupper = arr_V[1];
   annotation(
-    defaultComponentName = "arr_pv",
+    defaultComponentName = "arr_pVol",
     Icon(graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {3, -77}, extent = {{-101, -3}, {97, -23}}, textString = "%name")}));
 end arr_pVol_const_s_00;
