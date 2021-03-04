@@ -122,7 +122,7 @@ equation
   arr_p[5] = fluid_2.p;
   arr_p[6] = fluid_2.p;
   arr_p[7] = fluid_1.p;
-  arr_p[8] = fluid_1.p;
+  arr_p[8] = OttoCycle.fluidState_1.p;
   
   //---
   annotation(
