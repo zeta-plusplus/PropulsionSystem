@@ -44,7 +44,7 @@ block OttoCycleIdeal00
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = false);
-  parameter Integer nPts_pV_par[4] = {10, 10, 10, 10} "" annotation(
+  parameter Integer nPts_pVol_par[4] = {10, 10, 10, 10} "" annotation(
     Dialog(group = "Others"),
     choicesAllMatching = true,
     Evaluate = true,
@@ -190,49 +190,49 @@ block OttoCycleIdeal00
     Placement(visible = true, transformation(origin = {-30, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Utilities.arr_us_const_p_00 curve_us[4](redeclare package Medium = Medium, nPts_par = nPts_us_par) annotation(
     Placement(visible = true, transformation(origin = {-30, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Utilities.arr_pV_const_s_00 curve_pV[4](redeclare package Medium = Medium, nPts_par = nPts_pV_par) annotation(
+  PropulsionSystem.Utilities.arr_pVol_const_s_00 curve_pVol[4](redeclare package Medium = Medium, nPts_par = nPts_pVol_par) annotation(
     Placement(visible = true, transformation(origin = {-30, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
 equation
-  connect(curve_pV[4].u_m, massFluidCycle) annotation(
+  connect(curve_pVol[4].u_m, massFluidCycle) annotation(
     Line);
-  connect(curve_pV[4].u_Xi, fluidState_4.Xi) annotation(
+  connect(curve_pVol[4].u_Xi, fluidState_4.Xi) annotation(
     Line);
-  connect(curve_pV[4].u_s, s_state_4) annotation(
+  connect(curve_pVol[4].u_s, s_state_4) annotation(
     Line);
-  connect(curve_pV[4].u_pLower, fluidState_4.p) annotation(
+  connect(curve_pVol[4].u_pLower, fluidState_4.p) annotation(
     Line);
-  connect(curve_pV[4].u_pUpper, fluidState_3.p) annotation(
+  connect(curve_pVol[4].u_pUpper, fluidState_3.p) annotation(
     Line);
-  connect(curve_pV[3].u_m, massFluidCycle) annotation(
+  connect(curve_pVol[3].u_m, massFluidCycle) annotation(
     Line);
-  connect(curve_pV[3].u_Xi, fluidState_3.Xi) annotation(
+  connect(curve_pVol[3].u_Xi, fluidState_3.Xi) annotation(
     Line);
-  connect(curve_pV[3].u_s, s_state_3) annotation(
+  connect(curve_pVol[3].u_s, s_state_3) annotation(
     Line);
-  connect(curve_pV[3].u_pLower, fluidState_4.p) annotation(
+  connect(curve_pVol[3].u_pLower, fluidState_4.p) annotation(
     Line);
-  connect(curve_pV[3].u_pUpper, fluidState_3.p) annotation(
+  connect(curve_pVol[3].u_pUpper, fluidState_3.p) annotation(
     Line);
-  connect(curve_pV[2].u_m, massFluidCycle) annotation(
+  connect(curve_pVol[2].u_m, massFluidCycle) annotation(
     Line);
-  connect(curve_pV[2].u_Xi, fluidState_2.Xi) annotation(
+  connect(curve_pVol[2].u_Xi, fluidState_2.Xi) annotation(
     Line);
-  connect(curve_pV[2].u_s, s_state_2) annotation(
+  connect(curve_pVol[2].u_s, s_state_2) annotation(
     Line);
-  connect(curve_pV[2].u_pLower, fluidState_1.p) annotation(
+  connect(curve_pVol[2].u_pLower, fluidState_1.p) annotation(
     Line);
-  connect(curve_pV[2].u_pUpper, fluidState_2.p) annotation(
+  connect(curve_pVol[2].u_pUpper, fluidState_2.p) annotation(
     Line);
-  connect(curve_pV[1].u_m, massFluidCycle) annotation(
+  connect(curve_pVol[1].u_m, massFluidCycle) annotation(
     Line);
-  connect(curve_pV[1].u_Xi, fluidState_1.Xi) annotation(
+  connect(curve_pVol[1].u_Xi, fluidState_1.Xi) annotation(
     Line);
-  connect(curve_pV[1].u_s, s_state_1) annotation(
+  connect(curve_pVol[1].u_s, s_state_1) annotation(
     Line);
-  connect(curve_pV[1].u_pLower, fluidState_1.p) annotation(
+  connect(curve_pVol[1].u_pLower, fluidState_1.p) annotation(
     Line);
-  connect(curve_pV[1].u_pUpper, fluidState_2.p) annotation(
+  connect(curve_pVol[1].u_pUpper, fluidState_2.p) annotation(
     Line);
   
   connect(curve_hs[4].u_Xi, fluidState_4.Xi) annotation(

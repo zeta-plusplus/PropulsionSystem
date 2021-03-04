@@ -43,7 +43,7 @@ equation
   dp = (u_pUpper - u_pLower) / (nPts - 1);
   for i in 1:nPts_par loop
     arr_p[i] = u_pLower + dp * (i - 1);
-    arr_v[i] = u_m * 1.0 / Medium.density_psX(arr_p[i], u_s, u_Xi);
+    arr_v[i] = 1.0 / Medium.density_psX(arr_p[i], u_s, u_Xi);
   end for;
   vLower = arr_v[nPts_par];
   vUpper = arr_v[1];
