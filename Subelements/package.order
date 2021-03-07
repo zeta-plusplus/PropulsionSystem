@@ -1,5 +1,6 @@
 AltMN2pTh00
 Combustion00
+CombustionEfficiency00
 CompressorTable_WcPReff_NcRline00
 SclCmp_WcPReff00
 ScalerDesCmp_WcPReffNc00
@@ -7,7 +8,6 @@ TurbineTable_WcEff_NcPR00
 SclTrb_WcEff00
 ScalerDesTrb_WcEffNcPR00
 PropellerTable_CTCP_Jtheta00
-CombustionEfficiency00
 OttoCycleIdeal00
 OttoCycleIdeal01
 OttoCycleNonideal00
