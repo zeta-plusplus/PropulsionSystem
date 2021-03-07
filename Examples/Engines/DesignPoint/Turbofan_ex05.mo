@@ -1,6 +1,6 @@
-within PropulsionSystem.Examples.temp;
+within PropulsionSystem.Examples.Engines.DesignPoint;
 
-model Turbofan_temp
+model Turbofan_ex05
   extends Modelica.Icons.Example;
   //-----
   package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
@@ -248,4 +248,4 @@ equation
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
-end Turbofan_temp;
+end Turbofan_ex05;
