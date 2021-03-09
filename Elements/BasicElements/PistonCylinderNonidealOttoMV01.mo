@@ -62,11 +62,11 @@ model PistonCylinderNonidealOttoMV01
                       Interface
   --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_fracFuel annotation(
-    Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-74, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-90, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_m_flow_fuel(quantity = "MassFlowRate", unit = "kg/s", displayUnit = "kg/s") annotation(
-    Placement(visible = true, transformation(origin = {110, 38}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {80, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {110, 38}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {90, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_fracAir annotation(
-    Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-74, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //******************************************************************************************
 equation
   connect(u_fracFuel, calcEffComb.u_fracFuel) annotation(
@@ -117,7 +117,7 @@ equation
   pwr_cmp = 1.0 / 2.0 * OttoCycle.W_1_2 * Nmech * 1.0 / 60.0;
   Q_add = 1.0 / 2.0 * OttoCycle.y_Q_2_3 * Nmech * 1.0 / 60.0;
   Q_reject = 1.0 / 2.0 * OttoCycle.y_Q_4_1 * Nmech * 1.0 / 60.0;
-  //---
+//---
   arr_V[1] = OttoCycle.Vol1;
   arr_V[2] = OttoCycle.Vol2;
   arr_V[3] = OttoCycle.Vol3;
@@ -126,7 +126,7 @@ equation
   arr_V[6] = OttoCycle.Vol2;
   arr_V[7] = OttoCycle.Vol2;
   arr_V[8] = OttoCycle.Vol1;
-  //---
+//---
   arr_p[1] = OttoCycle.fluidState_1.p;
   arr_p[2] = OttoCycle.fluidState_2.p;
   arr_p[3] = OttoCycle.fluidState_3.p;
@@ -135,8 +135,7 @@ equation
   arr_p[6] = fluid_2.p;
   arr_p[7] = fluid_1.p;
   arr_p[8] = fluid_1.p;
-  
-  //---
+//---
   annotation(
     defaultComponentName = "PistonCylinder",
     __OpenModelica_commandLineOptions = "",
