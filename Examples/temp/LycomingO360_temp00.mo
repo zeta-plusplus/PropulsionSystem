@@ -34,7 +34,7 @@ model LycomingO360_temp00
   PropulsionSystem.Sources.FlightCondition2InletFluid01 Flt2Fluid(redeclare package Medium = engineFluid, use_u_MN = true, use_u_alt = true)  annotation(
     Placement(visible = true, transformation(origin = {-200, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder1(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 0.00591573 / 4.0)  annotation(
-    Placement(visible = true, transformation(origin = {-45.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-43.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder2(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 0.00591573 / 4.0)  annotation(
     Placement(visible = true, transformation(origin = {16.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_throttle(duration = 10, height = 0.5, offset = 0.5, startTime = 10) annotation(
@@ -58,6 +58,18 @@ model LycomingO360_temp00
   PropulsionSystem.Elements.BasicElements.LossRotMechCharFixed00 LossRotMech(eff_paramInput = 0.9)  annotation(
     Placement(visible = true, transformation(origin = {119, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(ramp_fracFuel.y, PistonCylinder1.u_fracFuel) annotation(
+    Line(points = {{-188, -100}, {-70, -100}, {-70, -36}, {-58, -36}}, color = {0, 0, 127}));
+  connect(feedback1.y, PistonCylinder1.u_fracAir) annotation(
+    Line(points = {{-160, -70}, {-76, -70}, {-76, -30}, {-62, -30}}, color = {0, 0, 127}));
+  connect(PistonCylinder.flange_2, PistonCylinder1.flange_1) annotation(
+    Line(points = {{-87, -56}, {-60, -56}}));
+  connect(PistonCylinder1.flange_2, PistonCylinder2.flange_1) annotation(
+    Line(points = {{-27, -56}, {0, -56}}));
+  connect(pressure1.port, PistonCylinder1.port_2) annotation(
+    Line(points = {{-110, 70}, {-27, 70}, {-27, -23}}, color = {0, 127, 255}));
+  connect(pressure2.port, PistonCylinder1.port_1) annotation(
+    Line(points = {{-140, 40}, {-60, 40}, {-60, -23}}, color = {0, 127, 255}));
   connect(feedback1.y, PistonCylinder.u_fracAir) annotation(
     Line(points = {{-161, -70}, {-134, -70}, {-134, -30}, {-122, -30}}, color = {0, 0, 127}));
   connect(ramp_fracFuel.y, PistonCylinder.u_fracFuel) annotation(
@@ -68,24 +80,12 @@ equation
     Line(points = {{-160, -70}, {-12, -70}, {-12, -30}, {-2, -30}}, color = {0, 0, 127}));
   connect(ramp_fracFuel.y, PistonCylinder2.u_fracFuel) annotation(
     Line(points = {{-188, -100}, {-6, -100}, {-6, -36}, {0, -36}, {0, -36}}, color = {0, 0, 127}));
-  connect(ramp_fracFuel.y, PistonCylinder1.u_fracFuel) annotation(
-    Line(points = {{-188, -100}, {-70, -100}, {-70, -36}, {-62, -36}}, color = {0, 0, 127}));
   connect(feedback1.y, PistonCylinder3.u_fracAir) annotation(
     Line(points = {{-160, -70}, {44, -70}, {44, -30}, {58, -30}, {58, -30}}, color = {0, 0, 127}));
-  connect(feedback1.y, PistonCylinder1.u_fracAir) annotation(
-    Line(points = {{-160, -70}, {-76, -70}, {-76, -30}, {-64, -30}, {-64, -30}}, color = {0, 0, 127}));
-  connect(PistonCylinder.flange_2, PistonCylinder1.flange_1) annotation(
-    Line(points = {{-87, -56}, {-62, -56}}));
   connect(pressure1.port, PistonCylinder.port_2) annotation(
     Line(points = {{-110, 70}, {-87, 70}, {-87, -23}}, color = {0, 127, 255}));
   connect(pressure2.port, PistonCylinder.port_1) annotation(
     Line(points = {{-140, 40}, {-120, 40}, {-120, -23}}, color = {0, 127, 255}));
-  connect(PistonCylinder1.flange_2, PistonCylinder2.flange_1) annotation(
-    Line(points = {{-28, -56}, {0, -56}, {0, -56}, {0, -56}}));
-  connect(pressure1.port, PistonCylinder1.port_2) annotation(
-    Line(points = {{-110, 70}, {-29, 70}, {-29, -23}}, color = {0, 127, 255}));
-  connect(pressure2.port, PistonCylinder1.port_1) annotation(
-    Line(points = {{-140, 40}, {-62, 40}, {-62, -23}}, color = {0, 127, 255}));
   connect(from_rpm1.y, speed1.w_ref) annotation(
     Line(points = {{230, -40}, {230, -40}, {230, -56}, {222, -56}, {222, -56}}, color = {0, 0, 127}));
   connect(ramp_Nmech.y, from_rpm1.u) annotation(
