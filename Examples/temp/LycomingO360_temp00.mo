@@ -29,7 +29,7 @@ model LycomingO360_temp00
     Placement(visible = true, transformation(origin = {-200, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Feedback feedback1 annotation(
     Placement(visible = true, transformation(origin = {-170, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 throttle(redeclare package Medium = engineFluid, diam_paramInput = 0.02) annotation(
+  FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 throttle(redeclare package Medium = engineFluid, diam_paramInput = 0.03) annotation(
     Placement(visible = true, transformation(origin = {-170, 40}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   PropulsionSystem.Sources.FlightCondition2InletFluid01 Flt2Fluid(redeclare package Medium = engineFluid, use_u_MN = true, use_u_alt = true)  annotation(
     Placement(visible = true, transformation(origin = {-200, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -51,13 +51,19 @@ model LycomingO360_temp00
     Placement(visible = true, transformation(origin = {-140, 70}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Pressure pressure1(redeclare package Medium = engineFluid) annotation(
     Placement(visible = true, transformation(origin = {-110, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.Gain W2hp(k = 0.0013410220888)  annotation(
-    Placement(visible = true, transformation(origin = {142, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Fluid.Sensors.Pressure pressure2(redeclare package Medium = engineFluid) annotation(
     Placement(visible = true, transformation(origin = {-140, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  PropulsionSystem.Elements.BasicElements.LossRotMechCharFixed00 LossRotMech(eff_paramInput = 0.99)  annotation(
+  PropulsionSystem.Elements.BasicElements.LossRotMechCharFixed00 LossRotMech(eff_paramInput = 0.9)  annotation(
     Placement(visible = true, transformation(origin = {119, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  FluidSystemComponents.Utilities.UnitConversion.W2hp W2hp annotation(
+    Placement(visible = true, transformation(origin = {142, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  FluidSystemComponents.Utilities.UnitConversion.Pa2inHg Pa2inHg annotation(
+    Placement(visible = true, transformation(origin = {-160, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
+  connect(pressure2.p, Pa2inHg.u) annotation(
+    Line(points = {{-150, 30}, {-160, 30}, {-160, 12}, {-160, 12}}, color = {0, 0, 127}));
+  connect(powerSensor1.power, W2hp.u) annotation(
+    Line(points = {{142, -66}, {142, -66}, {142, -78}, {142, -78}}, color = {0, 0, 127}));
   connect(ramp_fracFuel.y, PistonCylinder1.u_fracFuel) annotation(
     Line(points = {{-188, -100}, {-70, -100}, {-70, -36}, {-58, -36}}, color = {0, 0, 127}));
   connect(feedback1.y, PistonCylinder1.u_fracAir) annotation(
@@ -94,8 +100,6 @@ equation
     Line(points = {{190, -56}, {200, -56}, {200, -56}, {200, -56}}));
   connect(powerSensor1.flange_b, inertia1.flange_a) annotation(
     Line(points = {{160, -56}, {170, -56}}));
-  connect(powerSensor1.power, W2hp.u) annotation(
-    Line(points = {{142, -67}, {142, -67}, {142, -79}, {142, -79}}, color = {0, 0, 127}));
   connect(LossRotMech.flange_2, powerSensor1.flange_a) annotation(
     Line(points = {{129, -56}, {140, -56}}));
   connect(PistonCylinder3.flange_2, LossRotMech.flange_1) annotation(
