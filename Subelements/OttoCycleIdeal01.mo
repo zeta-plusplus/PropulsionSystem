@@ -49,7 +49,6 @@ block OttoCycleIdeal01
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = false);
-  
   //********** Initialization Parameters **********
   //--- fluidState_1 ---
   parameter Modelica.SIunits.Pressure p_state1_init(displayUnit = "Pa") = 101.3 * 1000 "" annotation(
