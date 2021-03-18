@@ -48,7 +48,7 @@ equation
   vLower = arr_v[nPts_par];
   vUpper = arr_v[1];
   annotation(
-    defaultComponentName = "arr_pv",
+    defaultComponentName = "curve_pv",
     Icon(graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {3, -77}, extent = {{-101, -3}, {97, -23}}, textString = "%name")}));
 
 end arr_pv_const_s_00;

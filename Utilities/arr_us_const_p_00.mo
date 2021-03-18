@@ -48,7 +48,7 @@ equation
   uLower = arr_u[1];
   uUpper = arr_u[nPts_par];
   annotation(
-    defaultComponentName = "arr_us",
+    defaultComponentName = "curve_us",
     Icon(graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {3, -77}, extent = {{-101, -3}, {97, -23}}, textString = "%name")}));
 
 end arr_us_const_p_00;

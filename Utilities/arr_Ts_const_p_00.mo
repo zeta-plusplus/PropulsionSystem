@@ -48,7 +48,7 @@ equation
   TLower = arr_T[1];
   TUpper = arr_T[nPts_par];
   annotation(
-    defaultComponentName = "arr_Ts",
+    defaultComponentName = "curve_Ts",
     Icon(graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {3, -77}, extent = {{-101, -3}, {97, -23}}, textString = "%name")}));
 
 end arr_Ts_const_p_00;

@@ -58,7 +58,7 @@ equation
   hUpper=arr_h[nPts_par];
   
 annotation(
-  defaultComponentName = "arr_hs",
+  defaultComponentName = "curve_hs",
   Icon(graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {3, -77}, extent = {{-101, -3}, {97, -23}}, textString = "%name")}));
 
 end arr_hs_const_p_00;
