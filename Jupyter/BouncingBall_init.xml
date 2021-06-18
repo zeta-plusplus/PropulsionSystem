@@ -1,0 +1,220 @@
+<?xml version = "1.0" encoding="UTF-8"?>
+
+<!-- description of the model interface using an extention of the FMI standard -->
+<fmiModelDescription
+  fmiVersion                          = "1.0"
+
+  modelName                           = "BouncingBall"
+  modelIdentifier                     = "BouncingBall"
+
+  OPENMODELICAHOME                    = "/usr/bin/.."
+
+  guid                                = "{2b8695d3-1042-4541-b3be-e802cd000bbd}"
+
+  description                         = ""
+  generationTool                      = "OpenModelica Compiler OpenModelica 1.17.0"
+  generationDateAndTime               = "2021-06-03T20:09:30Z"
+
+  variableNamingConvention            = "structured"
+
+  numberOfEventIndicators             = "3"  cmt_numberOfEventIndicators             = "NG:       number of zero crossings,                           FMI"
+  numberOfTimeEvents                  = "0"  cmt_numberOfTimeEvents                  = "NG_SAM:   number of zero crossings that are samples,          OMC"
+
+  numberOfInputVariables              = "0"  cmt_numberOfInputVariables              = "NI:       number of inputvar on topmodel,                     OMC"
+  numberOfOutputVariables             = "0"  cmt_numberOfOutputVariables             = "NO:       number of outputvar on topmodel,                    OMC"
+
+  numberOfExternalObjects             = "0"  cmt_numberOfExternalObjects             = "NEXT:     number of external objects,                         OMC"
+  numberOfFunctions                   = "0"  cmt_numberOfFunctions                   = "NFUNC:    number of functions used by the simulation,         OMC"
+
+  numberOfContinuousStates            = "2"  cmt_numberOfContinuousStates            = "NX:       number of states,                                   FMI"
+  numberOfRealAlgebraicVariables      = "1"  cmt_numberOfRealAlgebraicVariables      = "NY:       number of real variables,                           OMC"
+  numberOfRealAlgebraicAliasVariables = "0"  cmt_numberOfRealAlgebraicAliasVariables = "NA:       number of alias variables,                          OMC"
+  numberOfRealParameters              = "2"  cmt_numberOfRealParameters              = "NP:       number of parameters,                               OMC"
+
+  numberOfIntegerAlgebraicVariables   = "1"  cmt_numberOfIntegerAlgebraicVariables   = "NYINT:    number of alg. int variables,                       OMC"
+  numberOfIntegerAliasVariables       = "0"  cmt_numberOfIntegerAliasVariables       = "NAINT:    number of alias int variables,                      OMC"
+  numberOfIntegerParameters           = "0"  cmt_numberOfIntegerParameters           = "NPINT:    number of int parameters,                           OMC"
+
+  numberOfStringAlgebraicVariables    = "0"  cmt_numberOfStringAlgebraicVariables    = "NYSTR:    number of alg. string variables,                    OMC"
+  numberOfStringAliasVariables        = "0"  cmt_numberOfStringAliasVariables        = "NASTR:    number of alias string variables,                   OMC"
+  numberOfStringParameters            = "0"  cmt_numberOfStringParameters            = "NPSTR:    number of string parameters,                        OMC"
+
+  numberOfBooleanAlgebraicVariables   = "5"  cmt_numberOfBooleanAlgebraicVariables   = "NYBOOL:   number of alg. bool variables,                      OMC"
+  numberOfBooleanAliasVariables       = "0"  cmt_numberOfBooleanAliasVariables       = "NABOOL:   number of alias bool variables,                     OMC"
+  numberOfBooleanParameters           = "0"  cmt_numberOfBooleanParameters           = "NPBOOL:   number of bool parameters,                          OMC" >
+
+
+  <!-- startTime, stopTime, tolerance are FMI specific, all others are OMC specific -->
+  <DefaultExperiment
+    startTime      = "0"
+    stopTime       = "3"
+    stepSize       = "0.006"
+    tolerance      = "1e-06"
+    solver        = "dassl"
+    outputFormat      = "csv"
+    variableFilter      = ".*" />
+
+  <!-- variables in the model -->
+  <ModelVariables>
+
+  <ScalarVariable
+    name = "h"
+    valueReference = "1000"
+    description = "height of ball"
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "true"
+    alias = "noAlias"
+    classIndex = "0" classType = "rSta"
+    isProtected = "false" hideResult = "false"
+    fileName = "/usr/share/doc/omc/testmodels/BouncingBall.mo" startLine = "4" startColumn = "3" endLine = "4" endColumn = "47" fileWritable = "false">
+    <Real start="1.0" fixed="true" useNominal="false" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "v"
+    valueReference = "1001"
+    description = "velocity of ball"
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "true"
+    alias = "noAlias"
+    classIndex = "1" classType = "rSta"
+    isProtected = "false" hideResult = "false"
+    fileName = "/usr/share/doc/omc/testmodels/BouncingBall.mo" startLine = "5" startColumn = "3" endLine = "5" endColumn = "40" fileWritable = "false">
+    <Real fixed="true" useNominal="false" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "der(h)"
+    valueReference = "1002"
+    description = "der(height of ball)"
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "0" classType = "rDer"
+    isProtected = "false" hideResult = "false"
+    fileName = "/usr/share/doc/omc/testmodels/BouncingBall.mo" startLine = "4" startColumn = "3" endLine = "4" endColumn = "47" fileWritable = "false">
+    <Real fixed="false" useNominal="false" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "der(v)"
+    valueReference = "1003"
+    description = "der(velocity of ball)"
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "1" classType = "rDer"
+    isProtected = "false" hideResult = "false"
+    fileName = "/usr/share/doc/omc/testmodels/BouncingBall.mo" startLine = "5" startColumn = "3" endLine = "5" endColumn = "40" fileWritable = "false">
+    <Real fixed="false" useNominal="false" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "v_new"
+    valueReference = "1004"
+    variability = "discrete" isDiscrete = "true"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "0" classType = "rAlg"
+    isProtected = "false" hideResult = "false"
+    fileName = "/usr/share/doc/omc/testmodels/BouncingBall.mo" startLine = "8" startColumn = "3" endLine = "8" endColumn = "25" fileWritable = "false">
+    <Real fixed="true" useNominal="false" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "e"
+    valueReference = "1005"
+    description = "coefficient of restitution"
+    variability = "parameter" isDiscrete = "true"
+    causality = "parameter" isValueChangeable = "true"
+    alias = "noAlias"
+    classIndex = "0" classType = "rPar"
+    isProtected = "false" hideResult = "false"
+    fileName = "/usr/share/doc/omc/testmodels/BouncingBall.mo" startLine = "2" startColumn = "3" endLine = "2" endColumn = "52" fileWritable = "false">
+    <Real start="0.7" fixed="true" useNominal="false" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "g"
+    valueReference = "1006"
+    description = "gravity acceleration"
+    variability = "parameter" isDiscrete = "true"
+    causality = "parameter" isValueChangeable = "true"
+    alias = "noAlias"
+    classIndex = "1" classType = "rPar"
+    isProtected = "false" hideResult = "false"
+    fileName = "/usr/share/doc/omc/testmodels/BouncingBall.mo" startLine = "3" startColumn = "3" endLine = "3" endColumn = "47" fileWritable = "false">
+    <Real start="9.81" fixed="true" useNominal="false" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "foo"
+    valueReference = "1007"
+    variability = "discrete" isDiscrete = "true"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "0" classType = "iAlg"
+    isProtected = "false" hideResult = "false"
+    fileName = "/usr/share/doc/omc/testmodels/BouncingBall.mo" startLine = "9" startColumn = "3" endLine = "9" endColumn = "14" fileWritable = "false">
+    <Integer start="2" fixed="false" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "$whenCondition1"
+    valueReference = "1008"
+    description = "impact and v &lt;= 0.0"
+    variability = "discrete" isDiscrete = "true"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "0" classType = "bAlg"
+    isProtected = "true" hideResult = "true"
+    fileName = "/usr/share/doc/omc/testmodels/BouncingBall.mo" startLine = "18" startColumn = "5" endLine = "18" endColumn = "50" fileWritable = "false">
+    <Boolean fixed="true" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "$whenCondition2"
+    valueReference = "1009"
+    description = "impact"
+    variability = "discrete" isDiscrete = "true"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "1" classType = "bAlg"
+    isProtected = "true" hideResult = "true"
+    fileName = "/usr/share/doc/omc/testmodels/BouncingBall.mo" startLine = "18" startColumn = "5" endLine = "18" endColumn = "50" fileWritable = "false">
+    <Boolean start="false" fixed="true" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "$whenCondition3"
+    valueReference = "1010"
+    description = "h &lt;= 0.0 and v &lt;= 0.0"
+    variability = "discrete" isDiscrete = "true"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "2" classType = "bAlg"
+    isProtected = "true" hideResult = "true"
+    fileName = "/usr/share/doc/omc/testmodels/BouncingBall.mo" startLine = "20" startColumn = "5" endLine = "20" endColumn = "21" fileWritable = "false">
+    <Boolean fixed="true" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "flying"
+    valueReference = "1011"
+    description = "true, if ball is flying"
+    variability = "discrete" isDiscrete = "true"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "3" classType = "bAlg"
+    isProtected = "false" hideResult = "false"
+    fileName = "/usr/share/doc/omc/testmodels/BouncingBall.mo" startLine = "6" startColumn = "3" endLine = "6" endColumn = "67" fileWritable = "false">
+    <Boolean start="true" fixed="true" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "impact"
+    valueReference = "1012"
+    variability = "discrete" isDiscrete = "true"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "4" classType = "bAlg"
+    isProtected = "false" hideResult = "false"
+    fileName = "/usr/share/doc/omc/testmodels/BouncingBall.mo" startLine = "7" startColumn = "3" endLine = "7" endColumn = "17" fileWritable = "false">
+    <Boolean start="false" fixed="false" />
+  </ScalarVariable>
+
+
+
+  </ModelVariables>
+
+
+</fmiModelDescription>
+
