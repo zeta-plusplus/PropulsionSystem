@@ -77,7 +77,7 @@ model LycomO360superCharged_ex01
     Placement(visible = true, transformation(origin = {-185, -16}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Mechanics.Rotational.Sensors.SpeedSensor speedSensor_superCharger annotation(
     Placement(visible = true, transformation(origin = {-185, -46}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.Rotational.Components.IdealGear idealGear1(ratio = 5.0 / 1.0)  annotation(
+  Modelica.Mechanics.Rotational.Components.IdealGear idealGear1(ratio = 2.0 / 1.0)  annotation(
     Placement(visible = true, transformation(origin = {-160, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(exhLine.port_1, temperature.port) annotation(
