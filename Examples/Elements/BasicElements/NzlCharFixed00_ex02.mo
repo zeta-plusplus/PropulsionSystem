@@ -16,15 +16,15 @@ model NzlCharFixed00_ex02
     Placement(visible = true, transformation(origin = {-20, 8}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.NzlCharFixed00 Nzl(redeclare package Medium = engineAir, switchDetermine_AmechTh = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput, use_u_CdTh = true, use_u_Cv = true) annotation(
     Placement(visible = true, transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_p_in(duration = 10, height = 1.0 * 101.325 * 1000, offset = 1.5 * 101.325 * 1000, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_p_in(duration = 10, height = 0.0 * 101.325 * 1000, offset = 1.5 * 101.325 * 1000, startTime = 50) annotation(
     Placement(visible = true, transformation(origin = {-90, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_p_amb(duration = 10, height = 0.0, offset = 1.0 * 101.325 * 1000, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_p_amb(duration = 10, height = -0.5 * 101.325 * 1000, offset = 1.0 * 101.325 * 1000, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {50, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Sources.Ramp ramp_AmechTh(duration = 10, height = -0.1 * 0.00287, offset = 0.00287, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_AmechTh(duration = 10, height = -0.0 * 0.00287, offset = 0.00287, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {26, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Blocks.Sources.Ramp ramp_Cv(duration = 10, height = 0.04, offset = 0.95, startTime = 50) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_Cv(duration = 10, height = 0.0, offset = 0.95, startTime = 50) annotation(
     Placement(visible = true, transformation(origin = {20, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Blocks.Sources.Ramp ramp_CdTh(duration = 10, height = 0.04, offset = 0.95, startTime = 70) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_CdTh(duration = 10, height = 0.0, offset = 0.95, startTime = 70) annotation(
     Placement(visible = true, transformation(origin = {16, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 equation
   connect(ramp_CdTh.y, Nzl.u_CdTh) annotation(
@@ -44,6 +44,6 @@ equation
   connect(massFlowRate1.port_b, Nzl.port_1) annotation(
     Line(points = {{-10, 8}, {10, 8}, {10, 8}, {10, 8}}, color = {0, 127, 255}));
   annotation(
-    experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-06, Interval = 0.18),
+    experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-06, Interval = 0.1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
 end NzlCharFixed00_ex02;
