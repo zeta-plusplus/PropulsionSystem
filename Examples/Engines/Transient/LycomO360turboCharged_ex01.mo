@@ -65,7 +65,7 @@ model LycomO360turboCharged_ex01
     Placement(visible = true, transformation(origin = {-220, 60}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Sources.Ramp ramp_trqLoad(duration = 10, height = 0, offset = 0, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {240, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
-  Modelica.Mechanics.Rotational.Components.Damper damper1(d = 0.5) annotation(
+  Modelica.Mechanics.Rotational.Components.Damper damper1(d = 2.0) annotation(
     Placement(visible = true, transformation(origin = {220, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Components.Fixed fixed1 annotation(
     Placement(visible = true, transformation(origin = {240, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
@@ -178,5 +178,6 @@ equation
     Line(points = {{33, -56.3}, {60, -56.3}}));
   annotation(
     Diagram(coordinateSystem(extent = {{-320, -160}, {280, 200}})),
-    __OpenModelica_commandLineOptions = "");
+    __OpenModelica_commandLineOptions = "",
+  experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-6, Interval = 0.1));
 end LycomO360turboCharged_ex01;
