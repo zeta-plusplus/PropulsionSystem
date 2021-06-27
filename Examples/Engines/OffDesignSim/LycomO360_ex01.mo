@@ -23,8 +23,6 @@ model LycomO360_ex01
     Placement(visible = true, transformation(origin = {-220, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_alt(duration = 10, height = 0, offset = 0, startTime = 50) annotation(
     Placement(visible = true, transformation(origin = {-240, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 5e-3, w(fixed = false, start = 2000 * (2 * Modelica.Constants.pi / 60))) annotation(
-    Placement(visible = true, transformation(origin = {180, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const(k = 1) annotation(
     Placement(visible = true, transformation(origin = {-200, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Feedback feedback1 annotation(
@@ -45,7 +43,7 @@ model LycomO360_ex01
     Placement(visible = true, transformation(origin = {210, -56}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
     Placement(visible = true, transformation(origin = {230, -30}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
-  Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 10, height = 0, offset = 2400, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 10, height = 0, offset = 2700, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {230, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   Modelica.Fluid.Sensors.Pressure pressure1(redeclare package Medium = engineFluid) annotation(
     Placement(visible = true, transformation(origin = {-90, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -64,6 +62,8 @@ model LycomO360_ex01
   Modelica.Fluid.Sensors.Temperature temperature(redeclare package Medium = engineFluid) annotation(
     Placement(visible = true, transformation(origin = {-150, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(powerSensor1.flange_b, speed1.flange) annotation(
+    Line(points = {{160, -56}, {200, -56}, {200, -56}, {200, -56}}));
   connect(temperature.port, exhLine.port_2) annotation(
     Line(points = {{-150, 60}, {-130, 60}, {-130, 60}, {-130, 60}}, color = {0, 127, 255}));
   connect(exhLine.port_1, pressure1.port) annotation(
@@ -112,10 +112,6 @@ equation
     Line(points = {{230, -40}, {230, -40}, {230, -56}, {222, -56}, {222, -56}}, color = {0, 0, 127}));
   connect(ramp_Nmech.y, from_rpm1.u) annotation(
     Line(points = {{230, -10}, {230, -10}, {230, -18}, {230, -18}}, color = {0, 0, 127}));
-  connect(inertia1.flange_b, speed1.flange) annotation(
-    Line(points = {{190, -56}, {200, -56}, {200, -56}, {200, -56}}));
-  connect(powerSensor1.flange_b, inertia1.flange_a) annotation(
-    Line(points = {{160, -56}, {170, -56}}));
   connect(LossRotMech.flange_2, powerSensor1.flange_a) annotation(
     Line(points = {{129, -56}, {140, -56}}));
   connect(PistonCylinder3.flange_2, LossRotMech.flange_1) annotation(
@@ -143,7 +139,7 @@ equation
   connect(ramp_alt.y, Flt2Fluid.u_alt) annotation(
     Line(points = {{-229, 50}, {-220, 50}, {-220, 48}, {-211, 48}}, color = {0, 0, 127}));
   annotation(
-    experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-06, Interval = 0.181087),
+    experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-06, Interval = 0.1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
     Diagram(coordinateSystem(extent = {{-260, -140}, {260, 140}})),
     __OpenModelica_commandLineOptions = "");
