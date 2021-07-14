@@ -17,8 +17,6 @@ model CycleComparison_01
     Placement(visible = true, transformation(origin = {-80, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const_Xi_fluidState_1[engineAir.nXi](k = {0.0, 0.768, 0.232}) annotation(
     Placement(visible = true, transformation(origin = {-80, -180}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_h_fluidState_1(duration = 10, height = 50 * 1.004 * 1000, offset = 288.15 * 1.004 * 1000, startTime = 30) annotation(
-    Placement(visible = true, transformation(origin = {-80, -150}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Subelements.DieselCycleIdeal00 DieselCycle(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {140, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Subelements.OttoCycleIdeal00 OttoCycle(redeclare package Medium = engineAir) annotation(
@@ -56,10 +54,6 @@ equation
     Line(points = {{-69, -180}, {110, -180}, {110, -40}, {116, -40}}, color = {0, 0, 127}, thickness = 0.5));
   connect(const_Xi_fluidState_1.y, OttoCycle.u_Xi_fluidState_1) annotation(
     Line(points = {{-69, -180}, {-12, -180}, {-12, -40}, {-4, -40}}, color = {0, 0, 127}, thickness = 0.5));
-  connect(ramp_h_fluidState_1.y, DieselCycle.u_h_fluidState_1) annotation(
-    Line(points = {{-69, -150}, {104, -150}, {104, -28}, {116, -28}}, color = {0, 0, 127}));
-  connect(ramp_h_fluidState_1.y, OttoCycle.u_h_fluidState_1) annotation(
-    Line(points = {{-69, -150}, {-18, -150}, {-18, -28}, {-4, -28}}, color = {0, 0, 127}));
   annotation(
     Diagram(coordinateSystem(extent = {{-100, -200}, {180, 120}})),
     __OpenModelica_commandLineOptions = "",
