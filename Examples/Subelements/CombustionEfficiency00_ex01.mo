@@ -21,4 +21,6 @@ equation
     Line(points = {{-59, 10}, {-18, 10}, {-18, 24}, {-11, 24}}, color = {0, 0, 127}));
 annotation(
     experiment(StartTime = 0, StopTime = 30, Tolerance = 1e-6, Interval = 0.06),
-    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));end CombustionEfficiency00_ex01;
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
+    
+end CombustionEfficiency00_ex01;

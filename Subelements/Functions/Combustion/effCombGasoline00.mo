@@ -2,6 +2,11 @@ within PropulsionSystem.Subelements.Functions.Combustion;
 
 function effCombGasoline00
   extends Modelica.Icons.Function;
+  /* ************************************************************
+  ref:
+    https://x-engineer.org/automotive-engineering/internal-combustion-engines/performance/air-fuel-ratio-lambda-engine-performance/
+  ************************************************************ */
+  
   //********** declare inputs **********
   input Real fracAir;
   input Real fracFuel;

@@ -1,6 +1,11 @@
 within PropulsionSystem.Subelements;
 
 block CombustionEfficiency00
+  /* ************************************************************
+  ref:
+    https://x-engineer.org/automotive-engineering/internal-combustion-engines/performance/air-fuel-ratio-lambda-engine-performance/
+  ************************************************************ */
+  
   /********************************************************
               imports   
   ********************************************************/
@@ -29,7 +34,7 @@ block CombustionEfficiency00
         Internal variables    
   --------------------------------------------- */
   Real effComb;
-  Real lambda;
+  Real lambda "equivalence air-fuel ratio";
   Real AFR;
   Real FAR;
   Boolean flagValid;
