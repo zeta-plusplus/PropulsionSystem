@@ -9,7 +9,7 @@ model PistonCylinderNonidealOttoMV01_ex01
   //-----
   inner Modelica.Fluid.System system(allowFlowReversal = false)  annotation(
     Placement(visible = true, transformation(origin = {-90, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = engineFluid, T = 15 + 273.15, nPorts = 2, p = 101.325 * 1000, use_T_in = true, use_p_in = true) annotation(
+  Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = engineFluid, T = 15 + 273.15, nPorts = 1, p = 101.325 * 1000, use_T_in = true, use_p_in = true) annotation(
     Placement(visible = true, transformation(origin = {-90, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 10, height = 0.06, offset = 0.04, startTime = 70) annotation(
     Placement(visible = true, transformation(origin = {-110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -48,10 +48,16 @@ model PistonCylinderNonidealOttoMV01_ex01
   Modelica.Blocks.Math.Feedback feedback1 annotation(
     Placement(visible = true, transformation(origin = {-80, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(ramp_fracFuel.y, PistonCylinder.u_fracFuel) annotation(
-    Line(points = {{-99, -60}, {-62, -60}, {-62, -3}, {-35, -3}}, color = {0, 0, 127}));
+  connect(PistonCylinder.flange_2, powerSensor1.flange_a) annotation(
+    Line(points = {{-1, -30}, {10, -30}}));
+  connect(Orifice.port_2, PistonCylinder.port_1) annotation(
+    Line(points = {{-50, 20}, {-40, 20}, {-40, 9}}, color = {0, 127, 255}));
+  connect(PistonCylinder.port_2, Orifice1.port_1) annotation(
+    Line(points = {{-1, 9}, {20, 9}}, color = {0, 127, 255}));
   connect(feedback1.y, PistonCylinder.u_fracAir) annotation(
-    Line(points = {{-71, -30}, {-66, -30}, {-66, 3}, {-35, 3}}, color = {0, 0, 127}));
+    Line(points = {{-71, -30}, {-66, -30}, {-66, 1}, {-42, 1}}, color = {0, 0, 127}));
+  connect(ramp_fracFuel.y, PistonCylinder.u_fracFuel) annotation(
+    Line(points = {{-99, -60}, {-62, -60}, {-62, -7}, {-38, -7}}, color = {0, 0, 127}));
   connect(ramp_fracFuel.y, feedback1.u2) annotation(
     Line(points = {{-99, -60}, {-80, -60}, {-80, -38}}, color = {0, 0, 127}));
   connect(const.y, feedback1.u1) annotation(
@@ -60,12 +66,6 @@ equation
     Line(points = {{40, 9}, {56, 9}, {56, 50}}, color = {0, 127, 255}));
   connect(ramp_zeta1.y, Orifice1.u_zeta) annotation(
     Line(points = {{22, 50}, {26, 50}, {26, 18}}, color = {0, 0, 127}));
-  connect(PistonCylinder.port_2, Orifice1.port_1) annotation(
-    Line(points = {{-1, 9}, {20, 9}}, color = {0, 127, 255}));
-  connect(Orifice.port_2, PistonCylinder.port_1) annotation(
-    Line(points = {{-50, 20}, {-40, 20}, {-40, 9}}, color = {0, 127, 255}));
-  connect(PistonCylinder.flange_2, powerSensor1.flange_a) annotation(
-    Line(points = {{-1, -30}, {10, -30}}));
   connect(powerSensor1.flange_b, inertia1.flange_a) annotation(
     Line(points = {{30, -30}, {40, -30}, {40, -30}, {40, -30}}));
   connect(inertia1.flange_b, damper1.flange_a) annotation(
