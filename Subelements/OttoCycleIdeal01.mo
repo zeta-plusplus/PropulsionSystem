@@ -122,6 +122,8 @@ block OttoCycleIdeal01
   Modelica.SIunits.Volume arr_V[5];
   Modelica.SIunits.SpecificVolume arr_v[5];
   Modelica.SIunits.Temperature arr_T[5];
+  Real PR_1_2 "pressure ratio, compression";
+  Real PR_3_4 "pressure ratio, expansion";
   Boolean flag_W34_gt_Q23 "flag, true if |Q_2_3|<|W_3_4|";
   /* ---------------------------------------------
           Internal objects
@@ -433,6 +435,10 @@ equation
   else
     flag_W34_gt_Q23 = false;
   end if;
+  
+  PR_1_2= fluidState_2.p/fluidState_1.p;
+  PR_3_4= fluidState_3.p/fluidState_4.p;
+  
 //---
   if 0.0 <= u_Qin then
     effThermal = WoutCycle / Q_2_3;

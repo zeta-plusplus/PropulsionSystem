@@ -62,24 +62,24 @@ model LycomO360_ex01
   Modelica.Fluid.Sensors.Temperature temperature(redeclare package Medium = engineFluid) annotation(
     Placement(visible = true, transformation(origin = {-150, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(exhLine.port_1, pressure1.port) annotation(
+    Line(points = {{-110, 60}, {-90, 60}, {-90, 60}, {-90, 60}}, color = {255, 85, 0}));
+  connect(pressure1.port, PistonCylinder.port_2) annotation(
+    Line(points = {{-90, 60}, {-87, 60}, {-87, -23}}, color = {255, 85, 0}));
+  connect(pressure1.port, PistonCylinder1.port_2) annotation(
+    Line(points = {{-90, 60}, {-27, 60}, {-27, -23}}, color = {255, 85, 0}));
+  connect(pressure1.port, PistonCylinder2.port_2) annotation(
+    Line(points = {{-90, 60}, {33, 60}, {33, -23}}, color = {255, 85, 0}));
+  connect(pressure1.port, PistonCylinder3.port_2) annotation(
+    Line(points = {{-90, 60}, {93, 60}, {93, -23}}, color = {255, 85, 0}));
   connect(powerSensor1.flange_b, speed1.flange) annotation(
     Line(points = {{160, -56}, {200, -56}, {200, -56}, {200, -56}}));
   connect(temperature.port, exhLine.port_2) annotation(
     Line(points = {{-150, 60}, {-130, 60}, {-130, 60}, {-130, 60}}, color = {0, 127, 255}));
-  connect(exhLine.port_1, pressure1.port) annotation(
-    Line(points = {{-110, 60}, {-90, 60}, {-90, 60}, {-90, 60}}, color = {0, 127, 255}));
   connect(ramp_zeta_exhLine.y, exhLine.u_zeta) annotation(
     Line(points = {{-128, 110}, {-116, 110}, {-116, 71}}, color = {0, 0, 127}));
   connect(Flt2Fluid.port_amb4sink, temperature.port) annotation(
     Line(points = {{-200, 50}, {-200, 60}, {-150, 60}}, color = {0, 127, 255}));
-  connect(pressure1.port, PistonCylinder1.port_2) annotation(
-    Line(points = {{-90, 60}, {-27, 60}, {-27, -23}}, color = {0, 127, 255}));
-  connect(pressure1.port, PistonCylinder.port_2) annotation(
-    Line(points = {{-90, 60}, {-87, 60}, {-87, -23}}, color = {0, 127, 255}));
-  connect(pressure1.port, PistonCylinder2.port_2) annotation(
-    Line(points = {{-90, 60}, {33, 60}, {33, -23}}, color = {0, 127, 255}));
-  connect(pressure1.port, PistonCylinder3.port_2) annotation(
-    Line(points = {{-90, 60}, {93, 60}, {93, -23}}, color = {0, 127, 255}));
   connect(pressure2.p, Pa2inHg.u) annotation(
     Line(points = {{-150, 30}, {-160, 30}, {-160, 12}, {-160, 12}}, color = {0, 0, 127}));
   connect(powerSensor1.power, W2hp.u) annotation(

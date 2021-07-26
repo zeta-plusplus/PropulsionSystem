@@ -32,6 +32,8 @@ model OttoCycleNonideal00_ex01
   Modelica.Blocks.Sources.TimeTable timeTable1(startTime = 0, table = [0, 0.2; 10, 0.2; 20, 0.01; 30, 0.01; 40, 1 / 17; 50, 1 / 17]) annotation(
     Placement(visible = true, transformation(origin = {-70, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(OttoCycle.u_T_fluidState_1, ramp_T_fluidState_1.y) annotation(
+    Line(points = {{54, -40}, {-8, -40}, {-8, -60}, {-18, -60}, {-18, -60}}, color = {0, 0, 127}));
   connect(timeTable1.y, OttoCycle.u_fracFuel) annotation(
     Line(points = {{-58, 10}, {-6, 10}, {-6, -18}, {56, -18}, {56, -18}}, color = {0, 0, 127}));
   connect(timeTable1.y, calcEffComb.u_fracFuel) annotation(
@@ -54,8 +56,6 @@ equation
     Line(points = {{54, -66}, {30, -66}, {30, -120}, {-18, -120}, {-18, -120}}, color = {0, 0, 127}, thickness = 0.5));
   connect(OttoCycle.u_h_fluidState_1, ramp_h_fluidState_1.y) annotation(
     Line(points = {{54, -48}, {6, -48}, {6, -90}, {-18, -90}, {-18, -90}}, color = {0, 0, 127}));
-  connect(OttoCycle.u_T_fluidState_1, ramp_T_fluidState_1.y) annotation(
-    Line(points = {{54, -40}, {-8, -40}, {-8, -60}, {-18, -60}, {-18, -60}}, color = {0, 0, 127}));
   connect(OttoCycle.u_p_fluidState_1, ramp_p_fluidState_1.y) annotation(
     Line(points = {{54, -30}, {-20, -30}, {-20, -30}, {-18, -30}}, color = {0, 0, 127}));
   annotation(
