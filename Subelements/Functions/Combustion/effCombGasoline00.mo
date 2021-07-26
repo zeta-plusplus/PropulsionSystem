@@ -32,7 +32,11 @@ algorithm
     flagValid := true;
   end if;
   //----------
-  effComb := (-1.6082) + 4.6509 * lambda - 2.0746 * lambda ^ 2.0;
+  if (UboundLambdaValid < lambda) then
+    effComb := (-1.6082) + 4.6509 * UboundLambdaValid - 2.0746 * UboundLambdaValid ^ 2.0;
+  else
+    effComb := (-1.6082) + 4.6509 * lambda - 2.0746 * lambda ^ 2.0;
+  end if;
   //----------
   if effComb < 0.0 then
     effComb := 0.0;
