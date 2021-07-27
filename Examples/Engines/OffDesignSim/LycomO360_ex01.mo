@@ -19,7 +19,7 @@ model LycomO360_ex01
     Placement(visible = true, transformation(origin = {150, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 5916 * 10 ^ (-6) / 4.0) annotation(
     Placement(visible = true, transformation(origin = {-103.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Cd_throttle(duration = 10, height = 0, offset = 0.6, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_Cd_throttle(duration = 10, height = 0, offset = 0.7, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-220, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_alt(duration = 10, height = 0, offset = 0, startTime = 50) annotation(
     Placement(visible = true, transformation(origin = {-240, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -27,7 +27,7 @@ model LycomO360_ex01
     Placement(visible = true, transformation(origin = {-200, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Feedback feedback1 annotation(
     Placement(visible = true, transformation(origin = {-170, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 throttle(redeclare package Medium = engineFluid, diam_paramInput = 1.4 * 2.54 * 0.01) annotation(
+  FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 throttle(redeclare package Medium = engineFluid, diam_paramInput = 1.52 * 2.54 * 0.01) annotation(
     Placement(visible = true, transformation(origin = {-170, 40}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   PropulsionSystem.Sources.FlightCondition2InletFluid01 Flt2Fluid(redeclare package Medium = engineFluid, use_u_MN = true, use_u_alt = true) annotation(
     Placement(visible = true, transformation(origin = {-200, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -35,7 +35,7 @@ model LycomO360_ex01
     Placement(visible = true, transformation(origin = {-43.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder2(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 5916 * 10 ^ (-6) / 4.0) annotation(
     Placement(visible = true, transformation(origin = {16.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_throttle(duration = 10, height = 0.3, offset = 0.7, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_throttle(duration = 10, height = -0.0, offset = 0.75, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-190, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder3(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 5916 * 10 ^ (-6) / 4.0) annotation(
     Placement(visible = true, transformation(origin = {76.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
@@ -43,13 +43,13 @@ model LycomO360_ex01
     Placement(visible = true, transformation(origin = {210, -56}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
     Placement(visible = true, transformation(origin = {230, -30}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
-  Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 10, height = 0, offset = 2700, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 10, height = 0, offset = 2400, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {230, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   Modelica.Fluid.Sensors.Pressure pressure1(redeclare package Medium = engineFluid) annotation(
     Placement(visible = true, transformation(origin = {-90, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Pressure pressure2(redeclare package Medium = engineFluid) annotation(
     Placement(visible = true, transformation(origin = {-140, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  PropulsionSystem.Elements.BasicElements.LossRotMechCharFixed00 LossRotMech(eff_paramInput = 0.9) annotation(
+  PropulsionSystem.Elements.BasicElements.LossRotMechCharFixed00 LossRotMech(eff_paramInput = 0.9, use_u_eff = true) annotation(
     Placement(visible = true, transformation(origin = {119, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.Utilities.UnitConversion.W2hp W2hp annotation(
     Placement(visible = true, transformation(origin = {142, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
@@ -61,7 +61,19 @@ model LycomO360_ex01
     Placement(visible = true, transformation(origin = {-140, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Temperature temperature(redeclare package Medium = engineFluid) annotation(
     Placement(visible = true, transformation(origin = {-150, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_Shaft_eff(duration = 10, height = -0.5, offset = 0.9, startTime = 70) annotation(
+    Placement(visible = true, transformation(origin = {98, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(LossRotMech.u_eff, ramp_Shaft_eff.y) annotation(
+    Line(points = {{125, -63}, {125, -90}, {110, -90}}, color = {0, 0, 127}));
+  connect(PistonCylinder3.flange_2, LossRotMech.flange_1) annotation(
+    Line(points = {{94, -56}, {109, -56}}));
+  connect(LossRotMech.flange_2, powerSensor1.flange_a) annotation(
+    Line(points = {{129, -56}, {140, -56}}));
+  connect(Flt2Fluid.port_amb4sink, temperature.port) annotation(
+    Line(points = {{-200, 50}, {-200, 60}, {-150, 60}}, color = {255, 85, 0}));
+  connect(temperature.port, exhLine.port_2) annotation(
+    Line(points = {{-150, 60}, {-130, 60}, {-130, 60}, {-130, 60}}, color = {255, 85, 0}));
   connect(exhLine.port_1, pressure1.port) annotation(
     Line(points = {{-110, 60}, {-90, 60}, {-90, 60}, {-90, 60}}, color = {255, 85, 0}));
   connect(pressure1.port, PistonCylinder.port_2) annotation(
@@ -74,12 +86,8 @@ equation
     Line(points = {{-90, 60}, {93, 60}, {93, -23}}, color = {255, 85, 0}));
   connect(powerSensor1.flange_b, speed1.flange) annotation(
     Line(points = {{160, -56}, {200, -56}, {200, -56}, {200, -56}}));
-  connect(temperature.port, exhLine.port_2) annotation(
-    Line(points = {{-150, 60}, {-130, 60}, {-130, 60}, {-130, 60}}, color = {0, 127, 255}));
   connect(ramp_zeta_exhLine.y, exhLine.u_zeta) annotation(
     Line(points = {{-128, 110}, {-116, 110}, {-116, 71}}, color = {0, 0, 127}));
-  connect(Flt2Fluid.port_amb4sink, temperature.port) annotation(
-    Line(points = {{-200, 50}, {-200, 60}, {-150, 60}}, color = {0, 127, 255}));
   connect(pressure2.p, Pa2inHg.u) annotation(
     Line(points = {{-150, 30}, {-160, 30}, {-160, 12}, {-160, 12}}, color = {0, 0, 127}));
   connect(powerSensor1.power, W2hp.u) annotation(
@@ -112,10 +120,6 @@ equation
     Line(points = {{230, -40}, {230, -40}, {230, -56}, {222, -56}, {222, -56}}, color = {0, 0, 127}));
   connect(ramp_Nmech.y, from_rpm1.u) annotation(
     Line(points = {{230, -10}, {230, -10}, {230, -18}, {230, -18}}, color = {0, 0, 127}));
-  connect(LossRotMech.flange_2, powerSensor1.flange_a) annotation(
-    Line(points = {{129, -56}, {140, -56}}));
-  connect(PistonCylinder3.flange_2, LossRotMech.flange_1) annotation(
-    Line(points = {{94, -56}, {109, -56}}));
   connect(PistonCylinder2.flange_2, PistonCylinder3.flange_1) annotation(
     Line(points = {{33, -56.3}, {60, -56.3}}));
   connect(pressure2.port, PistonCylinder2.port_1) annotation(
