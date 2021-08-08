@@ -377,8 +377,8 @@ equation
   fluid_th.Xi= fluid_1.Xi;
   fluidStat_th_fullExp.Xi= fluid_1.Xi;
   fluidStat_th_choked.Xi= fluid_1.Xi;
-    
-    
+  
+  
   fluid_2Tot.p = fluid_1.p;
 //-- energy conservation --
   port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2Tot.h = 0;
