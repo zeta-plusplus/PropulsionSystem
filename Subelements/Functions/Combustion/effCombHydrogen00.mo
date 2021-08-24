@@ -9,7 +9,8 @@ function effCombHydrogen00
   output Real effComb;
   output Real lambda;
   output Real AFR;
-  output Boolean flagValid;
+  output Real fracFuelStoi;
+  output Real flagValid;
 protected
   //********** declare local variables **********
   Real LboundLambdaValid;

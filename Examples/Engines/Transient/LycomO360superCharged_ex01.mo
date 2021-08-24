@@ -77,7 +77,7 @@ model LycomO360superCharged_ex01
     Placement(visible = true, transformation(origin = {-185, -16}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Mechanics.Rotational.Sensors.SpeedSensor speedSensor_superCharger annotation(
     Placement(visible = true, transformation(origin = {-185, -46}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.Rotational.Components.IdealGear idealGear1(ratio = 4.0 / 1.0)  annotation(
+  Modelica.Mechanics.Rotational.Components.IdealGear idealGear1(ratio = 4.0 / 1.0) annotation(
     Placement(visible = true, transformation(origin = {-160, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(exhLine.port_1, temperature.port) annotation(
@@ -179,5 +179,6 @@ equation
   annotation(
     Diagram(coordinateSystem(extent = {{-320, -160}, {280, 200}})),
     __OpenModelica_commandLineOptions = "",
-  experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-6, Interval = 0.1));
+    experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-06, Interval = 0.1),
+  __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
 end LycomO360superCharged_ex01;

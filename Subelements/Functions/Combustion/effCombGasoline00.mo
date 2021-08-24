@@ -14,7 +14,8 @@ function effCombGasoline00
   output Real effComb;
   output Real lambda;
   output Real AFR;
-  output Boolean flagValid;
+  output Real AFRstoi;
+  output Real flagValid;
 protected
   //********** declare local variables **********
   Real LboundLambdaValid = 0.8;
@@ -23,13 +24,14 @@ protected
 algorithm
   AFR := fracAir / fracFuel;
   lambda := AFR / AFRstoichiometric;
+  AFRstoi:=AFRstoichiometric;
   //----------
   if lambda < LboundLambdaValid then
-    flagValid := false;
+    flagValid := 0.0;
   elseif UboundLambdaValid < lambda then
-    flagValid := false;
+    flagValid := 0.0;
   else
-    flagValid := true;
+    flagValid := 1.0;
   end if;
   //----------
   if (UboundLambdaValid < lambda) then

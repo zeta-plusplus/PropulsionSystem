@@ -33,12 +33,18 @@ block CombustionEfficiency00
   /* ---------------------------------------------
         Internal variables    
   --------------------------------------------- */
+  Real fracFuelStoi;
+  Real fracAirStoi;
+  Real fracTot "fracFuel + fracAir";
   Real effComb;
   Real lambda "equivalence air-fuel ratio";
   Real AFR;
+  Real AFRstoi "AFR at stoichiometric air-fuel ratio";
+  Real AFRsat "AFR with saturation";
   Real FAR;
-  Boolean flagValid;
-  
+  Real FARstoi "FAR at stoichiometric air-fuel ratio";
+  Real FARsat "FAR with saturation";
+  Real flagValid;
   
   /* ---------------------------------------------
         Functions    
@@ -63,11 +69,11 @@ block CombustionEfficiency00
     Placement(visible = true, transformation(origin = {110, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   output Modelica.Blocks.Interfaces.RealOutput y_lambda annotation(
     Placement(visible = true, transformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  output Modelica.Blocks.Interfaces.RealOutput y_fracFuelSat "fracFuel with saturation" annotation(
+    Placement(visible = true, transformation(origin = {110, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   PropulsionSystem.Types.SubelementBus subelementBus1 annotation(
     Placement(visible = true, transformation(origin = {60, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {60, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-  
   //**************************************************************************************************************
 equation
   /* ---------------------------------------------
@@ -77,28 +83,43 @@ equation
   y_lambda= lambda;
   y_AFR= AFR;
   
+  if(1.0<=lambda)then
+    y_fracFuelSat= u_fracFuel;
+    FARsat= FAR;
+    AFRsat= AFR;
+  else
+    y_fracFuelSat= fracFuelStoi;
+    FARsat= FARstoi;
+    AFRsat= AFRstoi;
+  end if;
+  
   
   /* ---------------------------------------------
   Eqns describing physics   
   --------------------------------------------- */
+  fracTot= u_fracAir + u_fracFuel;
   FAR= 1.0/AFR;
   
+  fracTot= fracAirStoi+ fracFuelStoi;
+  AFRstoi= (fracAirStoi/fracFuelStoi);
+  FARstoi= 1.0/AFRstoi;
+  
   if(switchFuel==switches.switch_fuel.gasoline)then
-    (effComb, lambda, AFR, flagValid)= Combustion.effCombGasoline00(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, AFRstoi, flagValid)= Combustion.effCombGasoline00(fracAir= u_fracAir, fracFuel= u_fracFuel);
   elseif(switchFuel==switches.switch_fuel.diesel)then
-    (effComb, lambda, AFR, flagValid)= Combustion.effCombDiesel00(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, AFRstoi, flagValid)= Combustion.effCombDiesel00(fracAir= u_fracAir, fracFuel= u_fracFuel);
   elseif(switchFuel==switches.switch_fuel.kerosene)then
-    (effComb, lambda, AFR, flagValid)= Combustion.effCombKerosene00(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, AFRstoi, flagValid)= Combustion.effCombKerosene00(fracAir= u_fracAir, fracFuel= u_fracFuel);
   elseif(switchFuel==switches.switch_fuel.hydrogen)then
-    (effComb, lambda, AFR, flagValid)= Combustion.effCombHydrogen00(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, AFRstoi, flagValid)= Combustion.effCombHydrogen00(fracAir= u_fracAir, fracFuel= u_fracFuel);
   elseif(switchFuel==switches.switch_fuel.methanol)then
-    (effComb, lambda, AFR, flagValid)= Combustion.effCombMethanol00(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, AFRstoi, flagValid)= Combustion.effCombMethanol00(fracAir= u_fracAir, fracFuel= u_fracFuel);
   elseif(switchFuel==switches.switch_fuel.ethanol)then
-    (effComb, lambda, AFR, flagValid)= Combustion.effCombEthanol00(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, AFRstoi, flagValid)= Combustion.effCombEthanol00(fracAir= u_fracAir, fracFuel= u_fracFuel);
   elseif(switchFuel==switches.switch_fuel.userDefined)then
-    (effComb, lambda, AFR, flagValid)= Combustion.efficiencyCharacteristic(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, AFRstoi, flagValid)= Combustion.efficiencyCharacteristic(fracAir= u_fracAir, fracFuel= u_fracFuel);
   else
-    (effComb, lambda, AFR, flagValid)= Combustion.effCombGasoline00(fracAir= u_fracAir, fracFuel= u_fracFuel);
+    (effComb, lambda, AFR, AFRstoi, flagValid)= Combustion.effCombGasoline00(fracAir= u_fracAir, fracFuel= u_fracFuel);
   end if;
   
   

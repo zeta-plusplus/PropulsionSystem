@@ -37,7 +37,7 @@ model LycomO360_ex02
     Placement(visible = true, transformation(origin = {-43.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder2(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 5916 * 10 ^ (-6) / 4.0) annotation(
     Placement(visible = true, transformation(origin = {16.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_throttle(duration = 10, height = 0.1, offset = 0.75, startTime = 70) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_throttle(duration = 10, height = 0.25, offset = 0.75, startTime = 70) annotation(
     Placement(visible = true, transformation(origin = {-310, 150}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder3(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 5916 * 10 ^ (-6) / 4.0) annotation(
     Placement(visible = true, transformation(origin = {76.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
@@ -97,7 +97,19 @@ model LycomO360_ex02
     Placement(visible = true, transformation(origin = {-165, -75}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   FluidSystemComponents.CommonAnyFluid.Components.Orifice00 Venturi(redeclare package Medium = engineFluid, diam_paramInput = 1.5 * 2.54 * 0.01)  annotation(
     Placement(visible = true, transformation(origin = {-260, 40}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
+  FluidSystemComponents.Utilities.UnitConversion.m3perSec2USGperhour V_flow_fuel_usgph annotation(
+    Placement(visible = true, transformation(origin = {-231, -20}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
+  FluidSystemComponents.Utilities.UnitConversion.m3perSec2USGperhour V_flow_air_usgph annotation(
+    Placement(visible = true, transformation(origin = {-175, 22}, extent = {{-5, -5}, {5, 5}}, rotation = -90)));
 equation
+  connect(volumeFlowRate_air.V_flow, V_flow_air_usgph.u) annotation(
+    Line(points = {{-175, 34.5}, {-175, 28}}, color = {0, 0, 127}));
+  connect(volumeFlowRate_air.port_b, pressure2.port) annotation(
+    Line(points = {{-170, 40}, {-144, 40}}, color = {0, 127, 255}));
+  connect(massFlowRate_air.port_b, volumeFlowRate_air.port_a) annotation(
+    Line(points = {{-190, 40}, {-180, 40}}, color = {0, 127, 255}));
+  connect(volumeFlowRate_fuel.V_flow, V_flow_fuel_usgph.u) annotation(
+    Line(points = {{-244, -20}, {-238, -20}, {-238, -20}, {-238, -20}}, color = {0, 0, 127}));
   connect(division1.y, PistonCylinder3.u_fracAir) annotation(
     Line(points = {{-159.5, -15}, {50, -15}, {50, -30}, {58, -30}}, color = {0, 0, 127}));
   connect(division1.y, PistonCylinder2.u_fracAir) annotation(
@@ -166,8 +178,6 @@ equation
     Line(points = {{-210, 40}, {-200, 40}}, color = {0, 127, 255}));
   connect(massFlowRate_air.m_flow, add2.u1) annotation(
     Line(points = {{-195, 34.5}, {-195, -34}, {-191, -34}}, color = {0, 0, 127}));
-  connect(massFlowRate_air.port_b, volumeFlowRate_air.port_a) annotation(
-    Line(points = {{-190, 40}, {-180, 40}}, color = {0, 127, 255}));
   connect(Flt2Fluid.port_amb4source, pressure3.port) annotation(
     Line(points = {{-314, 48}, {-290, 48}, {-290, 0}}, color = {0, 127, 255}));
   connect(pressure3.p, add1.u1) annotation(
@@ -178,8 +188,6 @@ equation
     Line(points = {{-179, -130}, {-169.5, -130}, {-169.5, -130}, {-160, -130}, {-160, -119}, {-160, -119}, {-160, -108}}, color = {0, 0, 127}));
   connect(const.y, feedback1.u1) annotation(
     Line(points = {{-179, -100}, {-168, -100}}, color = {0, 0, 127}));
-  connect(volumeFlowRate_air.port_b, pressure2.port) annotation(
-    Line(points = {{-170, 40}, {-144, 40}, {-144, 40}, {-144, 40}}, color = {0, 127, 255}));
   connect(pressure2.port, PistonCylinder3.port_1) annotation(
     Line(points = {{-145, 40}, {60, 40}, {60, -23}}, color = {0, 127, 255}));
   connect(pressure2.port, PistonCylinder2.port_1) annotation(

@@ -179,5 +179,6 @@ equation
   annotation(
     Diagram(coordinateSystem(extent = {{-320, -160}, {280, 200}})),
     __OpenModelica_commandLineOptions = "",
-    experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-06, Interval = 0.1));
+    experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-06, Interval = 0.1),
+  __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
 end LycomO360turboCharged_ex01;
