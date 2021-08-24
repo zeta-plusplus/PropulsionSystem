@@ -3,33 +3,29 @@ within PropulsionSystem.Elements.BasicElements;
 model PistonCylinderNonidealOttoMV01
   extends PropulsionSystem.BaseClasses.BasicElements.PistonCylinder4strkBase00;
   /********************************************************
-                  imports
-              ********************************************************/
+                    imports
+                ********************************************************/
   import Modelica.Constants;
   /********************************************************
-                  Declaration
-  ********************************************************/
+                    Declaration
+    ********************************************************/
   /* ---------------------------------------------
-        switches
-  --------------------------------------------- */
-  parameter PropulsionSystem.Types.switches.switch_fuel switchFuelType = PropulsionSystem.Types.switches.switch_fuel.gasoline 
-    "switch, fuel type, determines function used in effComb calculation."
-    annotation(
+          switches
+    --------------------------------------------- */
+  parameter PropulsionSystem.Types.switches.switch_fuel switchFuelType = PropulsionSystem.Types.switches.switch_fuel.gasoline "switch, fuel type, determines function used in effComb calculation." annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = true);
-  
-  
   /* ---------------------------------------------
-                      parameters
-  --------------------------------------------- */
+                        parameters
+    --------------------------------------------- */
   parameter Real CR_paramInput = 12.0 "compression ratio";
   parameter Modelica.SIunits.Volume VolDisp_paramInput = 100.0 * 10.0 ^ (-6.0) "displacement";
   parameter Modelica.SIunits.SpecificEnthalpy LHV_fuel_paramInput = 43.4 * 10.0 ^ 6.0 "lower heating value of fuel";
   /* ---------------------------------------------
-                      Internal variables
-  --------------------------------------------- */
+                        Internal variables
+    --------------------------------------------- */
   Modelica.SIunits.MassFlowRate m_flow_fuel "mass flow rate of fuel" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.SpecificEnthalpy dh_state4_port2 "enthalpy change by puming, state4 to port2" annotation(
@@ -47,20 +43,16 @@ model PistonCylinderNonidealOttoMV01
   Real pwrPumpingqPwrCycle "pwrPumping / pwrCycle, positive==loss";
   Modelica.SIunits.Pressure arr_p[8];
   Modelica.SIunits.Volume arr_V[8];
-  
-  
   /* ---------------------------------------------
-                      Internal objects
-  --------------------------------------------- */
-  PropulsionSystem.Subelements.OttoCycleNonideal00 OttoCycle(redeclare package Medium = Medium, switch_u_thermoState =  PropulsionSystem.Types.switches.switch_input_ThermodynamicState.use_u_for_ThermodynamicState) annotation(
+                        Internal objects
+    --------------------------------------------- */
+  PropulsionSystem.Subelements.OttoCycleNonideal00 OttoCycle(redeclare package Medium = Medium, switch_u_thermoState = PropulsionSystem.Types.switches.switch_input_ThermodynamicState.use_u_for_ThermodynamicState) annotation(
     Placement(visible = true, transformation(origin = {3.55271e-15, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Subelements.CombustionEfficiency00 calcEffComb(switchFuel= switchFuelType) annotation(
-    Placement(visible = true, transformation(origin = {-50, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-  
+  PropulsionSystem.Subelements.CombustionEfficiency00 calcEffComb(switchFuel = switchFuelType) annotation(
+    Placement(visible = true, transformation(origin = {-60, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   /* ---------------------------------------------
-                      Interface
-  --------------------------------------------- */
+                        Interface
+    --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_fracFuel annotation(
     Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-90, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_m_flow_fuel(quantity = "MassFlowRate", unit = "kg/s", displayUnit = "kg/s") annotation(
@@ -69,14 +61,14 @@ model PistonCylinderNonidealOttoMV01
     Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //******************************************************************************************
 equation
-  connect(u_fracFuel, calcEffComb.u_fracFuel) annotation(
-    Line(points = {{-120, 0}, {-92, 0}, {-92, 24}, {-62, 24}, {-62, 24}}, color = {0, 0, 127}));
-  connect(u_fracAir, calcEffComb.u_fracAir) annotation(
-    Line(points = {{-120, 40}, {-70, 40}, {-70, 36}, {-62, 36}, {-62, 36}}, color = {0, 0, 127}));
-  connect(u_fracFuel, OttoCycle.u_fracFuel) annotation(
-    Line(points = {{-120, 0}, {-71.5, 0}, {-71.5, -12}, {-23, -12}}, color = {0, 0, 127}));
+  connect(calcEffComb.y_fracFuelSat, OttoCycle.u_fracFuel) annotation(
+    Line(points = {{-48, 32}, {-36, 32}, {-36, -12}, {-22, -12}, {-22, -12}}, color = {0, 0, 127}));
   connect(calcEffComb.y_effComb, OttoCycle.u_effComb) annotation(
-    Line(points = {{-38, 36}, {-30, 36}, {-30, -4}, {-22, -4}, {-22, -4}}, color = {0, 0, 127}));
+    Line(points = {{-49, 36}, {-30, 36}, {-30, -4}, {-22, -4}}, color = {0, 0, 127}));
+  connect(u_fracAir, calcEffComb.u_fracAir) annotation(
+    Line(points = {{-120, 40}, {-86, 40}, {-86, 36}, {-71, 36}}, color = {0, 0, 127}));
+  connect(u_fracFuel, calcEffComb.u_fracFuel) annotation(
+    Line(points = {{-120, 0}, {-92, 0}, {-92, 24}, {-71, 24}}, color = {0, 0, 127}));
 /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
@@ -142,5 +134,4 @@ equation
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
     Icon(coordinateSystem(extent = {{-100, -120}, {100, 120}})));
-  
 end PistonCylinderNonidealOttoMV01;
