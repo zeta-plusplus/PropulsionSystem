@@ -20,7 +20,7 @@ model Cmp_and_Trb_ex03
     Placement(visible = true, transformation(origin = {-80, -40}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.TrbCharTable01 Trb(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {120, -40}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.NzlDefAbyInitCharFixed01 Nzl(redeclare package Medium = engineAir) annotation(
+  PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed01 Nzl(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {180, -40}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT boundary3(redeclare package Medium = engineAir, T = 288.15, nPorts = 1, p = 101.325 * 1000)  annotation(
     Placement(visible = true, transformation(origin = {200, 10}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));

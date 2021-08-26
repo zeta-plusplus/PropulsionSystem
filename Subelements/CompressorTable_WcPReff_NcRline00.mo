@@ -111,11 +111,14 @@ block CompressorTable_WcPReff_NcRline00
     Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   input Modelica.Blocks.Interfaces.RealInput u_RlineTbl annotation(
     Placement(visible = true, transformation(origin = {-120, -40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  output Modelica.Blocks.Interfaces.RealOutput y_Wc(quantity="MassFlowRate", unit="kg/s", displayUnit="kg/s") "[kg/s]" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_Wc(start=100.0, quantity="MassFlowRate", unit="kg/s", displayUnit="kg/s") "[kg/s]" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true),
     Placement(visible = true, transformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  output Modelica.Blocks.Interfaces.RealOutput y_PR "[nond]" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_PR(start=2.0) "[nond]" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true),
     Placement(visible = true, transformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  output Modelica.Blocks.Interfaces.RealOutput y_eff "[nond]" annotation(
+  output Modelica.Blocks.Interfaces.RealOutput y_eff(start=0.9) "[nond]" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true),
     Placement(visible = true, transformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
 protected
@@ -139,6 +142,7 @@ protected
     HideResult=false
     );
   
+  
   parameter Integer sizeTbl_Wc[2](each fixed=false)
     "" 
     annotation(
@@ -154,6 +158,7 @@ protected
     annotation(
     HideResult=false
     );
+  /*
   parameter Integer n_Wc(fixed=false)
     "" 
     annotation(
@@ -169,7 +174,7 @@ protected
     annotation(
     HideResult=false
     );
-  
+  */
   
   parameter Real tableDefault_Wc_NcRline[:, :]= [0, 0.087266463, 0.185441233, 0.283616003, 0.381790774, 0.479965544, 0.578140315, 0.676315085, 0.774489856, 0.872664626, 0.970839396, 1.069014167; 0.1, 10.376, 9.951, 9.252, 8.327, 7.238, 6.055, 4.854, 3.704, 2.664, 1.781, 1.083; 0.2, 21.859, 21.369, 20.542, 19.401, 17.982, 16.325, 14.481, 12.506, 10.460, 8.410, 6.422; 0.3, 34.349, 33.818, 32.915, 31.650, 30.043, 28.115, 25.896, 23.418, 20.719, 17.839, 14.827; 0.4, 47.840, 47.277, 46.312, 44.952, 43.204, 41.078, 38.587, 35.743, 32.562, 29.058, 25.243; 0.5, 62.331, 61.739, 60.720, 59.276, 57.409, 55.118, 52.404, 49.265, 45.695, 41.682, 37.207; 0.6, 77.824, 77.203, 76.134, 74.613, 72.638, 70.200, 67.291, 63.895, 59.990, 55.541, 50.497; 0.7, 94.316, 93.668, 92.550, 90.957, 88.880, 86.307, 83.219, 79.590, 75.385, 70.548, 64.996; 0.8, 111.808, 111.134, 109.969, 108.306, 106.132, 103.429, 100.173, 96.329, 91.847, 86.653, 80.637; 0.9, 130.301, 129.600, 128.389, 126.657, 124.389, 121.563, 118.147, 114.098, 109.355, 103.827, 97.379; 1.0, 149.794, 149.067, 147.810, 146.011, 143.651, 140.704, 137.134, 132.889, 127.896, 122.051, 115.194; 1.1, 170.287, 169.534, 168.232, 166.366, 163.916, 160.851, 157.130, 152.695, 147.462, 141.313, 134.065; 1.2, 191.779, 191.001, 189.654, 187.723, 185.183, 182.003, 178.134, 173.513, 168.048, 161.604, 153.979; 1.3, 214.272, 213.469, 212.077, 210.080, 207.452, 204.157, 200.144, 195.341, 189.648, 182.917, 174.927; 1.4, 237.765, 236.936, 235.500, 233.438, 230.723, 227.315, 223.159, 218.177, 212.260, 205.249, 196.903; 1.5, 262.258, 261.404, 259.923, 257.797, 254.995, 251.475, 247.177, 242.018, 235.882, 228.596, 219.901] "table, Wc=f(Nc, Rline)" annotation(
     Dialog(group = "default table"),
@@ -209,12 +214,15 @@ initial equation
   */
   
 equation
+  
+  /**/
   connect(combiTable2D_Wc.y, y_Wc) annotation(
     Line(points = {{2, 60}, {110, 60}}, color = {0, 0, 127}));
   connect(combiTable2D_PR.y, y_PR) annotation(
     Line(points = {{2, 0}, {110, 0}}, color = {0, 0, 127}));
   connect(combiTable2D_eff.y, y_eff) annotation(
     Line(points = {{2, -60}, {110, -60}}, color = {0, 0, 127}));
+  
   connect(u_RlineTbl, combiTable2D_Wc.u2) annotation(
     Line(points = {{-120, -40}, {-46, -40}, {-46, 54}, {-22, 54}}, color = {0, 0, 127}));
   connect(u_NcTbl, combiTable2D_Wc.u1) annotation(

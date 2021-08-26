@@ -225,7 +225,7 @@ equation
   connect(PistonCylinder2.flange_2, PistonCylinder3.flange_1) annotation(
     Line(points = {{33, -56.3}, {60, -56.3}}));
   annotation(
-    experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-06, Interval = 0.1),
+    experiment(StartTime = 0, StopTime = 100, Tolerance = 1e-06, Interval = 0.111111),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
   Diagram(coordinateSystem(extent = {{-360, -140}, {260, 200}})),
     __OpenModelica_commandLineOptions = "",
