@@ -187,30 +187,6 @@ initial equation
   
 //******************************************************************************************
 algorithm
-  /**************************************************
-    processing about data table
-  **************************************************/
-  /*
-  //----- design point -----
-  CmpTbl_WcPReff_NcRline_des.u_NcTbl:=NcTblDes_paramInput;
-  CmpTbl_WcPReff_NcRline_des.u_RlineTbl:=RlineTblDes_paramInput;
-  when initial() then
-    s_NcDes:= Nc_1_des/NcTblDes_paramInput;
-    s_WcDes:= Wc_1_des/CmpTbl_WcPReff_NcRline_des.y_Wc;
-    s_PRdes:= (PRdes-1.0)/(CmpTbl_WcPReff_NcRline_des.y_PR);
-    s_effDes:= effDes/CmpTbl_WcPReff_NcRline_des.y_eff;
-  end when;
-  
-  //----- off design -----
-  when initial() then
-    NcTbl:= Nc_1/s_NcDes;
-  end when;
-  CmpTbl_WcPReff_NcRline_op.u_NcTbl:=NcTbl;
-  CmpTbl_WcPReff_NcRline_op.u_RlineTbl:=RlineTbl;
-  WcTblScld:= CmpTbl_WcPReff_NcRline_op.y_Wc * s_WcDes;
-  PRtblScld:= (CmpTbl_WcPReff_NcRline_op.y_PR-1.0) * s_PRdes +1.0;
-  effTblScld:= CmpTbl_WcPReff_NcRline_op.y_eff * s_effDes;
-  */
   
 //******************************************************************************************
 equation
