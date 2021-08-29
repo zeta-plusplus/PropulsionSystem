@@ -1,9 +1,11 @@
 CmpCharFixed00
 CmpCharTable00
 CmpCharTable01
+CmpCharTable02
 TrbCharFixed00
 TrbCharTable00
 TrbCharTable01
+TrbCharTable02
 HeatInjector00
 CombCharFixed00
 CombCharFixed01
@@ -46,4 +48,3 @@ constrain_Nmech
 constrain_T
 constrain_dm
 extractPwr
-CmpCharTable02

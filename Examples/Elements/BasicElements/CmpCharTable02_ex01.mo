@@ -6,7 +6,7 @@ model CmpCharTable02_ex01
   package engineAir = Modelica.Media.Air.DryAirNasa;
   //redeclare package Medium = engineAir
   //-----
-  inner PropulsionSystem.EngineSimEnvironment environment annotation(
+  inner PropulsionSystem.EngineSimEnvironment environment(timeRemoveDesConstraint = 1)  annotation(
     Placement(visible = true, transformation(origin = {-10, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(origin = {-30, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -22,9 +22,13 @@ model CmpCharTable02_ex01
     Placement(visible = true, transformation(origin = {130, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CmpCharTable02 Cmp(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-20, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  Modelica.Fluid.Sources.MassFlowSource_T boundary1(redeclare package Medium = engineAir, m_flow = -10, nPorts = 1)  annotation(
+  Modelica.Fluid.Sources.MassFlowSource_T boundary1(redeclare package Medium = engineAir, m_flow = -10, nPorts = 1, use_m_flow_in = true)  annotation(
     Placement(visible = true, transformation(origin = {40, 60}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_m_flow(duration = 10, height = -0.1, offset = -10, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {80, 70}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 equation
+  connect(boundary1.m_flow_in, ramp_m_flow.y) annotation(
+    Line(points = {{50, 68}, {58, 68}, {58, 70}, {70, 70}, {70, 70}}, color = {0, 0, 127}));
   connect(Cmp.flange_2, powerSensor1.flange_b) annotation(
     Line(points = {{0, 20}, {32, 20}, {32, 20}, {32, 20}}));
   connect(Cmp.port_2, boundary1.ports[1]) annotation(

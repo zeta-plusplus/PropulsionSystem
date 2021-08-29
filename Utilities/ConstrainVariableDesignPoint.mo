@@ -12,8 +12,8 @@ model ConstrainVariableDesignPoint
                 internal objects    
     --------------------------------------------- */
   inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
-  PropulsionSystem.Utilities.ConstrainVariable Constraint annotation(
-    Placement(visible = true, transformation(origin = {50, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Utilities.ConstrainVariable Constraint(use_u_targetVal = true)  annotation(
+    Placement(visible = true, transformation(origin = {50, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   /* ---------------------------------------------
                 interface    
@@ -34,9 +34,9 @@ algorithm
 //******************************************************************************************
 equation
   connect(Constraint.u_targetValue, u_targetValue) annotation(
-    Line(points = {{62, 0}, {104, 0}, {104, 0}, {120, 0}}, color = {0, 0, 127}));
+    Line(points = {{62, -10}, {91, -10}, {91, 0}, {120, 0}}, color = {0, 0, 127}));
   
-  if (time<=environment.timeRemoveDesConstraint) then
+  if noEvent(time<=environment.timeRemoveDesConstraint) then
     k_u_variable = 1;
     k_auxVar1 = 0;
   else
