@@ -8,7 +8,7 @@ model TrbCharTable02
     ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
-  import Streams= Modelica.Utilities.Streams;
+  import Modelica.Utilities.Streams;
   
   /********************************************************
           Declaration   

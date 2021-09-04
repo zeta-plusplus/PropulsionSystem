@@ -7,7 +7,7 @@ partial model TurbineBase00
   import Modelica.Constants;
   import Modelica.Utilities.Streams;
   import PropulsionSystem.Types.switches;
-  import Streams= Modelica.Utilities.Streams;
+  import Modelica.Utilities.Streams;
   
   
   /********************************************************
