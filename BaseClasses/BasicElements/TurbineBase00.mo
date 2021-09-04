@@ -7,6 +7,8 @@ partial model TurbineBase00
   import Modelica.Constants;
   import Modelica.Utilities.Streams;
   import PropulsionSystem.Types.switches;
+  import Streams= Modelica.Utilities.Streams;
+  
   
   /********************************************************
                Declaration
@@ -392,7 +394,7 @@ equation
   //---------------
   
   
-  when (time<=environment.timeRemoveDesConstraint)then
+  when {(triggerDesCalc==2)}then
     /* ---------------------------------------------
       design point eqn
     --------------------------------------------- */

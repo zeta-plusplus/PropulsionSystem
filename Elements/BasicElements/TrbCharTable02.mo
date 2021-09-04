@@ -8,12 +8,14 @@ model TrbCharTable02
     ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
+  import Streams= Modelica.Utilities.Streams;
+  
   /********************************************************
           Declaration   
-    ********************************************************/
+  ********************************************************/
   /* ---------------------------------------------
           switches    
-    --------------------------------------------- */
+  --------------------------------------------- */
   parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated "switch how to determine PR" annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
@@ -45,7 +47,9 @@ model TrbCharTable02
   
   /* ---------------------------------------------
           parameters    
-    --------------------------------------------- */
+  --------------------------------------------- */
+  inner parameter Real PRdes_paramInput = 10 "pressure ratio, valid only when switchDetermine_PR==param, value fixed through simulation" annotation(
+    Dialog(group = "Component characteristics"));
   inner parameter Real effDes_paramInput = 0.80 "adiabatic efficiency, valid only when use_u_eff==false, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
   //----------
@@ -111,10 +115,6 @@ model TrbCharTable02
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
-  
-  discrete Real auxVar1;
-  Real k_Wc_1(start=0.0);
-  Real k_auxVar1(start=1.0);
   /**/
   
   /* ---------------------------------------------
@@ -154,172 +154,121 @@ model TrbCharTable02
   /* ---------------------------------------------
           Interface   
     --------------------------------------------- */
+  Modelica.Blocks.Interfaces.RealInput u_PR if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "PR input, valid only when switchDetermine_PR==viaRealInput" annotation(
+    Placement(visible = true, transformation(origin = {-60, -112}, extent = {{-12, -12}, {12, 12}}, rotation = 90), iconTransformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  
   Modelica.Blocks.Interfaces.RealInput u_eff if use_u_eff "eff input, valid only when use_u_eff==true" annotation(
-    Placement(visible = true, transformation(origin = {-20, -112}, extent = {{-12, -12}, {12, 12}}, rotation = 90), iconTransformation(origin = {-3.55271e-15, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement(visible = true, transformation(origin = {-20, -112}, extent = {{-12, -12}, {12, 12}}, rotation = 90), iconTransformation(origin = {40, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 //******************************************************************************************
 protected
-  /*
-  parameter Real s_NcDes(fixed=false) "";
-  parameter Real s_WcDes(fixed=false) "";
-  parameter Real s_PRdes(fixed=false) "";
-  parameter Real s_effDes(fixed=false) "";
-  */
+  
 //******************************************************************************************
 initial algorithm
-  
-  //fluid_1_des.m_flow :=port_1.m_flow;
-  //fluid_1_des.p := fluid_1.p;
-  //fluid_1_des.T := fluid_1.T;
-  NmechDes := Nmech;
-  PRdes:=PR;
-  /*
-  s_NcDes:= Nc_1/NcTblDes_paramInput;
-  s_WcDes:= Wc_1/TrbTbl_WcEff_NcPR_des.y_Wc;
-  s_PRdes:= (PR-1.0)/(PRtblDes_paramInput-1.0);
-  s_effDes:= eff/TrbTbl_WcEff_NcPR_des.y_eff;
-  */    
+      
 //******************************************************************************************
 initial equation
-
-//******************************************************************************************
-algorithm
   /* ---------------------------------------------
-    design point calc
+    determine design point
   --------------------------------------------- */
-  /*
-  //----- reading design point map -----
-  TrbTbl_WcEff_NcPR_des.u_NcTbl:= NcTblDes_paramInput;
-  TrbTbl_WcEff_NcPR_des.u_PRtbl:= PRtblDes_paramInput;
-  
+  fluid_1_des.m_flow=port_1.m_flow;
+  fluid_1_des.p=fluid_1.p;
+  fluid_1_des.T=fluid_1.T;
+  NmechDes = Nmech;
+  //--------------------
+  if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
+    PRdes = PRdes_paramInput;
+  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
+    PRdes = u_PR;
+  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
+    PRdes= PR;
+  end if; 
   //--------------------
   if use_u_eff == false then
-    effDes := effDes_paramInput;
-  elseif use_u_eff == true then
-    effDes := u_eff;
-  end if;
+    effDes = effDes_paramInput;
+  elseif use_u_eff==true then
+    effDes = u_eff;
+  end if; 
   //--------------------
   
-  when (time==0.0) then
-    fluid_1_des.m_flow :=port_1.m_flow;
-    fluid_1_des.p := fluid_1.p;
-    fluid_1_des.T := fluid_1.T;
-    NmechDes := Nmech;
-    PRdes:=PR;  
-    s_NcDes:= Nc_1/NcTblDes_paramInput;
-    s_WcDes:= Wc_1/TrbTbl_WcEff_NcPR_des.y_Wc;
-    s_PRdes:= (PR-1.0)/(PRtblDes_paramInput-1.0);
-    s_effDes:= eff/TrbTbl_WcEff_NcPR_des.y_eff;
-  end when;  
-  */
-  //--------------------
-  /*
-  when (timeenvironment.timeRemoveDesConstraint) then
-    s_NcDes:= s_Nc;
-    s_WcDes:= s_Wc;
-    s_PRdes:= s_PR;
-    s_effDes:= s_eff;
-  end when;  
-  */
-  /*
-  when (environment.timeRemoveDesConstraint<time) then
-    fluid_1_des.m_flow :=pre(fluid_1_des.m_flow);
-    fluid_1_des.p := pre(fluid_1_des.p);
-    fluid_1_des.T := pre(fluid_1_des.T);
-    NmechDes := pre(NmechDes);
-    PRdes:=pre(PRdes);  
-    s_NcDes:= pre(s_NcDes);
-    s_WcDes:= pre(s_WcDes);
-    s_PRdes:= pre(s_PRdes);
-    s_effDes:= pre(s_effDes);  
-  end when;
-  */
-  /*when (time<=environment.timeRemoveDesConstraint) then
-    fluid_1_des.m_flow :=port_1.m_flow;
-    fluid_1_des.p := fluid_1.p;
-    fluid_1_des.T := fluid_1.T;
-    NmechDes := Nmech;
-    PRdes:=PR;  
-    s_NcDes:= Nc_1_des/NcTblDes_paramInput;
-    s_WcDes:= Wc_1_des/TrbTbl_WcEff_NcPR_des.y_Wc;
-    s_PRdes:= (PRdes-1.0)/(PRtblDes_paramInput-1.0);
-    s_effDes:= effDes/TrbTbl_WcEff_NcPR_des.y_eff;  
-  end when;
-  
-  NcTbl:= NcTblDes_paramInput;
-  PRtbl:= PRtblDes_paramInput;
-  TrbTbl_WcEff_NcPR_op.u_NcTbl:= NcTbl;
-  TrbTbl_WcEff_NcPR_op.u_PRtbl:= PRtbl;
-  
-  PRtblScld:= (PRtbl-1.0)*s_PRdes +1.0;
-  WcTblScld:= TrbTbl_WcEff_NcPR_op.y_Wc*s_WcDes;
-  effTblScld:= TrbTbl_WcEff_NcPR_op.y_eff*s_effDes;
-  */
-  /**/
-  //----- read map for operation -----
-  /*
-  if noEvent(time<=environment.timeRemoveDesConstraint) then
-    //NcTbl= NcTblDes_paramInput;
-    //PRtbl= PRtblDes_paramInput;
-    eff:=effDes;
-    
-  else
-    //NcTbl=Nc_1/s_NcDes;
-    //Wc_1=WcTblScld;
-    eff:=Des;
-  end if;
-  */
-  /*
-  when initial() then
-    fluid_1_des.m_flow :=port_1.m_flow;
-    fluid_1_des.p := fluid_1.p;
-    fluid_1_des.T := fluid_1.T;
-    NmechDes := Nmech;
-    PRdes:=PR;  
-    s_NcDes:= Nc_1/NcTblDes_paramInput;
-    s_WcDes:= Wc_1/TrbTbl_WcEff_NcPR_des.y_Wc;
-    s_PRdes:= (PR-1.0)/(PRtblDes_paramInput-1.0);
-    s_effDes:= eff/TrbTbl_WcEff_NcPR_des.y_eff;
-    flag_desRecTriggered:= pre(flag_desRecTriggered)+1;
-  end when;
-  */
-//******************************************************************************************
-equation
   //----- reading design point map -----
   TrbTbl_WcEff_NcPR_des.u_NcTbl= NcTblDes_paramInput;
   TrbTbl_WcEff_NcPR_des.u_PRtbl= PRtblDes_paramInput;
   
+  
+//******************************************************************************************
+algorithm
+  
+//******************************************************************************************
+equation
+  
+  if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
+    PRdes = PRdes_paramInput;
+  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
+    PRdes = u_PR;
+  elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
+    PRdes= PR;
+  end if;
+  /**/ 
   //--------------------
   if use_u_eff == false then
     effDes = effDes_paramInput;
-  elseif use_u_eff == true then
+  elseif use_u_eff==true then
     effDes = u_eff;
-  end if;
+  end if; 
   //--------------------
   
-  eff=effDes;
-  
-   when (flag_desCalc==true) then
-    fluid_1_des.m_flow =port_1.m_flow;
-    fluid_1_des.p = fluid_1.p;
-    fluid_1_des.T = fluid_1.T;
+  when (triggerDesCalc==2) then
+    fluid_1_des.m_flow=port_1.m_flow;
+    fluid_1_des.p=fluid_1.p;
+    fluid_1_des.T=fluid_1.T;
     NmechDes = Nmech;
-    PRdes=PR;
+    //-----
+    if(printCmd==true)then
+      Streams.print("des.pt.calc. is executed");
+      Streams.print("fluid_1_des.m_flow, .p, .T, NmechDes");
+    end if;
+    reinit(triggerDesCalc,0);
+    //--------------------
   end when;
+  /**/
   
-  if noEvent(time<=environment.timeRemoveDesConstraint) then
-    NcTbl= NcTblDes_paramInput;
-    PRtbl= PRtblDes_paramInput;
-  else
-    NcTbl=Nc_1/s_NcTblDes;
-    PRtbl= (PR-1.0)/s_PRtblDes +1.0;
-  end if;
-  
-  WcTblScld=Wc_1*k_Wc_1 + auxVar1*k_auxVar1;
+  /**************************************************
+    processing about data table
+  **************************************************/
+  //----- reading design point map -----
+  TrbTbl_WcEff_NcPR_des.u_NcTbl= NcTblDes_paramInput;
+  TrbTbl_WcEff_NcPR_des.u_PRtbl= PRtblDes_paramInput;
   
   s_NcTbl= Nc_1/NcTblDes_paramInput;
   s_WcTbl= Wc_1/TrbTbl_WcEff_NcPR_des.y_Wc;
   s_PRtbl= (PR-1.0)/(PRtblDes_paramInput-1.0);
   s_effTbl= eff/TrbTbl_WcEff_NcPR_des.y_eff;  
+  
+  when initial() then
+    s_NcTblDes= s_NcTbl;
+    s_WcTblDes= s_WcTbl;
+    s_PRtblDes= s_PRtbl;
+    s_effTblDes= s_effTbl;  
+    //-----
+    if(printCmd==true)then
+      Streams.print("des.pt.calc. is executed");
+      Streams.print("s_NcTblDes, s_WcTblDes, s_PRtblDes, s_effTblDes");
+    end if;
+  end when;
+  /**/
+  
+  //----- read map for operation -----
+  if noEvent(time<=environment.timeRemoveDesConstraint) then
+    NcTbl= NcTblDes_paramInput;
+    PRtbl= PRtblDes_paramInput;
+    PR=PRdes;
+    eff=effDes;
+  else
+    NcTbl=Nc_1/s_NcTblDes;
+    PRtbl= (PR-1.0)/s_PRtblDes +1.0;
+    Wc_1=WcTblScld;
+    eff=effTblScld;
+  end if;
   
   TrbTbl_WcEff_NcPR_op.u_NcTbl= NcTbl;
   TrbTbl_WcEff_NcPR_op.u_PRtbl= PRtbl;
@@ -327,21 +276,6 @@ equation
   PRtblScld= (PRtbl-1.0)*s_PRtblDes +1.0;
   WcTblScld= TrbTbl_WcEff_NcPR_op.y_Wc*s_WcTblDes;
   effTblScld= TrbTbl_WcEff_NcPR_op.y_eff*s_effTblDes;
-  
-  when initial() then  
-    s_NcTblDes= s_NcTbl;
-    s_WcTblDes= s_WcTbl;
-    s_PRtblDes= s_PRtbl;
-    s_effTblDes= s_effTbl;  
-  end when;
-  
-  if noEvent(time<=environment.timeRemoveDesConstraint) then
-    k_Wc_1=0;
-    k_auxVar1=1;
-  else
-    k_Wc_1=1.0;
-    k_auxVar1=0;
-  end if;
   
   
 /********************************************************

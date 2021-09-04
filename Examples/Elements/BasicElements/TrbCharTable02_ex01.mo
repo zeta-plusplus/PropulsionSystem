@@ -8,8 +8,6 @@ model TrbCharTable02_ex01
   //-----
   inner PropulsionSystem.EngineSimEnvironment environment(timeRemoveDesConstraint = 5.0)  annotation(
     Placement(visible = true, transformation(origin = {-50, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Sources.Boundary_pT boundary_out(redeclare package Medium = engineAir, T = 288.15, nPorts = 1, p = 1 * 101.325 * 1000, use_T_in = false, use_p_in = false) annotation(
-    Placement(visible = true, transformation(origin = {130, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sensors.PowerSensor powerSensor1 annotation(
     Placement(visible = true, transformation(origin = {-30, -20}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
@@ -20,31 +18,25 @@ model TrbCharTable02_ex01
     Placement(visible = true, transformation(origin = {-90, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 10, height = 100, offset = 3000, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-130, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Tin(duration = 10, height = 0, offset = 1000, startTime = 10) annotation(
-    Placement(visible = true, transformation(origin = {-110, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Pressure pressure1(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {60, -4}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Sources.Ramp ramp_p_in(duration = 10, height = 0 * 101.325 * 1000, offset = 5 * 101.325 * 1000, startTime = 10) annotation(
-    Placement(visible = true, transformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Pressure pressure2(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-40, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Sources.Boundary_pT boundary_in(redeclare package Medium = engineAir, T = 1000, nPorts = 1, p = 5 * 101.325 * 1000, use_T_in = true, use_p_in = true)  annotation(
+  Modelica.Fluid.Sources.Boundary_pT boundary_in(redeclare package Medium = engineAir, T = 1000, nPorts = 1, p = 5 * 101.325 * 1000, use_T_in = false, use_p_in = false)  annotation(
     Placement(visible = true, transformation(origin = {-70, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate1(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-10, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharTable02 Trb(redeclare package Medium = engineAir) annotation(
+  PropulsionSystem.Elements.BasicElements.TrbCharTable02 Trb(redeclare package Medium = engineAir, printCmd = true, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.param, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {20, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const(k = 10)  annotation(
-    Placement(visible = true, transformation(origin = {44, 60}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  PropulsionSystem.Utilities.ConstrainVariableDesignPoint ConstraintDesPt annotation(
-    Placement(visible = true, transformation(origin = {10, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Fluid.Sources.MassFlowSource_T boundary(redeclare package Medium = engineAir, nPorts = 1, use_m_flow_in = true)  annotation(
+    Placement(visible = true, transformation(origin = {70, 40}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_m_flow(duration = 10, height = -1, offset = -10, startTime = 10) annotation(
+    Placement(visible = true, transformation(origin = {110, 48}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 equation
-  connect(ConstraintDesPt.u_targetValue, const.y) annotation(
-    Line(points = {{22, 60}, {32, 60}, {32, 60}, {32, 60}}, color = {0, 0, 127}));
-  connect(massFlowRate1.m_flow, ConstraintDesPt.u_variable) annotation(
-    Line(points = {{-10, 52}, {-10, 52}, {-10, 60}, {-2, 60}, {-2, 60}}, color = {0, 0, 127}));
-  connect(pressure1.port, boundary_out.ports[1]) annotation(
-    Line(points = {{50, -4}, {50, -4}, {50, 20}, {120, 20}, {120, 20}}, color = {0, 127, 255}));
+  connect(pressure1.port, boundary.ports[1]) annotation(
+    Line(points = {{50, -4}, {50, 40}, {60, 40}}, color = {0, 127, 255}));
+  connect(boundary.m_flow_in, ramp_m_flow.y) annotation(
+    Line(points = {{80, 48}, {98, 48}, {98, 48}, {100, 48}}, color = {0, 0, 127}));
   connect(massFlowRate1.port_b, Trb.port_1) annotation(
     Line(points = {{0, 40}, {0, 40}, {0, -4}, {0, -4}}, color = {0, 127, 255}));
   connect(pressure2.port, massFlowRate1.port_a) annotation(
@@ -57,10 +49,6 @@ equation
     Line(points = {{40, -4}, {50, -4}, {50, -4}, {50, -4}}, color = {0, 127, 255}));
   connect(ramp_Nmech.y, from_rpm1.u) annotation(
     Line(points = {{-119, -20}, {-103, -20}, {-103, -20}, {-103, -20}}, color = {0, 0, 127}));
-  connect(ramp_p_in.y, boundary_in.p_in) annotation(
-    Line(points = {{-99, 60}, {-95, 60}, {-95, 48}, {-83, 48}, {-83, 48}}, color = {0, 0, 127}));
-  connect(ramp_Tin.y, boundary_in.T_in) annotation(
-    Line(points = {{-99, 20}, {-91, 20}, {-91, 44}, {-83, 44}, {-83, 44}}, color = {0, 0, 127}));
   connect(from_rpm1.y, speed1.w_ref) annotation(
     Line(points = {{-79, -20}, {-73, -20}, {-73, -20}, {-73, -20}}, color = {0, 0, 127}));
   connect(speed1.flange, powerSensor1.flange_b) annotation(
