@@ -228,7 +228,7 @@ equation
   end if; 
   //--------------------
 
-  when {(triggerDesCalc==1)} then
+  when (triggerDesCalc==2) then
     fluid_1_des.m_flow=port_1.m_flow;
     fluid_1_des.p=fluid_1.p;
     fluid_1_des.T=fluid_1.T;
@@ -238,7 +238,6 @@ equation
       Streams.print("des.pt.calc. is executed");
       Streams.print("fluid_1_des.m_flow, .p, .T, NmechDes");
     end if;
-    reinit(flagExecDesCalc,1);
     reinit(triggerDesCalc,0);
     //--------------------
   end when;
