@@ -200,9 +200,6 @@ algorithm
   
 //******************************************************************************************
 equation
-  when (time<=environment.timeRemoveDesConstraint)then
-    fluid_1_des.m_flow=port_1.m_flow;
-  end when;
   //-----
   when (triggerDesCalc==2) then
     if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then

@@ -197,10 +197,9 @@ partial model CompressorBase00
   
   
   //********** variables of design point **********
-  Modelica.SIunits.MassFlowRate Wc_1_des(start=Wc_1_init) "corrected mass flow rate, fluid_1, design point" annotation(
+  discrete Modelica.SIunits.MassFlowRate Wc_1_des(start=Wc_1_init) "corrected mass flow rate, fluid_1, design point" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  
   discrete Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(start=Nmech_init) "mechanical rotation speed, rpm" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
@@ -210,7 +209,6 @@ partial model CompressorBase00
   discrete Real PRdes(start=PR_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );/**/
-  
   discrete Real effDes(start=eff_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
