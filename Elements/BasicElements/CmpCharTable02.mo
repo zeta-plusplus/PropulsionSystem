@@ -88,7 +88,7 @@ model CmpCharTable02
   Real NcTbl(start=NcTblDes_paramInput) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  /*
+  /**/
   Real s_NcTbl(start=1.0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
@@ -101,17 +101,17 @@ model CmpCharTable02
   Real s_effTbl(start=1.0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  */
-  discrete Real s_NcDes(start=1.0) "" annotation(
+  
+  Real s_NcTblDes(start=1.0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  discrete Real s_WcDes(start=1.0) "" annotation(
+  Real s_WcTblDes(start=1.0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  discrete Real s_PRdes(start=1.0) "" annotation(
+  Real s_PRtblDes(start=1.0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  discrete Real s_effDes(start=1.0) "" annotation(
+  Real s_effTblDes(start=1.0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
@@ -249,32 +249,17 @@ equation
   //----- reading design point map -----
   CmpTbl_WcPReff_NcRline_des.u_NcTbl=NcTblDes_paramInput;
   CmpTbl_WcPReff_NcRline_des.u_RlineTbl=RlineTblDes_paramInput;
-  /*
+  
   s_NcTbl= Nc_1/NcTblDes_paramInput;
   s_WcTbl= Wc_1/CmpTbl_WcPReff_NcRline_des.y_Wc;
   s_PRtbl= (PR-1.0)/(CmpTbl_WcPReff_NcRline_des.y_PR-1.0);
   s_effTbl= eff/CmpTbl_WcPReff_NcRline_des.y_eff;
   
-  when {(triggerDesCalc==1)} then
+  when initial() then
     s_NcTblDes= s_NcTbl;
     s_WcTblDes= s_WcTbl;
     s_PRtblDes= s_PRtbl;
     s_effTblDes= s_effTbl;
-    //-----
-    if(printCmd==true)then
-      Streams.print("des.pt.calc. is executed");
-      Streams.print("s_NcTblDes, s_WcTblDes, s_PRtblDes, s_effTblDes");
-    end if;
-    reinit(flagExecDesCalc,1);
-    reinit(triggerDesCalc,0);
-  end when;
-  */
-  
-  when initial() then
-    s_NcDes= Nc_1_des/NcTblDes_paramInput;
-    s_WcDes= Wc_1_des/CmpTbl_WcPReff_NcRline_des.y_Wc;
-    s_PRdes= (PRdes-1.0)/(CmpTbl_WcPReff_NcRline_des.y_PR-1.0);
-    s_effDes= effDes/CmpTbl_WcPReff_NcRline_des.y_eff;
     //-----
     if(printCmd==true)then
       Streams.print("des.pt.calc. is executed");
@@ -289,7 +274,7 @@ equation
     PR=PRdes;
     eff=effDes;
   else
-    NcTbl=Nc_1/s_NcDes;
+    NcTbl=Nc_1/s_NcTblDes;
     Wc_1=WcTblScld;
     PR=PRtblScld;
     eff=effTblScld;
@@ -297,9 +282,9 @@ equation
   
   CmpTbl_WcPReff_NcRline_op.u_NcTbl=NcTbl;
   CmpTbl_WcPReff_NcRline_op.u_RlineTbl=RlineTbl;
-  WcTblScld= CmpTbl_WcPReff_NcRline_op.y_Wc*s_WcDes;
-  PRtblScld= (CmpTbl_WcPReff_NcRline_op.y_PR-1.0)*s_PRdes +1.0;
-  effTblScld= CmpTbl_WcPReff_NcRline_op.y_eff*s_effDes;
+  WcTblScld= CmpTbl_WcPReff_NcRline_op.y_Wc*s_WcTblDes;
+  PRtblScld= (CmpTbl_WcPReff_NcRline_op.y_PR-1.0)*s_PRtblDes +1.0;
+  effTblScld= CmpTbl_WcPReff_NcRline_op.y_eff*s_effTblDes;
   
 /********************************************************
   Graphics
