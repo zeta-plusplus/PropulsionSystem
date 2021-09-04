@@ -200,7 +200,10 @@ algorithm
   
 //******************************************************************************************
 equation
-  
+  when (time<=environment.timeRemoveDesConstraint)then
+    fluid_1_des.m_flow=port_1.m_flow;
+  end when;
+  //-----
   when (triggerDesCalc==2) then
     if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
       PRdes = PRdes_paramInput;
@@ -217,17 +220,6 @@ equation
       effDes = u_eff;
     end if; 
     //--------------------
-    //-----
-    if(printCmd==true)then
-      Streams.print("des.pt.calc. is executed");
-      Streams.print("");
-    end if;
-    reinit(triggerDesCalc,0);
-    //--------------------
-  end when;
-    
-  when (triggerDesCalc==2) then
-    fluid_1_des.m_flow=port_1.m_flow;
     fluid_1_des.p=fluid_1.p;
     fluid_1_des.T=fluid_1.T;
     NmechDes = Nmech;
@@ -253,7 +245,8 @@ equation
   s_PRtbl= (PR-1.0)/(PRtblDes_paramInput-1.0);
   s_effTbl= eff/TrbTbl_WcEff_NcPR_des.y_eff;  
   
-  when initial() then
+  //when initial() then
+  when (triggerDesCalc==2) then
     s_NcTblDes= s_NcTbl;
     s_WcTblDes= s_WcTbl;
     s_PRtblDes= s_PRtbl;
@@ -267,11 +260,16 @@ equation
   /**/
   
   //----- read map for operation -----
+  /**/
+  
   if noEvent(time<=environment.timeRemoveDesConstraint) then
     NcTbl= NcTblDes_paramInput;
     PRtbl= PRtblDes_paramInput;
-    //fluid_1_des.m_flow= port_1.m_flow;
-    PR=PRdes;
+    if(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated)then
+      fluid_1_des.m_flow= port_1.m_flow;
+    else
+      PR=PRdes;
+    end if;
     eff=effDes;
   else
     NcTbl=Nc_1/s_NcTblDes;

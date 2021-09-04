@@ -102,16 +102,16 @@ model CmpCharTable02
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
-  Real s_NcTblDes(start=1.0) "" annotation(
+  discrete Real s_NcTblDes(start=1.0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Real s_WcTblDes(start=1.0) "" annotation(
+  discrete Real s_WcTblDes(start=1.0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Real s_PRtblDes(start=1.0) "" annotation(
+  discrete Real s_PRtblDes(start=1.0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Real s_effTblDes(start=1.0) "" annotation(
+  discrete Real s_effTblDes(start=1.0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
@@ -254,7 +254,8 @@ equation
   s_PRtbl= (PR-1.0)/(CmpTbl_WcPReff_NcRline_des.y_PR-1.0);
   s_effTbl= eff/CmpTbl_WcPReff_NcRline_des.y_eff;
   
-  when initial() then
+  //when initial() then
+  when (triggerDesCalc==2) then
     s_NcTblDes= s_NcTbl;
     s_WcTblDes= s_WcTbl;
     s_PRtblDes= s_PRtbl;
