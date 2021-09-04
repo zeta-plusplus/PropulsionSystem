@@ -8,7 +8,7 @@ model CmpCharTable02
   ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
-  
+  import Streams= Modelica.Utilities.Streams;
   
   /********************************************************
         Declaration   
@@ -88,7 +88,20 @@ model CmpCharTable02
   Real NcTbl(start=NcTblDes_paramInput) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  
+  /*
+  Real s_NcTbl(start=1.0) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Real s_WcTbl(start=1.0) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Real s_PRtbl(start=1.0) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Real s_effTbl(start=1.0) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  */
   discrete Real s_NcDes(start=1.0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
@@ -198,13 +211,15 @@ algorithm
   
 //******************************************************************************************
 equation
+  
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     PRdes = PRdes_paramInput;
   elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
     PRdes = u_PR;
   elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
     PRdes= PR;
-  end if; 
+  end if;
+  /**/ 
   //--------------------
   if use_u_eff == false then
     effDes = effDes_paramInput;
@@ -213,11 +228,18 @@ equation
   end if; 
   //--------------------
 
-  when noEvent(time<=environment.timeRemoveDesConstraint) then
+  when {(triggerDesCalc==1)} then
     fluid_1_des.m_flow=port_1.m_flow;
     fluid_1_des.p=fluid_1.p;
     fluid_1_des.T=fluid_1.T;
     NmechDes = Nmech;
+    //-----
+    if(printCmd==true)then
+      Streams.print("des.pt.calc. is executed");
+      Streams.print("fluid_1_des.m_flow, .p, .T, NmechDes");
+    end if;
+    reinit(flagExecDesCalc,1);
+    reinit(triggerDesCalc,0);
     //--------------------
   end when;
   /**/
@@ -227,14 +249,39 @@ equation
   //----- reading design point map -----
   CmpTbl_WcPReff_NcRline_des.u_NcTbl=NcTblDes_paramInput;
   CmpTbl_WcPReff_NcRline_des.u_RlineTbl=RlineTblDes_paramInput;
+  /*
+  s_NcTbl= Nc_1/NcTblDes_paramInput;
+  s_WcTbl= Wc_1/CmpTbl_WcPReff_NcRline_des.y_Wc;
+  s_PRtbl= (PR-1.0)/(CmpTbl_WcPReff_NcRline_des.y_PR-1.0);
+  s_effTbl= eff/CmpTbl_WcPReff_NcRline_des.y_eff;
+  
+  when {(triggerDesCalc==1)} then
+    s_NcTblDes= s_NcTbl;
+    s_WcTblDes= s_WcTbl;
+    s_PRtblDes= s_PRtbl;
+    s_effTblDes= s_effTbl;
+    //-----
+    if(printCmd==true)then
+      Streams.print("des.pt.calc. is executed");
+      Streams.print("s_NcTblDes, s_WcTblDes, s_PRtblDes, s_effTblDes");
+    end if;
+    reinit(flagExecDesCalc,1);
+    reinit(triggerDesCalc,0);
+  end when;
+  */
   
   when initial() then
     s_NcDes= Nc_1_des/NcTblDes_paramInput;
     s_WcDes= Wc_1_des/CmpTbl_WcPReff_NcRline_des.y_Wc;
     s_PRdes= (PRdes-1.0)/(CmpTbl_WcPReff_NcRline_des.y_PR-1.0);
     s_effDes= effDes/CmpTbl_WcPReff_NcRline_des.y_eff;
+    //-----
+    if(printCmd==true)then
+      Streams.print("des.pt.calc. is executed");
+      Streams.print("s_NcTblDes, s_WcTblDes, s_PRtblDes, s_effTblDes");
+    end if;
   end when;
-  
+  /**/
   //----- read map for operation -----
   if noEvent(time<=environment.timeRemoveDesConstraint) then
     NcTbl=NcTblDes_paramInput;

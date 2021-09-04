@@ -6,6 +6,7 @@ partial model CompressorBase00
   ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
+  import Streams= Modelica.Utilities.Streams;
   
   
   /********************************************************
@@ -196,7 +197,7 @@ partial model CompressorBase00
   
   
   //********** variables of design point **********
-  discrete Modelica.SIunits.MassFlowRate Wc_1_des(start=Wc_1_init) "corrected mass flow rate, fluid_1, design point" annotation(
+  Modelica.SIunits.MassFlowRate Wc_1_des(start=Wc_1_init) "corrected mass flow rate, fluid_1, design point" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
@@ -208,7 +209,8 @@ partial model CompressorBase00
   );
   discrete Real PRdes(start=PR_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
+  );/**/
+  
   discrete Real effDes(start=eff_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
@@ -225,7 +227,13 @@ partial model CompressorBase00
   
   //********** flags **********
   Integer flagEffVal "0:0<eff<1, 1:eff<=0, 2:1<=eff";
+  Real triggerDesCalc(start=0) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
+  Real flagExecDesCalc(start=-1) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
   /* ---------------------------------------------
       Internal objects
@@ -280,7 +288,6 @@ partial model CompressorBase00
   
 //******************************************************************************************
 protected
-  
   
 //******************************************************************************************
 initial algorithm
@@ -382,10 +389,36 @@ equation
   NqNdes = Nmech / NmechDes;
   NcqNcDes_1 = Nc_1 / Nc_1_des;
   
-  when (time<=environment.timeRemoveDesConstraint)then
+  when (environment.timeRemoveDesConstraint<time)then
+    flagExecDesCalc=0;
+    triggerDesCalc=0;
+  elsewhen initial() then
+    triggerDesCalc= 1;
+    //-----
+    if(printCmd==true)then
+      Streams.print("triggerDesCalc is changed to 1; initial()");
+    end if;
+  end when;
+  
+  when {((sample(0,0.01))and(time<=environment.timeRemoveDesConstraint))}then
+    reinit(triggerDesCalc, 1);
+    //-----
+    if(printCmd==true)then
+      Streams.print("triggerDesCalc is changed to 1; time<=environment.timeRemoveDesConstraint");
+    end if;
+  end when;
+  
+  when {(triggerDesCalc==1)}then
     Wc_1_des= fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
     Nc_1_des= NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
+    //-----
+    if(printCmd==true)then
+      Streams.print("des.pt.calc. is executed");
+      Streams.print("Wc_1_des, Nc_1_des");
+    end if;
+    reinit(triggerDesCalc,0);
   end when;
+  
   
 /********************************************************
   Graphics

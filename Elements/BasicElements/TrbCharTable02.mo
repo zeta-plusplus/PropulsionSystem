@@ -74,18 +74,6 @@ model TrbCharTable02
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
-  discrete Real s_NcDes(start=1.0) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  discrete Real s_WcDes(start=1.0) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  discrete Real s_PRdes(start=1.0) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  discrete Real s_effDes(start=1.0) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
   
   Modelica.SIunits.MassFlowRate WcTblScld(start=10.0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
@@ -97,7 +85,37 @@ model TrbCharTable02
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   /**/
+  Real s_NcTbl(start=1.0) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Real s_WcTbl(start=1.0) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Real s_PRtbl(start=1.0) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  Real s_effTbl(start=1.0) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
   
+  discrete Real s_NcTblDes(start=1.0) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete Real s_WcTblDes(start=1.0) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete Real s_PRtblDes(start=1.0) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  discrete Real s_effTblDes(start=1.0) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
+  
+  discrete Real auxVar1;
+  Real k_Wc_1(start=0.0);
+  Real k_auxVar1(start=1.0);
+  /**/
   
   /* ---------------------------------------------
      Internal objects
@@ -139,36 +157,137 @@ model TrbCharTable02
   Modelica.Blocks.Interfaces.RealInput u_eff if use_u_eff "eff input, valid only when use_u_eff==true" annotation(
     Placement(visible = true, transformation(origin = {-20, -112}, extent = {{-12, -12}, {12, 12}}, rotation = 90), iconTransformation(origin = {-3.55271e-15, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 //******************************************************************************************
+protected
+  /*
+  parameter Real s_NcDes(fixed=false) "";
+  parameter Real s_WcDes(fixed=false) "";
+  parameter Real s_PRdes(fixed=false) "";
+  parameter Real s_effDes(fixed=false) "";
+  */
+//******************************************************************************************
 initial algorithm
+  
+  //fluid_1_des.m_flow :=port_1.m_flow;
+  //fluid_1_des.p := fluid_1.p;
+  //fluid_1_des.T := fluid_1.T;
+  NmechDes := Nmech;
+  PRdes:=PR;
+  /*
+  s_NcDes:= Nc_1/NcTblDes_paramInput;
+  s_WcDes:= Wc_1/TrbTbl_WcEff_NcPR_des.y_Wc;
+  s_PRdes:= (PR-1.0)/(PRtblDes_paramInput-1.0);
+  s_effDes:= eff/TrbTbl_WcEff_NcPR_des.y_eff;
+  */    
 //******************************************************************************************
 initial equation
-/* ---------------------------------------------
-  design point calc
+
+//******************************************************************************************
+algorithm
+  /* ---------------------------------------------
+    design point calc
   --------------------------------------------- */
-  fluid_1_des.m_flow = port_1.m_flow;
-  fluid_1_des.p = fluid_1.p;
-  fluid_1_des.T = fluid_1.T;
-  NmechDes = Nmech;
-//--------------------
-  PRdes=PR;
-//--------------------
-  if use_u_eff == false then
-    effDes = effDes_paramInput;
-  elseif use_u_eff == true then
-    effDes = u_eff;
-  end if;
-//--------------------
+  /*
+  //----- reading design point map -----
+  TrbTbl_WcEff_NcPR_des.u_NcTbl:= NcTblDes_paramInput;
+  TrbTbl_WcEff_NcPR_des.u_PRtbl:= PRtblDes_paramInput;
   
+  //--------------------
+  if use_u_eff == false then
+    effDes := effDes_paramInput;
+  elseif use_u_eff == true then
+    effDes := u_eff;
+  end if;
+  //--------------------
+  
+  when (time==0.0) then
+    fluid_1_des.m_flow :=port_1.m_flow;
+    fluid_1_des.p := fluid_1.p;
+    fluid_1_des.T := fluid_1.T;
+    NmechDes := Nmech;
+    PRdes:=PR;  
+    s_NcDes:= Nc_1/NcTblDes_paramInput;
+    s_WcDes:= Wc_1/TrbTbl_WcEff_NcPR_des.y_Wc;
+    s_PRdes:= (PR-1.0)/(PRtblDes_paramInput-1.0);
+    s_effDes:= eff/TrbTbl_WcEff_NcPR_des.y_eff;
+  end when;  
+  */
+  //--------------------
+  /*
+  when (timeenvironment.timeRemoveDesConstraint) then
+    s_NcDes:= s_Nc;
+    s_WcDes:= s_Wc;
+    s_PRdes:= s_PR;
+    s_effDes:= s_eff;
+  end when;  
+  */
+  /*
+  when (environment.timeRemoveDesConstraint<time) then
+    fluid_1_des.m_flow :=pre(fluid_1_des.m_flow);
+    fluid_1_des.p := pre(fluid_1_des.p);
+    fluid_1_des.T := pre(fluid_1_des.T);
+    NmechDes := pre(NmechDes);
+    PRdes:=pre(PRdes);  
+    s_NcDes:= pre(s_NcDes);
+    s_WcDes:= pre(s_WcDes);
+    s_PRdes:= pre(s_PRdes);
+    s_effDes:= pre(s_effDes);  
+  end when;
+  */
+  /*when (time<=environment.timeRemoveDesConstraint) then
+    fluid_1_des.m_flow :=port_1.m_flow;
+    fluid_1_des.p := fluid_1.p;
+    fluid_1_des.T := fluid_1.T;
+    NmechDes := Nmech;
+    PRdes:=PR;  
+    s_NcDes:= Nc_1_des/NcTblDes_paramInput;
+    s_WcDes:= Wc_1_des/TrbTbl_WcEff_NcPR_des.y_Wc;
+    s_PRdes:= (PRdes-1.0)/(PRtblDes_paramInput-1.0);
+    s_effDes:= effDes/TrbTbl_WcEff_NcPR_des.y_eff;  
+  end when;
+  
+  NcTbl:= NcTblDes_paramInput;
+  PRtbl:= PRtblDes_paramInput;
+  TrbTbl_WcEff_NcPR_op.u_NcTbl:= NcTbl;
+  TrbTbl_WcEff_NcPR_op.u_PRtbl:= PRtbl;
+  
+  PRtblScld:= (PRtbl-1.0)*s_PRdes +1.0;
+  WcTblScld:= TrbTbl_WcEff_NcPR_op.y_Wc*s_WcDes;
+  effTblScld:= TrbTbl_WcEff_NcPR_op.y_eff*s_effDes;
+  */
+  /**/
+  //----- read map for operation -----
+  /*
+  if noEvent(time<=environment.timeRemoveDesConstraint) then
+    //NcTbl= NcTblDes_paramInput;
+    //PRtbl= PRtblDes_paramInput;
+    eff:=effDes;
+    
+  else
+    //NcTbl=Nc_1/s_NcDes;
+    //Wc_1=WcTblScld;
+    eff:=Des;
+  end if;
+  */
+  /*
+  when initial() then
+    fluid_1_des.m_flow :=port_1.m_flow;
+    fluid_1_des.p := fluid_1.p;
+    fluid_1_des.T := fluid_1.T;
+    NmechDes := Nmech;
+    PRdes:=PR;  
+    s_NcDes:= Nc_1/NcTblDes_paramInput;
+    s_WcDes:= Wc_1/TrbTbl_WcEff_NcPR_des.y_Wc;
+    s_PRdes:= (PR-1.0)/(PRtblDes_paramInput-1.0);
+    s_effDes:= eff/TrbTbl_WcEff_NcPR_des.y_eff;
+    flag_desRecTriggered:= pre(flag_desRecTriggered)+1;
+  end when;
+  */
+//******************************************************************************************
+equation
   //----- reading design point map -----
   TrbTbl_WcEff_NcPR_des.u_NcTbl= NcTblDes_paramInput;
   TrbTbl_WcEff_NcPR_des.u_PRtbl= PRtblDes_paramInput;
   
-  
-//******************************************************************************************
-algorithm
-//##### none #####
-//******************************************************************************************
-equation
   //--------------------
   if use_u_eff == false then
     effDes = effDes_paramInput;
@@ -176,50 +295,54 @@ equation
     effDes = u_eff;
   end if;
   //--------------------
-  when noEvent(time <= environment.timeRemoveDesConstraint) then
-    /* ---------------------------------------------
-    design point calc
-    --------------------------------------------- */
-    fluid_1_des.m_flow = port_1.m_flow;
+  
+  eff=effDes;
+  
+   when (flag_desCalc==true) then
+    fluid_1_des.m_flow =port_1.m_flow;
     fluid_1_des.p = fluid_1.p;
     fluid_1_des.T = fluid_1.T;
     NmechDes = Nmech;
     PRdes=PR;
   end when;
   
-  /**************************************************
-    processing about data table
-  **************************************************/
-  //----- reading design point map -----
-  TrbTbl_WcEff_NcPR_des.u_NcTbl= NcTblDes_paramInput;
-  TrbTbl_WcEff_NcPR_des.u_PRtbl= PRtblDes_paramInput;
-  
-  when initial() then
-    s_NcDes= Nc_1_des/NcTblDes_paramInput;
-    s_WcDes= Wc_1_des/TrbTbl_WcEff_NcPR_des.y_Wc;
-    s_PRdes= (PRdes-1.0)/(PRtblDes_paramInput-1.0);
-    s_effDes= effDes/TrbTbl_WcEff_NcPR_des.y_eff;
-  end when;
-  
-  
-  //----- read map for operation -----
   if noEvent(time<=environment.timeRemoveDesConstraint) then
     NcTbl= NcTblDes_paramInput;
     PRtbl= PRtblDes_paramInput;
-    eff=effDes;
   else
-    NcTbl=Nc_1/s_NcDes;
-    Wc_1=WcTblScld;
-    eff=effDes;
+    NcTbl=Nc_1/s_NcTblDes;
+    PRtbl= (PR-1.0)/s_PRtblDes +1.0;
   end if;
   
-  PRtblScld= (PRtbl-1.0)*s_PRdes +1.0;
-  PR=PRtblScld;
+  WcTblScld=Wc_1*k_Wc_1 + auxVar1*k_auxVar1;
+  
+  s_NcTbl= Nc_1/NcTblDes_paramInput;
+  s_WcTbl= Wc_1/TrbTbl_WcEff_NcPR_des.y_Wc;
+  s_PRtbl= (PR-1.0)/(PRtblDes_paramInput-1.0);
+  s_effTbl= eff/TrbTbl_WcEff_NcPR_des.y_eff;  
   
   TrbTbl_WcEff_NcPR_op.u_NcTbl= NcTbl;
   TrbTbl_WcEff_NcPR_op.u_PRtbl= PRtbl;
-  WcTblScld= TrbTbl_WcEff_NcPR_op.y_Wc*s_WcDes;
-  effTblScld= TrbTbl_WcEff_NcPR_op.y_eff*s_effDes;
+  
+  PRtblScld= (PRtbl-1.0)*s_PRtblDes +1.0;
+  WcTblScld= TrbTbl_WcEff_NcPR_op.y_Wc*s_WcTblDes;
+  effTblScld= TrbTbl_WcEff_NcPR_op.y_eff*s_effTblDes;
+  
+  when initial() then  
+    s_NcTblDes= s_NcTbl;
+    s_WcTblDes= s_WcTbl;
+    s_PRtblDes= s_PRtbl;
+    s_effTblDes= s_effTbl;  
+  end when;
+  
+  if noEvent(time<=environment.timeRemoveDesConstraint) then
+    k_Wc_1=0;
+    k_auxVar1=1;
+  else
+    k_Wc_1=1.0;
+    k_auxVar1=0;
+  end if;
+  
   
 /********************************************************
   Graphics
@@ -245,5 +368,7 @@ equation
     <li><a href=\"modelica://PropulsionSystem.BaseClasses.BasicElements.TurbineBase00\"> PropulsionSystem.BaseClasses.BasicElements.TurbineBase00 </a> </li>
     </ul>
 
-</html>"));
+</html>"),
+  experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-6, Interval = 0.002),
+  __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
 end TrbCharTable02;
