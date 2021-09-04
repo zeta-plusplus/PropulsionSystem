@@ -402,7 +402,7 @@ equation
     reinit(triggerDesCalc,0);
   end when;
   //---------------
-  when {(triggerDesCalc==1)}then
+  when {(triggerDesCalc==2)}then
     Wc_1_des= fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
     Nc_1_des= NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
     //-----
