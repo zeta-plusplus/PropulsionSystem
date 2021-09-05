@@ -1,6 +1,6 @@
 within PropulsionSystem.Examples.Engines.DesignPoint;
 
-model Turbojet_ex04
+model Turbojet_ex08
   extends Modelica.Icons.Example;
   //-----
   //package engineAir = Modelica.Media.Air.DryAirNasa;
@@ -17,14 +17,10 @@ model Turbojet_ex04
     Placement(visible = true, transformation(origin = {-40, -60}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.InltCharFixed00 Inlt(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {60, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.CmpCharFixed00 Cmp(redeclare package Medium = engineAir, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput, use_u_eff = true) annotation(
-    Placement(visible = true, transformation(origin = {120, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.DuctCharFixed00 Duct030(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {170, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Temperature temperature040(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {270, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharFixed00 Trb(redeclare package Medium = engineAir, use_u_eff = true) annotation(
-    Placement(visible = true, transformation(origin = {300, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate010(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {10, -64}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint annotation(
@@ -49,12 +45,6 @@ model Turbojet_ex04
     Placement(visible = true, transformation(origin = {-90, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.EnginePerformance00 Perf annotation(
     Placement(visible = true, transformation(origin = {430, -250}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Cmp_PR(duration = 10, height = 5, offset = 10, startTime = 30) annotation(
-    Placement(visible = true, transformation(origin = {112, -170}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Blocks.Sources.Ramp ramp_Cmp_eff(duration = 10, height = 0, offset = 0.8, startTime = 30) annotation(
-    Placement(visible = true, transformation(origin = {120, -200}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Blocks.Sources.Ramp ramp_Trb_eff(duration = 10, height = 0, offset = 0.8, startTime = 30) annotation(
-    Placement(visible = true, transformation(origin = {300, -170}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_Tfuel(duration = 10, height = 200, offset = 400, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {150, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint2 annotation(
@@ -75,7 +65,23 @@ model Turbojet_ex04
     Placement(visible = true, transformation(origin = {430, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interaction.Show.RealValue realValue(significantDigits = 5, use_numberPort = true) annotation(
     Placement(visible = true, transformation(origin = {100, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.CmpCharTable02 Cmp(redeclare package Medium = engineAir, switch_calcOnlyDes = true, use_tableFile_PR = true, use_tableFile_Wc = true, use_tableFile_eff = true)  annotation(
+    Placement(visible = true, transformation(origin = {120, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.TrbCharTable02 Trb(redeclare package Medium = engineAir, switch_calcOnlyDes = true, use_tableFile_Wc = true, use_tableFile_eff = true)  annotation(
+    Placement(visible = true, transformation(origin = {300, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 equation
+  connect(LossRotMech.flange_2, Trb.flange_1) annotation(
+    Line(points = {{210, -80}, {280, -80}, {280, -80}, {280, -80}}));
+  connect(Cmp.port_2, Duct030.port_1) annotation(
+    Line(points = {{140, -64}, {140, -64}, {140, -40}, {160, -40}, {160, -40}}, color = {0, 127, 255}));
+  connect(Cmp.flange_2, speedSensor1.flange) annotation(
+    Line(points = {{140, -80}, {170, -80}, {170, -80}, {170, -80}}));
+  connect(Inlt.port_2, Cmp.port_1) annotation(
+    Line(points = {{80, -64}, {100, -64}}, color = {0, 127, 255}));
+  connect(temperature040.port, Trb.port_1) annotation(
+    Line(points = {{270, -40}, {280, -40}, {280, -64}, {280, -64}}, color = {0, 127, 255}));
+  connect(Trb.port_2, Duct050.port_1) annotation(
+    Line(points = {{320, -64}, {330, -64}, {330, -64}, {330, -64}}, color = {0, 127, 255}));
   connect(ramp_Tfuel.y, boundary.T_in) annotation(
     Line(points = {{162, -20}, {166, -20}, {166, -6}, {178, -6}, {178, -6}}, color = {0, 0, 127}));
   connect(VarBySolver.y_independent, boundary.m_flow_in) annotation(
@@ -104,16 +110,8 @@ equation
     Line(points = {{260, -40}, {270, -40}}, color = {0, 127, 255}));
   connect(Comb.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
     Line(points = {{256, -58}, {256, -258}, {419, -258}}, color = {0, 0, 127}));
-  connect(temperature040.port, Trb.port_1) annotation(
-    Line(points = {{270, -40}, {270, -64}, {280, -64}}, color = {0, 127, 255}));
   connect(Constraint2.u_variable, temperature040.T) annotation(
     Line(points = {{280, -12}, {280, -30}, {278, -30}}, color = {0, 0, 127}));
-  connect(LossRotMech.flange_2, Trb.flange_1) annotation(
-    Line(points = {{210, -80}, {280, -80}}));
-  connect(Trb.port_2, Duct050.port_1) annotation(
-    Line(points = {{320, -64}, {330, -64}, {330, -64}, {330, -64}}, color = {0, 127, 255}));
-  connect(ramp_Trb_eff.y, Trb.u_eff) annotation(
-    Line(points = {{300, -159}, {300, -92}}, color = {0, 0, 127}));
   connect(Duct050.port_2, Nzl.port_1) annotation(
     Line(points = {{350, -64}, {360, -64}, {360, -64}, {360, -64}}, color = {0, 127, 255}));
   connect(Nzl.y_Fg, Perf.u_Fg) annotation(
@@ -126,24 +124,14 @@ equation
     Line(points = {{10, -169}, {10, -132}}, color = {0, 0, 127}));
   connect(massFlowRate010.m_flow, Constraint.u_variable) annotation(
     Line(points = {{10, -76}, {10, -108}}, color = {0, 0, 127}));
-  connect(ramp_Cmp_PR.y, Cmp.u_PR) annotation(
-    Line(points = {{112, -159}, {112, -96}}, color = {0, 0, 127}));
-  connect(ramp_Cmp_eff.y, Cmp.u_eff) annotation(
-    Line(points = {{120, -189}, {120, -92}}, color = {0, 0, 127}));
   connect(from_rpm1.y, Constraint1.u_targetValue) annotation(
     Line(points = {{170, -179}, {170, -132}}, color = {0, 0, 127}));
   connect(ramp_Nmech.y, from_rpm1.u) annotation(
     Line(points = {{170, -209}, {170, -209}, {170, -203}, {170, -203}}, color = {0, 0, 127}));
   connect(speedSensor1.w, Constraint1.u_variable) annotation(
     Line(points = {{170, -101}, {170, -108}}, color = {0, 0, 127}));
-  connect(Inlt.port_2, Cmp.port_1) annotation(
-    Line(points = {{80, -64}, {100, -64}, {100, -64}, {100, -64}}, color = {0, 127, 255}));
   connect(massFlowRate010.port_b, Inlt.port_1) annotation(
     Line(points = {{20, -64}, {40, -64}}, color = {0, 127, 255}));
-  connect(Cmp.port_2, Duct030.port_1) annotation(
-    Line(points = {{140, -64}, {152, -64}, {152, -40}, {160, -40}, {160, -40}}, color = {0, 127, 255}));
-  connect(Cmp.flange_2, speedSensor1.flange) annotation(
-    Line(points = {{140, -80}, {170, -80}, {170, -80}, {170, -80}}));
   connect(Nzl.y_Fg, realValue_Fg.numberPort) annotation(
     Line(points = {{390, -80}, {412, -80}, {412, -50}, {418, -50}, {418, -50}}, color = {0, 0, 127}));
   connect(Inlt.y_FdRam, realValue.numberPort) annotation(
@@ -156,4 +144,4 @@ equation
     __OpenModelica_commandLineOptions = "",
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "mat"));
-end Turbojet_ex04;
+end Turbojet_ex08;

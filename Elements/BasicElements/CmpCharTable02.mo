@@ -16,6 +16,11 @@ model CmpCharTable02
   /* ---------------------------------------------
         switches
   --------------------------------------------- */
+  parameter Boolean switch_calcOnlyDes = false "use this component for only design pt. calc." annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true), Dialog(group = "switch"));
+  //----------
   parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.param "switch how to determine PR" annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
@@ -25,7 +30,6 @@ model CmpCharTable02
     Evaluate = true,
     HideResult = true,
     choices(checkBox = true), Dialog(group = "switch"));
-  
   //----------
   parameter Boolean use_tableFile_Wc = true "" annotation(
     Evaluate = true,
@@ -113,7 +117,8 @@ model CmpCharTable02
   );
   /**/
   
-  discrete Real auxVar if (switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated) "";
+  discrete Real auxVar if (switch_calcOnlyDes==false)and(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated) "" annotation(
+    HideResult=true);
   /**/
   
   /* ---------------------------------------------
@@ -223,30 +228,45 @@ equation
   s_PRtbl= (PR-1.0)/(CmpTbl_WcPReff_NcRline_des.y_PR-1.0);
   s_effTbl= eff/CmpTbl_WcPReff_NcRline_des.y_eff;
   
-  //----- read map for operation -----
-  if(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated)then
-    if noEvent(time<=environment.timeRemoveDesConstraint) then
-      NcTbl=NcTblDes_paramInput;
-      RlineTbl=RlineTblDes_paramInput;
-      WcTblScld=auxVar;
-      eff=effDes;
-    else
-      NcTbl=Nc_1/s_NcTblDes;
-      Wc_1=WcTblScld;
-      PR=PRtblScld;
-      eff=effTblScld;
-    end if;
-  else
-    if noEvent(time<=environment.timeRemoveDesConstraint) then
-      NcTbl=NcTblDes_paramInput;
-      RlineTbl=RlineTblDes_paramInput;
+  //----- map for specifying operation point -----
+  if(switch_calcOnlyDes==true)then
+  //===== mode: only des. pt. calc =====
+    NcTbl=NcTblDes_paramInput;
+    RlineTbl=RlineTblDes_paramInput;
+    //-----
+    if(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param)then
       PR=PRdes;
-      eff=effDes;
+    elseif(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput)then
+      PR=PRdes;
+    end if;
+    //-----
+    eff=effDes;
+  else
+  //===== mode: des. pt. -> off des. =====
+    if(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated)then
+      if noEvent(time<=environment.timeRemoveDesConstraint) then
+        NcTbl=NcTblDes_paramInput;
+        RlineTbl=RlineTblDes_paramInput;
+        WcTblScld=auxVar;
+        eff=effDes;
+      else
+        NcTbl=Nc_1/s_NcTblDes;
+        Wc_1=WcTblScld;
+        PR=PRtblScld;
+        eff=effTblScld;
+      end if;
     else
-      NcTbl=Nc_1/s_NcTblDes;
-      Wc_1=WcTblScld;
-      PR=PRtblScld;
-      eff=effTblScld;
+      if noEvent(time<=environment.timeRemoveDesConstraint) then
+        NcTbl=NcTblDes_paramInput;
+        RlineTbl=RlineTblDes_paramInput;
+        PR=PRdes;
+        eff=effDes;
+      else
+        NcTbl=Nc_1/s_NcTblDes;
+        Wc_1=WcTblScld;
+        PR=PRtblScld;
+        eff=effTblScld;
+      end if;
     end if;
   end if;
   
