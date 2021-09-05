@@ -213,7 +213,6 @@ partial model TurbineBase00
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
-  
   //********** variables relative to design point **********
   inner Real NcqNcDes_1(start=NcqNcDes_1_init) "ratio of corrected rotational speed with respect to design pt. speed" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
@@ -394,14 +393,11 @@ equation
   
   
   when {(triggerDesCalc==2)}then
-    /* ---------------------------------------------
-      design point eqn
-    --------------------------------------------- */
-    //Wc_1_des = fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
-    //Nc_1_des = NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
     Wc_1_des = Wc_1;
     Nc_1_des= Nc_1;
   end when;
+  
+  
   
 /********************************************************
   Graphics

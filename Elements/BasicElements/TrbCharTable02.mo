@@ -1,8 +1,8 @@
 within PropulsionSystem.Elements.BasicElements;
 
 model TrbCharTable02
-  extends PropulsionSystem.BaseClasses.BasicElements.TurbineBase00;
-  extends PropulsionSystem.BaseClasses.BasicElements.TurbineBaseDefDesPt00;
+  extends PropulsionSystem.BaseClasses.BasicElements.TurbineBase01;
+  extends PropulsionSystem.BaseClasses.BasicElements.TurbineBaseDefDesPt01;
   /********************************************************
           imports   
     ********************************************************/
@@ -102,19 +102,6 @@ model TrbCharTable02
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
-  discrete Real s_NcTblDes(start=1.0) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  discrete Real s_WcTblDes(start=1.0) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  discrete Real s_PRtblDes(start=1.0) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  discrete Real s_effTblDes(start=1.0) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  
   discrete Real augVar if (switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated) "";
   /**/
   
@@ -162,6 +149,18 @@ model TrbCharTable02
     Placement(visible = true, transformation(origin = {-20, -112}, extent = {{-12, -12}, {12, 12}}, rotation = 90), iconTransformation(origin = {40, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 //******************************************************************************************
 protected
+  parameter Real s_NcTblDes(fixed=false) "" annotation(
+    HideResult=false
+  );
+  parameter Real s_WcTblDes(fixed=false) "" annotation(
+    HideResult=false
+  );
+  parameter Real s_PRtblDes(fixed=false) "" annotation(
+    HideResult=false
+  );
+  parameter Real s_effTblDes(fixed=false) "" annotation(
+    HideResult=false
+  );
   
 //******************************************************************************************
 initial algorithm
@@ -171,10 +170,12 @@ initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  fluid_1_des.m_flow=port_1.m_flow;
-  fluid_1_des.p=fluid_1.p;
-  fluid_1_des.T=fluid_1.T;
   NmechDes = Nmech;
+  s_NcTblDes= s_NcTbl;
+  s_WcTblDes= s_WcTbl;
+  s_PRtblDes= s_PRtbl;
+  s_effTblDes= s_effTbl;
+  
   //--------------------
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     PRdes = PRdes_paramInput;
@@ -191,6 +192,10 @@ initial equation
   end if; 
   //--------------------
   
+  fluid_1_des.m_flow=port_1.m_flow;
+  fluid_1_des.p=fluid_1.p;
+  fluid_1_des.T=fluid_1.T;
+  
   //----- reading design point map -----
   TrbTbl_WcEff_NcPR_des.u_NcTbl= NcTblDes_paramInput;
   TrbTbl_WcEff_NcPR_des.u_PRtbl= PRtblDes_paramInput;
@@ -202,26 +207,18 @@ algorithm
 //******************************************************************************************
 equation
   //-----
+  /*when initial() then
+    fluid_1_des.m_flow= port_1.m_flow;
+    fluid_1_des.p=fluid_1.p;
+    fluid_1_des.T=fluid_1.T;
+    //-----
+  end when;
+  
   when (triggerDesCalc==2) then
-    if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
-      PRdes = PRdes_paramInput;
-    elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
-      PRdes = u_PR;
-    elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
-      PRdes= PR;
-    end if;
-    /**/ 
-    //--------------------
-    if use_u_eff == false then
-      effDes = effDes_paramInput;
-    elseif use_u_eff==true then
-      effDes = u_eff;
-    end if; 
     //--------------------
     fluid_1_des.m_flow= port_1.m_flow;
     fluid_1_des.p=fluid_1.p;
     fluid_1_des.T=fluid_1.T;
-    NmechDes = Nmech;
     //-----
     if(printCmd==true)then
       Streams.print("des.pt.calc. is executed");
@@ -230,7 +227,7 @@ equation
     reinit(triggerDesCalc,0);
     //--------------------
   end when;
-  /**/
+  */
   
   /**************************************************
     processing about data table
@@ -243,19 +240,6 @@ equation
   s_WcTbl= Wc_1/TrbTbl_WcEff_NcPR_des.y_Wc;
   s_PRtbl= (PR-1.0)/(PRtblDes_paramInput-1.0);
   s_effTbl= eff/TrbTbl_WcEff_NcPR_des.y_eff;  
-  
-  when (triggerDesCalc==2) then
-    s_NcTblDes= s_NcTbl;
-    s_WcTblDes= s_WcTbl;
-    s_PRtblDes= s_PRtbl;
-    s_effTblDes= s_effTbl;  
-    //-----
-    if(printCmd==true)then
-      Streams.print("des.pt.calc. is executed");
-      Streams.print("s_NcTblDes, s_WcTblDes, s_PRtblDes, s_effTblDes");
-    end if;
-  end when;
-  /**/
   
   //----- read map for operation -----
   /**/
