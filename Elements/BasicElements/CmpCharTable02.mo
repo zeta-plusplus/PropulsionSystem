@@ -253,7 +253,6 @@ equation
   s_PRtbl= (PR-1.0)/(CmpTbl_WcPReff_NcRline_des.y_PR-1.0);
   s_effTbl= eff/CmpTbl_WcPReff_NcRline_des.y_eff;
   
-  //when initial() then
   when (triggerDesCalc==2) then
     s_NcTblDes= s_NcTbl;
     s_WcTblDes= s_WcTbl;

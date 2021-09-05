@@ -217,6 +217,7 @@ equation
       effDes = u_eff;
     end if; 
     //--------------------
+    fluid_1_des.m_flow= port_1.m_flow;
     fluid_1_des.p=fluid_1.p;
     fluid_1_des.T=fluid_1.T;
     NmechDes = Nmech;
@@ -242,7 +243,6 @@ equation
   s_PRtbl= (PR-1.0)/(PRtblDes_paramInput-1.0);
   s_effTbl= eff/TrbTbl_WcEff_NcPR_des.y_eff;  
   
-  //when initial() then
   when (triggerDesCalc==2) then
     s_NcTblDes= s_NcTbl;
     s_WcTblDes= s_WcTbl;
@@ -258,7 +258,31 @@ equation
   
   //----- read map for operation -----
   /**/
-  
+  if(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated)then
+    if noEvent(time<=environment.timeRemoveDesConstraint) then
+      NcTbl= NcTblDes_paramInput;
+      PRtbl= PRtblDes_paramInput;
+      eff=effDes;
+    else
+      NcTbl=Nc_1/s_NcTblDes;
+      PRtbl= (PR-1.0)/s_PRtblDes +1.0;
+      Wc_1=WcTblScld;
+      eff=effTblScld;
+    end if;
+  else
+    if noEvent(time<=environment.timeRemoveDesConstraint) then
+      NcTbl= NcTblDes_paramInput;
+      PRtbl= PRtblDes_paramInput;
+      PR=PRdes;
+      eff=effDes;
+    else
+      NcTbl=Nc_1/s_NcTblDes;
+      PRtbl= (PR-1.0)/s_PRtblDes +1.0;
+      Wc_1=WcTblScld;
+      eff=effTblScld;
+    end if;
+  end if;
+  /*
   if noEvent(time<=environment.timeRemoveDesConstraint) then
     NcTbl= NcTblDes_paramInput;
     PRtbl= PRtblDes_paramInput;
@@ -274,7 +298,7 @@ equation
     Wc_1=WcTblScld;
     eff=effTblScld;
   end if;
-  
+  */
   TrbTbl_WcEff_NcPR_op.u_NcTbl= NcTbl;
   TrbTbl_WcEff_NcPR_op.u_PRtbl= PRtbl;
   
