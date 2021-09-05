@@ -102,7 +102,7 @@ model TrbCharTable02
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
-  discrete Real augVar if (switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated) "";
+  discrete Real auxVar if (switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated) "";
   /**/
   
   /* ---------------------------------------------
@@ -196,38 +196,12 @@ initial equation
   fluid_1_des.p=fluid_1.p;
   fluid_1_des.T=fluid_1.T;
   
-  //----- reading design point map -----
-  TrbTbl_WcEff_NcPR_des.u_NcTbl= NcTblDes_paramInput;
-  TrbTbl_WcEff_NcPR_des.u_PRtbl= PRtblDes_paramInput;
-  
   
 //******************************************************************************************
 algorithm
   
 //******************************************************************************************
 equation
-  //-----
-  /*when initial() then
-    fluid_1_des.m_flow= port_1.m_flow;
-    fluid_1_des.p=fluid_1.p;
-    fluid_1_des.T=fluid_1.T;
-    //-----
-  end when;
-  
-  when (triggerDesCalc==2) then
-    //--------------------
-    fluid_1_des.m_flow= port_1.m_flow;
-    fluid_1_des.p=fluid_1.p;
-    fluid_1_des.T=fluid_1.T;
-    //-----
-    if(printCmd==true)then
-      Streams.print("des.pt.calc. is executed");
-      Streams.print("fluid_1_des.m_flow, .p, .T, NmechDes");
-    end if;
-    reinit(triggerDesCalc,0);
-    //--------------------
-  end when;
-  */
   
   /**************************************************
     processing about data table
@@ -247,7 +221,7 @@ equation
     if noEvent(time<=environment.timeRemoveDesConstraint) then
       NcTbl= NcTblDes_paramInput;
       PRtbl= PRtblDes_paramInput;
-      WcTblScld=augVar;
+      WcTblScld=auxVar;
       eff=effDes;
     else
       NcTbl=Nc_1/s_NcTblDes;
@@ -269,36 +243,21 @@ equation
     end if;
   end if;
   
+  /*
   when(sample(environment.timeRemoveDesConstraint,0.1)and(environment.timeRemoveDesConstraint<time))then
     if(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated)then
       augVar=1;
     end if;
   end when;
-  
-  
-  /*
-  if noEvent(time<=environment.timeRemoveDesConstraint) then
-    NcTbl= NcTblDes_paramInput;
-    PRtbl= PRtblDes_paramInput;
-    if(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated)then
-      fluid_1_des.m_flow= port_1.m_flow;
-    else
-      PR=PRdes;
-    end if;
-    eff=effDes;
-  else
-    NcTbl=Nc_1/s_NcTblDes;
-    PRtbl= (PR-1.0)/s_PRtblDes +1.0;
-    Wc_1=WcTblScld;
-    eff=effTblScld;
-  end if;
   */
+  
   TrbTbl_WcEff_NcPR_op.u_NcTbl= NcTbl;
   TrbTbl_WcEff_NcPR_op.u_PRtbl= PRtbl;
   
   PRtblScld= (PRtbl-1.0)*s_PRtblDes +1.0;
   WcTblScld= TrbTbl_WcEff_NcPR_op.y_Wc*s_WcTblDes;
   effTblScld= TrbTbl_WcEff_NcPR_op.y_eff*s_effTblDes;
+  
   
   
 /********************************************************

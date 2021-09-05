@@ -1,8 +1,8 @@
 within PropulsionSystem.Elements.BasicElements;
 
 model CmpCharTable02
-  extends PropulsionSystem.BaseClasses.BasicElements.CompressorBase00;
-  extends PropulsionSystem.BaseClasses.BasicElements.CompressorBaseDefDesPt00;
+  extends PropulsionSystem.BaseClasses.BasicElements.CompressorBase01;
+  extends PropulsionSystem.BaseClasses.BasicElements.CompressorBaseDefDesPt01;
   /********************************************************
         imports   
   ********************************************************/
@@ -102,19 +102,6 @@ model CmpCharTable02
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
-  discrete Real s_NcTblDes(start=1.0) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  discrete Real s_WcTblDes(start=1.0) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  discrete Real s_PRtblDes(start=1.0) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  discrete Real s_effTblDes(start=1.0) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  
   Modelica.SIunits.MassFlowRate WcTblScld(start=10.0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
@@ -124,6 +111,9 @@ model CmpCharTable02
   Real effTblScld(start=0.8) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
+  /**/
+  
+  discrete Real auxVar if (switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated) "";
   /**/
   
   /* ---------------------------------------------
@@ -163,8 +153,6 @@ model CmpCharTable02
     u_RlineTbl(start=RlineTblDes_paramInput)
   ) annotation(
     Placement(visible = true, transformation(origin = {-50, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-
-  
   
   /* ---------------------------------------------
         Interface   
@@ -173,6 +161,17 @@ model CmpCharTable02
     Placement(visible = true, transformation(origin = {-60, -112}, extent = {{-12, -12}, {12, 12}}, rotation = 90), iconTransformation(origin = {-40, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Interfaces.RealInput u_eff if use_u_eff "eff input, valid only when use_u_eff==true" annotation(
     Placement(visible = true, transformation(origin = {-20, -112}, extent = {{-12, -12}, {12, 12}}, rotation = 90), iconTransformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+//********************************************************************************
+protected
+  parameter Real s_NcTblDes(fixed=false) "" annotation(
+    HideResult=false);
+  parameter Real s_WcTblDes(fixed=false) "" annotation(
+    HideResult=false);
+  parameter Real s_PRtblDes(fixed=false) "" annotation(
+    HideResult=false);
+  parameter Real s_effTblDes(fixed=false) "" annotation(
+    HideResult=false);
+  
 //********************************************************************************
 initial algorithm
   
@@ -201,46 +200,17 @@ initial equation
   end if; 
   //--------------------
   
-  //----- reading design point map -----
-  CmpTbl_WcPReff_NcRline_des.u_NcTbl=NcTblDes_paramInput;
-  CmpTbl_WcPReff_NcRline_des.u_RlineTbl=RlineTblDes_paramInput;
-  
+  s_NcTblDes= s_NcTbl;
+  s_WcTblDes= s_WcTbl;
+  s_PRtblDes= s_PRtbl;
+  s_effTblDes= s_effTbl;
   
 //******************************************************************************************
 algorithm
   
 //******************************************************************************************
 equation
-  //-----
-  when (triggerDesCalc==2) then
-    if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
-      PRdes = PRdes_paramInput;
-    elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
-      PRdes = u_PR;
-    elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
-      PRdes= PR;
-    end if;
-    /**/ 
-    //--------------------
-    if use_u_eff == false then
-      effDes = effDes_paramInput;
-    elseif use_u_eff==true then
-      effDes = u_eff;
-    end if;
-    //--------------------
-    fluid_1_des.m_flow=port_1.m_flow;
-    fluid_1_des.p=fluid_1.p;
-    fluid_1_des.T=fluid_1.T;
-    NmechDes = Nmech;
-    //-----
-    if(printCmd==true)then
-      Streams.print("des.pt.calc. is executed");
-      Streams.print("fluid_1_des.m_flow, .p, .T, NmechDes");
-    end if;
-    reinit(triggerDesCalc,0);
-    //--------------------
-  end when;
-  /**/
+  
   /**************************************************
     processing about data table
   **************************************************/
@@ -253,29 +223,31 @@ equation
   s_PRtbl= (PR-1.0)/(CmpTbl_WcPReff_NcRline_des.y_PR-1.0);
   s_effTbl= eff/CmpTbl_WcPReff_NcRline_des.y_eff;
   
-  when (triggerDesCalc==2) then
-    s_NcTblDes= s_NcTbl;
-    s_WcTblDes= s_WcTbl;
-    s_PRtblDes= s_PRtbl;
-    s_effTblDes= s_effTbl;
-    //-----
-    if(printCmd==true)then
-      Streams.print("des.pt.calc. is executed");
-      Streams.print("s_NcTblDes, s_WcTblDes, s_PRtblDes, s_effTblDes");
-    end if;
-  end when;
-  /**/
   //----- read map for operation -----
-  if noEvent(time<=environment.timeRemoveDesConstraint) then
-    NcTbl=NcTblDes_paramInput;
-    RlineTbl=RlineTblDes_paramInput;
-    PR=PRdes;
-    eff=effDes;
+  if(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated)then
+    if noEvent(time<=environment.timeRemoveDesConstraint) then
+      NcTbl=NcTblDes_paramInput;
+      RlineTbl=RlineTblDes_paramInput;
+      WcTblScld=auxVar;
+      eff=effDes;
+    else
+      NcTbl=Nc_1/s_NcTblDes;
+      Wc_1=WcTblScld;
+      PR=PRtblScld;
+      eff=effTblScld;
+    end if;
   else
-    NcTbl=Nc_1/s_NcTblDes;
-    Wc_1=WcTblScld;
-    PR=PRtblScld;
-    eff=effTblScld;
+    if noEvent(time<=environment.timeRemoveDesConstraint) then
+      NcTbl=NcTblDes_paramInput;
+      RlineTbl=RlineTblDes_paramInput;
+      PR=PRdes;
+      eff=effDes;
+    else
+      NcTbl=Nc_1/s_NcTblDes;
+      Wc_1=WcTblScld;
+      PR=PRtblScld;
+      eff=effTblScld;
+    end if;
   end if;
   
   CmpTbl_WcPReff_NcRline_op.u_NcTbl=NcTbl;
