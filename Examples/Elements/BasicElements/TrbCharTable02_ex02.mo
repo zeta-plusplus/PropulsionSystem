@@ -28,19 +28,23 @@ model TrbCharTable02_ex02
     Placement(visible = true, transformation(origin = {-10, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.TrbCharTable02 Trb(redeclare package Medium = engineAir, printCmd = true, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {20, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_m_flow(duration = 10, height = -1, offset = -10, startTime = 10) annotation(
-    Placement(visible = true, transformation(origin = {110, 48}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.MassFlowSource_T boundary(redeclare package Medium = engineAir, nPorts = 1, use_m_flow_in = true) annotation(
     Placement(visible = true, transformation(origin = {70, 40}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  PropulsionSystem.Utilities.ConstrainVariable Constraint(tgtValue_paramInput = 4.77e6, use_u_targetVal = false)  annotation(
+  PropulsionSystem.Utilities.ConstrainVariable Constraint(tgtValue_paramInput = 4.77e6, use_u_targetVal = true)  annotation(
     Placement(visible = true, transformation(origin = {-22, -50}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  PropulsionSystem.Utilities.VariableBySolver VarBySolver annotation(
+    Placement(visible = true, transformation(origin = {110, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_pwr(duration = 10, height = 1e5, offset = 4.77e6, startTime = 30) annotation(
+    Placement(visible = true, transformation(origin = {-40, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(ramp_pwr.y, Constraint.u_targetValue) annotation(
+    Line(points = {{-28, -80}, {-22, -80}, {-22, -62}, {-22, -62}}, color = {0, 0, 127}));
+  connect(boundary.m_flow_in, VarBySolver.y_independent) annotation(
+    Line(points = {{80, 48}, {90, 48}, {90, 50}, {98, 50}, {98, 50}}, color = {0, 0, 127}));
   connect(powerSensor1.power, Constraint.u_variable) annotation(
     Line(points = {{-22, -30}, {-22, -30}, {-22, -38}, {-22, -38}}, color = {0, 0, 127}));
   connect(pressure1.port, boundary.ports[1]) annotation(
     Line(points = {{50, -4}, {50, 40}, {60, 40}}, color = {0, 127, 255}));
-  connect(boundary.m_flow_in, ramp_m_flow.y) annotation(
-    Line(points = {{80, 48}, {98, 48}, {98, 48}, {100, 48}}, color = {0, 0, 127}));
   connect(massFlowRate1.port_b, Trb.port_1) annotation(
     Line(points = {{0, 40}, {0, 40}, {0, -4}, {0, -4}}, color = {0, 127, 255}));
   connect(pressure2.port, massFlowRate1.port_a) annotation(
@@ -57,6 +61,8 @@ equation
     Line(points = {{-79, -20}, {-73, -20}, {-73, -20}, {-73, -20}}, color = {0, 0, 127}));
   connect(speed1.flange, powerSensor1.flange_b) annotation(
     Line(points = {{-50, -20}, {-40, -20}, {-40, -20}, {-40, -20}}));
+  //-----
+  //-----
   annotation(
     experiment(StartTime = 0, StopTime = 60, Tolerance = 1e-06, Interval = 0.12),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),

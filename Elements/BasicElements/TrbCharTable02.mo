@@ -115,6 +115,7 @@ model TrbCharTable02
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
+  discrete Real augVar if (switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated) "";
   /**/
   
   /* ---------------------------------------------
@@ -262,6 +263,7 @@ equation
     if noEvent(time<=environment.timeRemoveDesConstraint) then
       NcTbl= NcTblDes_paramInput;
       PRtbl= PRtblDes_paramInput;
+      WcTblScld=augVar;
       eff=effDes;
     else
       NcTbl=Nc_1/s_NcTblDes;
@@ -282,6 +284,14 @@ equation
       eff=effTblScld;
     end if;
   end if;
+  
+  when(sample(environment.timeRemoveDesConstraint,0.1)and(environment.timeRemoveDesConstraint<time))then
+    if(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated)then
+      augVar=1;
+    end if;
+  end when;
+  
+  
   /*
   if noEvent(time<=environment.timeRemoveDesConstraint) then
     NcTbl= NcTblDes_paramInput;
