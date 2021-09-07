@@ -1,6 +1,16 @@
 within PropulsionSystem.Sources;
 
 model NmechAtDesignPoint01
+  
+  /* ---------------------------------------------
+        switches
+  --------------------------------------------- */
+  parameter Boolean use_u_NmechDes = false "get NmechDes from the real input connector" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true), Dialog(group = "switch"));
+  
+  
   /* ---------------------------------------------
           parameters
   --------------------------------------------- */
@@ -29,6 +39,7 @@ model NmechAtDesignPoint01
   --------------------------------------------- */
   Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech(start = Nmech_init) "mechanical rotation speed, rpm" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  
   Modelica.SIunits.AngularVelocity omega(start = Nmech_init * 2.0 * Modelica.Constants.pi / 60.0) "mechanical rotation speed, rad/sec" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.Angle phi(start = phi_init) "mechanical rotation displacement, rad" annotation(
@@ -46,28 +57,35 @@ model NmechAtDesignPoint01
     Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_2(tau(start = tau2_init), phi(start = phi2_init)) annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+
+  Modelica.Blocks.Interfaces.RealInput u_NmechDes if use_u_NmechDes==true annotation(
+    Placement(visible = true, transformation(origin = {-60, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-60, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  //********************************************************************************
+protected
+  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false) "mechanical rotation speed, design point value, rpm" annotation(HideResult=false);
+  
   //********************************************************************************
 initial equation
-  Nmech= NmechDes_paramInput;
+  if(use_u_NmechDes==true)then
+    NmechDes= u_NmechDes;
+    Nmech= u_NmechDes;
+  else
+    NmechDes= NmechDes_paramInput;
+    Nmech= NmechDes_paramInput;
+  end if;
+  
   auxVar[1]=1;
   auxVar[2]=0;
+  
   //********************************************************************************
 equation
-  when(sample(0,0.01) and (time <= environment.timeRemoveDesConstraint)) then
-    auxVar[1]=1;
-  elsewhen(sample(0,1.0) and (environment.timeRemoveDesConstraint<time)) then
-    auxVar[1]=0;
-  end when;
-  /*
-  
   if noEvent(time<=environment.timeRemoveDesConstraint) then
-    Nmech=NmechDes_paramInput*auxVar[1]+auxVar[2];
+    auxVar[1]=1;
   else
-    Nmech=;
+    auxVar[1]=0;
   end if;
-  */
   
-  Nmech=NmechDes_paramInput*auxVar[1]+auxVar[2];
+  Nmech=NmechDes*auxVar[1]+auxVar[2];
   
   flange_1.phi = phi;
   flange_2.phi = phi;
@@ -75,8 +93,6 @@ equation
   
   der(phi) = omega;
   Nmech = omega * 60.0 / (2.0 * Modelica.Constants.pi);
-  
-  
   
   annotation(
     defaultComponentName = "NmechDes",
