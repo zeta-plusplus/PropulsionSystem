@@ -117,8 +117,7 @@ model CmpCharTable02
   );
   /**/
   
-  discrete Real auxVar if (switch_calcOnlyDes==false)and(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated) "" annotation(
-    HideResult=true);
+  discrete Real auxVar if (switch_calcOnlyDes==false)and(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated) "";
   /**/
   
   /* ---------------------------------------------

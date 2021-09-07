@@ -262,7 +262,7 @@ equation
     end if;
   end if;
   
-  when(sample(environment.timeRemoveDesConstraint,0.1)and(environment.timeRemoveDesConstraint<time))then
+  when(sample(environment.timeRemoveDesConstraint,1.0)and(environment.timeRemoveDesConstraint<time))then
     if(switch_calcOnlyDes==false)and(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated)then
     //===== mode: des. pt. -> off des. =====
       auxVar=1;
