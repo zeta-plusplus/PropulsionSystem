@@ -17,6 +17,10 @@ TrbCharTable00_ex02
 HeatInjector00_ex01
 HeatInjector00_ex02
 HeatInjector00_ex03
+NzlDefAeByFlowCharFixed02_ex01
+NzlDefAeByFlowCharFixed01_ex01
+NzlDefAeByFlowCharFixed01_ex02
+NzlDefAeByFlowCharFixed01_ex03
 NzlCharFixed00_ex01
 NzlCharFixed00_ex02
 NzlCharFixed00_ex03
@@ -53,8 +57,4 @@ PropActDiskCharTable00_ex01
 Cmp_and_Trb_ex01
 Cmp_and_Trb_ex02
 Cmp_and_Trb_ex03
-NzlDefAeByFlowCharFixed01_ex01
-NzlDefAeByFlowCharFixed01_ex02
-NzlDefAeByFlowCharFixed01_ex03
 IdealSpliterBPRatDesignPoint_ex01
-NzlDefAeByFlowCharFixed02_ex01

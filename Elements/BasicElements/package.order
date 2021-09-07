@@ -11,6 +11,7 @@ CombCharFixed02
 CombCharFixed01
 CombCharFixed00
 NzlCharFixed00
+NzlDefAeByFlowCharFixed02
 NzlDefAeByFlowCharFixed01
 NzlDefAeByFlowCharFixed00
 InltCharFixed00
@@ -48,4 +49,3 @@ constrain_Nmech
 constrain_T
 constrain_dm
 extractPwr
-NzlDefAeByFlowCharFixed02
