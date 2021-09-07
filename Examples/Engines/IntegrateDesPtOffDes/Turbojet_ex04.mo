@@ -31,15 +31,19 @@ model Turbojet_ex04
     Placement(visible = true, transformation(origin = {0, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed01 Nzl(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {160, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Sources.MassFlowAtDesignPoint MassFlowDes(redeclare package Medium = engineAir, m_flow_des_paramInput = 10.0)  annotation(
-    Placement(visible = true, transformation(origin = {-60, -64}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CmpCharTable02 Cmp(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-20, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.TrbCharTable02 Trb(redeclare package Medium = engineAir, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {100, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Sources.NmechAtDesignPoint01 NmechDes(use_u_NmechDes = false)  annotation(
     Placement(visible = true, transformation(origin = {30, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Sources.MassFlowAtDesignPoint01 MassFlowDes(redeclare package Medium = engineAir, m_flow_des_paramInput = 10.0) annotation(
+    Placement(visible = true, transformation(origin = {-60, -64}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
+  connect(MassFlowDes.port_2, Cmp.port_1) annotation(
+    Line(points = {{-50, -64}, {-38, -64}, {-38, -64}, {-40, -64}}, color = {0, 127, 255}));
+  connect(Inlt.port_2, MassFlowDes.port_1) annotation(
+    Line(points = {{-80, -64}, {-70, -64}, {-70, -64}, {-70, -64}}, color = {0, 127, 255}));
   connect(NmechDes.flange_2, Trb.flange_1) annotation(
     Line(points = {{40, -80}, {80, -80}, {80, -80}, {80, -80}}));
   connect(Cmp.flange_2, NmechDes.flange_1) annotation(
@@ -50,16 +54,12 @@ equation
     Line(points = {{120, -64}, {140, -64}, {140, -64}, {140, -64}}, color = {0, 127, 255}));
   connect(Cmp.port_2, Comb.port_1) annotation(
     Line(points = {{0, -64}, {0, -64}, {0, -40}, {20, -40}, {20, -40}}, color = {0, 127, 255}));
-  connect(MassFlowDes.port_2, Cmp.port_1) annotation(
-    Line(points = {{-50, -64}, {-40, -64}, {-40, -64}, {-40, -64}}, color = {0, 127, 255}));
   connect(Inlt.y_FdRam, Perf.u_Fram) annotation(
     Line(points = {{-86, -88}, {-76, -88}, {-76, -112}, {238, -112}}, color = {0, 0, 127}));
   connect(Comb.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
     Line(points = {{56, -58}, {56, -136}, {238, -136}}, color = {0, 0, 127}));
   connect(Nzl.y_Fg, Perf.u_Fg) annotation(
     Line(points = {{170, -80}, {216, -80}, {216, -104}, {238, -104}}, color = {0, 0, 127}));
-  connect(Inlt.port_2, MassFlowDes.port_1) annotation(
-    Line(points = {{-80, -64}, {-70, -64}, {-70, -64}, {-70, -64}}, color = {0, 127, 255}));
   connect(Flt2Fluid.port_amb, Nzl.port_2) annotation(
     Line(points = {{-160, -40}, {-160, -40}, {-160, 66}, {180, 66}, {180, -64}, {180, -64}}, color = {0, 127, 255}));
   connect(Comb.port_2, temperature.port) annotation(
