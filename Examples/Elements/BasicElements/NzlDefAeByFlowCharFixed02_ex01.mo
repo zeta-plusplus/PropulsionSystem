@@ -22,13 +22,13 @@ model NzlDefAeByFlowCharFixed02_ex01
     Placement(visible = true, transformation(origin = {26, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed02 Nzl(redeclare package Medium = engineAir, use_u_kAmechTh = true)  annotation(
     Placement(visible = true, transformation(origin = {20, 2}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Sources.MassFlowAtDesignPoint MassFlowDes(redeclare package Medium = engineAir, m_flow_des_paramInput = 10)  annotation(
+  Sources.MassFlowAtDesignPoint01 MassFlowDes(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-20, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(MassFlowDes.port_2, Nzl.port_1) annotation(
-    Line(points = {{-10, 10}, {10, 10}, {10, 10}, {10, 10}}, color = {0, 127, 255}));
   connect(boundary.ports[1], MassFlowDes.port_1) annotation(
     Line(points = {{-40, 10}, {-30, 10}, {-30, 10}, {-30, 10}}, color = {0, 127, 255}));
+  connect(MassFlowDes.port_2, Nzl.port_1) annotation(
+    Line(points = {{-10, 10}, {10, 10}, {10, 10}, {10, 10}}, color = {0, 127, 255}));
   connect(ramp_kAmech.y, Nzl.u_kAmechTh) annotation(
     Line(points = {{26, -18}, {26, -18}, {26, -8}, {26, -8}}, color = {0, 0, 127}));
   connect(Nzl.port_2, boundary1.ports[1]) annotation(
