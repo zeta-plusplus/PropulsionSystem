@@ -54,7 +54,6 @@ initial algorithm
   
   //********************************************************************************
 initial equation
-  //kAmechTh=1.0;
   CdThDes = CdThDes_paramInput;
   CvDes = CvDes_paramInput;
   
