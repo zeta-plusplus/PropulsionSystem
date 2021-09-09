@@ -31,20 +31,13 @@ initial equation
   k_auxVar1 = 0.0;
 //******************************************************************************************
 algorithm
-  /*
-  if noEvent(time<=environment.timeRemoveDesConstraint) then
-    k_u_variable := 1;
-    k_auxVar1 := 0;
-  else
-    k_u_variable := 0;
-    k_auxVar1 := 1;
-  end if;
-  */
-  //auxVar1:= Constraint.u_variable - k_u_variable * u_variable;
+  
+  
 //******************************************************************************************
 equation
   connect(Constraint.u_targetValue, u_targetValue) annotation(
     Line(points = {{62, -10}, {91, -10}, {91, 0}, {120, 0}}, color = {0, 0, 127}));
+  
   if noEvent(time<=environment.timeRemoveDesConstraint) then
     k_u_variable = 1;
     k_auxVar1 = 0;
@@ -52,7 +45,9 @@ equation
     k_u_variable = 0;
     k_auxVar1 = 1;
   end if;
+  
   Constraint.u_variable= auxVar1+ k_u_variable * u_variable;
+  
   annotation(
     defaultComponentName = "ConstraintDesPt",
     Diagram,

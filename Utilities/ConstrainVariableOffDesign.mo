@@ -5,9 +5,9 @@ model ConstrainVariableOffDesign
   /* ---------------------------------------------
           Internal variables
       --------------------------------------------- */
-  Real auxVar1;
-  Real k_u_variable;
-  Real k_auxVar1;
+  discrete Real auxVar1;
+  //Real k_u_variable;
+  //Real k_auxVar1;
   /* ---------------------------------------------
                   internal objects    
       --------------------------------------------- */
@@ -25,11 +25,12 @@ model ConstrainVariableOffDesign
 protected
   //******************************************************************************************
 initial equation
-  auxVar1 = 0.0;
-  k_u_variable = 0.0;
-  k_auxVar1 = 1.0;
+  //auxVar1 = 0.0;
+  //k_u_variable = 0.0;
+  //k_auxVar1 = 1.0;
 //******************************************************************************************
 algorithm
+  /*
   if noEvent(time <= environment.timeRemoveDesConstraint) then
     k_u_variable := 0;
     k_auxVar1 := 1;
@@ -40,10 +41,21 @@ algorithm
   //----------
   
   auxVar1:= Constraint.u_variable - k_u_variable * u_variable;
+  */
 //******************************************************************************************
 equation
   connect(Constraint.u_targetValue, u_targetValue) annotation(
     Line(points = {{62, -10}, {91, -10}, {91, 0}, {120, 0}}, color = {0, 0, 127}));
+  
+  if noEvent(time<=environment.timeRemoveDesConstraint) then
+    Constraint.u_variable= auxVar1;
+  else
+    Constraint.u_variable= u_variable;
+  end if;
+  
+  when(sample(environment.timeRemoveDesConstraint,1.0)and(environment.timeRemoveDesConstraint<time))then
+    auxVar1=1;
+  end when;
   
   annotation(
     defaultComponentName = "ConstraintDesPt",

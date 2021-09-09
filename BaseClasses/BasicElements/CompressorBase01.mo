@@ -135,9 +135,7 @@ partial model CompressorBase01
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Real NqNdes(start = NqNdes_init) "ratio of mech. rotational speed with respect to design pt. speed" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
-  //********** triggers **********
-  Real triggerDesCalc(start = 0) "" annotation(
-    Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  
   //********** flags **********
   Integer flagEffVal "0:0<eff<1, 1:eff<=0, 2:1<=eff";
   
@@ -257,23 +255,6 @@ equation
 //-- variables relative to design point --
   NqNdes = Nmech / NmechDes;
   NcqNcDes_1 = Nc_1 / Nc_1_des;
-//------------------------------
-  when initial() then
-    triggerDesCalc = 1;
-//-----
-    if printCmd == true then
-      Streams.print("triggerDesCalc= " + String(triggerDesCalc) + "; initial()");
-    end if;
-  elsewhen sample(0, 0.01) and time <= environment.timeRemoveDesConstraint then
-    reinit(triggerDesCalc, 2);
-//-----
-    if printCmd == true then
-      Streams.print("triggerDesCalc= " + String(triggerDesCalc) + "; time<=environment.timeRemoveDesConstraint");
-    end if;
-  elsewhen sample(environment.timeRemoveDesConstraint, 1) and environment.timeRemoveDesConstraint < time then
-    reinit(triggerDesCalc, 0);
-  end when;
-//---------------
   
   
 /********************************************************
