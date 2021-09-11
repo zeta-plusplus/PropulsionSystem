@@ -24,6 +24,7 @@ EnginePerformance00
 PistonCylinderNonidealOttoMV01
 PistonCylinderIdealOttoMV01
 PistonCylinderIdealOttoMV00
+MixierLossBasedOnEntropy00
 DuctCharFixed00
 IdealSpltCharFixed00
 IdealMixer01
