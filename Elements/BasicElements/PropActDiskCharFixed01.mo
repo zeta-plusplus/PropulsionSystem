@@ -28,6 +28,12 @@ model PropActDiskCharFixed01
     HideResult = true,
     choices(checkBox = true),
     Dialog(group = "switch"));
+  parameter Boolean use_u_Jdes = false "get Jdes from the real input connector" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true),
+    Dialog(group = "switch"));
+  
   parameter Boolean use_u_Vinf_FnSaturation = false "get Vinf_FnSaturation from the real input connector" annotation(
     Evaluate = true,
     HideResult = true,
@@ -108,14 +114,17 @@ model PropActDiskCharFixed01
   
   
   Modelica.Blocks.Interfaces.RealInput u_effProp if use_u_effProp annotation(
-    Placement(visible = true, transformation(origin = {-40, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {0, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement(visible = true, transformation(origin = {-40, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-40, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Interfaces.RealInput u_Vinf_FnSaturation(quantity = "Velocity", unit = "m/s", displayUnit = "m/s") if switch_FnSaturation == switchThrustSaturation.byVinf and use_u_Vinf_FnSaturation annotation(
     Placement(visible = true, transformation(origin = {40, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {40, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Interfaces.RealInput u_Fn_FnSaturation(quantity = "Force", unit = "N", displayUnit = "N") if switch_FnSaturation == switchThrustSaturation.byFn and use_u_Fn_FnSaturation annotation(
     Placement(visible = true, transformation(origin = {80, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-
-
+  Modelica.Blocks.Interfaces.RealInput u_Jdes if use_u_Jdes annotation(
+    Placement(visible = true, transformation(origin = {-80, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  
+  
   //********************************************************************************
+  
 protected
   /* ---------------------------------------------
     Non-modifiable parameters
@@ -140,12 +149,16 @@ initial equation
     effPropDes = u_effProp;
   end if;
   //----------
+  if use_u_Jdes==false then
+    Jdes=Jdes_paramInput;
+  elseif use_u_Jdes==true then
+    Jdes= u_Jdes;
+  end if;
+  //----------
   
   CTdes= CT;
   CPdes= CP;
   diamDes=diam;
-  
-  Jdes=Jdes_paramInput;
   
   
 //********************************************************************************
