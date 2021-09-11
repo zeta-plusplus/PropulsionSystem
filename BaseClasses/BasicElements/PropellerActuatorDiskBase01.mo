@@ -48,15 +48,14 @@ partial model PropellerActuatorDiskBase01
   );
   
   
-  
   /* ---------------------------------------------
         Internal variables    
-    --------------------------------------------- */
-  Real J "advance ratio";
-  Real CT "thrust coefficient";
-  Real CP "power coefficient";
+  --------------------------------------------- */
+  Real J(start=1.4) "advance ratio";
+  Real CT(start=0.12) "thrust coefficient";
+  Real CP(start=0.32) "power coefficient";
   Real effProp "propeller efficiency";
-  Modelica.SIunits.Length diam "propeller diameter";
+  Modelica.SIunits.Length diam(start=2.0) "propeller diameter";
   Modelica.SIunits.Power pwr "power driving propeller";
   Modelica.SIunits.Power pwrPropulsive "propulsive power, defined by Fg*Vin";
   Modelica.SIunits.Torque trq "torque of drive shaft";

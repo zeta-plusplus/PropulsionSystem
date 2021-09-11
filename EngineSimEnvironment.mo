@@ -6,7 +6,7 @@ model EngineSimEnvironment
   /* ---------------------------------------------
       parameters
   --------------------------------------------- */
-  parameter Modelica.SIunits.Time timeRemoveDesConstraint=0.1
+  parameter Modelica.SIunits.Time timeRemoveDesConstraint=1.0
     "time to keep constraint by design point"
     annotation(
     Dialog(group = "Simulation setting"));

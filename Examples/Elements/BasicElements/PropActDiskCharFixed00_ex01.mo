@@ -9,7 +9,7 @@ model PropActDiskCharFixed00_ex01
     Placement(visible = true, transformation(origin = {-90, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sources.Torque torque1 annotation(
     Placement(visible = true, transformation(origin = {60, 40}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.PropActDiskCharFixed00 Prop(switch_FnSaturation = PropulsionSystem.Elements.BasicElements.PropActDiskCharFixed00.switchThrustSaturation.byVinf)  annotation(
+  PropulsionSystem.Elements.BasicElements.PropActDiskCharFixed00 Prop(switch_FnSaturation = PropulsionSystem.Elements.BasicElements.PropActDiskCharFixed00.switchThrustSaturation.byVinf) annotation(
     Placement(visible = true, transformation(origin = {-40, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_effProp(duration = 10, height = 0.00, offset = 0.9, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-40, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
@@ -19,7 +19,7 @@ model PropActDiskCharFixed00_ex01
     Placement(visible = true, transformation(origin = {30, 40}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   FluidSystemComponents.Utilities.VariableBySolver VarBySolver annotation(
     Placement(visible = true, transformation(origin = {90, 40}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  FluidSystemComponents.Utilities.ConstrainVariable Constraint(use_u_targetVal = true)  annotation(
+  FluidSystemComponents.Utilities.ConstrainVariable Constraint(use_u_targetVal = true) annotation(
     Placement(visible = true, transformation(origin = {0, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint1 annotation(
     Placement(visible = true, transformation(origin = {38, 10}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
@@ -53,6 +53,6 @@ equation
   connect(ramp_Vinf.y, Prop.u_Vinf) annotation(
     Line(points = {{-79, 70}, {-75, 70}, {-75, 48}, {-63, 48}, {-63, 48}}, color = {0, 0, 127}));
   annotation(
-    experiment(StartTime = 0, StopTime = 30, Tolerance = 1e-6, Interval = 0.01),
+    experiment(StartTime = 0, StopTime = 30, Tolerance = 1e-06, Interval = 0.01),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
 end PropActDiskCharFixed00_ex01;

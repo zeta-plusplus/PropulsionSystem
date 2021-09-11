@@ -59,13 +59,8 @@ model PropActDiskCharFixed00
   //********************************************************************************
   
 protected
-  /* ---------------------------------------------
-          Non-modifiable parameters
-    --------------------------------------------- */
-  parameter Real effPropDes(fixed=false) annotation(
-    HideResult=false);
   
-  
+  //********************************************************************************
 initial equation
   /* ---------------------------------------------
     determine design point
