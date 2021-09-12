@@ -17,14 +17,14 @@ NozzleBaseDefDesPt00
 PistonCylinder4strkBase00
 PropellerActuatorDiskBase01
 PropellerActuatorDiskBase00
-MotorGeneratorBase00
 InletBase00
-NonidealMixerBase00
 DuctBase00
+MotorGeneratorBase00
+LossRotationalMechanicsBase00
+NonidealMixerBase00
 IdealSplitterBase00
 IdealMixerBase01
 IdealMixerBase00
-LossRotationalMechanicsBase00
 Compressor_Base
 Turbine_Base
 HeatInjector_Base

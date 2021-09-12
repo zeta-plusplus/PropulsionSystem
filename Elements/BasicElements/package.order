@@ -18,15 +18,17 @@ InltCharFixed00
 PropActDiskCharFixed01
 PropActDiskCharFixed00
 PropActDiskCharTable00
-MotorGeneratorCharFixed00
-LossRotMechCharFixed00
-EnginePerformance00
 PistonCylinderNonidealOttoMV01
 PistonCylinderIdealOttoMV01
 PistonCylinderIdealOttoMV00
-MixierLossBasedOnEntropy00
+DuctDpqpWcSecOrder00
+DuctDpqpWcSecOrder01
 DuctCharFixed00
+MotorGeneratorCharFixed00
+LossRotMechCharFixed00
+EnginePerformance00
 IdealSpltCharFixed00
+MixierLossBasedOnEntropy00
 IdealMixer01
 IdealMixer00
 PropellerActDisk
@@ -51,5 +53,3 @@ constrain_Nmech
 constrain_T
 constrain_dm
 extractPwr
-DuctDpqpWcSecOrder00
-DuctDpqpWcSecOrder01
