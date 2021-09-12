@@ -8,6 +8,7 @@ model PropActDiskCharFixed01
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
   import epsiron= Modelica.Constants.small;
+  import Streams= Modelica.Utilities.Streams;
   
   
   /********************************************************
@@ -129,13 +130,13 @@ protected
   /* ---------------------------------------------
     Non-modifiable parameters
   --------------------------------------------- */
-  parameter Modelica.SIunits.Length diamDes(fixed=false) "propeller diameter" annotation(
+  parameter Modelica.SIunits.Length diamDes(fixed=false, start=2.0) "propeller diameter" annotation(
     HideResult=false);
-  parameter Real CTdes(fixed=false) "design point thrust coefficient" annotation(
+  parameter Real CTdes(fixed=false, start=0.1) "design point thrust coefficient" annotation(
     HideResult=false);
-  parameter Real CPdes(fixed=false) "design point thrust coefficient" annotation(
+  parameter Real CPdes(fixed=false, start=0.1) "design point thrust coefficient" annotation(
     HideResult=false);
-  parameter Real Jdes(fixed=false) "design point advance ratio" annotation(
+  parameter Real Jdes(fixed=false, start= Jdes_paramInput) "design point advance ratio" annotation(
     HideResult=false);
   
 //********************************************************************************
@@ -170,6 +171,15 @@ algorithm
     Vinf := u_Vinf;
   end if;
   //--------------------
+  
+  if(printCmd==true)then
+    Streams.print(getInstanceName());
+    Streams.print("time= "+String(time));
+    Streams.print("J= "+String(J));
+    Streams.print("omega= "+String(omega));
+    Streams.print("Nmech= "+String(Nmech));
+    Streams.print("Nmech_rps= "+String(Nmech_rps));
+  end if;
   
 //********************************************************************************
 equation

@@ -6,6 +6,8 @@ partial model PropellerActuatorDiskBase00
     ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
+  import Streams= Modelica.Utilities.Streams;
+  
   /********************************************************
             Declaration
     ********************************************************/
@@ -24,6 +26,11 @@ partial model PropellerActuatorDiskBase00
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = true);
+  parameter Boolean printCmd = false "" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true),
+    Dialog(tab = "debug setting"));
   
   
   /* ---------------------------------------------
@@ -53,7 +60,8 @@ partial model PropellerActuatorDiskBase00
   /* ---------------------------------------------
         Internal variables    
     --------------------------------------------- */
-  Real effProp(start=0.8) "propeller efficiency";
+  Real effProp(start=0.8) "propeller efficiency" annotation(
+    Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.Power pwr(start=pwr_init) "power driving propeller" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.Power pwrPropulsive(start=pwr_init*0.8) "propulsive power, defined by Fg*Vin" annotation(
@@ -93,6 +101,7 @@ protected
   parameter Real effPropDes(fixed = false) annotation(
     HideResult = false);
 
+//********************************************************************************
 algorithm
   
   

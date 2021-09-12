@@ -73,8 +73,6 @@ model Turboprop_ex01
     Placement(visible = true, transformation(origin = {130, -122}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   Modelica.Blocks.Math.Add add1 annotation(
     Placement(visible = true, transformation(origin = {390, -240}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Math.Division division_NPR annotation(
-    Placement(visible = true, transformation(origin = {350, 40}, extent = {{-10, 10}, {10, -10}}, rotation = 90)));
   PropulsionSystem.Elements.BasicElements.PropActDiskCharFixed00 Prop annotation(
     Placement(visible = true, transformation(origin = {-130, -180}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.TrbCharFixed00 Trb049(redeclare package Medium = engineAir) annotation(
@@ -90,36 +88,38 @@ model Turboprop_ex01
   Modelica.Mechanics.Rotational.Components.IdealGear idealGear1(ratio = 1 / 5)  annotation(
     Placement(visible = true, transformation(origin = {70, -180}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Pressure pressure1(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {320, -14}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {310, -14}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Pressure pressure2(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {370, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement(visible = true, transformation(origin = {370, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint4 annotation(
     Placement(visible = true, transformation(origin = {320, 60}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_NPR(duration = 10, height = 0, offset = 1.1, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {290, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  FluidSystemComponents.Sensor.PressureRatio pressureRatio1(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {350, 10}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
 equation
+  connect(Constraint4.u_variable, pressureRatio1.p_ratio) annotation(
+    Line(points = {{332, 60}, {350, 60}, {350, 19}}, color = {0, 0, 127}));
+  connect(pressureRatio1.port_a, Nzl.port_1) annotation(
+    Line(points = {{340, 10}, {340, -24}}, color = {0, 127, 255}));
+  connect(pressureRatio1.port_b, Nzl.port_2) annotation(
+    Line(points = {{360, 10}, {380, 10}, {380, -24}}, color = {0, 127, 255}));
+  connect(Trb049.port_2, pressure1.port) annotation(
+    Line(points = {{280, -16}, {288, -16}, {288, -24}, {310, -24}}, color = {0, 127, 255}));
+  connect(pressure1.port, Nzl.port_1) annotation(
+    Line(points = {{310, -24}, {340, -24}}, color = {0, 127, 255}));
+  connect(Nzl.port_2, pressure2.port) annotation(
+    Line(points = {{380, -24}, {380, 70}}, color = {0, 127, 255}));
+  connect(Flt2Fluid.port_amb, pressure2.port) annotation(
+    Line(points = {{-200, 0}, {-200, 94}, {380, 94}, {380, 70}}, color = {0, 127, 255}));
   connect(ramp_NPR.y, Constraint4.u_targetValue) annotation(
     Line(points = {{301, 60}, {308, 60}}, color = {0, 0, 127}));
   connect(idealGear1.flange_b, MotGene.flange_1) annotation(
     Line(points = {{80, -180}, {130, -180}, {130, -160}, {130, -160}}));
   connect(ramp_pwrExt.y, MotGene.u_pwr) annotation(
     Line(points = {{130, -133}, {130, -139}}, color = {0, 0, 127}));
-  connect(Constraint4.u_variable, division_NPR.y) annotation(
-    Line(points = {{332, 60}, {350, 60}, {350, 52}, {350, 52}}, color = {0, 0, 127}));
-  connect(pressure1.p, division_NPR.u2) annotation(
-    Line(points = {{332, -14}, {344, -14}, {344, 28}, {344, 28}}, color = {0, 0, 127}));
-  connect(division_NPR.u1, pressure2.p) annotation(
-    Line(points = {{356, 28}, {356, 28}, {356, 20}, {370, 20}, {370, 12}, {370, 12}}, color = {0, 0, 127}));
-  connect(Flt2Fluid.port_amb, pressure2.port) annotation(
-    Line(points = {{-200, 0}, {-200, 94}, {380, 94}, {380, 0}}, color = {0, 127, 255}));
-  connect(Nzl.port_2, pressure2.port) annotation(
-    Line(points = {{380, -24}, {380, 0}}, color = {0, 127, 255}));
-  connect(pressure1.port, Nzl.port_1) annotation(
-    Line(points = {{320, -24}, {340, -24}}, color = {0, 127, 255}));
   connect(Nzl.y_Fg, add1.u1) annotation(
     Line(points = {{370, -40}, {396, -40}, {396, -228}}, color = {0, 0, 127}));
-  connect(Trb049.port_2, pressure1.port) annotation(
-    Line(points = {{280, -16}, {288, -16}, {288, -24}, {320, -24}, {320, -24}}, color = {0, 127, 255}));
   connect(add1.y, Perf.u_Fg) annotation(
     Line(points = {{390, -251}, {390, -251}, {390, -261}, {400, -261}, {400, -261}}, color = {0, 0, 127}));
   connect(Prop.y_Fn, add1.u2) annotation(

@@ -28,7 +28,7 @@ model PropActDiskCharFixed01_ex01
     Placement(visible = true, transformation(origin = {0, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
     Placement(visible = true, transformation(origin = {0, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  PropulsionSystem.Elements.BasicElements.PropActDiskCharFixed01 Prop(redeclare package Medium = engineAir, Jdes_paramInput = 2.0, use_u_effProp = true) annotation(
+  PropulsionSystem.Elements.BasicElements.PropActDiskCharFixed01 Prop(redeclare package Medium = engineAir, Jdes_paramInput = 2.0, printCmd = true, use_u_effProp = true) annotation(
     Placement(visible = true, transformation(origin = {-40, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = engineAir, T = 15 + 273.15, nPorts = 1, p = 101.325 * 1000) annotation(
     Placement(visible = true, transformation(origin = {-80, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -60,6 +60,6 @@ equation
   connect(ramp_pwr.y, Constraint1.u_targetValue) annotation(
     Line(points = {{38, -33}, {38, -33}, {38, -23}, {38, -23}}, color = {0, 0, 127}));
   annotation(
-    experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.0166667),
+    experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.0166722),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
 end PropActDiskCharFixed01_ex01;

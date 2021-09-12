@@ -26,7 +26,7 @@ model DuctCharFixed00
   /* ---------------------------------------------
           parameters    
   --------------------------------------------- */
-  parameter Real dPqP_paramInput = 0.01 "total pressure loss factor, valid only when use_u_dPqP==false, value fixed through simulation" annotation(
+  parameter Real dPqP_paramInput = 0.05 "total pressure loss factor, valid only when use_u_dPqP==false, value fixed through simulation" annotation(
     Dialog(group = "Characteristics"));
   
   
@@ -35,27 +35,23 @@ model DuctCharFixed00
   --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_dPqP 
     if use_u_dPqP "dPqP input, valid only when use_u_dPqP==true" annotation(
-    Placement(visible = true, transformation(origin = {0, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {0, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  
-  
+    Placement(visible = true, transformation(origin = {0, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-60, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   //********************************************************************************
 initial equation
-  /* ---------------------------------------------
+/* ---------------------------------------------
     determine design point
   --------------------------------------------- */
-  /* ---------------------------------------------
+/* ---------------------------------------------
     Connections, interface <-> internal variables   
   --------------------------------------------- */
-  //--------------------
-  if (use_u_dPqP==false) then
+//--------------------
+  if use_u_dPqP == false then
     dPqPdes = dPqP_paramInput;
-  elseif (use_u_dPqP==true) then
+  elseif use_u_dPqP == true then
     dPqPdes = u_dPqP;
-  end if; 
-  //--------------------
-  dPdes=dP;
-  
-  
+  end if;
+//--------------------
+  dPdes = dP;
 algorithm
 //##### none #####
 equation
@@ -64,21 +60,15 @@ equation
   /* ---------------------------------------------
     Connections, interface <-> internal variables   
   --------------------------------------------- */
-  //--------------------
+//--------------------
   if (use_u_dPqP==false) then
     dPqP = dPqP_paramInput;
   elseif (use_u_dPqP==true) then
     dPqP = u_dPqP;
-  end if; 
-  //--------------------
-  
-  
-  
+  end if; //--------------------
 /********************************************************
   Graphics
-********************************************************/
-  
-  
+********************************************************/  
 annotation(
     defaultComponentName = "Duct",
     Documentation(info = "<html>

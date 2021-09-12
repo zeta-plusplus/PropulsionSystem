@@ -7,7 +7,7 @@ model DuctBase00
   import Modelica.Constants;
   import Modelica.Utilities.Streams;
   import PropulsionSystem.Types.switches;
-  
+  import units= Modelica.SIunits;
   
   
   /********************************************************
@@ -57,17 +57,23 @@ model DuctBase00
   /* ---------------------------------------------
       Internal variables
   --------------------------------------------- */
-  Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
-  Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of outlet";
-  
   Modelica.SIunits.SpecificEntropy s_fluid_1 "specific entropy, fluid_1";
   Modelica.SIunits.SpecificEntropy s_fluid_2 "specific entropy, fluid_2";
   
   Modelica.SIunits.MassFlowRate m_flow_max;
   Modelica.SIunits.MassFlowRate m_flow_min;
   
+  units.MassFlowRate Wc_1;
   Real dPqP;
   Modelica.SIunits.PressureDifference dP;
+  
+  
+  /* ---------------------------------------------
+        Internal objects
+    --------------------------------------------- */
+  inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
+  Medium.BaseProperties fluid_1(p.start = p1_init, T.start = T1_init, state.p.start = p1_init, state.T.start = T1_init, h.start = h1_init) "flow station of inlet";
+  Medium.BaseProperties fluid_2(p.start = p2_init, T.start = T2_init, state.p.start = p2_init, state.T.start = T2_init, h.start = h2_init) "flow station of outlet";
   
   
   
@@ -87,7 +93,7 @@ model DuctBase00
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
-    Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {80, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //********************************************************************************
 protected
   /* ---------------------------------------------
@@ -97,12 +103,19 @@ protected
     HideResult=false);
   parameter Modelica.SIunits.PressureDifference dPdes(fixed=false) annotation(
     HideResult=false);
+  parameter units.MassFlowRate Wc_1_des(fixed=false) "corrected mass flow rate, fluid_1, design point" annotation(
+    HideResult=false);
+  
+  //********************************************************************************
+initial equation
+  Wc_1_des= Wc_1;
   
   
-  
-  
+  //********************************************************************************
 algorithm
-//##### none #####
+  
+  
+  //********************************************************************************
 equation
 /* ---------------------------------------------
   Connections, interface <-> internal variables
@@ -148,6 +161,8 @@ equation
   port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2.h = 0;
   
   
+  Wc_1 = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
+  
   s_fluid_1= Medium.specificEntropy(fluid_1.state);
   s_fluid_2= Medium.specificEntropy(fluid_2.state);
   
@@ -159,7 +174,7 @@ equation
   
   
   annotation(
-    Icon(graphics = {Rectangle(origin = {0, -6}, fillColor = {227, 227, 227}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 46}, {100, -34}}), Text(origin = {-26, 63}, fillPattern = FillPattern.Solid, extent = {{-54, 7}, {106, -13}}, textString = "%name"), Text(origin = {-16, 13}, fillPattern = FillPattern.Solid, extent = {{-54, 7}, {86, -23}}, textString = "Duct")}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Rectangle(origin = {0, -6}, fillColor = {232, 232, 232}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 66}, {100, -54}}), Text(origin = {-26, 75}, fillPattern = FillPattern.Solid, extent = {{-74, 7}, {126, -11}}, textString = "%name"), Text(origin = {-16, 13}, fillPattern = FillPattern.Solid, extent = {{-54, 7}, {86, -23}}, textString = "Duct")}, coordinateSystem(initialScale = 0.1)));
   
   
 end DuctBase00;

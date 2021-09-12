@@ -51,3 +51,5 @@ constrain_Nmech
 constrain_T
 constrain_dm
 extractPwr
+DuctDpqpWcSecOrder00
+DuctDpqpWcSecOrder01

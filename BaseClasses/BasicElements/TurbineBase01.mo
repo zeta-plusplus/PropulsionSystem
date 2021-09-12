@@ -5,8 +5,10 @@ partial model TurbineBase01
           imports
     ********************************************************/
   import Modelica.Constants;
-  import Modelica.Utilities.Streams;
   import PropulsionSystem.Types.switches;
+  import Streams= Modelica.Utilities.Streams;
+  
+  
   /********************************************************
                  Declaration
     ********************************************************/
@@ -180,7 +182,13 @@ initial equation
 algorithm
   if printCmd == true then
     assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
+    Streams.print(getInstanceName());
+    Streams.print("time= "+String(time));
+    Streams.print("omega= "+String(omega));
+    Streams.print("Nmech= "+String(Nmech));
   end if;
+  
+  
 //******************************************************************************************
 equation
   if printCmd == true then

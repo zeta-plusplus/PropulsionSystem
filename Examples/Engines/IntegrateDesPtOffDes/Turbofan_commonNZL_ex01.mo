@@ -48,32 +48,36 @@ model Turbofan_commonNZL_ex01
   PropulsionSystem.Elements.BasicElements.TrbCharTable02 Trb049(redeclare package Medium = engineAir, effDes_paramInput = 0.85, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {160, 80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.NzlDefAeByFlowCharFixed02 Nzl070(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {260, 100}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {280, 100}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Sources.IdealSpliterBPRatDesignPoint01 SpltDesPt(redeclare package Medium = engineAir, BPRdes_paramInput = 0.9) annotation(
     Placement(visible = true, transformation(origin = {-142, 96}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CmpCharTable02 Cmp020(redeclare package Medium = engineAir, PRdes_paramInput = 2.5, effDes_paramInput = 0.9, use_tableFile_PR = true, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {-192, 80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.MixierLossBasedOnEntropy00 Mixer(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {210, 102}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.DuctDpqpWcSecOrder01 Duct(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {50, 116}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Fluid.Fittings.TeeJunctionIdeal teeJunctionIdeal1(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {202, 116}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
 equation
-  connect(SpltDesPt.port_3, Mixer.port_2) annotation(
-    Line(points = {{-132, 104}, {34, 104}, {34, 108}, {200, 108}}, color = {0, 127, 255}));
-  connect(Trb049.port_2, Mixer.port_1) annotation(
-    Line(points = {{180, 96}, {200, 96}}, color = {0, 127, 255}));
-  connect(Mixer.port_3, Nzl070.port_1) annotation(
-    Line(points = {{220, 102}, {230, 102}, {230, 116}, {240, 116}}, color = {0, 127, 255}));
-  connect(Nzl070.y_Fg, Perf.u_Fg) annotation(
-    Line(points = {{270, 100}, {324, 100}, {324, -82}, {340, -82}}, color = {0, 0, 127}));
+  connect(teeJunctionIdeal1.port_1, Nzl070.port_1) annotation(
+    Line(points = {{212, 116}, {260, 116}, {260, 116}, {260, 116}}, color = {0, 127, 255}));
+  connect(Trb049.port_2, teeJunctionIdeal1.port_3) annotation(
+    Line(points = {{180, 96}, {202, 96}, {202, 106}, {202, 106}}, color = {0, 127, 255}));
+  connect(Duct.port_2, teeJunctionIdeal1.port_2) annotation(
+    Line(points = {{60, 116}, {192, 116}, {192, 116}, {192, 116}}, color = {0, 127, 255}));
+  connect(SpltDesPt.port_3, Duct.port_1) annotation(
+    Line(points = {{-132, 104}, {-104, 104}, {-104, 116}, {40, 116}}, color = {0, 127, 255}));
   connect(Flt2Fluid.port_amb, Nzl070.port_2) annotation(
-    Line(points = {{-340, 108}, {-340, 184}, {280, 184}, {280, 116}}, color = {0, 127, 255}));
-  connect(Trb041.port_2, Trb049.port_1) annotation(
-    Line(points = {{110, -34}, {126, -34}, {126, 96}, {140, 96}}, color = {0, 127, 255}));
-  connect(NmechDesShL.flange_2, Trb049.flange_1) annotation(
-    Line(points = {{20, 80}, {140, 80}}));
+    Line(points = {{-340, 108}, {-340, 184}, {300, 184}, {300, 116}}, color = {0, 127, 255}));
+  connect(Nzl070.y_Fg, Perf.u_Fg) annotation(
+    Line(points = {{290, 100}, {324, 100}, {324, -82}, {340, -82}}, color = {0, 0, 127}));
   connect(SpltDesPt.port_2, Cmp025.port_1) annotation(
     Line(points = {{-132, 96}, {-114, 96}, {-114, -34}, {-90, -34}, {-90, -34}}, color = {0, 127, 255}));
   connect(Cmp020.port_2, SpltDesPt.port_1) annotation(
     Line(points = {{-172, 96}, {-152, 96}, {-152, 96}, {-152, 96}}, color = {0, 127, 255}));
+  connect(Trb041.port_2, Trb049.port_1) annotation(
+    Line(points = {{110, -34}, {126, -34}, {126, 96}, {140, 96}}, color = {0, 127, 255}));
+  connect(NmechDesShL.flange_2, Trb049.flange_1) annotation(
+    Line(points = {{20, 80}, {140, 80}}));
   connect(Constraint2.u_targetValue, ramp_TIT.y) annotation(
     Line(points = {{80, 32}, {80, 39}}, color = {0, 0, 127}));
   connect(temperature040.T, Constraint2.u_variable) annotation(
@@ -114,7 +118,7 @@ equation
     Line(points = {{-172, 80}, {0, 80}}));
   annotation(
     uses(Modelica(version = "3.2.2")),
-    Diagram(coordinateSystem(extent = {{-400, -120}, {360, 240}}, preserveAspectRatio = false, initialScale = 0.1), graphics = {Text(origin = {189, 151}, extent = {{-61, 17}, {61, -17}}, textString = "*unfinished yet")}),
+    Diagram(coordinateSystem(extent = {{-400, -120}, {360, 240}}, preserveAspectRatio = false, initialScale = 0.1)),
     Icon(coordinateSystem(preserveAspectRatio = false)),
     version = "",
     __OpenModelica_commandLineOptions = "",

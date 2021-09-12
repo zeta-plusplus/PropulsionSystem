@@ -2,6 +2,9 @@ within PropulsionSystem.Elements.BasicElements;
 
 model IdealMixer01
   extends PropulsionSystem.BaseClasses.BasicElements.IdealMixerBase01;
+  /*
+  mixing is programmed with equations.
+  */
 algorithm
 //##### none #####
 equation
