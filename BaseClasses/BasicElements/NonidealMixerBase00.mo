@@ -62,13 +62,15 @@ model NonidealMixerBase00
     Dialog(tab = "Initialization", group = "fluid_3"));
   parameter Modelica.SIunits.SpecificEnthalpy h3_init(displayUnit = "J/kg") = 1.004 * 1000 * 288.15 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_3"));
-  //----- 
+  //-----
   parameter Modelica.SIunits.SpecificEntropy s_fluid_1_init = 6800.0 "" annotation(
     Dialog(tab = "Initialization", group = "others"));
   parameter Modelica.SIunits.SpecificEntropy s_fluid_2_init = 7000.0 "" annotation(
     Dialog(tab = "Initialization", group = "others"));
   parameter Modelica.SIunits.SpecificEntropy s_fluid_3_init = 7000.0 "" annotation(
     Dialog(tab = "Initialization", group = "others"));
+  //-----
+  
   
   
   /* ---------------------------------------------
@@ -78,13 +80,17 @@ model NonidealMixerBase00
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.MassFlowRate m_flow_min(start = m_flow2_init) "" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
-  
+  //-----
   Modelica.SIunits.SpecificEntropy s_fluid_1(start = s_fluid_1_init) "specific entropy, fluid_1" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.SpecificEntropy s_fluid_2(start = s_fluid_2_init) "specific entropy, fluid_2" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.SpecificEntropy s_fluid_3(start = s_fluid_3_init) "specific entropy, fluid_3" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  //-----
+  Real n_fluid_1 "mol/s (mole/kg*kg/s)";
+  Real n_fluid_2 "mol/s (mole/kg*kg/s)";
+  Real n_fluid_3 "mol/s (mole/kg*kg/s)";
   
   
   /* ---------------------------------------------
@@ -219,13 +225,19 @@ equation
   s_fluid_2 = Medium.specificEntropy(fluid_2.state);
   s_fluid_3 = Medium.specificEntropy(fluid_3.state);
   
+  //----------
+  n_fluid_1= abs(port_1.m_flow)*1.0/fluid_1.MM;
+  n_fluid_2= abs(port_2.m_flow)*1.0/fluid_2.MM;
+  n_fluid_3= abs(port_3.m_flow)*1.0/fluid_3.MM;
+  
+  
 /********************************************************
   Graphics
 ********************************************************/
   
   annotation(
     defaultComponentName = "Mixer",
-    Icon(graphics = {Rectangle(origin = {0, 20}, fillColor = {238, 238, 238}, fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-100, 40}, {100, -80}}), Text(origin = {-8, -50}, extent = {{-72, 10}, {88, -10}}, textString = "%name"), Line(origin = {-22.02, 0}, points = {{-54, 0}, {54, 0}}, thickness = 4, arrow = {Arrow.None, Arrow.Filled}, arrowSize = 14), Line(origin = {-26.75, 39.45}, points = {{-54, 0}, {-26, 0}, {-18, -26}}, thickness = 2, arrow = {Arrow.None, Arrow.Filled}, arrowSize = 6)}, coordinateSystem(extent = {{-100, -60}, {100, 60}}, initialScale = 0.1)),
+    Icon(graphics = {Rectangle(origin = {0, 20}, fillColor = {238, 238, 238}, fillPattern = FillPattern.Solid, lineThickness = 1, extent = {{-100, 40}, {100, -80}}), Text(origin = {-8, -48}, extent = {{-72, 10}, {88, -10}}, textString = "%name"), Line(origin = {-22.02, 0}, points = {{-54, 0}, {54, 0}}, thickness = 4, arrow = {Arrow.None, Arrow.Filled}, arrowSize = 14), Line(origin = {-26.75, 39.45}, points = {{-54, 0}, {-26, 0}, {-18, -26}}, thickness = 2, arrow = {Arrow.None, Arrow.Filled}, arrowSize = 6)}, coordinateSystem(extent = {{-100, -60}, {100, 60}}, initialScale = 0.1)),
     __OpenModelica_commandLineOptions = "",
     Diagram(graphics = {Line(origin = {-67.7241, 57.1891}, points = {{-16, 18}, {17, 11}, {18, -44}}, arrow = {Arrow.None, Arrow.Filled}), Line(origin = {-68.3891, -45.4632}, points = {{-18, 40}, {148, 40}}, arrow = {Arrow.None, Arrow.Filled})}, coordinateSystem(initialScale = 0.1)),
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-6, Interval = 0.002),

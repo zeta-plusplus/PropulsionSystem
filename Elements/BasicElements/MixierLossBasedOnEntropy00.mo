@@ -52,9 +52,14 @@ equation
     Eqns describing physics
   --------------------------------------------- */
   //----- mixing -----
-  // entropy change
-  deltaS_sys= m_flow_1*fluid_1.R*log((1.0/fluid_3.d)/(1.0/fluid_1.d)) + m_flow_2*fluid_2.R*log((1.0/fluid_3.d)/(1.0/fluid_2.d));
+  deltaS_sys= port_1.m_flow*fluid_1.R*log(n_fluid_3/n_fluid_1) + port_2.m_flow*fluid_2.R*log(n_fluid_3/n_fluid_2);
   
+  s_fluid_3= ((s_fluid_1*port_1.m_flow + s_fluid_2*port_2.m_flow) + deltaS_sys)/(-1.0*port_3.m_flow);
+  
+  
+  annotation(
+    defaultComponentName = "Mixer"
+    );
   
   
 end MixierLossBasedOnEntropy00;

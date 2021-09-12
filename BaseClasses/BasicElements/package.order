@@ -19,6 +19,7 @@ PropellerActuatorDiskBase01
 PropellerActuatorDiskBase00
 MotorGeneratorBase00
 InletBase00
+NonidealMixerBase00
 DuctBase00
 IdealSplitterBase00
 IdealMixerBase01
@@ -30,4 +31,3 @@ HeatInjector_Base
 NozzleConv_Base
 Inlet_Base
 Duct_Base
-NonidealMixerBase00
