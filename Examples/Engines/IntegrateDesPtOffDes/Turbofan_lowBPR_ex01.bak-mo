@@ -53,11 +53,15 @@ model Turbofan_lowBPR_ex01
     Placement(visible = true, transformation(origin = {-142, 96}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CmpCharTable02 Cmp020(redeclare package Medium = engineAir, PRdes_paramInput = 2.5, effDes_paramInput = 0.9, use_tableFile_PR = true, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {-192, 80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.DuctCharFixed00 Duct(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {104, 120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.MixierLossBasedOnEntropy00 Mixer(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {210, 102}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(SpltDesPt.port_3, Duct.port_1) annotation(
-    Line(points = {{-132, 104}, {-128, 104}, {-128, 120}, {94, 120}, {94, 120}}, color = {0, 127, 255}));
+  connect(SpltDesPt.port_3, Mixer.port_2) annotation(
+    Line(points = {{-132, 104}, {34, 104}, {34, 108}, {200, 108}}, color = {0, 127, 255}));
+  connect(Trb049.port_2, Mixer.port_1) annotation(
+    Line(points = {{180, 96}, {200, 96}}, color = {0, 127, 255}));
+  connect(Mixer.port_3, Nzl070.port_1) annotation(
+    Line(points = {{220, 102}, {230, 102}, {230, 116}, {240, 116}}, color = {0, 127, 255}));
   connect(Nzl070.y_Fg, Perf.u_Fg) annotation(
     Line(points = {{270, 100}, {324, 100}, {324, -82}, {340, -82}}, color = {0, 0, 127}));
   connect(Flt2Fluid.port_amb, Nzl070.port_2) annotation(
