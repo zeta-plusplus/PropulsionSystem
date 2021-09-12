@@ -88,6 +88,11 @@ model NonidealMixerBase00
   Real n_fluid_1 "mol/s (mole/kg*kg/s)";
   Real n_fluid_2 "mol/s (mole/kg*kg/s)";
   Real n_fluid_3 "mol/s (mole/kg*kg/s)";
+  //-----
+  units.PressureDifference dP3d1 "1->3";
+  units.PressureDifference dP3d2 "2->3";
+  Real dPqP3d1 "1->3";
+  Real dPqP3d2 "2->3";
   
   
   /* ---------------------------------------------
@@ -223,6 +228,11 @@ equation
   n_fluid_1 = abs(port_1.m_flow) * 1.0 / fluid_1.MM;
   n_fluid_2= abs(port_2.m_flow)*1.0/fluid_2.MM;
   n_fluid_3= abs(port_3.m_flow)*1.0/fluid_3.MM;
+  //----------
+  dP3d1= fluid_3.p - fluid_1.p;
+  dP3d2= fluid_3.p - fluid_2.p;
+  dPqP3d1= (fluid_3.p - fluid_1.p)/fluid_1.p;
+  dPqP3d2= (fluid_3.p - fluid_2.p)/fluid_2.p;
   
   
 /********************************************************
