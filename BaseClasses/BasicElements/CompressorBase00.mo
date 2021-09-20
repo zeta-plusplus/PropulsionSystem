@@ -223,9 +223,12 @@ partial model CompressorBase00
   );
   
   //********** triggers **********
+  /*
   Real triggerDesCalc(start=0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
+  */
+  
   
   //********** flags **********
   Integer flagEffVal "0:0<eff<1, 1:eff<=0, 2:1<=eff";
@@ -383,6 +386,7 @@ equation
   NqNdes = Nmech / NmechDes;
   NcqNcDes_1 = Nc_1 / Nc_1_des;
   
+  /*
   //------------------------------
   when (initial()) then
     triggerDesCalc= 1;
@@ -409,6 +413,13 @@ equation
       Streams.print("Wc_1_des, Nc_1_des");
     end if;
     reinit(triggerDesCalc,0);
+  end when;
+  */
+  
+  
+  when {(time<=environment.timeRemoveDesConstraint)}then
+    Wc_1_des = fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);
+    Nc_1_des = NmechDes / sqrt(fluid_1_des.T / environment.Tstd);
   end when;
   
   

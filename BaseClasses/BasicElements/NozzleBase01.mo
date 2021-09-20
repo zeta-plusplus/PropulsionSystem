@@ -153,37 +153,31 @@ partial model NozzleBase01
         Interface
     --------------------------------------------- */
   Modelica.Fluid.Interfaces.FluidPort_a port_1(redeclare package Medium = Medium, m_flow(start = m_flow1_init, min = if allowFlowReversal then -Constants.inf else 0.0), h_outflow(start = h1_init, min = 0.0 + 1.0e-10), p(start = p1_init, min = 0.0 + 1.0e-10)) "" annotation(
-    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-82, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_b port_2(redeclare package Medium = Medium, m_flow(start = m_flow2_init, max = if allowFlowReversal then +Constants.inf else 0.0), h_outflow(start = h2_init, min = 0.0 + 1.0e-10), p(start = p2_init, min = 0.0 + 1.0e-10)) "" annotation(
-    Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {78, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_Fg(quantity = "Force", unit = "N", displayUnit = "N") "[N], gross thrust by nozzle" annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {50, 2.9976e-15}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-  
   //********************************************************************************
 protected
   //********** variables of design point **********
   parameter Real PRdes(fixed=false) annotation(HideResult=false);
   parameter Real CdThDes(fixed=false) annotation(HideResult=false);
   parameter Real CvDes(fixed=false) annotation(HideResult=false);
-  
-  
   //********************************************************************************
 initial equation
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
   PRdes = PR;
-  
-  //********************************************************************************
+//********************************************************************************
 algorithm
   if printCmd == true then
     assert(fluid_1.h < fluidStat_th_fullExp.h, getInstanceName() + ", nozzle inverse flow condition, fluid_1.h < fluidStat_th_fullExp.h" + "\n" + ", fluid_1.h=" + String(fluid_1.h) + ", fluidStat_th_fullExp.h=" + String(fluidStat_th_fullExp.h), AssertionLevel.warning);
   end if;
-  
-  //********************************************************************************
+//********************************************************************************
 equation
   if printCmd == true then
     assert(fluid_1.p <= 0.0, getInstanceName() + ", fluid_1.p=" + String(fluid_1.p), AssertionLevel.warning);
@@ -291,5 +285,5 @@ equation
   Graphics
 ********************************************************/
   annotation(
-    Icon(graphics = {Polygon(origin = {0, 10}, fillColor = {255, 250, 80}, fillPattern = FillPattern.HorizontalCylinder, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-74, 108}, extent = {{-26, -8}, {154, -28}}, textString = "%name"), Rectangle(origin = {-94, 80}, fillColor = {112, 112, 112}, fillPattern = FillPattern.Solid, extent = {{-6, 2}, {14, -2}}), Text(origin = {56, 81}, extent = {{-40, -1}, {30, -21}}, textString = "after expansion"), Line(origin = {81.88, 37.0395}, points = {{-23, 2}, {17, 2}, {17, 42}}, pattern = LinePattern.Dot, thickness = 0.5), Text(origin = {-58, 22}, extent = {{-22, -2}, {78, -42}}, textString = "Nzl")}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Polygon(origin = {0, 10}, fillColor = {255, 250, 80}, fillPattern = FillPattern.HorizontalCylinder, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-74, 130}, extent = {{-26, -8}, {174, -28}}, textString = "%name"), Text(origin = {38, 79}, extent = {{-40, -1}, {30, -21}}, textString = "after expansion"), Line(origin = {82.157, 37.8707}, points = {{-23, 2}, {-3, 2}, {-3, 42}}, pattern = LinePattern.Dot, thickness = 0.5), Text(origin = {-58, 22}, extent = {{-22, -2}, {78, -42}}, textString = "Nzl")}, coordinateSystem(initialScale = 0.1)));
 end NozzleBase01;

@@ -130,7 +130,7 @@ partial model InletBase00
     h_outflow(start = h1_init, min=0.0+1.0e-10), 
     p(start=p1_init, min=0.0+1.0e-10)
   ) "" annotation(
-    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-60, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   Modelica.Fluid.Interfaces.FluidPort_b port_2(
     redeclare package Medium = Medium, 
@@ -138,7 +138,7 @@ partial model InletBase00
     h_outflow(start = h2_init, min=0.0+1.0e-10), 
     p(start=p2_init, min=0.0+1.0e-10)
   ) "" annotation(
-    Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {62, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {60, -98}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -220,7 +220,7 @@ equation
 
   annotation(
     Diagram(coordinateSystem(initialScale = 0.1)),
-    Icon(graphics = {Polygon(origin = {-20, 0}, fillColor = {170, 255, 255}, fillPattern = FillPattern.HorizontalCylinder, points = {{-40, 50}, {-40, -50}, {80, -80}, {80, 80}, {80, 80}, {-40, 50}}), Rectangle(origin = {-58, 75}, fillColor = {139, 139, 139}, fillPattern = FillPattern.Solid, extent = {{-2, 7}, {2, -25}}), Rectangle(origin = {-75, 80}, rotation = -90, fillColor = {139, 139, 139}, fillPattern = FillPattern.Solid, extent = {{-2, 19}, {2, -25}}), Rectangle(origin = {109, 79}, rotation = -90, fillColor = {139, 139, 139}, fillPattern = FillPattern.Solid, extent = {{-2, -9}, {2, -49}}), Text(origin = {-64, 121}, extent = {{-36, -21}, {164, -41}}, textString = "%name"), Text(origin = {-44, 41}, extent = {{-16, -21}, {104, -61}}, textString = "Inlt")}, coordinateSystem(initialScale = 0.1)),
+    Icon(graphics = {Polygon(origin = {-20, 0}, fillColor = {170, 255, 255}, fillPattern = FillPattern.HorizontalCylinder, points = {{-40, 50}, {-40, -50}, {80, -80}, {80, 80}, {80, 80}, {-40, 50}}), Rectangle(origin = {-58, 75}, fillColor = {139, 139, 139}, fillPattern = FillPattern.Solid, extent = {{-2, 7}, {2, -25}}), Text(origin = {-64, 143}, extent = {{-36, -21}, {164, -41}}, textString = "%name"), Text(origin = {-44, 41}, extent = {{-16, -21}, {104, -61}}, textString = "Inlt")}, coordinateSystem(initialScale = 0.1)),
     Dialog(group = "Characteristics"));
 
 end InletBase00;

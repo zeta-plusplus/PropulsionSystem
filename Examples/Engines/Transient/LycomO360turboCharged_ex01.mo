@@ -57,7 +57,7 @@ model LycomO360turboCharged_ex01
     Placement(visible = true, transformation(origin = {-280, 180}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Temperature temperature(redeclare package Medium = engineFluid) annotation(
     Placement(visible = true, transformation(origin = {-150, 140}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.CmpCharTable00 Cmp(redeclare package Medium = engineFluid, NmechDes_paramInput = 30000, PRdes_paramInput = 5, T1_des_paramInput = 15 + 273.15, m_flow_1_des_paramInput = 0.121, p1_des_paramInput = 101.325 * 1000, use_tableFile_PR = true, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
+  PropulsionSystem.Elements.BasicElements.CmpCharTable00 Cmp(redeclare package Medium = engineFluid, NmechDes_paramInput = 30000, PRdes_paramInput = 4, T1_des_paramInput = 15 + 273.15, m_flow_1_des_paramInput = 0.121, p1_des_paramInput = 101.325 * 1000, use_tableFile_PR = true, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {-220, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   PropulsionSystem.Elements.BasicElements.TrbCharTable00 Trb(redeclare package Medium = engineFluid, NmechDes_paramInput = 30000, T1_des_paramInput = 1785, m_flow_1_des_paramInput = 0.121, p1_des_paramInput = 1.5 * 101.325 * 1000, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {-220, 140}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));

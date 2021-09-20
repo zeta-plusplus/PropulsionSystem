@@ -125,7 +125,6 @@ model PropActDiskCharFixed01
   
   
   //********************************************************************************
-  
 protected
   /* ---------------------------------------------
     Non-modifiable parameters
@@ -139,8 +138,13 @@ protected
   parameter Real Jdes(fixed=false, start= Jdes_paramInput) "design point advance ratio" annotation(
     HideResult=false);
   
+  
 //********************************************************************************
 initial equation
+  assert((Jdes<-1.0*Modelica.Constants.small) or (Modelica.Constants.small<Jdes), getInstanceName()+", Jdes="+String(Jdes), AssertionLevel.error);
+  assert((J<-1.0*Modelica.Constants.small) or (Modelica.Constants.small<J), getInstanceName()+", J="+String(J), AssertionLevel.error);
+  
+  
   /* ---------------------------------------------
     determine design point
   --------------------------------------------- */
@@ -181,8 +185,19 @@ algorithm
     Streams.print("Nmech_rps= "+String(Nmech_rps));
   end if;
   
+  
 //********************************************************************************
 equation
+  assert((Jdes<-1.0*Modelica.Constants.small) or (Modelica.Constants.small<Jdes), getInstanceName()+", Jdes="+String(Jdes), AssertionLevel.warning);
+  assert((J<-1.0*Modelica.Constants.small) or (Modelica.Constants.small<J), getInstanceName()+", J="+String(J), AssertionLevel.warning);
+  
+  /*
+  when(-1.0*Modelica.Constants.small<J)and(J<Modelica.Constants.small)then
+    reinit(J, J+Modelica.Constants.small);
+  end when;
+  */
+  
+  
   /* ---------------------------------------------
     Connections, interface <-> internal variables
   --------------------------------------------- */
@@ -236,13 +251,15 @@ equation
   end if;
   //--------------------
   
+  
   if noEvent(time<=environment.timeRemoveDesConstraint)then
     J= (effProp*CP)/CT;
-    diam= Vinf/(Jdes*Nmech_rps);
+    diam*(Jdes*NmechDes_rps)= Vinf;
   else
-    J= Vinf/(Nmech_rps*diam);
+    J*(Nmech_rps*diam)= Vinf;
     diam= diamDes;
   end if;
+  /**/
   
   CT= Fn/(fluid_amb.d*Nmech_rps^2.0*diam^4.0);
   CP= pwr/(fluid_amb.d*Nmech_rps^3.0*diam^5.0);

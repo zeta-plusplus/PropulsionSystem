@@ -222,10 +222,11 @@ partial model TurbineBase00
   );
   
   //********** triggers **********
+  /*
   Real triggerDesCalc(start=0) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  
+  */
   
   /* ---------------------------------------------
       Internal objects
@@ -373,6 +374,7 @@ equation
   NqNdes = Nmech / NmechDes;
   NcqNcDes_1 = Nc_1 / Nc_1_des;
   
+  /*
   //------------------------------
   when (initial()) then
     triggerDesCalc= 1;
@@ -390,7 +392,7 @@ equation
     reinit(triggerDesCalc,0);
   end when;
   //---------------
-  
+  */
   
   when {(time<=environment.timeRemoveDesConstraint)}then
     Wc_1_des = fluid_1_des.m_flow * sqrt(fluid_1_des.T / environment.Tstd) / (fluid_1_des.p / environment.pStd);

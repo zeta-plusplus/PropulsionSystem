@@ -58,64 +58,64 @@ model Turbofan_commonNZL_ex01
   Modelica.Fluid.Fittings.TeeJunctionIdeal teeJunctionIdeal1(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {202, 116}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
 equation
+  connect(Nzl070.y_Fg, Perf.u_Fg) annotation(
+    Line(points = {{290, 100}, {324, 100}, {324, -82}, {340, -82}}, color = {0, 0, 127}));
+  connect(Flt2Fluid.port_amb, Nzl070.port_2) annotation(
+    Line(points = {{-340, 108}, {-340, 184}, {296, 184}, {296, 116}}, color = {0, 127, 255}));
   connect(teeJunctionIdeal1.port_1, Nzl070.port_1) annotation(
-    Line(points = {{212, 116}, {260, 116}, {260, 116}, {260, 116}}, color = {0, 127, 255}));
+    Line(points = {{212, 116}, {264, 116}}, color = {0, 127, 255}));
+  connect(NmechDesShL.flange_2, Trb049.flange_1) annotation(
+    Line(points = {{20, 80}, {140, 80}}));
+  connect(Trb041.port_2, Trb049.port_1) annotation(
+    Line(points = {{102, -34}, {126, -34}, {126, 96}, {148, 96}}, color = {0, 127, 255}));
   connect(Trb049.port_2, teeJunctionIdeal1.port_3) annotation(
-    Line(points = {{180, 96}, {202, 96}, {202, 106}, {202, 106}}, color = {0, 127, 255}));
+    Line(points = {{172, 96}, {202, 96}, {202, 106}}, color = {0, 127, 255}));
+  connect(temperature040.port, Trb041.port_1) annotation(
+    Line(points = {{50, -10}, {78, -10}, {78, -34}}, color = {0, 127, 255}));
+  connect(NmechDesShH.flange_2, Trb041.flange_1) annotation(
+    Line(points = {{20, -50}, {70, -50}}));
+  connect(Cmp025.port_2, Comb036.port_1) annotation(
+    Line(points = {{-58, -34}, {-58, -10}, {0, -10}}, color = {0, 127, 255}));
+  connect(Cmp025.flange_2, NmechDesShH.flange_1) annotation(
+    Line(points = {{-50, -50}, {0, -50}}));
+  connect(SpltDesPt.port_2, Cmp025.port_1) annotation(
+    Line(points = {{-132, 96}, {-114, 96}, {-114, -34}, {-82, -34}}, color = {0, 127, 255}));
+  connect(Cmp020.flange_2, NmechDesShL.flange_1) annotation(
+    Line(points = {{-172, 80}, {0, 80}}));
+  connect(MassFlowDes.port_2, Cmp020.port_1) annotation(
+    Line(points = {{-230, 96}, {-204, 96}}, color = {0, 127, 255}));
+  connect(Cmp020.port_2, SpltDesPt.port_1) annotation(
+    Line(points = {{-180, 96}, {-152, 96}}, color = {0, 127, 255}));
+  connect(Flt2Fluid.y_V_inf, Inlt.u_V_infini) annotation(
+    Line(points = {{-318, 72}, {-300, 72}}, color = {0, 0, 127}));
+  connect(Flt2Fluid.port_inlet, Inlt.port_1) annotation(
+    Line(points = {{-320, 84}, {-315, 84}, {-315, 96}, {-298, 96}}, color = {0, 127, 255}));
+  connect(Inlt.port_2, MassFlowDes.port_1) annotation(
+    Line(points = {{-274, 96}, {-250, 96}}, color = {0, 127, 255}));
+  connect(Inlt.y_FdRam, Perf.u_Fram) annotation(
+    Line(points = {{-272, 72}, {-256, 72}, {-256, -86}, {339, -86}}, color = {0, 0, 127}));
   connect(Duct.port_2, teeJunctionIdeal1.port_2) annotation(
     Line(points = {{60, 116}, {192, 116}, {192, 116}, {192, 116}}, color = {0, 127, 255}));
   connect(SpltDesPt.port_3, Duct.port_1) annotation(
     Line(points = {{-132, 104}, {-104, 104}, {-104, 116}, {40, 116}}, color = {0, 127, 255}));
-  connect(Flt2Fluid.port_amb, Nzl070.port_2) annotation(
-    Line(points = {{-340, 108}, {-340, 184}, {300, 184}, {300, 116}}, color = {0, 127, 255}));
-  connect(Nzl070.y_Fg, Perf.u_Fg) annotation(
-    Line(points = {{290, 100}, {324, 100}, {324, -82}, {340, -82}}, color = {0, 0, 127}));
-  connect(SpltDesPt.port_2, Cmp025.port_1) annotation(
-    Line(points = {{-132, 96}, {-114, 96}, {-114, -34}, {-90, -34}, {-90, -34}}, color = {0, 127, 255}));
-  connect(Cmp020.port_2, SpltDesPt.port_1) annotation(
-    Line(points = {{-172, 96}, {-152, 96}, {-152, 96}, {-152, 96}}, color = {0, 127, 255}));
-  connect(Trb041.port_2, Trb049.port_1) annotation(
-    Line(points = {{110, -34}, {126, -34}, {126, 96}, {140, 96}}, color = {0, 127, 255}));
-  connect(NmechDesShL.flange_2, Trb049.flange_1) annotation(
-    Line(points = {{20, 80}, {140, 80}}));
   connect(Constraint2.u_targetValue, ramp_TIT.y) annotation(
     Line(points = {{80, 32}, {80, 39}}, color = {0, 0, 127}));
   connect(temperature040.T, Constraint2.u_variable) annotation(
     Line(points = {{57, 0}, {79, 0}, {79, 10}, {79, 10}}, color = {0, 0, 127}));
-  connect(NmechDesShH.flange_2, Trb041.flange_1) annotation(
-    Line(points = {{20, -50}, {70, -50}, {70, -50}, {70, -50}}));
-  connect(temperature040.port, Trb041.port_1) annotation(
-    Line(points = {{50, -10}, {70, -10}, {70, -34}, {70, -34}}, color = {0, 127, 255}));
   connect(Comb036.port_2, temperature040.port) annotation(
     Line(points = {{40, -10}, {50, -10}}, color = {0, 127, 255}));
-  connect(Cmp025.flange_2, NmechDesShH.flange_1) annotation(
-    Line(points = {{-50, -50}, {0, -50}}));
   connect(boundary.ports[1], Comb036.port_fuel) annotation(
     Line(points = {{-10, 20}, {4, 20}, {4, 6}}, color = {0, 127, 255}));
   connect(Comb036.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
     Line(points = {{36, -28}, {36, -98}, {339, -98}}, color = {0, 0, 127}));
-  connect(Cmp025.port_2, Comb036.port_1) annotation(
-    Line(points = {{-50, -34}, {-50, -10}, {0, -10}}, color = {0, 127, 255}));
   connect(ramp_Tfuel.y, boundary.T_in) annotation(
     Line(points = {{-49, 20}, {-42.5, 20}, {-42.5, 24}, {-32, 24}}, color = {0, 0, 127}));
   connect(VarBySolver.y_independent, boundary.m_flow_in) annotation(
     Line(points = {{-49, 50}, {-35, 50}, {-35, 28}, {-30, 28}}, color = {0, 0, 127}));
-  connect(Inlt.y_FdRam, Perf.u_Fram) annotation(
-    Line(points = {{-272, 72}, {-256, 72}, {-256, -86}, {339, -86}}, color = {0, 0, 127}));
-  connect(Inlt.port_2, MassFlowDes.port_1) annotation(
-    Line(points = {{-266, 96}, {-250, 96}}, color = {0, 127, 255}));
-  connect(Flt2Fluid.port_inlet, Inlt.port_1) annotation(
-    Line(points = {{-320, 84}, {-315, 84}, {-315, 96}, {-306, 96}}, color = {0, 127, 255}));
-  connect(Flt2Fluid.y_V_inf, Inlt.u_V_infini) annotation(
-    Line(points = {{-318, 72}, {-300, 72}}, color = {0, 0, 127}));
   connect(ramp_fltMN.y, Flt2Fluid.u_MN) annotation(
     Line(points = {{-379, 98}, {-371, 98}, {-371, 96}, {-362, 96}}, color = {0, 0, 127}));
   connect(ramp_fltAlt.y, Flt2Fluid.u_alt) annotation(
     Line(points = {{-379, 138}, {-367, 138}, {-367, 104}, {-362, 104}}, color = {0, 0, 127}));
-  connect(MassFlowDes.port_2, Cmp020.port_1) annotation(
-    Line(points = {{-230, 96}, {-212, 96}, {-212, 96}, {-212, 96}}, color = {0, 127, 255}));
-  connect(Cmp020.flange_2, NmechDesShL.flange_1) annotation(
-    Line(points = {{-172, 80}, {0, 80}}));
   annotation(
     uses(Modelica(version = "3.2.2")),
     Diagram(coordinateSystem(extent = {{-400, -120}, {360, 240}}, preserveAspectRatio = false, initialScale = 0.1)),

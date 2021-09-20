@@ -1,6 +1,11 @@
 within PropulsionSystem.Sources;
 
 model NmechAtDesignPoint01
+  /********************************************************
+          imports
+    ********************************************************/
+  import Streams= Modelica.Utilities.Streams;
+  
   
   /* ---------------------------------------------
         switches
@@ -9,12 +14,20 @@ model NmechAtDesignPoint01
     Evaluate = true,
     HideResult = true,
     choices(checkBox = true), Dialog(group = "switch"));
+  parameter Boolean printCmd = false "" annotation(
+    Evaluate = true,
+    HideResult = true,
+    choices(checkBox = true),
+    Dialog(tab = "debug setting"));
   
   
   /* ---------------------------------------------
           parameters
   --------------------------------------------- */
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes_paramInput = 3000.0 "mechanical rotation speed, rpm";
+  parameter Modelica.SIunits.Angle deltaPhi=0 "Fixed rotation of left flange with respect to right flange (= flange_b.phi - flange_a.phi)";
+  
+  
   //********** Initialization Parameters **********
   //--- flange_1 ---
   parameter Modelica.SIunits.Torque tau1_init = -1.0 * tau2_init "" annotation(
@@ -66,6 +79,18 @@ protected
   
   //********************************************************************************
 initial equation
+  if printCmd == true then
+    Streams.print("initialization");
+    Streams.print(getInstanceName());
+    Streams.print("omega= "+String(omega));
+    Streams.print("Nmech= "+String(Nmech));
+  end if;
+  
+  
+  assert( noEvent(Modelica.Constants.small<abs(omega)), getInstanceName()+", omega="+String(omega), AssertionLevel.error);
+  assert( noEvent(Modelica.Constants.small<abs(Nmech)), getInstanceName()+", Nmech="+String(Nmech), AssertionLevel.error);
+  
+  
   if(use_u_NmechDes==true)then
     NmechDes= u_NmechDes;
     Nmech= u_NmechDes;
@@ -79,6 +104,27 @@ initial equation
   
   //********************************************************************************
 equation
+  
+  if printCmd == true then
+    Streams.print(getInstanceName());
+    Streams.print("omega= "+String(omega));
+    Streams.print("Nmech= "+String(Nmech));
+  end if;
+  
+  
+  assert( noEvent(Modelica.Constants.small<abs(omega)), getInstanceName()+", omega="+String(omega), AssertionLevel.error);
+  assert( noEvent(Modelica.Constants.small<abs(Nmech)), getInstanceName()+", Nmech="+String(Nmech), AssertionLevel.error);
+  
+  
+  when (noEvent(abs(omega)<Modelica.Constants.small)) then
+    reinit(omega, Nmech_init * 2.0 * Modelica.Constants.pi / 60.0);
+  end when;
+  
+  when (noEvent(abs(Nmech)<Modelica.Constants.small)) then
+    reinit(Nmech, Nmech_init);
+  end when;
+  
+  
   if noEvent(time<=environment.timeRemoveDesConstraint) then
     auxVar[1]=1;
   else
@@ -86,13 +132,13 @@ equation
   end if;
   
   Nmech=NmechDes*auxVar[1]+auxVar[2];
+  omega = Nmech * (2.0 * Modelica.Constants.pi)/60.0 ;
   
-  flange_1.phi = phi;
-  flange_2.phi = phi;
+  flange_1.phi = phi - deltaPhi/2;
+  flange_2.phi = phi + deltaPhi/2;
   flange_1.tau + flange_2.tau = 0.0;
   
   der(phi) = omega;
-  Nmech = omega * 60.0 / (2.0 * Modelica.Constants.pi);
   
   annotation(
     defaultComponentName = "NmechDes",

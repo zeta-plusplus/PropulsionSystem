@@ -17,6 +17,8 @@ partial model TurbineBase01
     --------------------------------------------- */
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation(
     choicesAllMatching = true);
+  
+  
   /* ---------------------------------------------
         switch
     --------------------------------------------- */
@@ -31,6 +33,8 @@ partial model TurbineBase01
     HideResult = true,
     choices(checkBox = true),
     Dialog(tab = "debug setting"));
+  
+  
   /* ---------------------------------------------
         parameters
     --------------------------------------------- */
@@ -92,6 +96,8 @@ partial model TurbineBase01
     Dialog(tab = "Initialization", group = "others"));
   parameter Modelica.SIunits.SpecificEntropy s_fluid_2_init = 7900.0 "" annotation(
     Dialog(tab = "Initialization", group = "others"));
+  
+  
   /* ---------------------------------------------
         Internal variables
     --------------------------------------------- */
@@ -131,12 +137,12 @@ partial model TurbineBase01
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.MassFlowRate m_flow_min(start = m_flow2_init) "" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
-  
   //********** variables relative to design point **********
   inner Real NcqNcDes_1(start = NcqNcDes_1_init) "ratio of corrected rotational speed with respect to design pt. speed" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Real NqNdes(start = NqNdes_init) "ratio of mech. rotational speed with respect to design pt. speed" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  
   
   /* ---------------------------------------------
         Internal objects
@@ -144,19 +150,23 @@ partial model TurbineBase01
   inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
   Medium.BaseProperties fluid_1(p(start = p1_init, min = 0.0 + 1.0e-10), T(start = T1_init, min = 0.0 + 1.0e-10), state.p(start = p1_init, min = 0.0 + 1.0e-10), state.T(start = T1_init, min = 0.0 + 1.0e-10), h(start = h1_init, min = 0.0 + 1.0e-10)) "flow station of inlet";
   Medium.BaseProperties fluid_2(p(start = p2_init, min = 0.0 + 1.0e-10), T(start = T2_init, min = 0.0 + 1.0e-10), state.p(start = p2_init, min = 0.0 + 1.0e-10), state.T(start = T2_init, min = 0.0 + 1.0e-10), h(start = h2_init, min = 0.0 + 1.0e-10)) "flow station of outlet";
+  
+  
   /* ---------------------------------------------
         Interface
     --------------------------------------------- */
   Modelica.Fluid.Interfaces.FluidPort_a port_1(redeclare package Medium = Medium, m_flow(start = m_flow1_init, min = if allowFlowReversal then -Constants.inf else 0.0), h_outflow(start = h1_init, min = 0.0 + 1.0e-10), p(start = p1_init, min = 0.0 + 1.0e-10)) "" annotation(
-    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-60, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_b port_2(redeclare package Medium = Medium, m_flow(start = m_flow2_init, max = if allowFlowReversal then +Constants.inf else 0.0), h_outflow(start = h2_init, min = 0.0 + 1.0e-10), p(start = p2_init, min = 0.0 + 1.0e-10)) "" annotation(
-    Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {62, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1(tau(start = tau1_init), phi(start = phi1_init)) "" annotation(
     Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-98, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_2(tau(start = tau2_init), phi(start = phi2_init)) "" annotation(
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {100, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
+  
   //******************************************************************************************
 protected
   //********** variables of design point **********
@@ -172,12 +182,27 @@ protected
     HideResult = false);
   //******************************************************************************************
 initial algorithm
-  
 //******************************************************************************************
 initial equation
+  if printCmd == true then
+    Streams.print("initialization");
+    Streams.print(getInstanceName());
+    Streams.print("omega= "+String(omega));
+    Streams.print("Nmech= "+String(Nmech));
+  end if;
+  
+  assert( noEvent(Modelica.Constants.small<abs(omega)), getInstanceName()+", omega="+String(omega), AssertionLevel.error);
+  assert( noEvent(Modelica.Constants.small<abs(Nmech)), getInstanceName()+", Nmech="+String(Nmech), AssertionLevel.error);
+  assert( noEvent(Modelica.Constants.small<abs(Nc_1)), getInstanceName()+", Nc_1="+String(Nc_1), AssertionLevel.error);
+  assert( noEvent(Modelica.Constants.small<fluid_1.p), getInstanceName()+", fluid_1.p="+String(fluid_1.p), AssertionLevel.error);
+  assert( noEvent(Modelica.Constants.small<fluid_1.T), getInstanceName()+", fluid_1.T="+String(fluid_1.T), AssertionLevel.error);
+  assert( noEvent(Modelica.Constants.small<fluid_1.h), getInstanceName()+", fluid_1.h="+String(fluid_1.h), AssertionLevel.error);
+  
+  
+  //assert((omega<Modelica.Constants.small) or (Modelica.Constants.small<omega), getInstanceName()+", omega="+String(omega), AssertionLevel.warning);
+  
   Wc_1_des = Wc_1;
   Nc_1_des = Nc_1;
-
 //******************************************************************************************
 algorithm
   if printCmd == true then
@@ -187,26 +212,65 @@ algorithm
     Streams.print("omega= "+String(omega));
     Streams.print("Nmech= "+String(Nmech));
   end if;
-  
-  
 //******************************************************************************************
 equation
   if printCmd == true then
-    assert(fluid_1.p <= 0.0, getInstanceName() + ", fluid_1.p=" + String(fluid_1.p), AssertionLevel.warning);
-    assert(fluid_2.p <= 0.0, getInstanceName() + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
+    Streams.print(getInstanceName());
+    Streams.print("omega= "+String(omega));
+    Streams.print("Nmech= "+String(Nmech));
+    assert(0.0 <fluid_1.p , getInstanceName() + ", fluid_1.p=" + String(fluid_1.p), AssertionLevel.warning);
+    assert(0.0 <fluid_2.p , getInstanceName() + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
   end if;
-/* ---------------------------------------------
-  Connections, interface <-> internal variables
+  
+  
+  
+  assert( noEvent(Modelica.Constants.small<abs(omega)), getInstanceName()+", omega="+String(omega), AssertionLevel.error);
+  assert( noEvent(Modelica.Constants.small<abs(Nmech)), getInstanceName()+", Nmech="+String(Nmech), AssertionLevel.error);
+  assert( noEvent(Modelica.Constants.small<abs(Nc_1)), getInstanceName()+", Nc_1="+String(Nc_1), AssertionLevel.error);
+  assert( noEvent(Modelica.Constants.small<fluid_1.p), getInstanceName()+", fluid_1.p="+String(fluid_1.p), AssertionLevel.error);
+  assert( noEvent(Modelica.Constants.small<fluid_1.T), getInstanceName()+", fluid_1.T="+String(fluid_1.T), AssertionLevel.error);
+  assert( noEvent(Modelica.Constants.small<fluid_1.h), getInstanceName()+", fluid_1.h="+String(fluid_1.h), AssertionLevel.error);
+  
+  
+  /**/
+  when (noEvent(abs(omega)<Modelica.Constants.small)) then
+    reinit(omega, Nmech_init * 2.0 * Modelica.Constants.pi / 60.0);
+  end when;
+  
+  when (noEvent(abs(Nmech)<Modelica.Constants.small)) then
+    reinit(Nmech, Nmech_init);
+  end when;
+  
+  when (noEvent(abs(Nc_1)<Modelica.Constants.small)) then
+    reinit(Nc_1, Nc_1_init);
+  end when;
+  
+  when (noEvent(fluid_1.p<Modelica.Constants.small)) then
+    reinit(fluid_1.p, p1_init);
+  end when;
+  
+  when (noEvent(fluid_1.T<Modelica.Constants.small)) then
+    reinit(fluid_1.T, T1_init);
+  end when;
+  
+  when (noEvent(fluid_1.h<Modelica.Constants.small)) then
+    reinit(fluid_1.h, h1_init);
+  end when;
+  
+  
+  /* ---------------------------------------------
+    Connections, interface <-> internal variables
   --------------------------------------------- */
-//-- fluidPort_1 --
+  //-- fluidPort_1 --
   fluid_1.p = port_1.p;
   fluid_1.h = actualStream(port_1.h_outflow);
   fluid_1.Xi = actualStream(port_1.Xi_outflow);
-//-- fluidPort_2 --
+  //-- fluidPort_2 --
   fluid_2.p = port_2.p;
   fluid_2.h = actualStream(port_2.h_outflow);
   fluid_2.Xi = actualStream(port_2.Xi_outflow);
-// distinguish inlet side
+  
+  // distinguish inlet side
   m_flow_max = max(port_1.m_flow, port_2.m_flow);
   m_flow_min = min(port_1.m_flow, port_2.m_flow);
   if allowFlowReversal == false then
@@ -224,10 +288,14 @@ equation
       port_1.Xi_outflow = fluid_1.Xi;
     end if;
   end if;
-//-- shaft --
+  
+  //-- shaft --
   flange_1.phi = phi;
   flange_2.phi = phi;
-/* ---------------------------------------------
+  der(phi) = omega;
+  
+  
+  /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
   Wc_1 = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
@@ -239,24 +307,37 @@ equation
   dht = fluid_1.h - fluid_2.h;
   port_1.m_flow + port_2.m_flow = 0.0;
   fluid_2.Xi = fluid_1.Xi;
-  trq = flange_1.tau + flange_2.tau;
   pwr = -1.0 * (port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2.h);
-  der(phi) = omega;
-  omega * trq = pwr;
+  
+  trq = flange_1.tau + flange_2.tau;
+  pwr = omega*trq;
+  
+  
+  
+  /*
+  if(omega<-1.0*Modelica.Constants.small)or(Modelica.Constants.small<omega)then
+    pwr = omega*trq;
+  else
+    trq=0.0;
+  end if;
+  */
+  
   Nmech = omega * 60.0 / (2.0 * Modelica.Constants.pi);
   pwr_inv = -1 * pwr;
   trq_inv = -1 * trq;
   s_fluid_1 = Medium.specificEntropy(fluid_1.state);
   s_fluid_2 = Medium.specificEntropy(fluid_2.state);
-//-- variables relative to design point --
+  
+  //-- variables relative to design point --
   NqNdes = Nmech / NmechDes;
   NcqNcDes_1 = Nc_1 / Nc_1_des;
+  
   
   
 /********************************************************
   Graphics
 ********************************************************/
   annotation(
-    Icon(graphics = {Polygon(origin = {30, 0}, fillColor = {255, 170, 0}, fillPattern = FillPattern.HorizontalCylinder, points = {{-90, 0}, {-90, -20}, {30, -80}, {30, 80}, {-90, 20}, {-90, 0}}), Rectangle(origin = {84, 6}, fillPattern = FillPattern.Solid, extent = {{-24, 4}, {16, -16}}), Rectangle(origin = {-86, 6}, fillPattern = FillPattern.Solid, extent = {{-12, 4}, {26, -16}}), Text(origin = {-43, 95}, extent = {{-37, 5}, {123, -15}}, textString = "%name"), Rectangle(origin = {-57, 30}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 52}, {1, -10}}), Rectangle(origin = {-99, 16}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-1, 66}, {43, 62}}), Rectangle(origin = {63, 16}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 66}, {37, 62}}), Text(origin = {-37, 11}, extent = {{-23, 9}, {97, -31}}, textString = "Trb")}, coordinateSystem(initialScale = 0.1)),
+    Icon(graphics = {Polygon(origin = {30, 0}, fillColor = {255, 170, 0}, fillPattern = FillPattern.HorizontalCylinder, points = {{-90, 0}, {-90, -20}, {30, -80}, {30, 80}, {-90, 20}, {-90, 0}}), Rectangle(origin = {84, 6}, fillPattern = FillPattern.Solid, extent = {{-24, 4}, {16, -16}}), Rectangle(origin = {-86, 6}, fillPattern = FillPattern.Solid, extent = {{-12, 4}, {26, -16}}), Text(origin = {-43, 117}, extent = {{-57, 5}, {143, -15}}, textString = "%name"), Rectangle(origin = {-57, 30}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 52}, {1, -10}}),  Text(origin = {-37, 11}, extent = {{-23, 9}, {97, -31}}, textString = "Trb")}, coordinateSystem(initialScale = 0.1)),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"));
 end TurbineBase01;

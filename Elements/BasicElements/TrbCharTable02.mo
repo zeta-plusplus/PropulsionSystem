@@ -107,8 +107,12 @@ model TrbCharTable02
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
-  discrete Real auxVar if (switch_calcOnlyDes==false)and(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated) "";
+  discrete Real auxVar(start=1.0) if (switch_calcOnlyDes==false)and(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated) "" annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  
   /**/
+  
   
   /* ---------------------------------------------
      Internal objects
@@ -236,7 +240,7 @@ equation
   else
   //===== mode: des. pt. -> off des. =====
     if(switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated)then
-      if noEvent(time<=environment.timeRemoveDesConstraint) then
+      if (time<=environment.timeRemoveDesConstraint) then
         NcTbl= NcTblDes_paramInput;
         PRtbl= PRtblDes_paramInput;
         WcTblScld=auxVar;
@@ -248,7 +252,7 @@ equation
         eff=effTblScld;
       end if;
     else
-      if noEvent(time<=environment.timeRemoveDesConstraint) then
+      if (time<=environment.timeRemoveDesConstraint) then
         NcTbl= NcTblDes_paramInput;
         PRtbl= PRtblDes_paramInput;
         PR=PRdes;
