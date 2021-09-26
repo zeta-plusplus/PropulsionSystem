@@ -26,8 +26,6 @@ model NmechAtDesignPoint01
   --------------------------------------------- */
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes_paramInput = 3000.0 "mechanical rotation speed, rpm";
   parameter Modelica.SIunits.Angle deltaPhi=0 "Fixed rotation of left flange with respect to right flange (= flange_b.phi - flange_a.phi)";
-  
-  
   //********** Initialization Parameters **********
   //--- flange_1 ---
   parameter Modelica.SIunits.Torque tau1_init = -1.0 * tau2_init "" annotation(
@@ -73,10 +71,12 @@ model NmechAtDesignPoint01
 
   Modelica.Blocks.Interfaces.RealInput u_NmechDes if use_u_NmechDes==true annotation(
     Placement(visible = true, transformation(origin = {-60, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-60, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  Modelica.Blocks.Interfaces.RealOutput y_omegaDes(start=Nmech_init * 2.0 * Modelica.Constants.pi / 60.0) annotation(
+    Placement(visible = true, transformation(origin = {80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   //********************************************************************************
+
 protected
   parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes(fixed=false) "mechanical rotation speed, design point value, rpm" annotation(HideResult=false);
-  
   //********************************************************************************
 initial equation
   if printCmd == true then
@@ -94,15 +94,16 @@ initial equation
   if(use_u_NmechDes==true)then
     NmechDes= u_NmechDes;
     Nmech= u_NmechDes;
+    y_omegaDes= u_NmechDes*(2.0 * Modelica.Constants.pi / 60.0);
   else
     NmechDes= NmechDes_paramInput;
     Nmech= NmechDes_paramInput;
+    y_omegaDes= NmechDes_paramInput*(2.0 * Modelica.Constants.pi / 60.0);
   end if;
   
   auxVar[1]=1;
   auxVar[2]=0;
-  
-  //********************************************************************************
+//********************************************************************************
 equation
   
   if printCmd == true then
@@ -130,6 +131,14 @@ equation
   else
     auxVar[1]=0;
   end if;
+  
+  
+  if(use_u_NmechDes==true)then
+    y_omegaDes= u_NmechDes*(2.0 * Modelica.Constants.pi / 60.0);
+  else
+    y_omegaDes= NmechDes_paramInput*(2.0 * Modelica.Constants.pi / 60.0);
+  end if;
+  
   
   Nmech=NmechDes*auxVar[1]+auxVar[2];
   omega = Nmech * (2.0 * Modelica.Constants.pi)/60.0 ;

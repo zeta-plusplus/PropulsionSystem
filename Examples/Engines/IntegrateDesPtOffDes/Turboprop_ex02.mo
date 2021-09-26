@@ -42,7 +42,7 @@ model Turboprop_ex02
   PropulsionSystem.Elements.BasicElements.TrbCharTable02 Trb1(redeclare package Medium = engineAir, printCmd = true, switch_calcOnlyDes = false, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {100, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sensors.SpeedSensor speedSensor1 annotation(
-    Placement(visible = true, transformation(origin = {-130, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {-90, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   FluidSystemComponents.Sensor.PressureRatio pressureRatio1(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {154, 16}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   FluidSystemComponents.Utilities.ConstrainVariable Constraint2 annotation(
@@ -52,8 +52,20 @@ model Turboprop_ex02
   PropulsionSystem.Elements.BasicElements.PropActDiskCharFixed01 Prop(redeclare package Medium = engineAir, Nmech(fixed = false, start = NmechDes1.NmechDes_paramInput), Nmech_rps(fixed = false, start = NmechDes1.NmechDes_paramInput / 60.0), printCmd = false) annotation(
     Placement(visible = true, transformation(origin = {-180, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Sources.NmechAtDesignPoint01 NmechDes1(NmechDes_paramInput = 2000, printCmd = false)  annotation(
-    Placement(visible = true, transformation(origin = {-90, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-50, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Components.InitializeFlange initializeFlange1(stateSelect = StateSelect.default,use_a_start = false, use_phi_start = false)  annotation(
+    Placement(visible = true, transformation(origin = {-130, -112}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 equation
+  connect(initializeFlange1.w_start, NmechDes1.y_omegaDes) annotation(
+    Line(points = {{-118, -112}, {-42, -112}, {-42, -91}}, color = {0, 0, 127}));
+  connect(NmechDes1.flange_2, Trb1.flange_1) annotation(
+    Line(points = {{-40, -80}, {80, -80}}));
+  connect(speedSensor1.flange, NmechDes1.flange_1) annotation(
+    Line(points = {{-90, -80}, {-60, -80}}));
+  connect(Prop.flange_1, initializeFlange1.flange) annotation(
+    Line(points = {{-160, -80}, {-150, -80}, {-150, -112}, {-140, -112}, {-140, -112}}));
+  connect(Prop.flange_1, speedSensor1.flange) annotation(
+    Line(points = {{-160, -80}, {-90, -80}}));
   connect(temperature.port, Trb.port_1) annotation(
     Line(points = {{28, 60}, {28, 36}}, color = {0, 127, 255}));
   connect(NmechDes.flange_2, Trb.flange_1) annotation(
@@ -78,8 +90,6 @@ equation
     Line(points = {{144, 16}, {144, -64}}, color = {0, 127, 255}));
   connect(Trb1.port_2, Nzl.port_1) annotation(
     Line(points = {{112, -64}, {144, -64}}, color = {0, 127, 255}));
-  connect(NmechDes1.flange_2, Trb1.flange_1) annotation(
-    Line(points = {{-80, -80}, {80, -80}}));
   connect(Comb.port_2, temperature.port) annotation(
     Line(points = {{-0.5, 60}, {28, 60}}, color = {0, 127, 255}));
   connect(boundary.ports[1], Comb.port_fuel) annotation(
@@ -96,14 +106,10 @@ equation
     Line(points = {{-110, 36}, {-92, 36}}, color = {0, 127, 255}));
   connect(VarBySolver.y_independent, boundary.m_flow_in) annotation(
     Line(points = {{-89, 90}, {-83, 90}, {-83, 98}, {-71, 98}}, color = {0, 0, 127}));
-  connect(speedSensor1.flange, NmechDes1.flange_1) annotation(
-    Line(points = {{-130, -80}, {-100, -80}, {-100, -80}, {-100, -80}}));
   connect(Flt2Fluid.y_V_inf, Prop.u_Vinf) annotation(
     Line(points = {{-218, 20}, {-214, 20}, {-214, -72}, {-202, -72}, {-202, -72}}, color = {0, 0, 127}));
   connect(Flt2Fluid.port_amb4source, Prop.port_amb) annotation(
     Line(points = {{-220, 52}, {-196, 52}, {-196, -60}, {-196, -60}}, color = {0, 127, 255}));
-  connect(Prop.flange_1, speedSensor1.flange) annotation(
-    Line(points = {{-160, -80}, {-130, -80}, {-130, -80}, {-130, -80}}));
   connect(ramp2.y, Constraint2.u_targetValue) annotation(
     Line(points = {{150, 70}, {150, 70}, {150, 62}, {150, 62}}, color = {0, 0, 127}));
   annotation(
