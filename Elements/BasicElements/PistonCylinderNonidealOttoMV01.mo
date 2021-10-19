@@ -38,6 +38,8 @@ model PistonCylinderNonidealOttoMV01
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.Power pwrCycle "power by cycle, negative==pwr outof component" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  Modelica.SIunits.Power pwrFuelSply "LHV of fuel*m_flow_fuel"  annotation(
+    Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.Work WintkCycle "work of intake stroke, single cycle, positive== into fluid";
   Modelica.SIunits.Work WexhCycle "work of exhaust stroke, single cycle, positive== into fluid";
   Real pwrPumpingqPwrCycle "pwrPumping / pwrCycle, positive==loss";
@@ -61,6 +63,8 @@ model PistonCylinderNonidealOttoMV01
     Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   //******************************************************************************************
 equation
+  connect(elementBus1.pwrFuelSply, pwrFuelSply);
+  connect(elementBus1.LHV_fuel, OttoCycle.LHV_fuel);
   connect(calcEffComb.y_fracFuelSat, OttoCycle.u_fracFuel) annotation(
     Line(points = {{-48, 32}, {-36, 32}, {-36, -12}, {-22, -12}, {-22, -12}}, color = {0, 0, 127}));
   connect(calcEffComb.y_effComb, OttoCycle.u_effComb) annotation(
@@ -100,6 +104,7 @@ equation
   pwrExh = 1.0 / 2.0 * Nmech * 1.0 / 60.0 * WexhCycle;
   pwrPumping = pwrIntk + pwrExh;
   pwrPumpingqPwrCycle = pwrPumping / (-1.0 * pwrCycle);
+  pwrFuelSply= OttoCycle.LHV_fuel*m_flow_fuel;
 //---
   fluid_2.h = OttoCycle.y_h_fluidState_4 + pwrPumping / (-1.0 * port_2.m_flow);
 //---

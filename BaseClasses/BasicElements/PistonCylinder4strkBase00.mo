@@ -178,6 +178,7 @@ equation
   port_1.m_flow = m_flow;
   port_1.m_flow + port_2.m_flow = 0.0;
   pwrOut = -1.0 * pwr;
+  
   der(phi) = omega;
   omega * trq = pwr;
   Nmech = omega * 60.0 / (2.0 * Modelica.Constants.pi);
