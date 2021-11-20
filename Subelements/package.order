@@ -21,3 +21,4 @@ InletMap_effRam
 readCompressorTable00
 Functions
 DieselCycleIdeal01
+DieselCycleNonideal00

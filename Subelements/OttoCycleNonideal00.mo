@@ -202,6 +202,7 @@ block OttoCycleNonideal00
     Placement(visible = true, transformation(origin = {80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = -90), iconTransformation(origin = {80, -120}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   //*************************************************************************************
 equation
+  //----------
   connect(curve_hs[4].u_Xi, fluidState_4.Xi) annotation(
     Line);
   connect(curve_hs[4].u_p, fluidState_4.p) annotation(
@@ -234,6 +235,7 @@ equation
     Line);
   connect(curve_hs[1].u_sLower, s_state_1) annotation(
     Line);
+  //----------
   connect(curve_pv[1].u_pUpper, fluidState_2.p) annotation(
     Line);
   connect(curve_pv[1].u_pLower, fluidState_1.p) annotation(
@@ -264,7 +266,7 @@ equation
     Line);
   connect(curve_pv[4].u_s, s_state_4) annotation(
     Line);
-  
+  //----------
   connect(curve_pv[4].u_Xi, fluidState_4.Xi) annotation(
     Line);
   connect(curve_Ts[4].u_Xi, fluidState_4.Xi) annotation(
@@ -299,6 +301,7 @@ equation
     Line);
   connect(curve_Ts[1].u_sLower, s_state_1) annotation(
     Line);
+  //----------
   connect(curve_us[4].u_Xi, fluidState_4.Xi) annotation(
     Line);
   connect(curve_us[4].u_p, fluidState_4.p) annotation(
@@ -331,6 +334,7 @@ equation
     Line);
   connect(curve_us[1].u_sLower, s_state_1) annotation(
     Line);
+  //----------
   connect(curve_pVol[4].u_m, massFluidCycle) annotation(
     Line);
   connect(curve_pVol[4].u_Xi, fluidState_4.Xi) annotation(
