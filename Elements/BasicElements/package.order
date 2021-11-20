@@ -15,10 +15,11 @@ NzlDefAeByFlowCharFixed02
 NzlDefAeByFlowCharFixed01
 NzlDefAeByFlowCharFixed00
 InltCharFixed00
+PistonCylinderNonidealOttoMV01
+PistonCylinderNonidealDieselMV01
 PropActDiskCharFixed01
 PropActDiskCharFixed00
 PropActDiskCharTable00
-PistonCylinderNonidealOttoMV01
 PistonCylinderIdealOttoMV01
 PistonCylinderIdealOttoMV00
 DuctDpqpWcSecOrder00
@@ -26,11 +27,11 @@ DuctDpqpWcSecOrder01
 DuctCharFixed00
 MotorGeneratorCharFixed00
 LossRotMechCharFixed00
-EnginePerformance00
 IdealSpltCharFixed00
 MixierLossBasedOnEntropy00
 IdealMixer01
 IdealMixer00
+EnginePerformance00
 PropellerActDisk
 Compressor
 Compressor_Map_WcPReff
@@ -53,4 +54,3 @@ constrain_Nmech
 constrain_T
 constrain_dm
 extractPwr
-PistonCylinderNonidealDieselMV01

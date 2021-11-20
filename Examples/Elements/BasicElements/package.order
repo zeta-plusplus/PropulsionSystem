@@ -36,6 +36,7 @@ CombCharFixed01_ex02
 CombCharFixed00_ex01
 CombCharFixed00_ex02
 PistonCylinderNonidealOttoMV01_ex01
+PistonCylinderNonidealDieselMV01_ex01
 PistonCylinderIdealOttoMV01_ex01
 PistonCylinderIdealOttoMV01_ex02
 PistonCylinderIdealOttoMV01_ex03
@@ -62,4 +63,3 @@ Cmp_and_Trb_ex03
 IdealSpliterBPRatDesignPoint_ex01
 IdealSpliterBPRatDesignPoint01_ex01
 DuctDpqpWcSecOrder00_ex01
-PistonCylinderNonidealDieselMV01_ex01

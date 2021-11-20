@@ -8,10 +8,13 @@ TurbineTable_WcEff_NcPR00
 SclTrb_WcEff00
 ScalerDesTrb_WcEffNcPR00
 PropellerTable_CTCP_Jtheta00
+OttoCycleNonideal00
+DieselCycleNonideal00
 OttoCycleIdeal00
 OttoCycleIdeal01
-OttoCycleNonideal00
 DieselCycleIdeal00
+DieselCycleIdeal01
+Functions
 dPqP_Wc2ndOrder
 CompressorMap_WcPReff
 CompressorEllipticalCurve
@@ -19,6 +22,3 @@ TurbineMap_WcEff
 TurbineExponentialCurve
 InletMap_effRam
 readCompressorTable00
-Functions
-DieselCycleIdeal01
-DieselCycleNonideal00
