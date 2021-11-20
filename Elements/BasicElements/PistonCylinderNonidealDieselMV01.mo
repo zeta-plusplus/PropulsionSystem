@@ -12,7 +12,7 @@ model PistonCylinderNonidealDieselMV01
   /* ---------------------------------------------
             switches
       --------------------------------------------- */
-  parameter PropulsionSystem.Types.switches.switch_fuel switchFuelType = PropulsionSystem.Types.switches.switch_fuel.gasoline "switch, fuel type, determines function used in effComb calculation." annotation(
+  parameter PropulsionSystem.Types.switches.switch_fuel switchFuelType = PropulsionSystem.Types.switches.switch_fuel.diesel "switch, fuel type, determines function used in effComb calculation." annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
     Evaluate = true,
@@ -20,9 +20,9 @@ model PistonCylinderNonidealDieselMV01
   /* ---------------------------------------------
                           parameters
       --------------------------------------------- */
-  parameter Real CR_paramInput = 12.0 "compression ratio";
+  parameter Real CR_paramInput = 18.0 "compression ratio";
   parameter Modelica.SIunits.Volume VolDisp_paramInput = 100.0 * 10.0 ^ (-6.0) "displacement";
-  parameter Modelica.SIunits.SpecificEnthalpy LHV_fuel_paramInput = 43.4 * 10.0 ^ 6.0 "lower heating value of fuel";
+  parameter Modelica.SIunits.SpecificEnthalpy LHV_fuel_paramInput = 42.6 * 10.0 ^ 6.0 "lower heating value of fuel";
   /* ---------------------------------------------
                           Internal variables
       --------------------------------------------- */
@@ -47,28 +47,27 @@ model PistonCylinderNonidealDieselMV01
   Modelica.SIunits.Volume arr_V[8];
   /* ---------------------------------------------
                           Internal objects
-      --------------------------------------------- */
-  PropulsionSystem.Subelements.OttoCycleNonideal00 OttoCycle(redeclare package Medium = Medium, switch_u_thermoState = PropulsionSystem.Types.switches.switch_input_ThermodynamicState.use_u_for_ThermodynamicState) annotation(
-    Placement(visible = true, transformation(origin = {3.55271e-15, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  --------------------------------------------- */
+  PropulsionSystem.Subelements.DieselCycleNonideal00 DieselCycle(redeclare package Medium = Medium, switch_u_thermoState = PropulsionSystem.Types.switches.switch_input_ThermodynamicState.use_u_for_ThermodynamicState) annotation(
+    Placement(visible = true, transformation(origin = {10, -30}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
   PropulsionSystem.Subelements.CombustionEfficiency00 calcEffComb(switchFuel = switchFuelType) annotation(
     Placement(visible = true, transformation(origin = {-60, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  
   /* ---------------------------------------------
                           Interface
-      --------------------------------------------- */
+  --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_fracFuel annotation(
     Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-90, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_m_flow_fuel(quantity = "MassFlowRate", unit = "kg/s", displayUnit = "kg/s") annotation(
     Placement(visible = true, transformation(origin = {110, 38}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_fracAir annotation(
     Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  //******************************************************************************************
+//******************************************************************************************
 equation
-  connect(calcEffComb.y_effComb, OttoCycle.u_effComb) annotation(
-    Line(points = {{-49, 36}, {-30, 36}, {-30, -4}, {-23, -4}}, color = {0, 0, 127}));
-  connect(calcEffComb.y_fracFuelSat, OttoCycle.u_fracFuel) annotation(
-    Line(points = {{-48, 32}, {-36, 32}, {-36, -12}, {-23, -12}}, color = {0, 0, 127}));
-  connect(elementBus1.LHV_fuel, OttoCycle.LHV_fuel) annotation(
-    Line);
+  connect(calcEffComb.y_fracFuelSat, DieselCycle.u_fracFuel) annotation(
+    Line(points = {{-48, 32}, {-42, 32}, {-42, -12}, {-24, -12}, {-24, -12}}, color = {0, 0, 127}));
+  connect(calcEffComb.y_effComb, DieselCycle.u_effComb) annotation(
+    Line(points = {{-48, 36}, {-36, 36}, {-36, -2}, {-24, -2}, {-24, -2}}, color = {0, 0, 127}));
   connect(elementBus1.pwrFuelSply, pwrFuelSply);
   connect(u_fracAir, calcEffComb.u_fracAir) annotation(
     Line(points = {{-120, 40}, {-86, 40}, {-86, 36}, {-71, 36}}, color = {0, 0, 127}));
@@ -79,16 +78,16 @@ equation
   --------------------------------------------- */
   m_flow_fuel = m_flow * u_fracFuel;
 //---
-  OttoCycle.u_p_fluidState_1 = fluid_1.p;
-  OttoCycle.u_u_fluidState_1 = fluid_1.u;
-  OttoCycle.u_Xi_fluidState_1[1:Medium.nXi] = fluid_1.Xi;
+  DieselCycle.u_p_fluidState_1 = fluid_1.p;
+  DieselCycle.u_u_fluidState_1 = fluid_1.u;
+  DieselCycle.u_Xi_fluidState_1[1:Medium.nXi] = fluid_1.Xi;
 //---
 //---
-  OttoCycle.par_CR = CR_paramInput;
-  OttoCycle.par_VolDisp = VolDisp;
-  OttoCycle.par_LHV_fuel = LHV_fuel_paramInput;
+  DieselCycle.par_CR = CR_paramInput;
+  DieselCycle.par_VolDisp = VolDisp;
+  DieselCycle.par_LHV_fuel = LHV_fuel_paramInput;
 //---
-  WoutCycle = OttoCycle.y_WoutCycle;
+  WoutCycle = DieselCycle.y_WoutCycle;
   y_m_flow_fuel = m_flow_fuel;
 /* ---------------------------------------------
   Eqns describing physics
@@ -97,38 +96,38 @@ equation
   CR = CR_paramInput;
   VolDisp = VolDisp_paramInput;
 //---
-  fluid_2.Xi = OttoCycle.y_Xi_fluidState_4;
-  dh_state4_port2 = fluid_2.h - OttoCycle.y_h_fluidState_4;
+  fluid_2.Xi = DieselCycle.y_Xi_fluidState_4;
+  dh_state4_port2 = fluid_2.h - DieselCycle.y_h_fluidState_4;
   WintkCycle = fluid_1.p * (-1.0) * VolDisp;
   WexhCycle = fluid_2.p * VolDisp;
   pwrIntk = 1.0 / 2.0 * Nmech * 1.0 / 60.0 * WintkCycle;
   pwrExh = 1.0 / 2.0 * Nmech * 1.0 / 60.0 * WexhCycle;
   pwrPumping = pwrIntk + pwrExh;
   pwrPumpingqPwrCycle = pwrPumping / (-1.0 * pwrCycle);
-  pwrFuelSply = OttoCycle.LHV_fuel * m_flow_fuel;
+  pwrFuelSply = DieselCycle.LHV_fuel * m_flow_fuel;
 //---
-  fluid_2.h = OttoCycle.y_h_fluidState_4 + pwrPumping / (-1.0 * port_2.m_flow);
+  fluid_2.h = DieselCycle.y_h_fluidState_4 + pwrPumping / (-1.0 * port_2.m_flow);
 //---
   pwrCycle = 1.0 / 2.0 * (-1.0) * WoutCycle * Nmech * 1.0 / 60.0;
   pwr = pwrCycle + pwrPumping;
-  pwr_exp = 1.0 / 2.0 * OttoCycle.W_3_4 * Nmech * 1.0 / 60.0;
-  pwr_cmp = 1.0 / 2.0 * OttoCycle.W_1_2 * Nmech * 1.0 / 60.0;
-  Q_add = 1.0 / 2.0 * OttoCycle.y_Q_2_3 * Nmech * 1.0 / 60.0;
-  Q_reject = 1.0 / 2.0 * OttoCycle.y_Q_4_1 * Nmech * 1.0 / 60.0;
+  pwr_exp = 1.0 / 2.0 * DieselCycle.W_3_4 * Nmech * 1.0 / 60.0;
+  pwr_cmp = 1.0 / 2.0 * DieselCycle.W_1_2 * Nmech * 1.0 / 60.0;
+  Q_add = 1.0 / 2.0 * DieselCycle.y_Q_2_3 * Nmech * 1.0 / 60.0;
+  Q_reject = 1.0 / 2.0 * DieselCycle.y_Q_4_1 * Nmech * 1.0 / 60.0;
 //---
-  arr_V[1] = OttoCycle.Vol1;
-  arr_V[2] = OttoCycle.Vol2;
-  arr_V[3] = OttoCycle.Vol3;
-  arr_V[4] = OttoCycle.Vol4;
-  arr_V[5] = OttoCycle.Vol4;
-  arr_V[6] = OttoCycle.Vol2;
-  arr_V[7] = OttoCycle.Vol2;
-  arr_V[8] = OttoCycle.Vol1;
+  arr_V[1] = DieselCycle.Vol1;
+  arr_V[2] = DieselCycle.Vol2;
+  arr_V[3] = DieselCycle.Vol3;
+  arr_V[4] = DieselCycle.Vol4;
+  arr_V[5] = DieselCycle.Vol4;
+  arr_V[6] = DieselCycle.Vol2;
+  arr_V[7] = DieselCycle.Vol2;
+  arr_V[8] = DieselCycle.Vol1;
 //---
-  arr_p[1] = OttoCycle.fluidState_1.p;
-  arr_p[2] = OttoCycle.fluidState_2.p;
-  arr_p[3] = OttoCycle.fluidState_3.p;
-  arr_p[4] = OttoCycle.fluidState_4.p;
+  arr_p[1] = DieselCycle.fluidState_1.p;
+  arr_p[2] = DieselCycle.fluidState_2.p;
+  arr_p[3] = DieselCycle.fluidState_3.p;
+  arr_p[4] = DieselCycle.fluidState_4.p;
   arr_p[5] = fluid_2.p;
   arr_p[6] = fluid_2.p;
   arr_p[7] = fluid_1.p;
