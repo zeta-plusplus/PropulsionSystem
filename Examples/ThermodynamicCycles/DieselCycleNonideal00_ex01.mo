@@ -11,9 +11,9 @@ model DieselCycleNonideal00_ex01
     Placement(visible = true, transformation(origin = {30, 98}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const_CR(k = 8) annotation(
     Placement(visible = true, transformation(origin = {30, 68}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_p_fluidState_1(duration = 10, height = 100 * 1000, offset = 101.325 * 1000, startTime = 50) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_p_fluidState_1(duration = 10, height = 0 *100 * 1000, offset = 101.325 * 1000, startTime = 50) annotation(
     Placement(visible = true, transformation(origin = {-30, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_T_fluidState_1(duration = 10, height = 20, offset = 15 + 273.15, startTime = 70) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_T_fluidState_1(duration = 10, height = 0 *20, offset = 15 + 273.15, startTime = 70) annotation(
     Placement(visible = true, transformation(origin = {-30, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const_Xi_fluidState_1[PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00.nXi](k = {0.0, 0.768, 0.232}) annotation(
     Placement(visible = true, transformation(origin = {-30, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

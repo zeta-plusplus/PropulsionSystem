@@ -63,7 +63,7 @@ model LycomO360_ex02
     Placement(visible = true, transformation(origin = {-140, 160}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Temperature temperature(redeclare package Medium = engineFluid) annotation(
     Placement(visible = true, transformation(origin = {-145, 115}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Shaft_eff(duration = 10, height = -0.5, offset = 0.9, startTime = 70) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_Shaft_eff(duration = 10, height = -0.0, offset = 0.63, startTime = 70) annotation(
     Placement(visible = true, transformation(origin = {98, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT fuelEnd(redeclare package Medium = liquidFuel, nPorts = 1, p = 101.325 * 1000, use_p_in = true)  annotation(
     Placement(visible = true, transformation(origin = {-250, 10}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
@@ -225,9 +225,9 @@ equation
   connect(PistonCylinder2.flange_2, PistonCylinder3.flange_1) annotation(
     Line(points = {{33, -56.3}, {60, -56.3}}));
   annotation(
-    experiment(StartTime = 0, StopTime = 100, Tolerance = 1e-06, Interval = 0.111111),
+    experiment(StartTime = 0, StopTime = 100, Tolerance = 1e-06, Interval = 0.05),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
-  Diagram(coordinateSystem(extent = {{-360, -140}, {260, 200}})),
+  Diagram(coordinateSystem(extent = {{-380, -140}, {260, 200}})),
     __OpenModelica_commandLineOptions = "",
   Icon);
 end LycomO360_ex02;
