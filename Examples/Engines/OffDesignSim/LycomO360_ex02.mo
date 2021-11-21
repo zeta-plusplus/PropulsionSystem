@@ -11,10 +11,6 @@ model LycomO360_ex02
   //-----
   inner Modelica.Fluid.System system(allowFlowReversal = false) annotation(
     Placement(visible = true, transformation(origin = {-90, 180}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 10, height = 0.0, offset = 0.056, startTime = 70) annotation(
-    Placement(visible = true, transformation(origin = {-190, -130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_MN(duration = 10, height = 0, offset = 0, startTime = 30) annotation(
-    Placement(visible = true, transformation(origin = {-364, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-70, 180}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sensors.PowerSensor powerSensor1 annotation(
@@ -23,10 +19,6 @@ model LycomO360_ex02
     Placement(visible = true, transformation(origin = {-103.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_alt(duration = 10, height = 2000, offset = 0, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-364, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const(k = 1) annotation(
-    Placement(visible = true, transformation(origin = {-190, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.Feedback feedback1 annotation(
-    Placement(visible = true, transformation(origin = {-160, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 throttle(redeclare package Medium = engineFluid, diam_paramInput = 2.4 * 2.54 * 0.01) annotation(
     Placement(visible = true, transformation(origin = {-220, 40}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   PropulsionSystem.Sources.FlightCondition2InletFluid01 Flt2Fluid(redeclare package Medium = engineFluid, use_u_MN = true, use_u_alt = true) annotation(
@@ -43,8 +35,6 @@ model LycomO360_ex02
     Placement(visible = true, transformation(origin = {210, -56}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
     Placement(visible = true, transformation(origin = {230, -30}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
-  Modelica.Blocks.Sources.Ramp ramp_Nmech(duration = 10, height = 0, offset = 2400, startTime = 30) annotation(
-    Placement(visible = true, transformation(origin = {230, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   Modelica.Fluid.Sensors.Pressure pressure1(redeclare package Medium = engineFluid) annotation(
     Placement(visible = true, transformation(origin = {-87, 115}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Fluid.Sensors.Pressure pressure2(redeclare package Medium = engineFluid) annotation(
@@ -59,8 +49,6 @@ model LycomO360_ex02
     Placement(visible = true, transformation(origin = {-120, 110}, extent = {{10, 10}, {-10, -10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Temperature temperature(redeclare package Medium = engineFluid) annotation(
     Placement(visible = true, transformation(origin = {-145, 115}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Shaft_eff(duration = 10, height = -0.0, offset = 0.63, startTime = 70) annotation(
-    Placement(visible = true, transformation(origin = {98, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT fuelEnd(redeclare package Medium = liquidFuel, nPorts = 1, p = 101.325 * 1000, use_p_in = true)  annotation(
     Placement(visible = true, transformation(origin = {-250, 10}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Fluid.Sources.Boundary_pT CarbResovoirOut(redeclare package Medium = liquidFuel, nPorts = 1, p = 2.0 * 101.325 * 1000, use_p_in = true)  annotation(
@@ -69,12 +57,10 @@ model LycomO360_ex02
     Placement(visible = true, transformation(origin = {-290, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Blocks.Math.Add add1 annotation(
     Placement(visible = true, transformation(origin = {-334, -62}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const1(k = 0.1 * 720 * environment.gravity)  annotation(
+  Modelica.Blocks.Sources.Constant const_tankHead(k = 0.1 * 720 * environment.gravity)  annotation(
     Placement(visible = true, transformation(origin = {-370, -68}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_mixture(duration = 10, height = -0.1, offset = 1, startTime = 50) annotation(
     Placement(visible = true, transformation(origin = {-310, -130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Cd_mixture(duration = 10, height = -0.0, offset = 0.6, startTime = 30) annotation(
-    Placement(visible = true, transformation(origin = {-310, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 MixtureValve(redeclare package Medium = liquidFuel, diam_paramInput = 0.00174) annotation(
     Placement(visible = true, transformation(origin = {-270, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate_fuel(redeclare package Medium = liquidFuel) annotation(
@@ -101,6 +87,14 @@ model LycomO360_ex02
     Placement(visible = true, transformation(origin = {-140, 150}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const_Cd_throttle(k = 0.7) annotation(
     Placement(visible = true, transformation(origin = {-340, 130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant const_Cd_mixture(k = 0.6) annotation(
+    Placement(visible = true, transformation(origin = {-310, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant const_Shaft_eff(k = 0.63) annotation(
+    Placement(visible = true, transformation(origin = {100, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant const_Nmech(k = 2400) annotation(
+    Placement(visible = true, transformation(origin = {230, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Blocks.Sources.Constant const_MN(k = 0.0) annotation(
+    Placement(visible = true, transformation(origin = {-364, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(const_Cd_throttle.y, throttle.u_Cd) annotation(
     Line(points = {{-328, 130}, {-228, 130}, {-228, 52}, {-228, 52}}, color = {0, 0, 127}));
@@ -170,8 +164,6 @@ equation
     Line(points = {{-299, 150}, {-222, 150}, {-222, 51}}, color = {0, 0, 127}));
   connect(CarbResovoirOut.ports[1], MixtureValve.port_1) annotation(
     Line(points = {{-294, -70}, {-280, -70}}, color = {0, 127, 255}));
-  connect(ramp_Cd_mixture.y, MixtureValve.u_Cd) annotation(
-    Line(points = {{-299, -100}, {-278, -100}, {-278, -81}}, color = {0, 0, 127}));
   connect(ramp_mixture.y, MixtureValve.u_kArea) annotation(
     Line(points = {{-298, -130}, {-272, -130}, {-272, -81}}, color = {0, 0, 127}));
   connect(throttle.port_2, massFlowRate_air.port_a) annotation(
@@ -184,10 +176,6 @@ equation
     Line(points = {{-301, -10}, {-353, -10}, {-353, -56}, {-345, -56}}, color = {0, 0, 127}));
   connect(pressure2.p, Pa2inHg.u) annotation(
     Line(points = {{-150.5, 35}, {-155, 35}, {-155, 26}}, color = {0, 0, 127}));
-  connect(ramp_fracFuel.y, feedback1.u2) annotation(
-    Line(points = {{-179, -130}, {-169.5, -130}, {-169.5, -130}, {-160, -130}, {-160, -119}, {-160, -119}, {-160, -108}}, color = {0, 0, 127}));
-  connect(const.y, feedback1.u1) annotation(
-    Line(points = {{-179, -100}, {-168, -100}}, color = {0, 0, 127}));
   connect(pressure2.port, PistonCylinder3.port_1) annotation(
     Line(points = {{-145, 40}, {60, 40}, {60, -23}}, color = {0, 127, 255}));
   connect(pressure2.port, PistonCylinder2.port_1) annotation(
@@ -198,14 +186,10 @@ equation
     Line(points = {{-145, 40}, {-60, 40}, {-60, -23}}, color = {0, 127, 255}));
   connect(add1.y, CarbResovoirOut.p_in) annotation(
     Line(points = {{-323, -62}, {-316, -62}}, color = {0, 0, 127}));
-  connect(const1.y, add1.u2) annotation(
+  connect(const_tankHead.y, add1.u2) annotation(
     Line(points = {{-359, -68}, {-347, -68}}, color = {0, 0, 127}));
-  connect(ramp_MN.y, Flt2Fluid.u_MN) annotation(
-    Line(points = {{-353, 20}, {-342, 20}, {-342, 44}, {-335, 44}}, color = {0, 0, 127}));
   connect(ramp_alt.y, Flt2Fluid.u_alt) annotation(
     Line(points = {{-353, 50}, {-344, 50}, {-344, 48}, {-335, 48}}, color = {0, 0, 127}));
-  connect(LossRotMech.u_eff, ramp_Shaft_eff.y) annotation(
-    Line(points = {{125, -63}, {125, -90}, {110, -90}}, color = {0, 0, 127}));
   connect(PistonCylinder3.flange_2, LossRotMech.flange_1) annotation(
     Line(points = {{94, -56}, {109, -56}}));
   connect(LossRotMech.flange_2, powerSensor1.flange_a) annotation(
@@ -220,10 +204,16 @@ equation
     Line(points = {{-27, -56}, {0, -56}}));
   connect(from_rpm1.y, speed1.w_ref) annotation(
     Line(points = {{230, -40}, {230, -40}, {230, -56}, {222, -56}, {222, -56}}, color = {0, 0, 127}));
-  connect(ramp_Nmech.y, from_rpm1.u) annotation(
-    Line(points = {{230, -10}, {230, -10}, {230, -18}, {230, -18}}, color = {0, 0, 127}));
   connect(PistonCylinder2.flange_2, PistonCylinder3.flange_1) annotation(
     Line(points = {{33, -56.3}, {60, -56.3}}));
+  connect(const_Cd_mixture.y, MixtureValve.u_Cd) annotation(
+    Line(points = {{-298, -100}, {-278, -100}, {-278, -80}}, color = {0, 0, 127}));
+  connect(const_Shaft_eff.y, LossRotMech.u_eff) annotation(
+    Line(points = {{112, -90}, {125, -90}, {125, -63}}, color = {0, 0, 127}));
+  connect(const_Nmech.y, from_rpm1.u) annotation(
+    Line(points = {{230, -11}, {230, -18}}, color = {0, 0, 127}));
+  connect(Flt2Fluid.u_MN, const_MN.y) annotation(
+    Line(points = {{-334, 44}, {-344, 44}, {-344, 20}, {-352, 20}}, color = {0, 0, 127}));
   annotation(
     experiment(StartTime = 0, StopTime = 100, Tolerance = 1e-06, Interval = 0.05),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
