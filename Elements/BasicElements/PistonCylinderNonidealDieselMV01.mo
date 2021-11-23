@@ -17,6 +17,11 @@ model PistonCylinderNonidealDieselMV01
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = true);
+  parameter Boolean use_regcurve_effComb = false "get effComb from regression curve, effComb=1 if false" annotation(
+    Evaluate = true,
+    HideResult = false,
+    choices(checkBox = true), Dialog(group = "switch"));
+  
   /* ---------------------------------------------
                           parameters
       --------------------------------------------- */
@@ -49,9 +54,9 @@ model PistonCylinderNonidealDieselMV01
                           Internal objects
   --------------------------------------------- */
   PropulsionSystem.Subelements.DieselCycleNonideal00 DieselCycle(redeclare package Medium = Medium, switch_u_thermoState = PropulsionSystem.Types.switches.switch_input_ThermodynamicState.use_u_for_ThermodynamicState) annotation(
-    Placement(visible = true, transformation(origin = {10, -30}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {50, -30}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
   PropulsionSystem.Subelements.CombustionEfficiency00 calcEffComb(switchFuel = switchFuelType) annotation(
-    Placement(visible = true, transformation(origin = {-60, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-70, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
   /* ---------------------------------------------
                           Interface
@@ -62,17 +67,26 @@ model PistonCylinderNonidealDieselMV01
     Placement(visible = true, transformation(origin = {110, 38}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_fracAir annotation(
     Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+              Modelica.Blocks.Logical.Switch switch1 annotation(
+    Placement(visible = true, transformation(origin = {-20, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant const(k = 1)  annotation(
+    Placement(visible = true, transformation(origin = {-70, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 //******************************************************************************************
 equation
-  connect(calcEffComb.y_fracFuelSat, DieselCycle.u_fracFuel) annotation(
-    Line(points = {{-48, 32}, {-42, 32}, {-42, -12}, {-24, -12}, {-24, -12}}, color = {0, 0, 127}));
-  connect(calcEffComb.y_effComb, DieselCycle.u_effComb) annotation(
-    Line(points = {{-48, 36}, {-36, 36}, {-36, -2}, {-24, -2}, {-24, -2}}, color = {0, 0, 127}));
-  connect(elementBus1.pwrFuelSply, pwrFuelSply);
+  connect(switch1.y, DieselCycle.u_effComb) annotation(
+    Line(points = {{-8, 30}, {4, 30}, {4, -4}, {16, -4}, {16, -2}}, color = {0, 0, 127}));
+  connect(calcEffComb.y_effComb, switch1.u1) annotation(
+    Line(points = {{-58, 36}, {-48, 36}, {-48, 38}, {-32, 38}, {-32, 38}}, color = {0, 0, 127}));
+  connect(const.y, switch1.u3) annotation(
+    Line(points = {{-58, -30}, {-46, -30}, {-46, 22}, {-32, 22}, {-32, 22}}, color = {0, 0, 127}));
   connect(u_fracAir, calcEffComb.u_fracAir) annotation(
-    Line(points = {{-120, 40}, {-86, 40}, {-86, 36}, {-71, 36}}, color = {0, 0, 127}));
+    Line(points = {{-120, 40}, {-94, 40}, {-94, 36}, {-81, 36}}, color = {0, 0, 127}));
+  connect(calcEffComb.y_fracFuelSat, DieselCycle.u_fracFuel) annotation(
+    Line(points = {{-59, 32}, {-56, 32}, {-56, -12}, {15, -12}}, color = {0, 0, 127}));
   connect(u_fracFuel, calcEffComb.u_fracFuel) annotation(
-    Line(points = {{-120, 0}, {-92, 0}, {-92, 24}, {-71, 24}}, color = {0, 0, 127}));
+    Line(points = {{-120, 0}, {-92, 0}, {-92, 24}, {-81, 24}}, color = {0, 0, 127}));
+  connect(elementBus1.pwrFuelSply, pwrFuelSply);
+  switch1.u2= use_regcurve_effComb;
 /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */

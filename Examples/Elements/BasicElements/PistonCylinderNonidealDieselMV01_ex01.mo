@@ -11,7 +11,7 @@ model PistonCylinderNonidealDieselMV01_ex01
     Placement(visible = true, transformation(origin = {-90, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = Modelica.Media.Air.DryAirNasa, T = 15 + 273.15, nPorts = 1, p = 101.325 * 1000, use_T_in = true, use_p_in = true) annotation(
     Placement(visible = true, transformation(origin = {-90, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 10, height = 0.04, offset = 0.02, startTime = 70) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_fracFuel(duration = 1, height = 0.04, offset = 0.02, startTime = 70) annotation(
     Placement(visible = true, transformation(origin = {-110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_T1(duration = 10, height = 0, offset = 15 + 273.15, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-130, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -33,7 +33,7 @@ model PistonCylinderNonidealDieselMV01_ex01
     Placement(visible = true, transformation(origin = {10, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_p1(duration = 10, height = 0 * 1000, offset = 101.325 * 1000, startTime = 50) annotation(
     Placement(visible = true, transformation(origin = {-130, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 5e-3, w(fixed = true, start = 2000 * (2 * Modelica.Constants.pi / 60))) annotation(
+  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 5e-2, w(fixed = true, start = 2000 * (2 * Modelica.Constants.pi / 60))) annotation(
     Placement(visible = true, transformation(origin = {50, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sources.Torque torque1 annotation(
     Placement(visible = true, transformation(origin = {80, -30}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
