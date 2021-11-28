@@ -46,18 +46,18 @@ model PistonCylinderNonidealDieselMV01_ex01
   Modelica.Blocks.Math.Feedback feedback1 annotation(
     Placement(visible = true, transformation(origin = {-80, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealDieselMV01 PistonCylinder(redeclare package Medium = Modelica.Media.Air.DryAirNasa) annotation(
-    Placement(visible = true, transformation(origin = {-20, -10}, extent = {{-20, -24}, {20, 24}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-20, -12}, extent = {{-20, -24}, {20, 24}}, rotation = 0)));
 equation
   connect(Orifice.port_2, PistonCylinder.port_1) annotation(
-    Line(points = {{-50, 20}, {-40, 20}, {-40, 10}, {-40, 10}}, color = {0, 127, 255}));
+    Line(points = {{-50, 20}, {-40, 20}, {-40, 8}}, color = {0, 127, 255}));
   connect(ramp_fracFuel.y, PistonCylinder.u_fracFuel) annotation(
-    Line(points = {{-98, -60}, {-50, -60}, {-50, -6}, {-38, -6}, {-38, -6}}, color = {0, 0, 127}));
+    Line(points = {{-98, -60}, {-50, -60}, {-50, -8}, {-38, -8}}, color = {0, 0, 127}));
   connect(feedback1.y, PistonCylinder.u_fracAir) annotation(
-    Line(points = {{-70, -30}, {-62, -30}, {-62, 2}, {-42, 2}, {-42, 2}}, color = {0, 0, 127}));
+    Line(points = {{-70, -30}, {-62, -30}, {-62, 0}, {-42, 0}}, color = {0, 0, 127}));
   connect(PistonCylinder.flange_2, powerSensor1.flange_a) annotation(
-    Line(points = {{0, -30}, {10, -30}, {10, -30}, {10, -30}}));
+    Line(points = {{0, -30}, {10, -30}}));
   connect(PistonCylinder.port_2, Orifice1.port_1) annotation(
-    Line(points = {{0, 10}, {20, 10}}, color = {0, 127, 255}));
+    Line(points = {{0, 8}, {10, 8}, {10, 10}, {20, 10}}, color = {0, 127, 255}));
   connect(ramp_zeta1.y, Orifice1.u_zeta) annotation(
     Line(points = {{22, 50}, {26, 50}, {26, 21}}, color = {0, 0, 127}));
   connect(Orifice1.port_2, boundary1.ports[1]) annotation(

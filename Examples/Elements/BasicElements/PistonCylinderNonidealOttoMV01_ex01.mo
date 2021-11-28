@@ -24,7 +24,7 @@ model PistonCylinderNonidealOttoMV01_ex01
   Modelica.Fluid.Sources.Boundary_pT boundary1(redeclare package Medium = engineFluid, T = 15 + 273.15, nPorts = 1, p = 101.325 * 1000) annotation(
     Placement(visible = true, transformation(origin = {56, 60}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder(redeclare package Medium = engineFluid) annotation(
-    Placement(visible = true, transformation(origin = {-20.1666, -9.8}, extent = {{-19.8334, -23.8}, {19.8334, 23.8}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-20.1666, -11.8}, extent = {{-19.8334, -23.8}, {19.8334, 23.8}}, rotation = 0)));
   FluidSystemComponents.CommonAnyFluid.Components.VariableZetaOrifice00 Orifice(redeclare package Medium = engineFluid, AmechTh_paramInput = Modelica.Constants.pi / 4.0 * 0.05 ^ 2)  annotation(
     Placement(visible = true, transformation(origin = {-60, 20}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_zeta(duration = 10, height = 2, offset = 1, startTime = 10) annotation(
@@ -49,13 +49,13 @@ model PistonCylinderNonidealOttoMV01_ex01
     Placement(visible = true, transformation(origin = {-80, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(ramp_fracFuel.y, PistonCylinder.u_fracFuel) annotation(
-    Line(points = {{-99, -60}, {-62, -60}, {-62, -6}, {-38, -6}}, color = {0, 0, 127}));
+    Line(points = {{-99, -60}, {-62, -60}, {-62, -8}, {-38, -8}}, color = {0, 0, 127}));
   connect(feedback1.y, PistonCylinder.u_fracAir) annotation(
-    Line(points = {{-71, -30}, {-66, -30}, {-66, 2}, {-42, 2}}, color = {0, 0, 127}));
+    Line(points = {{-71, -30}, {-66, -30}, {-66, 0}, {-42, 0}}, color = {0, 0, 127}));
   connect(PistonCylinder.port_2, Orifice1.port_1) annotation(
-    Line(points = {{0, 10}, {20, 10}}, color = {0, 127, 255}));
+    Line(points = {{0, 8}, {10, 8}, {10, 10}, {20, 10}}, color = {0, 127, 255}));
   connect(Orifice.port_2, PistonCylinder.port_1) annotation(
-    Line(points = {{-50, 20}, {-40, 20}, {-40, 10}}, color = {0, 127, 255}));
+    Line(points = {{-50, 20}, {-40, 20}, {-40, 8}}, color = {0, 127, 255}));
   connect(PistonCylinder.flange_2, powerSensor1.flange_a) annotation(
     Line(points = {{0, -30}, {10, -30}}));
   connect(ramp_zeta1.y, Orifice1.u_zeta) annotation(

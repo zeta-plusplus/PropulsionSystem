@@ -16,7 +16,7 @@ model LycomO360_ex02
   Modelica.Mechanics.Rotational.Sensors.PowerSensor powerSensor1 annotation(
     Placement(visible = true, transformation(origin = {150, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 5916 * 10 ^ (-6) / 4.0) annotation(
-    Placement(visible = true, transformation(origin = {-103.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-103.5, -40.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_alt(duration = 10, height = 0, offset = 0, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-364, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 throttle(redeclare package Medium = engineFluid, diam_paramInput = 2.4 * 2.54 * 0.01) annotation(
@@ -24,13 +24,13 @@ model LycomO360_ex02
   PropulsionSystem.Sources.FlightCondition2InletFluid01 Flt2Fluid(redeclare package Medium = engineFluid, use_u_MN = true, use_u_alt = true) annotation(
     Placement(visible = true, transformation(origin = {-324, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder1(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 5916 * 10 ^ (-6) / 4.0) annotation(
-    Placement(visible = true, transformation(origin = {-43.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-43.5, -40.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder2(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 5916 * 10 ^ (-6) / 4.0) annotation(
-    Placement(visible = true, transformation(origin = {16.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {16.5, -40.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_throttle(duration = 10, height = 0.25, offset = 0.75, startTime = 70) annotation(
     Placement(visible = true, transformation(origin = {-310, 150}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder3(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 5916 * 10 ^ (-6) / 4.0) annotation(
-    Placement(visible = true, transformation(origin = {76.5, -39.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {76.5, -40.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
   Modelica.Fluid.Sensors.Pressure pressure1(redeclare package Medium = engineFluid) annotation(
     Placement(visible = true, transformation(origin = {-87, 115}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Fluid.Sensors.Pressure pressure2(redeclare package Medium = engineFluid) annotation(
@@ -123,25 +123,25 @@ equation
   connect(volumeFlowRate_fuel.V_flow, V_flow_fuel_usgph.u) annotation(
     Line(points = {{-244, -20}, {-238, -20}, {-238, -20}, {-238, -20}}, color = {0, 0, 127}));
   connect(division1.y, PistonCylinder3.u_fracAir) annotation(
-    Line(points = {{-159.5, -15}, {50, -15}, {50, -30}, {58, -30}}, color = {0, 0, 127}));
+    Line(points = {{-159.5, -15}, {50, -15}, {50, -31}, {58, -31}}, color = {0, 0, 127}));
   connect(division1.y, PistonCylinder2.u_fracAir) annotation(
-    Line(points = {{-159.5, -15}, {-12, -15}, {-12, -30}, {-2, -30}}, color = {0, 0, 127}));
+    Line(points = {{-159.5, -15}, {-12, -15}, {-12, -31}, {-2, -31}}, color = {0, 0, 127}));
   connect(division1.y, PistonCylinder1.u_fracAir) annotation(
-    Line(points = {{-159.5, -15}, {-70, -15}, {-70, -30}, {-62, -30}}, color = {0, 0, 127}));
+    Line(points = {{-159.5, -15}, {-70, -15}, {-70, -31}, {-62, -31}}, color = {0, 0, 127}));
   connect(division1.y, PistonCylinder.u_fracAir) annotation(
-    Line(points = {{-159.5, -15}, {-134, -15}, {-134, -30}, {-122, -30}}, color = {0, 0, 127}));
+    Line(points = {{-159.5, -15}, {-134, -15}, {-134, -31}, {-122, -31}}, color = {0, 0, 127}));
   connect(massFlowRate_air.m_flow, division1.u1) annotation(
     Line(points = {{-195, 34.5}, {-195, -12}, {-171, -12}}, color = {0, 0, 127}));
   connect(add2.y, division1.u2) annotation(
     Line(points = {{-179, -37}, {-176, -37}, {-176, -18}, {-171, -18}}, color = {0, 0, 127}));
   connect(division2.y, PistonCylinder3.u_fracFuel) annotation(
-    Line(points = {{-159.5, -75}, {48, -75}, {48, -36}, {62, -36}}, color = {0, 0, 127}));
+    Line(points = {{-159.5, -75}, {48, -75}, {48, -37}, {62, -37}}, color = {0, 0, 127}));
   connect(division2.y, PistonCylinder2.u_fracFuel) annotation(
-    Line(points = {{-159.5, -75}, {-10, -75}, {-10, -36}, {2, -36}}, color = {0, 0, 127}));
+    Line(points = {{-159.5, -75}, {-10, -75}, {-10, -37}, {2, -37}}, color = {0, 0, 127}));
   connect(division2.y, PistonCylinder1.u_fracFuel) annotation(
-    Line(points = {{-159.5, -75}, {-68, -75}, {-68, -36}, {-58, -36}}, color = {0, 0, 127}));
+    Line(points = {{-159.5, -75}, {-68, -75}, {-68, -37}, {-58, -37}}, color = {0, 0, 127}));
   connect(division2.y, PistonCylinder.u_fracFuel) annotation(
-    Line(points = {{-159.5, -75}, {-138, -75}, {-138, -36}, {-118, -36}}, color = {0, 0, 127}));
+    Line(points = {{-159.5, -75}, {-138, -75}, {-138, -37}, {-118, -37}}, color = {0, 0, 127}));
   connect(add2.y, division2.u2) annotation(
     Line(points = {{-179, -37}, {-178, -37}, {-178, -78}, {-171, -78}}, color = {0, 0, 127}));
   connect(massFlowRate_fuel.m_flow, division2.u1) annotation(
@@ -163,13 +163,13 @@ equation
   connect(exhLine.port_1, pressure1.port) annotation(
     Line(points = {{-110, 110}, {-87, 110}}, color = {255, 85, 0}));
   connect(pressure1.port, PistonCylinder.port_2) annotation(
-    Line(points = {{-87, 110}, {-87, -23}}, color = {255, 85, 0}));
+    Line(points = {{-87, 110}, {-87, -24}}, color = {255, 85, 0}));
   connect(pressure1.port, PistonCylinder1.port_2) annotation(
-    Line(points = {{-87, 110}, {-27, 110}, {-27, -23}}, color = {255, 85, 0}));
+    Line(points = {{-87, 110}, {-27, 110}, {-27, -24}}, color = {255, 85, 0}));
   connect(pressure1.port, PistonCylinder2.port_2) annotation(
-    Line(points = {{-87, 110}, {33, 110}, {33, -23}}, color = {255, 85, 0}));
+    Line(points = {{-87, 110}, {33, 110}, {33, -24}}, color = {255, 85, 0}));
   connect(pressure1.port, PistonCylinder3.port_2) annotation(
-    Line(points = {{-87, 110}, {93, 110}, {93, -23}}, color = {255, 85, 0}));
+    Line(points = {{-87, 110}, {93, 110}, {93, -24}}, color = {255, 85, 0}));
   connect(temperature.port, exhLine.port_2) annotation(
     Line(points = {{-145, 110}, {-130, 110}}, color = {255, 85, 0}));
   connect(Flt2Fluid.port_amb4sink, temperature.port) annotation(
@@ -191,13 +191,13 @@ equation
   connect(pressure2.p, Pa2inHg.u) annotation(
     Line(points = {{-150.5, 35}, {-155, 35}, {-155, 26}}, color = {0, 0, 127}));
   connect(pressure2.port, PistonCylinder3.port_1) annotation(
-    Line(points = {{-145, 40}, {60, 40}, {60, -23}}, color = {0, 127, 255}));
+    Line(points = {{-145, 40}, {60, 40}, {60, -24}}, color = {0, 127, 255}));
   connect(pressure2.port, PistonCylinder2.port_1) annotation(
-    Line(points = {{-145, 40}, {0, 40}, {0, -23}}, color = {0, 127, 255}));
+    Line(points = {{-145, 40}, {0, 40}, {0, -24}}, color = {0, 127, 255}));
   connect(pressure2.port, PistonCylinder.port_1) annotation(
-    Line(points = {{-145, 40}, {-120, 40}, {-120, -23}}, color = {0, 127, 255}));
+    Line(points = {{-145, 40}, {-120, 40}, {-120, -24}}, color = {0, 127, 255}));
   connect(pressure2.port, PistonCylinder1.port_1) annotation(
-    Line(points = {{-145, 40}, {-60, 40}, {-60, -23}}, color = {0, 127, 255}));
+    Line(points = {{-145, 40}, {-60, 40}, {-60, -24}}, color = {0, 127, 255}));
   connect(add1.y, CarbResovoirOut.p_in) annotation(
     Line(points = {{-323, -62}, {-316, -62}}, color = {0, 0, 127}));
   connect(const_tankHead.y, add1.u2) annotation(
@@ -205,7 +205,7 @@ equation
   connect(ramp_alt.y, Flt2Fluid.u_alt) annotation(
     Line(points = {{-353, 50}, {-344, 50}, {-344, 48}, {-335, 48}}, color = {0, 0, 127}));
   connect(PistonCylinder3.flange_2, LossRotMech.flange_1) annotation(
-    Line(points = {{94, -56}, {109, -56}}));
+    Line(points = {{93, -56}, {109, -56}}));
   connect(LossRotMech.flange_2, powerSensor1.flange_a) annotation(
     Line(points = {{129, -56}, {140, -56}}));
   connect(powerSensor1.power, W2hp.u) annotation(
@@ -215,7 +215,7 @@ equation
   connect(PistonCylinder1.flange_2, PistonCylinder2.flange_1) annotation(
     Line(points = {{-27, -56}, {0, -56}}));
   connect(PistonCylinder2.flange_2, PistonCylinder3.flange_1) annotation(
-    Line(points = {{33, -56.3}, {60, -56.3}}));
+    Line(points = {{33, -56}, {60, -56}}));
   connect(const_Cd_mixture.y, MixtureValve.u_Cd) annotation(
     Line(points = {{-298, -100}, {-278, -100}, {-278, -80}}, color = {0, 0, 127}));
   connect(const_Shaft_eff.y, LossRotMech.u_eff) annotation(
