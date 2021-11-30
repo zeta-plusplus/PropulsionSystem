@@ -3,15 +3,15 @@ within PropulsionSystem.Elements.BasicElements;
 model PistonCylinderNonidealDieselMV01
   extends PropulsionSystem.BaseClasses.BasicElements.PistonCylinder4strkBase00;
   /********************************************************
-                      imports
-                  ********************************************************/
+                        imports
+                    ********************************************************/
   import Modelica.Constants;
   /********************************************************
-                      Declaration
-      ********************************************************/
+                        Declaration
+        ********************************************************/
   /* ---------------------------------------------
-            switches
-      --------------------------------------------- */
+              switches
+        --------------------------------------------- */
   parameter PropulsionSystem.Types.switches.switch_fuel switchFuelType = PropulsionSystem.Types.switches.switch_fuel.diesel "switch, fuel type, determines function used in effComb calculation." annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
@@ -20,17 +20,17 @@ model PistonCylinderNonidealDieselMV01
   parameter Boolean use_regcurve_effComb = false "get effComb from regression curve, effComb=1 if false" annotation(
     Evaluate = true,
     HideResult = false,
-    choices(checkBox = true), Dialog(group = "switch"));
-  
+    choices(checkBox = true),
+    Dialog(group = "switch"));
   /* ---------------------------------------------
-                          parameters
-      --------------------------------------------- */
+                            parameters
+        --------------------------------------------- */
   parameter Real CR_paramInput = 18.0 "compression ratio";
   parameter Modelica.SIunits.Volume VolDisp_paramInput = 100.0 * 10.0 ^ (-6.0) "displacement";
   parameter Modelica.SIunits.SpecificEnthalpy LHV_fuel_paramInput = 42.6 * 10.0 ^ 6.0 "lower heating value of fuel";
   /* ---------------------------------------------
-                          Internal variables
-      --------------------------------------------- */
+                            Internal variables
+        --------------------------------------------- */
   Modelica.SIunits.MassFlowRate m_flow_fuel "mass flow rate of fuel" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.SpecificEnthalpy dh_state4_port2 "enthalpy change by puming, state4 to port2" annotation(
@@ -51,27 +51,29 @@ model PistonCylinderNonidealDieselMV01
   Modelica.SIunits.Pressure arr_p[8];
   Modelica.SIunits.Volume arr_V[8];
   /* ---------------------------------------------
-                          Internal objects
-  --------------------------------------------- */
+                            Internal objects
+    --------------------------------------------- */
   PropulsionSystem.Subelements.DieselCycleNonideal00 DieselCycle(redeclare package Medium = Medium, switch_u_thermoState = PropulsionSystem.Types.switches.switch_input_ThermodynamicState.use_u_for_ThermodynamicState) annotation(
     Placement(visible = true, transformation(origin = {50, -30}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
   PropulsionSystem.Subelements.CombustionEfficiency00 calcEffComb(switchFuel = switchFuelType) annotation(
     Placement(visible = true, transformation(origin = {-70, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
   /* ---------------------------------------------
-                          Interface
-  --------------------------------------------- */
+                            Interface
+    --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_fracFuel annotation(
     Placement(visible = true, transformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-90, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealOutput y_m_flow_fuel(quantity = "MassFlowRate", unit = "kg/s", displayUnit = "kg/s") annotation(
     Placement(visible = true, transformation(origin = {110, 38}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interfaces.RealInput u_fracAir annotation(
     Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-              Modelica.Blocks.Logical.Switch switch1 annotation(
+  Modelica.Blocks.Logical.Switch switch1 annotation(
     Placement(visible = true, transformation(origin = {-20, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const(k = 1)  annotation(
+  Modelica.Blocks.Sources.Constant const(k = 1) annotation(
     Placement(visible = true, transformation(origin = {-70, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-//******************************************************************************************
+  Modelica.Blocks.Interfaces.RealOutput y_p2(displayUnit = "Pa", quantity = "Pressure", unit = "Pa") annotation(
+    Placement(visible = true, transformation(origin = {0, 130}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {0, 105}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+
+  //******************************************************************************************
 equation
   connect(switch1.y, DieselCycle.u_effComb) annotation(
     Line(points = {{-8, 30}, {4, 30}, {4, -4}, {16, -4}, {16, -2}}, color = {0, 0, 127}));
@@ -86,7 +88,7 @@ equation
   connect(u_fracFuel, calcEffComb.u_fracFuel) annotation(
     Line(points = {{-120, 0}, {-92, 0}, {-92, 24}, {-81, 24}}, color = {0, 0, 127}));
   connect(elementBus1.pwrFuelSply, pwrFuelSply);
-  switch1.u2= use_regcurve_effComb;
+  switch1.u2 = use_regcurve_effComb;
 /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
@@ -103,6 +105,7 @@ equation
 //---
   WoutCycle = DieselCycle.y_WoutCycle;
   y_m_flow_fuel = m_flow_fuel;
+  y_p2= DieselCycle.fluidState_2.p;
 /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
