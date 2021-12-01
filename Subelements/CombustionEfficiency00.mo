@@ -1,6 +1,7 @@
 within PropulsionSystem.Subelements;
 
 block CombustionEfficiency00
+  extends PropulsionSystem.Icons.Icon_Combustion;
   /* ************************************************************
   ref:
     https://x-engineer.org/automotive-engineering/internal-combustion-engines/performance/air-fuel-ratio-lambda-engine-performance/
@@ -130,7 +131,7 @@ equation
   annotation(
     defaultComponentName = "calcEffComb",
     Diagram(coordinateSystem(initialScale = 0.1)),
-  Icon(graphics = {Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {1, -88}, extent = {{-101, 10}, {99, -10}}, textString = "%name"), Polygon(origin = {-4, -9}, rotation = 90, lineColor = {184, 9, 55}, fillColor = {255, 11, 27}, fillPattern = FillPattern.Solid, lineThickness = 1.5, points = {{-68, -3}, {-64, 15}, {-54, 31}, {-38, 41}, {-14, 51}, {12, 51}, {38, 39}, {58, 25}, {76, 11}, {98, -11}, {64, 1}, {44, 5}, {28, 5}, {14, -1}, {0, -11}, {-10, -27}, {-22, -37}, {-40, -41}, {-56, -35}, {-66, -21}, {-68, -3}}), Polygon(origin = {-11, -33}, rotation = 90, lineColor = {217, 140, 7}, fillColor = {255, 183, 1}, fillPattern = FillPattern.Solid, points = {{-31, 3}, {-23, 11}, {-15, 15}, {-1, 19}, {11, 21}, {23, 19}, {37, 15}, {23, 11}, {7, 3}, {-1, -7}, {-5, -17}, {-15, -25}, {-27, -25}, {-35, -17}, {-37, -9}, {-31, 3}})}, coordinateSystem(initialScale = 0.1)),
+  Icon(graphics = {Text(origin = {1, -88}, extent = {{-101, 10}, {99, -10}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)),
   experiment(StartTime = 0, StopTime = 30, Tolerance = 1e-6, Interval = 0.06),
   __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
   
