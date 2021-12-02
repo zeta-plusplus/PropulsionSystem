@@ -1,5 +1,8 @@
 Icon_FlightCondition2InletFluid00
 Icon_EngineSimEnvironment
-Icon_Combustion
 Icon_DieselCycle
 Icon_OttoCycle
+Icon_Combustion
+Icon_CompressorTable_WcPReff_NcRline00
+Icon_TurbineTable_WcEff_NcPR00
+Icon_PropellerTable_CTCP_Jtheta00
