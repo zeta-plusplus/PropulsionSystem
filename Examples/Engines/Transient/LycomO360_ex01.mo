@@ -37,7 +37,7 @@ model LycomO360_ex01
     Placement(visible = true, transformation(origin = {-43.5, -40.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder2(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 5916 * 10 ^ (-6) / 4.0) annotation(
     Placement(visible = true, transformation(origin = {16.5, -40.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_throttle(duration = 0.02, height = 0.2, offset = 0.8, startTime = 50) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_throttle(duration = 0.02, height = 0.2, offset = 0.8, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-180, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder3(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 5916 * 10 ^ (-6) / 4.0) annotation(
     Placement(visible = true, transformation(origin = {76.5, -40.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
@@ -59,7 +59,7 @@ model LycomO360_ex01
     Placement(visible = true, transformation(origin = {-150, 140}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_trqLoad(duration = 10, height = 0, offset = 0, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {270, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
-  Modelica.Mechanics.Rotational.Components.Damper damper1(d = 2.0) annotation(
+  Modelica.Mechanics.Rotational.Components.Damper damper1(d = 2.0, phi_rel(displayUnit = "rad")) annotation(
     Placement(visible = true, transformation(origin = {250, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Components.Fixed fixed1 annotation(
     Placement(visible = true, transformation(origin = {270, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
@@ -166,7 +166,7 @@ equation
     Line(points = {{33, -56}, {60, -56}}));
   annotation(
     Diagram(coordinateSystem(extent = {{-320, -200}, {320, 200}})),
-    __OpenModelica_commandLineOptions = "",
+    __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian -d=initialization, --maxMixedDeterminedIndex=1000, --maxSizeLinearTearing=400, --maxSizeNonlinearTearing=600 ",
     experiment(StartTime = 0, StopTime = 90, Tolerance = 1e-06, Interval = 0.1),
-  __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"));
+  __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"));
 end LycomO360_ex01;

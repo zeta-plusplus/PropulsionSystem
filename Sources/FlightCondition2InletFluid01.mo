@@ -161,7 +161,7 @@ equation
   connect(sourceFluid2Inlet.ports[1], port_inlet) annotation(
     Line(points = {{80, -10}, {100, -10}}, color = {0, 127, 255}));
   if printCmd == true then
-    assert(sourceFluidAmb.medium.p <= 0.0, getInstanceName() + ", sourceFluidAmb.medium.p=" + String(sourceFluidAmb.medium.p), AssertionLevel.warning);
+    assert(sourceFluidAmb4source.medium.p <= 0.0, getInstanceName() + ", sourceFluidAmb4source.medium.p=" + String(sourceFluidAmb4source.medium.p), AssertionLevel.warning);
     assert(sourceFluid2Inlet.medium.p <= 0.0, getInstanceName() + ", sourceFluid2Inlet.medium.p=" + String(sourceFluid2Inlet.medium.p), AssertionLevel.warning);
   end if;
 /* ---------------------------------------------

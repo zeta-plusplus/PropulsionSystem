@@ -1,4 +1,4 @@
-within PropulsionSystem.Examples.Engines.OffDesignSim;
+within PropulsionSystem.Examples.Engines.Transient;
 
 model LycomO360_ex02_rplcd2dieselPiston
   extends Modelica.Icons.Example;
@@ -14,17 +14,13 @@ model LycomO360_ex02_rplcd2dieselPiston
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-70, 180}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sensors.PowerSensor powerSensor1 annotation(
-    Placement(visible = true, transformation(origin = {150, -55}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {184, -55}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_alt(duration = 10, height = 0, offset = 0, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-364, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 inletRestriction(redeclare package Medium = engineFluid, diam_paramInput = 3.5 * 2.54 * 0.01) annotation(
     Placement(visible = true, transformation(origin = {-220, 60}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   PropulsionSystem.Sources.FlightCondition2InletFluid01 Flt2Fluid(redeclare package Medium = engineFluid, use_u_MN = true, use_u_alt = true) annotation(
     Placement(visible = true, transformation(origin = {-324, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Sources.Speed speed1 annotation(
-    Placement(visible = true, transformation(origin = {210, -55}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm1 annotation(
-    Placement(visible = true, transformation(origin = {230, -28}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   Modelica.Fluid.Sensors.Pressure pressure1(redeclare package Medium = engineFluid) annotation(
     Placement(visible = true, transformation(origin = {-87, 115}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Fluid.Sensors.Pressure pressure2(redeclare package Medium = engineFluid) annotation(
@@ -32,7 +28,7 @@ model LycomO360_ex02_rplcd2dieselPiston
   PropulsionSystem.Elements.BasicElements.LossRotMechCharFixed00 LossRotMech(eff_paramInput = 0.9, use_u_eff = true) annotation(
     Placement(visible = true, transformation(origin = {119, -55}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.Utilities.UnitConversion.W2hp W2hp annotation(
-    Placement(visible = true, transformation(origin = {142, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {176, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   FluidSystemComponents.Utilities.UnitConversion.Pa2inHg Pa2inHg annotation(
     Placement(visible = true, transformation(origin = {-155, 40}, extent = {{-5, -5}, {5, 5}}, rotation = -90)));
   FluidSystemComponents.CommonAnyFluid.Components.VariableZetaOrifice00 exhLine(redeclare package Medium = engineFluid, diam_paramInput = 1.4 * 2.54 * 0.01) annotation(
@@ -43,7 +39,7 @@ model LycomO360_ex02_rplcd2dieselPiston
     Placement(visible = true, transformation(origin = {-230, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT CarbResovoirOut(redeclare package Medium = liquidFuel, nPorts = 1, p = 2.0 * 101.325 * 1000, use_p_in = true)  annotation(
     Placement(visible = true, transformation(origin = {-310, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_fuelThrottle(duration = 10, height = 0.25, offset = 0.75, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_fuelThrottle(duration = 0.02, height = 0.2, offset = 0.8, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-310, -130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 fuelThrottle(redeclare package Medium = liquidFuel, diam_paramInput = 0.00076) annotation(
     Placement(visible = true, transformation(origin = {-270, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -73,8 +69,6 @@ model LycomO360_ex02_rplcd2dieselPiston
     Placement(visible = true, transformation(origin = {-310, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const_Shaft_eff(k = 0.63) annotation(
     Placement(visible = true, transformation(origin = {100, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const_Nmech(k = 2400) annotation(
-    Placement(visible = true, transformation(origin = {230, 2}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Sources.Constant const_MN(k = 0.0) annotation(
     Placement(visible = true, transformation(origin = {-364, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const_kA_throttle(k = 1) annotation(
@@ -91,13 +85,43 @@ model LycomO360_ex02_rplcd2dieselPiston
     Placement(visible = true, transformation(origin = {-290, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Blocks.Math.Gain gain(k = 60)  annotation(
     Placement(visible = true, transformation(origin = {-340, -30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Sources.Constant const(k = 0.04) annotation(
-    Placement(visible = true, transformation(origin = {-180, -140}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const1(k = 1) annotation(
-    Placement(visible = true, transformation(origin = {-190, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.Feedback feedback annotation(
-    Placement(visible = true, transformation(origin = {-150, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Components.Damper damper1(d = 2.0, phi_rel(displayUnit = "rad")) annotation(
+    Placement(visible = true, transformation(origin = {240, -89}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 0.5, w(fixed = false, start = 3000 * (2 * Modelica.Constants.pi / 60))) annotation(
+    Placement(visible = true, transformation(origin = {210, -55}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Components.Fixed fixed1 annotation(
+    Placement(visible = true, transformation(origin = {260, -89}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  Modelica.Blocks.Sources.Ramp ramp_trqLoad(duration = 10, height = 0, offset = 0, startTime = 30) annotation(
+    Placement(visible = true, transformation(origin = {260, 1}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
+  Modelica.Mechanics.Rotational.Sources.Torque torque1 annotation(
+    Placement(visible = true, transformation(origin = {240, -55}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Rotational.Sensors.SpeedSensor speedSensor1 annotation(
+    Placement(visible = true, transformation(origin = {151, -65}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Blocks.Math.UnitConversions.To_rpm to_rpm_crankshaft annotation(
+    Placement(visible = true, transformation(origin = {151, -100}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 equation
+  connect(speedSensor1.w, to_rpm_crankshaft.u) annotation(
+    Line(points = {{151, -76}, {151, -88}}, color = {0, 0, 127}));
+  connect(speedSensor1.flange, powerSensor1.flange_a) annotation(
+    Line(points = {{151, -55}, {174, -55}}));
+  connect(LossRotMech.flange_2, speedSensor1.flange) annotation(
+    Line(points = {{129, -55}, {151, -55}}));
+  connect(powerSensor1.flange_b, inertia1.flange_a) annotation(
+    Line(points = {{194, -55}, {200, -55}}));
+  connect(powerSensor1.power, W2hp.u) annotation(
+    Line(points = {{176, -66}, {176, -79}}, color = {0, 0, 127}));
+  connect(pistonCylinder3.flange_2, LossRotMech.flange_1) annotation(
+    Line(points = {{93, -55}, {109, -55}}));
+  connect(const_Shaft_eff.y, LossRotMech.u_eff) annotation(
+    Line(points = {{111, -90}, {125, -90}, {125, -62}}, color = {0, 0, 127}));
+  connect(torque1.tau, ramp_trqLoad.y) annotation(
+    Line(points = {{252, -55}, {260, -55}, {260, -9}, {260, -9}}, color = {0, 0, 127}));
+  connect(inertia1.flange_b, torque1.flange) annotation(
+    Line(points = {{220, -55}, {230, -55}}));
+  connect(inertia1.flange_b, damper1.flange_a) annotation(
+    Line(points = {{220, -55}, {224, -55}, {224, -89}, {230, -89}}));
+  connect(damper1.flange_b, fixed1.flange) annotation(
+    Line(points = {{250, -89}, {260, -89}, {260, -89}, {260, -89}}));
   connect(const_Cd_throttle.y, inletRestriction.u_Cd) annotation(
     Line(points = {{-328, 130}, {-228, 130}, {-228, 71}}, color = {0, 0, 127}));
   connect(const_zeta_exhLine.y, exhLine.u_zeta) annotation(
@@ -142,20 +166,8 @@ equation
     Line(points = {{-150.5, 55}, {-155, 55}, {-155, 46}}, color = {0, 0, 127}));
   connect(ramp_alt.y, Flt2Fluid.u_alt) annotation(
     Line(points = {{-353, 70}, {-344, 70}, {-344, 68}, {-335, 68}}, color = {0, 0, 127}));
-  connect(LossRotMech.flange_2, powerSensor1.flange_a) annotation(
-    Line(points = {{129, -55}, {140, -55}}));
-  connect(powerSensor1.flange_b, speed1.flange) annotation(
-    Line(points = {{160, -55}, {200, -55}}));
-  connect(powerSensor1.power, W2hp.u) annotation(
-    Line(points = {{142, -66}, {142, -79}}, color = {0, 0, 127}));
-  connect(from_rpm1.y, speed1.w_ref) annotation(
-    Line(points = {{230, -39}, {230, -55}, {222, -55}}, color = {0, 0, 127}));
   connect(const_Cd_mixture.y, fuelThrottle.u_Cd) annotation(
     Line(points = {{-298, -100}, {-278, -100}, {-278, -80}}, color = {0, 0, 127}));
-  connect(const_Shaft_eff.y, LossRotMech.u_eff) annotation(
-    Line(points = {{111, -90}, {125, -90}, {125, -62}}, color = {0, 0, 127}));
-  connect(const_Nmech.y, from_rpm1.u) annotation(
-    Line(points = {{230, -9}, {230, -16}}, color = {0, 0, 127}));
   connect(Flt2Fluid.u_MN, const_MN.y) annotation(
     Line(points = {{-335, 64}, {-345, 64}, {-345, 40}, {-353, 40}}, color = {0, 0, 127}));
   connect(const_kA_throttle.y, inletRestriction.u_kArea) annotation(
@@ -164,8 +176,6 @@ equation
     Line(points = {{-87, -23}, {-87, 110}}, color = {255, 85, 0}));
   connect(pressure2.port, pistonCylinder.port_1) annotation(
     Line(points = {{-145, 60}, {-120, 60}, {-120, -23}}, color = {0, 127, 255}));
-  connect(pistonCylinder3.flange_2, LossRotMech.flange_1) annotation(
-    Line(points = {{93, -55}, {109, -55}}));
   connect(pressure2.port, pistonCylinder1.port_1) annotation(
     Line(points = {{-145, 60}, {-60, 60}, {-60, -23}}, color = {0, 127, 255}));
   connect(pressure2.port, pistonCylinder2.port_1) annotation(
@@ -196,10 +206,6 @@ equation
     Line(points = {{-300, -10}, {-340, -10}, {-340, -18}}, color = {0, 0, 127}));
   connect(gain.y, CarbResovoirOut.p_in) annotation(
     Line(points = {{-340, -40}, {-340, -62}, {-322, -62}}, color = {0, 0, 127}));
-  connect(const1.y, feedback.u1) annotation(
-    Line(points = {{-178, -110}, {-158, -110}}, color = {0, 0, 127}));
-  connect(const.y, feedback.u2) annotation(
-    Line(points = {{-168, -140}, {-150, -140}, {-150, -118}}, color = {0, 0, 127}));
   connect(division_fracFuel.y, pistonCylinder.u_fracFuel) annotation(
     Line(points = {{-160, -74}, {-132, -74}, {-132, -36}, {-118, -36}}, color = {0, 0, 127}));
   connect(division_fracFuel.y, pistonCylinder1.u_fracFuel) annotation(
@@ -219,7 +225,7 @@ equation
   annotation(
     experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-06, Interval = 0.0350175),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"),
-  Diagram(coordinateSystem(extent = {{-380, -160}, {260, 200}})),
+  Diagram(coordinateSystem(extent = {{-380, -160}, {280, 200}})),
     __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian -d=initialization, --maxMixedDeterminedIndex=1000, --maxSizeLinearTearing=400, --maxSizeNonlinearTearing=600 -d= --maxMixedDeterminedIndex=1000, --maxSizeLinearTearing=400, --maxSizeNonlinearTearing=600 ",
   Icon);
 end LycomO360_ex02_rplcd2dieselPiston;
