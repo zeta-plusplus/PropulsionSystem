@@ -45,7 +45,7 @@ model LycomO360_ex02_rplcd2dieselPiston
     Placement(visible = true, transformation(origin = {-310, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_fuelThrottle(duration = 10, height = 0.25, offset = 0.75, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-310, -130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 fuelThrottle(redeclare package Medium = liquidFuel, diam_paramInput = 0.00076) annotation(
+  FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 fuelThrottle(redeclare package Medium = liquidFuel, diam_paramInput = 0.00075) annotation(
     Placement(visible = true, transformation(origin = {-270, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate_fuel(redeclare package Medium = liquidFuel) annotation(
     Placement(visible = true, transformation(origin = {-250, -45}, extent = {{5, -5}, {-5, 5}}, rotation = -90)));
@@ -79,7 +79,7 @@ model LycomO360_ex02_rplcd2dieselPiston
     Placement(visible = true, transformation(origin = {-364, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const_kA_throttle(k = 1) annotation(
     Placement(visible = true, transformation(origin = {-310, 150}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealDieselMV01 pistonCylinder(redeclare package Medium = engineFluid, CR_paramInput = 18, VolDisp_paramInput = 1.3 *5916 * 10 ^ (-6) / 4.0) annotation(
+  PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealDieselMV01 pistonCylinder(redeclare package Medium = engineFluid, CR_paramInput = 18, VolDisp_paramInput = 1.48 *5916 * 10 ^ (-6) / 4.0) annotation(
     Placement(visible = true, transformation(origin = {-103.333, -40}, extent = {{-16.6667, -20}, {16.6667, 20}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealDieselMV01 pistonCylinder1(redeclare package Medium = engineFluid, CR_paramInput = pistonCylinder.CR_paramInput, VolDisp_paramInput = pistonCylinder.VolDisp_paramInput) annotation(
     Placement(visible = true, transformation(origin = {-43.3333, -40}, extent = {{-16.6667, -20}, {16.6667, 20}}, rotation = 0)));

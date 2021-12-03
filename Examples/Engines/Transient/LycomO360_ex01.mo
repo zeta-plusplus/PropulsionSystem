@@ -23,7 +23,7 @@ model LycomO360_ex01
     Placement(visible = true, transformation(origin = {-190, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_alt(duration = 10, height = 0, offset = 0, startTime = 50) annotation(
     Placement(visible = true, transformation(origin = {-310, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 0.5, w(fixed = false, start = 2000 * (2 * Modelica.Constants.pi / 60))) annotation(
+  Modelica.Mechanics.Rotational.Components.Inertia inertia1(J = 5, w(fixed = true, start = 2400 * (2 * Modelica.Constants.pi / 60))) annotation(
     Placement(visible = true, transformation(origin = {220, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const(k = 1) annotation(
     Placement(visible = true, transformation(origin = {-180, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
