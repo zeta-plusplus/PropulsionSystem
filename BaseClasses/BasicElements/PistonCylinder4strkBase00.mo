@@ -116,6 +116,12 @@ partial model PistonCylinder4strkBase00
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.SpecificEntropy s_fluid_2(start = s_fluid_2_init) "specific entropy, fluid_2" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  //-----
+  Modelica.SIunits.SpecificEnergy pwrQm "specific power, pwr/m_flow";
+  Modelica.SIunits.SpecificEnergy pwrQmOut "specific power, pwrOut/m_flow";
+  Real trqQm "specific torque, trq/m_flow";
+  Real trqQmOut "specific torque, trqOut/m_flow";
+  
   /* ---------------------------------------------
                     Internal objects
     --------------------------------------------- */
@@ -188,6 +194,13 @@ equation
   dU_1_2_cycle = VolBDC * fluid_1.d * 1.0 / 2.0 * Nmech * 1.0 / 60.0 * (fluid_2.u - fluid_1.u);
   s_fluid_1 = Medium.specificEntropy(fluid_1.state);
   s_fluid_2 = Medium.specificEntropy(fluid_2.state);
+  //-----
+  pwrQm= pwr/m_flow;
+  pwrQmOut= pwrOut/m_flow;
+  trqQm= trq/m_flow;
+  trqQmOut= trqOut/m_flow;
+  
+  
   annotation(
     defaultComponentName = "PistonCylinder",
   Icon(graphics = {Line(origin = {0.39, -10.28}, points = {{-60, -30}, {-60, 60}, {-60, 100}, {60, 100}, {60, 60}, {60, -30}}, thickness = 1.5), Line(origin = {-40, 89}, points = {{0, 9}, {0, -11}}, thickness = 0.75), Line(origin = {-45.6153, 104.79}, points = {{14, -27}, {-2, -27}}, thickness = 0.75), Line(origin = {39.3395, 91}, points = {{0, 9}, {0, -11}}, thickness = 0.75), Line(origin = {34.3847, 107.112}, points = {{14, -27}, {-2, -27}}, thickness = 0.75), Line(origin = {-61, 89.6778}, points = {{-39, 10}, {21, 10}, {21, -12}}, pattern = LinePattern.Dot, thickness = 1), Line(origin = {-51, 99.661}, points = {{151, 0}, {91, 0}, {91, -20}}, pattern = LinePattern.Dot, thickness = 1), Text(origin = {-29, -150}, extent = {{-71, 8}, {129, -6}}, textString = "%name"), Rectangle(origin = {47, -94}, fillColor = {170, 0, 127}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-27, 11}, {53, -3}}), Line(origin = {-61.4274, 108.581}, points = {{-17, 0}, {7, 0}}, thickness = 0.75, arrow = {Arrow.None, Arrow.Open}, arrowSize = 4), Line(origin = {71.2041, 108.581}, points = {{-17, 0}, {7, 0}}, thickness = 0.75, arrow = {Arrow.None, Arrow.Open}, arrowSize = 4), Rectangle(origin = {14, -54}, rotation = 100, fillPattern = FillPattern.HorizontalCylinder, extent = {{-42, 7}, {89, -7}}), Rectangle(origin = {-1, 40}, fillColor = {85, 0, 0}, fillPattern = FillPattern.VerticalCylinder, extent = {{-54, -1}, {56, -33}}), Ellipse(origin = {15, -90}, fillColor = {170, 0, 127}, pattern = LinePattern.None, fillPattern = FillPattern.HorizontalCylinder, extent = {{-12, 50}, {12, -50}}), Rectangle(origin = {3, -90}, fillColor = {170, 0, 127}, pattern = LinePattern.None, fillPattern = FillPattern.HorizontalCylinder, extent = {{-13, 50}, {13, -50}}), Ellipse(origin = {-9, -90}, fillColor = {170, 0, 127}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, extent = {{-12, 50}, {12, -50}}), Rectangle(origin = {-70, -94}, fillColor = {170, 0, 127}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-28, 11}, {56, -3}}), Ellipse(origin = {-14, -90}, fillColor = {170, 0, 127}, pattern = LinePattern.None, fillPattern = FillPattern.HorizontalCylinder, extent = {{-5, 7}, {5, -7}})}, coordinateSystem(extent = {{-100, -140}, {100, 120}}, initialScale = 0.1)),

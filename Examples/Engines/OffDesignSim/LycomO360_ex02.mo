@@ -17,7 +17,7 @@ model LycomO360_ex02
     Placement(visible = true, transformation(origin = {150, -56}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 5916 * 10 ^ (-6) / 4.0) annotation(
     Placement(visible = true, transformation(origin = {-103.5, -40.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_alt(duration = 10, height = 2000, offset = 0, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_alt(duration = 10, height = 0 *2000, offset = 0, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-364, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 throttle(redeclare package Medium = engineFluid, diam_paramInput = 2.4 * 2.54 * 0.01) annotation(
     Placement(visible = true, transformation(origin = {-220, 40}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
@@ -27,7 +27,7 @@ model LycomO360_ex02
     Placement(visible = true, transformation(origin = {-43.5, -40.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder2(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 5916 * 10 ^ (-6) / 4.0) annotation(
     Placement(visible = true, transformation(origin = {16.5, -40.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_throttle(duration = 10, height = 0.25, offset = 0.75, startTime = 70) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_throttle(duration = 10, height = 0.0, offset = 0.75, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-310, 150}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealOttoMV01 PistonCylinder3(redeclare package Medium = engineFluid, CR_paramInput = 8.5, VolDisp_paramInput = 5916 * 10 ^ (-6) / 4.0) annotation(
     Placement(visible = true, transformation(origin = {76.5, -40.8}, extent = {{-16.5, -19.8}, {16.5, 19.8}}, rotation = 0)));
@@ -59,7 +59,7 @@ model LycomO360_ex02
     Placement(visible = true, transformation(origin = {-334, -62}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Constant const_tankHead(k = 0.1 * 720 * environment.gravity)  annotation(
     Placement(visible = true, transformation(origin = {-370, -68}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_mixture(duration = 10, height = -0.1, offset = 1, startTime = 50) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_mixture(duration = 10, height = 0 * (-0.1), offset = 1, startTime = 50) annotation(
     Placement(visible = true, transformation(origin = {-310, -130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 MixtureValve(redeclare package Medium = liquidFuel, diam_paramInput = 0.00174) annotation(
     Placement(visible = true, transformation(origin = {-270, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -95,6 +95,10 @@ model LycomO360_ex02
     Placement(visible = true, transformation(origin = {230, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Sources.Constant const_MN(k = 0.0) annotation(
     Placement(visible = true, transformation(origin = {-364, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Division massSpecificPower annotation(
+    Placement(visible = true, transformation(origin = {200, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Division PSFC annotation(
+    Placement(visible = true, transformation(origin = {200, -150}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(const_Cd_throttle.y, throttle.u_Cd) annotation(
     Line(points = {{-328, 130}, {-228, 130}, {-228, 52}, {-228, 52}}, color = {0, 0, 127}));
@@ -214,10 +218,18 @@ equation
     Line(points = {{230, -11}, {230, -18}}, color = {0, 0, 127}));
   connect(Flt2Fluid.u_MN, const_MN.y) annotation(
     Line(points = {{-334, 44}, {-344, 44}, {-344, 20}, {-352, 20}}, color = {0, 0, 127}));
+  connect(W2hp.y, massSpecificPower.u1) annotation(
+    Line(points = {{142, -100}, {142, -114}, {188, -114}}, color = {0, 0, 127}));
+  connect(massFlowRate_air.m_flow, massSpecificPower.u2) annotation(
+    Line(points = {{-195, 34.5}, {-195, 10}, {174, 10}, {174, -126}, {188, -126}}, color = {0, 0, 127}));
+  connect(W2hp.y, PSFC.u2) annotation(
+    Line(points = {{142, -100}, {142, -156}, {188, -156}}, color = {0, 0, 127}));
+  connect(massFlowRate_fuel.m_flow, PSFC.u1) annotation(
+    Line(points = {{-244, -40}, {-232, -40}, {-232, -144}, {188, -144}}, color = {0, 0, 127}));
   annotation(
     experiment(StartTime = 0, StopTime = 100, Tolerance = 1e-06, Interval = 0.05),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"),
-  Diagram(coordinateSystem(extent = {{-380, -140}, {260, 200}})),
-    __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian -d=initialization, --maxMixedDeterminedIndex=1000, --maxSizeLinearTearing=400, --maxSizeNonlinearTearing=600 ",
+  Diagram(coordinateSystem(extent = {{-380, -160}, {260, 200}})),
+    __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian -d=initialization, --maxMixedDeterminedIndex=1000, --maxSizeLinearTearing=400, --maxSizeNonlinearTearing=600 -d= --maxMixedDeterminedIndex=1000, --maxSizeLinearTearing=400, --maxSizeNonlinearTearing=600 ",
   Icon);
 end LycomO360_ex02;

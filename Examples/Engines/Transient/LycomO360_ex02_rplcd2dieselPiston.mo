@@ -39,9 +39,9 @@ model LycomO360_ex02_rplcd2dieselPiston
     Placement(visible = true, transformation(origin = {-230, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT CarbResovoirOut(redeclare package Medium = liquidFuel, nPorts = 1, p = 2.0 * 101.325 * 1000, use_p_in = true)  annotation(
     Placement(visible = true, transformation(origin = {-310, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_fuelThrottle(duration = 0.02, height = 0.2, offset = 0.8, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_fuelThrottle(duration = 0.02, height = 0.25, offset = 0.75, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-310, -130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 fuelThrottle(redeclare package Medium = liquidFuel, diam_paramInput = 0.00075) annotation(
+  FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 fuelThrottle(redeclare package Medium = liquidFuel, diam_paramInput = 0.000753) annotation(
     Placement(visible = true, transformation(origin = {-270, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate_fuel(redeclare package Medium = liquidFuel) annotation(
     Placement(visible = true, transformation(origin = {-250, -45}, extent = {{5, -5}, {-5, 5}}, rotation = -90)));

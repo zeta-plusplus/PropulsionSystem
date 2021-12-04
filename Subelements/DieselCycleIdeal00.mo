@@ -90,6 +90,12 @@ block DieselCycleIdeal00
   Modelica.SIunits.Work W_1_2 "work, compression, state 1 -> 2";
   Modelica.SIunits.Work W_2_3 "work, expansion, state 2 -> 3";
   Modelica.SIunits.Work W_3_4 "work, expansion, state 3 -> 4";
+  Modelica.SIunits.SpecificEnergy WqmOutCycle "WoutCycle/mass";
+  Modelica.SIunits.SpecificEnergy Wqm_1_2 "W_1_2/mass";
+  Modelica.SIunits.SpecificEnergy Wqm_2_3 "W_2_3/mass";
+  Modelica.SIunits.SpecificEnergy Wqm_3_4 "W_3_4/mass";
+  Modelica.SIunits.SpecificEnergy Qqm_2_3 "Q_2_3/mass";
+  Modelica.SIunits.SpecificEnergy Qqm_4_1 "Q_4_1/mass";
   Real CR "Compression Ratio";
   Real ER_2_3 "Expansion Ratio, state 2 -> 3";
   Real ER_3_4 "Expansion Ratio, state 3 -> 4";
@@ -237,6 +243,12 @@ equation
   Q_4_1 = massFluidCycle * (fluidState_1.u - fluidState_4.u);
 //---
   WoutCycle = (-1.0) * (W_2_3 + W_3_4 + W_1_2);
+  WqmOutCycle= WoutCycle/massFluidCycle;
+  Wqm_1_2= W_1_2/massFluidCycle;
+  Wqm_2_3= W_2_3/massFluidCycle;
+  Wqm_3_4= W_3_4/massFluidCycle;
+  Qqm_2_3= Q_2_3/massFluidCycle;
+  Qqm_4_1= Q_4_1/massFluidCycle;
 //---
   if Q_2_3 < (-1.0) * (W_2_3 + W_3_4) then
     flag_Wexp_gt_Q23 = true;

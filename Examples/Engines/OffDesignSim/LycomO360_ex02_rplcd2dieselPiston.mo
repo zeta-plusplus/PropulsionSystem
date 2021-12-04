@@ -43,9 +43,9 @@ model LycomO360_ex02_rplcd2dieselPiston
     Placement(visible = true, transformation(origin = {-230, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT CarbResovoirOut(redeclare package Medium = liquidFuel, nPorts = 1, p = 2.0 * 101.325 * 1000, use_p_in = true)  annotation(
     Placement(visible = true, transformation(origin = {-310, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_fuelThrottle(duration = 10, height = 0.25, offset = 0.75, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_fuelThrottle(duration = 10, height = 0.0, offset = 0.75, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-310, -130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 fuelThrottle(redeclare package Medium = liquidFuel, diam_paramInput = 0.00075) annotation(
+  FluidSystemComponents.CommonAnyFluid.Components.OrificeVariableAreaCd00 fuelThrottle(redeclare package Medium = liquidFuel, diam_paramInput = 0.000753) annotation(
     Placement(visible = true, transformation(origin = {-270, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate_fuel(redeclare package Medium = liquidFuel) annotation(
     Placement(visible = true, transformation(origin = {-250, -45}, extent = {{5, -5}, {-5, 5}}, rotation = -90)));
@@ -91,12 +91,10 @@ model LycomO360_ex02_rplcd2dieselPiston
     Placement(visible = true, transformation(origin = {-290, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Blocks.Math.Gain gain(k = 60)  annotation(
     Placement(visible = true, transformation(origin = {-340, -30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Sources.Constant const(k = 0.04) annotation(
-    Placement(visible = true, transformation(origin = {-180, -140}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const1(k = 1) annotation(
-    Placement(visible = true, transformation(origin = {-190, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.Feedback feedback annotation(
-    Placement(visible = true, transformation(origin = {-150, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Division massSpecificPower annotation(
+    Placement(visible = true, transformation(origin = {202, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Division PSFC annotation(
+    Placement(visible = true, transformation(origin = {202, -150}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(const_Cd_throttle.y, inletRestriction.u_Cd) annotation(
     Line(points = {{-328, 130}, {-228, 130}, {-228, 71}}, color = {0, 0, 127}));
@@ -196,10 +194,6 @@ equation
     Line(points = {{-300, -10}, {-340, -10}, {-340, -18}}, color = {0, 0, 127}));
   connect(gain.y, CarbResovoirOut.p_in) annotation(
     Line(points = {{-340, -40}, {-340, -62}, {-322, -62}}, color = {0, 0, 127}));
-  connect(const1.y, feedback.u1) annotation(
-    Line(points = {{-178, -110}, {-158, -110}}, color = {0, 0, 127}));
-  connect(const.y, feedback.u2) annotation(
-    Line(points = {{-168, -140}, {-150, -140}, {-150, -118}}, color = {0, 0, 127}));
   connect(division_fracFuel.y, pistonCylinder.u_fracFuel) annotation(
     Line(points = {{-160, -74}, {-132, -74}, {-132, -36}, {-118, -36}}, color = {0, 0, 127}));
   connect(division_fracFuel.y, pistonCylinder1.u_fracFuel) annotation(
@@ -216,10 +210,18 @@ equation
     Line(points = {{-160, -14}, {-14, -14}, {-14, -30}, {-2, -30}}, color = {0, 0, 127}));
   connect(division_fracAir.y, pistonCylinder3.u_fracAir) annotation(
     Line(points = {{-160, -14}, {46, -14}, {46, -30}, {58, -30}}, color = {0, 0, 127}));
+  connect(massFlowRate_air.m_flow, massSpecificPower.u2) annotation(
+    Line(points = {{-195, 54.5}, {-195, 26}, {172, 26}, {172, -126}, {190, -126}}, color = {0, 0, 127}));
+  connect(W2hp.y, massSpecificPower.u1) annotation(
+    Line(points = {{142, -100}, {142, -114}, {190, -114}}, color = {0, 0, 127}));
+  connect(massFlowRate_fuel.m_flow, PSFC.u1) annotation(
+    Line(points = {{-244.5, -45}, {-232, -45}, {-232, -144}, {190, -144}}, color = {0, 0, 127}));
+  connect(W2hp.y, PSFC.u2) annotation(
+    Line(points = {{142, -100}, {142, -156}, {190, -156}}, color = {0, 0, 127}));
   annotation(
-    experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-06, Interval = 0.0350175),
+    experiment(StartTime = 0, StopTime = 100, Tolerance = 1e-06, Interval = 0.050025),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"),
   Diagram(coordinateSystem(extent = {{-380, -160}, {260, 200}})),
-    __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian -d=initialization, --maxMixedDeterminedIndex=1000, --maxSizeLinearTearing=400, --maxSizeNonlinearTearing=600 -d= --maxMixedDeterminedIndex=1000, --maxSizeLinearTearing=400, --maxSizeNonlinearTearing=600 ",
+    __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian -d=initialization, --maxMixedDeterminedIndex=1000, --maxSizeLinearTearing=400, --maxSizeNonlinearTearing=600 -d= --maxMixedDeterminedIndex=1000, --maxSizeLinearTearing=400, --maxSizeNonlinearTearing=600 -d= --maxMixedDeterminedIndex=1000, --maxSizeLinearTearing=400, --maxSizeNonlinearTearing=600 ",
   Icon);
 end LycomO360_ex02_rplcd2dieselPiston;
