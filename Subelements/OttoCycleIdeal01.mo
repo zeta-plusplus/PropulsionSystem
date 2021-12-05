@@ -130,6 +130,7 @@ block OttoCycleIdeal01
   Modelica.SIunits.Temperature arr_T[5];
   Real PR_1_2 "pressure ratio, compression";
   Real PR_3_4 "pressure ratio, expansion";
+  Modelica.SIunits.Pressure pme "mean effective pressure of cycle";
   Boolean flag_W34_gt_Q23 "flag, true if |Q_2_3|<|W_3_4|";
   /* ---------------------------------------------
           Internal objects
@@ -440,6 +441,7 @@ equation
   Wqm_3_4= W_3_4/massFluidCycle;
   Qqm_2_3= Q_2_3/massFluidCycle;
   Qqm_4_1= Q_4_1/massFluidCycle;
+  pme= WoutCycle/VolDisp;
 //---
   if Q_2_3 < (-1.0) * W_3_4 then
     flag_W34_gt_Q23 = true;

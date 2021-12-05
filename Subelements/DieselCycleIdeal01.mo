@@ -108,6 +108,7 @@ block DieselCycleIdeal01
   Modelica.SIunits.SpecificVolume arr_v[5];
   Modelica.SIunits.Temperature arr_T[5];
   Real alpha "cutoff ratio, v3/v2";
+  Modelica.SIunits.Pressure pme "mean effective pressure of cycle";
   Boolean flag_Wexp_gt_Q23 "flag, true if |Q_2_3|<|W_2_3+W_3_4|";
   /* ---------------------------------------------
                   Internal objects
@@ -242,6 +243,7 @@ equation
   Wqm_3_4= W_3_4/massFluidCycle;
   Qqm_2_3= Q_2_3/massFluidCycle;
   Qqm_4_1= Q_4_1/massFluidCycle;
+  pme= WoutCycle/VolDisp;
 //---
   if Q_2_3 < (-1.0) * (W_2_3 + W_3_4) then
     flag_Wexp_gt_Q23 = true;

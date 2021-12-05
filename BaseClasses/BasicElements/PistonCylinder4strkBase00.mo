@@ -96,6 +96,7 @@ partial model PistonCylinder4strkBase00
   Modelica.SIunits.Volume VolTDC "volume, at TDC(top dead center)";
   Real CR "Compression Ratio";
   Modelica.SIunits.Work WoutCycle "work output, single cycle";
+  Modelica.SIunits.Work Wout "";
   Modelica.SIunits.Power pwr(start = pwr_init) "power via shaft, positive if fluid generates power" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Modelica.SIunits.Power pwrOut(start = -1.0 * pwr_init) "power via shaft, positive if fluid generates power" annotation(
@@ -199,7 +200,7 @@ equation
   pwrQmOut= pwrOut/m_flow;
   trqQm= trq/m_flow;
   trqQmOut= trqOut/m_flow;
-  
+  pwrOut = 1.0 / 2.0  * Wout * Nmech * 1.0 / 60.0;
   
   annotation(
     defaultComponentName = "PistonCylinder",
