@@ -110,6 +110,7 @@ block DieselCycleIdeal00
   Modelica.SIunits.Temperature arr_T[5];
   Real PR_1_2 "pressure ratio, compression";
   Real PR_3_4 "pressure ratio, expansion";
+  Real alpha "cutoff ratio, v3/v2";
   Boolean flag_Wexp_gt_Q23 "flag, true if |Q_2_3|<|W_2_3+W_3_4|";
   
   
@@ -230,6 +231,7 @@ equation
   Vol3/Vol2 = ER_2_3;
   v3= 1.0/fluidState_3.d;
   s_state_3 = Medium.specificEntropy(fluidState_3.state);
+  alpha= v3/v2;
 //--- state3 <-> state4 ---
   Vol4 / Vol3 = ER_3_4;
   fluidState_4.d = massFluidCycle / Vol4;
