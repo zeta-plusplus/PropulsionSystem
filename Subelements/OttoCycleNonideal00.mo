@@ -136,6 +136,16 @@ block OttoCycleNonideal00
   Real PR_3_4 "pressure ratio, expansion";
   Modelica.SIunits.Pressure pme "mean effective pressure of cycle";
   Boolean flag_W34_gt_Q23 "flag, true if |Q_2_3|<|W_3_4|";
+  Modelica.SIunits.SpecificEnthalpy dh_1_2;
+  Modelica.SIunits.SpecificEnthalpy dh_2_3;
+  Modelica.SIunits.SpecificEnthalpy dh_3_4;
+  Modelica.SIunits.SpecificEnthalpy dh_4_1;
+  Modelica.SIunits.TemperatureDifference dT_1_2;
+  Modelica.SIunits.TemperatureDifference dT_2_3;
+  Modelica.SIunits.TemperatureDifference dT_3_4;
+  Modelica.SIunits.TemperatureDifference dT_4_1;
+  
+  
   /* ---------------------------------------------
         Internal objects
     --------------------------------------------- */
@@ -461,6 +471,14 @@ equation
   Qqm_2_3= Q_2_3/massFluidCycle;
   Qqm_4_1= Q_4_1/massFluidCycle;
   pme= WoutCycle/VolDisp;
+  dh_1_2= fluidState_2.h - fluidState_1.h;
+  dh_2_3= fluidState_3.h - fluidState_2.h;
+  dh_3_4= fluidState_4.h - fluidState_3.h;
+  dh_4_1= fluidState_1.h - fluidState_4.h;
+  dT_1_2= fluidState_2.T - fluidState_1.T;
+  dT_2_3= fluidState_3.T - fluidState_2.T;
+  dT_3_4= fluidState_4.T - fluidState_3.T;
+  dT_4_1= fluidState_1.T - fluidState_4.T;
 //---
   if Q_2_3 < (-1.0) * W_3_4 then
     flag_W34_gt_Q23 = true;

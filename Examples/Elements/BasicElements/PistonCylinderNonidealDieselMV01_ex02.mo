@@ -43,7 +43,7 @@ model PistonCylinderNonidealDieselMV01_ex02
     Placement(visible = true, transformation(origin = {110, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.PistonCylinderNonidealDieselMV01 PistonCylinder(redeclare package Medium = Modelica.Media.Air.DryAirNasa) annotation(
     Placement(visible = true, transformation(origin = {-20, -12}, extent = {{-20, -24}, {20, 24}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_fuelThrottle(duration = 10, height = 0.0, offset = 0.75, startTime = 30) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_fuelThrottle(duration = 0.2, height = 0.1, offset = 0.75, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {-200, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate_fuel(redeclare package Medium = liquidFuel) annotation(
     Placement(visible = true, transformation(origin = {-140, -35}, extent = {{5, -5}, {-5, 5}}, rotation = -90)));
