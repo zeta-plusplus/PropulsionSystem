@@ -1,0 +1,7 @@
+within PropulsionSystem.Functions;
+
+function CompressorFluidOperation
+  extends Modelica.Icons.Function;
+algorithm
+
+end CompressorFluidOperation;
