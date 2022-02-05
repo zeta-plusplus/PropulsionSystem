@@ -1,4 +1,4 @@
-within PropulsionSystem.Examples.Functions.tests;
+within PropulsionSystem.Examples.Functions.Examples;
 
 model TurbineFluidOperation00_ex01
   extends Modelica.Icons.Example;
