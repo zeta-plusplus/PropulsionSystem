@@ -1,6 +1,6 @@
 within PropulsionSystem.Examples.Elements.BasicElements;
 
-model TrbCharFixed00_ex01
+model TrbCharFixed01_ex01
   extends Modelica.Icons.Example;
   //-----
   package engineAir = Modelica.Media.Air.DryAirNasa;
@@ -13,8 +13,6 @@ model TrbCharFixed00_ex01
     Placement(visible = true, transformation(origin = {-50, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.MassFlowSource_T boundary1(redeclare package Medium = engineAir, T = 288.15, m_flow = -1.0, nPorts = 1) annotation(
     Placement(visible = true, transformation(origin = {30, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  PropulsionSystem.Elements.BasicElements.TrbCharFixed00 Trb1(redeclare package Medium = engineAir, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput, use_u_eff = true) annotation(
-    Placement(visible = true, transformation(origin = {-10, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed1(w_fixed = 3000 * 2.0 * Modelica.Constants.pi / 60.0) annotation(
     Placement(visible = true, transformation(origin = {-90, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_PR(duration = 10, height = 1, offset = 3, startTime = 10) annotation(
@@ -23,19 +21,21 @@ model TrbCharFixed00_ex01
     Placement(visible = true, transformation(origin = {-30, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(origin = {-30, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.TrbCharFixed01 Trb(redeclare package Medium = Modelica.Media.Air.DryAirNasa, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput, use_u_eff = true)  annotation(
+    Placement(visible = true, transformation(origin = {-10, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(ramp_eff.y, Trb1.u_eff) annotation(
-    Line(points = {{-19, -60}, {-10, -60}, {-10, 4}}, color = {0, 0, 127}));
-  connect(ramp_PR.y, Trb1.u_PR) annotation(
-    Line(points = {{-19, -30}, {-14, -30}, {-14, 6}}, color = {0, 0, 127}));
-  connect(constantSpeed1.flange, Trb1.flange_1) annotation(
+  connect(boundary.ports[1], Trb.port_1) annotation(
+    Line(points = {{-40, 50}, {-16, 50}, {-16, 18}}, color = {0, 127, 255}));
+  connect(Trb.port_2, boundary1.ports[1]) annotation(
+    Line(points = {{-4, 18}, {-4, 50}, {20, 50}}, color = {0, 127, 255}));
+  connect(constantSpeed1.flange, Trb.flange_1) annotation(
     Line(points = {{-80, 10}, {-20, 10}}));
-  connect(Trb1.port_2, boundary1.ports[1]) annotation(
-    Line(points = {{0, 18}, {10, 18}, {10, 50}, {20, 50}}, color = {0, 127, 255}));
-  connect(boundary.ports[1], Trb1.port_1) annotation(
-    Line(points = {{-40, 50}, {-34, 50}, {-34, 18}, {-20, 18}}, color = {0, 127, 255}));
+  connect(ramp_PR.y, Trb.u_PR) annotation(
+    Line(points = {{-18, -30}, {-14, -30}, {-14, 6}}, color = {0, 0, 127}));
+  connect(ramp_eff.y, Trb.u_eff) annotation(
+    Line(points = {{-18, -60}, {-10, -60}, {-10, 4}}, color = {0, 0, 127}));
   annotation(
     experiment(StartTime = 0, StopTime = 40, Tolerance = 1e-06, Interval = 0.08),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
     Diagram(graphics = {Text(origin = {14, -11}, extent = {{-18, 5}, {18, -5}}, textString = "PR, eff are given"), Text(origin = {-58, 1}, extent = {{-18, 5}, {26, -7}}, textString = "pwr, trq are calculated"), Line(origin = {-17, -8}, points = {{11, -4}, {-11, 4}}, arrow = {Arrow.None, Arrow.Open})}));
-end TrbCharFixed00_ex01;
+end TrbCharFixed01_ex01;

@@ -1,11 +1,8 @@
+CmpCharFixed01
 CmpCharFixed00
 CmpCharTable02
-CmpCharTable01
-CmpCharTable00
-TrbCharFixed00
-TrbCharTable02
-TrbCharTable01
-TrbCharTable00
+TrbCharFixed01
+TrbCharTable03
 HeatInjector00
 CombCharFixed02
 CombCharFixed01
@@ -32,6 +29,12 @@ MixierLossBasedOnEntropy00
 IdealMixer01
 IdealMixer00
 EnginePerformance00
+CmpCharTable01
+CmpCharTable00
+TrbCharTable02
+TrbCharTable01
+TrbCharTable00
+TrbCharFixed00
 PropellerActDisk
 Compressor
 Compressor_Map_WcPReff

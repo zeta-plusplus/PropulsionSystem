@@ -30,7 +30,7 @@ model TurbineFluidOperation00_ex01
 equation
   fluid_1.state=Medium.setState_pTX(p=p1,T=T1,X=Xi1);
   (fluid_2.state, fluid_2_is.state, pwr)
-    = trbFluidOp(state_1= fluid_1.state, Xi1=Xi1, m_flow1=m_flow, PR=PR, eff=eff);
+    = trbFluidOp(state_1= fluid_1.state, Xi1=fluid_1.X, m_flow1=m_flow, PR=PR, eff=eff);
   pwrMech= trbMechOp(omega=omega, trq=trq);
   pwrMech=pwr;
   
