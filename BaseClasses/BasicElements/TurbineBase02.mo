@@ -145,7 +145,6 @@ partial model TurbineBase02
   inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
   Medium.BaseProperties fluid_1(p(start = p1_init, min = 0.0 + 1.0e-10), T(start = T1_init, min = 0.0 + 1.0e-10), state.p(start = p1_init, min = 0.0 + 1.0e-10), state.T(start = T1_init, min = 0.0 + 1.0e-10), h(start = h1_init, min = 0.0 + 1.0e-10)) "flow station of inlet";
   Medium.BaseProperties fluid_2(p(start = p2_init, min = 0.0 + 1.0e-10), T(start = T2_init, min = 0.0 + 1.0e-10), state.p(start = p2_init, min = 0.0 + 1.0e-10), state.T(start = T2_init, min = 0.0 + 1.0e-10), h(start = h2_init, min = 0.0 + 1.0e-10)) "flow station of outlet";
-  Medium.BaseProperties fluid_2is(p(start = p2_init, min = 0.0 + 1.0e-10), T(start = T2_init, min = 0.0 + 1.0e-10), state.p(start = p2_init, min = 0.0 + 1.0e-10), state.T(start = T2_init, min = 0.0 + 1.0e-10), h(start = h2_init, min = 0.0 + 1.0e-10)) "flow station of outlet";
   
   
   /* ---------------------------------------------
@@ -283,8 +282,8 @@ equation
   --------------------------------------------- */
   port_1.m_flow + port_2.m_flow = 0.0;
   
-  (fluid_2.state, fluid_2is.state, pwr)
-    = fluidOp(state_1= fluid_1.state, Xi1=fluid_1.X, m_flow1=port_1.m_flow, PR=PR, eff=eff);
+  (fluid_2.p, fluid_2.h, fluid_2.X, h_2is, pwr)
+    = fluidOp(state_1= fluid_1.state, m_flow1=port_1.m_flow, PR=PR, eff=eff);
   pwrMech=mechOp(omega=omega, trq=trq);
   pwr=pwrMech;
   
@@ -292,8 +291,7 @@ equation
   Wc_1 = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
   Nc_1 = Nmech / sqrt(fluid_1.T / environment.Tstd);
   dht= fluid_2.h - fluid_1.h;
-  dht_is= fluid_2is.h - fluid_1.h;
-  h_2is= fluid_2is.h;
+  dht_is= h_2is - fluid_1.h;
   
   
   Nmech = omega * 60.0 / (2.0 * Modelica.Constants.pi);

@@ -38,15 +38,15 @@ equation
   connect(boundary.m_flow_in, ramp_m_flow.y) annotation(
     Line(points = {{80, 48}, {98, 48}, {98, 48}, {100, 48}}, color = {0, 0, 127}));
   connect(massFlowRate1.port_b, Trb.port_1) annotation(
-    Line(points = {{0, 40}, {0, 40}, {0, -4}, {0, -4}}, color = {0, 127, 255}));
+    Line(points = {{0, 40}, {0, 18}, {8, 18}, {8, -4}}, color = {0, 127, 255}));
   connect(pressure2.port, massFlowRate1.port_a) annotation(
     Line(points = {{-40, 40}, {-20, 40}, {-20, 40}, {-20, 40}}, color = {0, 127, 255}));
   connect(boundary_in.ports[1], pressure2.port) annotation(
     Line(points = {{-60, 40}, {-40, 40}}, color = {0, 127, 255}));
   connect(powerSensor1.flange_a, Trb.flange_1) annotation(
-    Line(points = {{-20, -20}, {0, -20}, {0, -20}, {0, -20}}));
+    Line(points = {{-20, -20}, {0, -20}}));
   connect(Trb.port_2, pressure1.port) annotation(
-    Line(points = {{40, -4}, {50, -4}, {50, -4}, {50, -4}}, color = {0, 127, 255}));
+    Line(points = {{32, -4}, {50, -4}}, color = {0, 127, 255}));
   connect(ramp_Nmech.y, from_rpm1.u) annotation(
     Line(points = {{-119, -20}, {-103, -20}, {-103, -20}, {-103, -20}}, color = {0, 0, 127}));
   connect(from_rpm1.y, speed1.w_ref) annotation(

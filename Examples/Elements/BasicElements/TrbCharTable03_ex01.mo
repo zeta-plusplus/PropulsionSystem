@@ -3,7 +3,9 @@ within PropulsionSystem.Examples.Elements.BasicElements;
 model TrbCharTable03_ex01
   extends Modelica.Icons.Example;
   //-----
-  package engineAir = Modelica.Media.Air.DryAirNasa;
+  //package engineAir = Modelica.Media.Air.DryAirNasa;
+  //package engineAir = Modelica.Media.Air.MoistAir;
+  package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
   //redeclare package Medium = engineAir
   //-----
   inner PropulsionSystem.EngineSimEnvironment environment(timeRemoveDesConstraint = 5.0)  annotation(
@@ -22,7 +24,7 @@ model TrbCharTable03_ex01
     Placement(visible = true, transformation(origin = {60, -4}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Fluid.Sensors.Pressure pressure2(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-40, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Sources.Boundary_pT boundary_in(redeclare package Medium = engineAir, T = 1000, nPorts = 1, p = 5 * 101.325 * 1000, use_T_in = false, use_p_in = false)  annotation(
+  Modelica.Fluid.Sources.Boundary_pT boundary_in(redeclare package Medium = engineAir, T = 1000, X = {0.01, 0.79, 0.2}, nPorts = 1, p = 5 * 101.325 * 1000, use_T_in = false, use_p_in = false)  annotation(
     Placement(visible = true, transformation(origin = {-70, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate1(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-10, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -30,7 +32,7 @@ model TrbCharTable03_ex01
     Placement(visible = true, transformation(origin = {70, 40}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_m_flow(duration = 10, height = -1, offset = -10, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {110, 48}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharTable03 Trb(redeclare package Medium = Modelica.Media.Air.DryAirNasa, printCmd = true, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.param, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
+  PropulsionSystem.Elements.BasicElements.TrbCharTable03 Trb(redeclare package Medium = engineAir, printCmd = true, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.param, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {30, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 equation
   connect(pressure1.port, boundary.ports[1]) annotation(
