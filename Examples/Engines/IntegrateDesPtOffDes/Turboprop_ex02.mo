@@ -27,7 +27,7 @@ model Turboprop_ex02
     Placement(visible = true, transformation(origin = {-60, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CmpCharTable02 Cmp(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = { -80, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharTable02 Trb(redeclare package Medium = engineAir, printCmd = true, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
+  PropulsionSystem.Elements.BasicElements.TrbCharTable03 TrbGG(redeclare package Medium = engineAir, printCmd = true, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {40, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Sources.NmechAtDesignPoint01 NmechDes(use_u_NmechDes = false)  annotation(
     Placement(visible = true, transformation(origin = {-30, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -39,7 +39,7 @@ model Turboprop_ex02
     Placement(visible = true, transformation(origin = {176, 170}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Sources.FlightCondition2InletFluid01 Flt2Fluid(redeclare package Medium = engineAir, MN_paramInput = 0.5, alt_paramInput = 5000) annotation(
     Placement(visible = true, transformation(origin = {-240, 36}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharTable02 Trb1(redeclare package Medium = engineAir, printCmd = true, switch_calcOnlyDes = false, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
+  PropulsionSystem.Elements.BasicElements.TrbCharTable03 TrbPwr(redeclare package Medium = engineAir, printCmd = true, switch_calcOnlyDes = false, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {100, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sensors.SpeedSensor speedSensor1 annotation(
     Placement(visible = true, transformation(origin = {-90, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
@@ -53,24 +53,18 @@ model Turboprop_ex02
     Placement(visible = true, transformation(origin = {-180, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   PropulsionSystem.Sources.NmechAtDesignPoint01 NmechDes1(NmechDes_paramInput = 2000, printCmd = false)  annotation(
     Placement(visible = true, transformation(origin = {-50, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Components.InitializeFlange initializeFlange1(stateSelect = StateSelect.default,use_a_start = false, use_phi_start = false)  annotation(
-    Placement(visible = true, transformation(origin = {-130, -112}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 equation
-  connect(initializeFlange1.w_start, NmechDes1.y_omegaDes) annotation(
-    Line(points = {{-118, -112}, {-42, -112}, {-42, -91}}, color = {0, 0, 127}));
-  connect(NmechDes1.flange_2, Trb1.flange_1) annotation(
+  connect(NmechDes1.flange_2, TrbPwr.flange_1) annotation(
     Line(points = {{-40, -80}, {80, -80}}));
   connect(speedSensor1.flange, NmechDes1.flange_1) annotation(
     Line(points = {{-90, -80}, {-60, -80}}));
-  connect(Prop.flange_1, initializeFlange1.flange) annotation(
-    Line(points = {{-160, -80}, {-150, -80}, {-150, -112}, {-140, -112}, {-140, -112}}));
   connect(Prop.flange_1, speedSensor1.flange) annotation(
     Line(points = {{-160, -80}, {-90, -80}}));
-  connect(temperature.port, Trb.port_1) annotation(
+  connect(temperature.port, TrbGG.port_1) annotation(
     Line(points = {{28, 60}, {28, 36}}, color = {0, 127, 255}));
-  connect(NmechDes.flange_2, Trb.flange_1) annotation(
+  connect(NmechDes.flange_2, TrbGG.flange_1) annotation(
     Line(points = {{-20, 20}, {20, 20}}));
-  connect(Trb.port_2, Trb1.port_1) annotation(
+  connect(TrbGG.port_2, TrbPwr.port_1) annotation(
     Line(points = {{52, 36}, {88, 36}, {88, -64}}, color = {0, 127, 255}));
   connect(Inlt.port_2, MassFlowDes.port_1) annotation(
     Line(points = {{-148, 36}, {-130, 36}}, color = {0, 127, 255}));
@@ -88,7 +82,7 @@ equation
     Line(points = {{164, 16}, {176, 16}, {176, -64}}, color = {0, 127, 255}));
   connect(pressureRatio1.port_a, Nzl.port_1) annotation(
     Line(points = {{144, 16}, {144, -64}}, color = {0, 127, 255}));
-  connect(Trb1.port_2, Nzl.port_1) annotation(
+  connect(TrbPwr.port_2, Nzl.port_1) annotation(
     Line(points = {{112, -64}, {144, -64}}, color = {0, 127, 255}));
   connect(Comb.port_2, temperature.port) annotation(
     Line(points = {{-0.5, 60}, {28, 60}}, color = {0, 127, 255}));

@@ -82,6 +82,12 @@ partial model PropellerActuatorDiskBase00
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   
   
+  /* ---------------------------------------------
+          Declare function objects
+  --------------------------------------------- */
+  function mechOp= PropulsionSystem.Functions.PropellerFunctionPackage.PropellerMechPower00;
+  
+  
   
   /* ---------------------------------------------
           Interface   
@@ -198,16 +204,7 @@ equation
   Nmech = omega*60.0/(2.0*Modelica.Constants.pi);
   Nmech_rps= Nmech/60.0;
   
-  pwr = omega*trq;
-  
-  /*
-  if(omega<-1.0*Modelica.Constants.small)or(Modelica.Constants.small<omega)then
-    pwr = omega*trq;
-  else
-    trq=0.0;
-  end if;
-  */
-  
+  pwr= mechOp(omega=omega, trq=trq);
   pwrPropulsive = pwr * effProp;
   
   

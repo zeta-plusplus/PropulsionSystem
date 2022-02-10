@@ -51,7 +51,7 @@ model TrbCharTable03
   /* ---------------------------------------------
             parameters    
     --------------------------------------------- */
-  inner parameter Real PRdes_paramInput = 10 "pressure ratio, valid only when switchDetermine_PR==param, value fixed through simulation" annotation(
+  inner parameter Real PRdes_paramInput = 2 "pressure ratio, valid only when switchDetermine_PR==param, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
   inner parameter Real effDes_paramInput = 0.80 "adiabatic efficiency, valid only when use_u_eff==false, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
