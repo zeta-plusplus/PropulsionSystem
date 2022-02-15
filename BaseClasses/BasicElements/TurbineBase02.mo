@@ -100,7 +100,8 @@ partial model TurbineBase02
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Units.Power pwr(start = pwr_init) "power via shaft, positive if fluid generates power" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
-  Units.Power pwrMech(start=pwr_init) "positive if fluid generates power";
+  Units.Power pwrMech(start=pwr_init) "positive if fluid generates power" annotation(
+    Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Units.Torque trq(start = trq_init) "trq via shaft" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Units.Power pwr_inv(start = -1.0 * pwr_init) "power via shaft" annotation(

@@ -1,4 +1,4 @@
-within PropulsionSystem.Examples.Engines.IntegrateDesPtOffDes;
+within PropulsionSystem.Examples.Engines.IntegrateDesPtOffDes.saveFailed;
 
 model Turboprop_ex02
   extends Modelica.Icons.Example;

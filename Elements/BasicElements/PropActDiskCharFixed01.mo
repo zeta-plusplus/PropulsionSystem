@@ -1,7 +1,7 @@
 within PropulsionSystem.Elements.BasicElements;
 
 model PropActDiskCharFixed01
-  extends PropulsionSystem.BaseClasses.BasicElements.PropellerActuatorDiskBase00;
+  extends PropulsionSystem.BaseClasses.BasicElements.PropellerActuatorDiskBase02;
   /********************************************************
             imports
     ********************************************************/
@@ -50,16 +50,19 @@ model PropActDiskCharFixed01
   /* ---------------------------------------------
           parameters    
   --------------------------------------------- */
+  
   parameter Real effProp_paramInput = 0.9 "propeller efficiency, valid only when use_u_effProp==false, value fixed through simulation" annotation(
     Dialog(group = "characteristics"));
   parameter Real Jdes_paramInput= 2.0 "advance ratio, design point, higher -> smaller diameter" annotation(
     Dialog(group = "characteristics"));
-  
+  /*
   parameter Modelica.SIunits.Velocity Vinf_FnSaturation_paramInput = 50 if switch_FnSaturation == switchThrustSaturation.byVinf "freestream speeed for thrust saturation, valid only when switch_FnSaturation==byVinf";
   parameter Modelica.SIunits.Force Fn_FnSaturation_paramInput = 10 * 1000 if switch_FnSaturation == switchThrustSaturation.byFn "saturation thrust, valid only when switch_FnSaturation==byFn";
+  */
   
   //********** Initialization Parameters **********
   //--- fluid_Amb, port_Amb ---
+  /*
   parameter Modelica.SIunits.MassFlowRate m_flowAmb_init(displayUnit = "kg/s") = 1.0 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_amb"));
   parameter Modelica.SIunits.Pressure pAmb_init(displayUnit = "Pa") = 101.3 * 1000 "" annotation(
@@ -68,30 +71,28 @@ model PropActDiskCharFixed01
     Dialog(tab = "Initialization", group = "fluid_amb"));
   parameter Modelica.SIunits.SpecificEnthalpy hAmb_init(displayUnit = "J/kg") = Tamb_init*1.004 * 1000 * 288.15 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_amb"));
-  
+  */
   
   /* ---------------------------------------------
           Internal variables    
   --------------------------------------------- */
-  Modelica.SIunits.Velocity Vinf_FnSaturation if switch_FnSaturation == switchThrustSaturation.byVinf "freestream speeed for thrust saturation";
-  Modelica.SIunits.Force Fn_FnSaturation if switch_FnSaturation == switchThrustSaturation.byFn "saturation thrust";
-  
+  /*
   Real CT(start=0.12, min=Modelica.Constants.small) "thrust coefficient" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Real CP(start=0.32, min=Modelica.Constants.small) "power coefficient" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
-  /**/
+  
   Modelica.SIunits.Length diam(start=4.0, min=Modelica.Constants.small) "propeller diameter" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Real J(start=1.4, min=Modelica.Constants.small) "advance ratio" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  */
   
   
   /* ---------------------------------------------
       Internal objects
   --------------------------------------------- */
-  inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
-  
+  /*
   Medium.BaseProperties fluid_amb(
     p(start = pAmb_init, min=0.0+1.0e-10), 
     T(start = Tamb_init, min=0.0+1.0e-10), 
@@ -100,11 +101,14 @@ model PropActDiskCharFixed01
     h(start = hAmb_init, min=0.0+1.0e-10),
     d(start= pAmb_init/(278*Tamb_init), min=0.0+1.0e-10)
   ) "flow station of inlet";
+  */
+  
   
   
   /* ---------------------------------------------
           Interface   
     --------------------------------------------- */
+  /*
   Modelica.Fluid.Interfaces.FluidPort_a port_amb(
     redeclare package Medium = Medium, 
     m_flow(start = m_flowAmb_init, min= 0.0), 
@@ -112,7 +116,7 @@ model PropActDiskCharFixed01
     p(start=pAmb_init, min=0.0+1.0e-10)
   ) ""  annotation(
     Placement(visible = true, transformation(origin = {-80, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-80, 100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
+  */
   
   Modelica.Blocks.Interfaces.RealInput u_effProp if use_u_effProp annotation(
     Placement(visible = true, transformation(origin = {-40, -120}, extent = {{-20, -20}, {20, 20}}, rotation = 90), iconTransformation(origin = {-40, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
@@ -255,15 +259,19 @@ equation
   if noEvent(time<=environment.timeRemoveDesConstraint)then
     J= (effProp*CP)/CT;
     diam*(Jdes*NmechDes_rps)= Vinf;
+    //(J, effProp)= relNonDimVar(CT=CT, CP=CP, diam=diam, Nmech_rp=Nmech_rps, Vinf=Vinf);
+    //(Jdes, effProp)= relNonDimVar(CT=CT, CP=CP, diam=diam, NmechDes_rp=Nmech_rps, Vinf=Vinf);
   else
+    //(J, effProp)= relNonDimVar(CT=CT, CP=CP, diam=diam, Nmech_rp=Nmech_rps, Vinf=Vinf);
     J*(Nmech_rps*diam)= Vinf;
     diam= diamDes;
   end if;
   /**/
   
-  CT= Fn/(fluid_amb.d*Nmech_rps^2.0*diam^4.0);
-  CP= pwr/(fluid_amb.d*Nmech_rps^3.0*diam^5.0);
-  
+  //CT= Fn/(fluid_amb.d*Nmech_rps^2.0*diam^4.0);
+  //CP= pwr/(fluid_amb.d*Nmech_rps^3.0*diam^5.0);
+  (Fn, pwr)= calcPerf(CT=CT, CP=CP, diam=diam, Nmech_rps=Nmech_rps, state_amb=fluid_amb.state);
+    
   
   
 /********************************************************

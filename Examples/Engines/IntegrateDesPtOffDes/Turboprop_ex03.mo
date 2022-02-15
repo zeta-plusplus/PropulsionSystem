@@ -1,6 +1,6 @@
 within PropulsionSystem.Examples.Engines.IntegrateDesPtOffDes;
 
-model Turboprop_ex02
+model Turboprop_ex03
   extends Modelica.Icons.Example;
   //-----
   //package engineAir = Modelica.Media.Air.DryAirNasa;
@@ -49,14 +49,14 @@ model Turboprop_ex02
     Placement(visible = true, transformation(origin = {150, 90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Sources.NmechAtDesignPoint01 NmechDes1(NmechDes_paramInput = 2000, printCmd = false)  annotation(
     Placement(visible = true, transformation(origin = {-50, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.PropActDiskCharTable00 prop(redeclare package Medium = engineAir) annotation(
-    Placement(visible = true, transformation(origin = {-180, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp(duration = 10, height = 0, offset = 1.2, startTime = 30) annotation(
-    Placement(visible = true, transformation(origin = {-110, -40}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp(duration = 10, height = 0, offset = 20, startTime = 30) annotation(
+    Placement(visible = true, transformation(origin = {-90, -40}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.UnitConversions.From_deg from_deg annotation(
-    Placement(visible = true, transformation(origin = {-150, -40}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-130, -40}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   PropulsionSystem.Utilities.ConstrainVariableDesignPoint constraintDesPt annotation(
     Placement(visible = true, transformation(origin = {150, 50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  PropulsionSystem.Elements.BasicElements.PropActDiskCharTable00 prop(redeclare package Medium = engineAir) annotation(
+    Placement(visible = true, transformation(origin = {-180, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
 equation
   connect(NmechDes1.flange_2, TrbPwr.flange_1) annotation(
     Line(points = {{-40, -80}, {80, -80}}));
@@ -100,20 +100,20 @@ equation
     Line(points = {{-110, 36}, {-92, 36}}, color = {0, 127, 255}));
   connect(VarBySolver.y_independent, boundary.m_flow_in) annotation(
     Line(points = {{-89, 90}, {-83, 90}, {-83, 98}, {-71, 98}}, color = {0, 0, 127}));
-  connect(prop.flange_1, speedSensor1.flange) annotation(
-    Line(points = {{-160, -80}, {-90, -80}}));
-  connect(Flt2Fluid.port_amb4source, prop.port_amb) annotation(
-    Line(points = {{-220, 52}, {-196, 52}, {-196, -60}}, color = {0, 127, 255}));
-  connect(Flt2Fluid.y_V_inf, prop.u_Vinf) annotation(
-    Line(points = {{-218, 20}, {-212, 20}, {-212, -72}, {-202, -72}}, color = {0, 0, 127}));
   connect(from_deg.u, ramp.y) annotation(
-    Line(points = {{-138, -40}, {-120, -40}}, color = {0, 0, 127}));
-  connect(from_deg.y, prop.u_theta) annotation(
-    Line(points = {{-160, -40}, {-168, -40}, {-168, -68}, {-178, -68}}, color = {0, 0, 127}));
+    Line(points = {{-118, -40}, {-100, -40}}, color = {0, 0, 127}));
   connect(ramp2.y, constraintDesPt.u_targetValue) annotation(
     Line(points = {{150, 80}, {150, 62}}, color = {0, 0, 127}));
   connect(constraintDesPt.u_variable, pressureRatio1.p_ratio) annotation(
     Line(points = {{150, 40}, {150, 26}}, color = {0, 0, 127}));
+  connect(prop.flange_1, speedSensor1.flange) annotation(
+    Line(points = {{-160, -80}, {-90, -80}}));
+  connect(Flt2Fluid.port_amb4source, prop.port_amb) annotation(
+    Line(points = {{-220, 52}, {-196, 52}, {-196, -60}}, color = {0, 127, 255}));
+  connect(from_deg.y, prop.u_theta) annotation(
+    Line(points = {{-140, -40}, {-164, -40}, {-164, -68}, {-178, -68}}, color = {0, 0, 127}));
+  connect(Flt2Fluid.y_V_inf, prop.u_Vinf) annotation(
+    Line(points = {{-218, 20}, {-214, 20}, {-214, -72}, {-202, -72}}, color = {0, 0, 127}));
   annotation(
     uses(Modelica(version = "3.2.2")),
     Diagram(coordinateSystem(extent = {{-300, -200}, {300, 200}})),
@@ -123,4 +123,4 @@ equation
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.1),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl", outputFormat = "plt"));
 
-end Turboprop_ex02;
+end Turboprop_ex03;

@@ -1,4 +1,4 @@
-within PropulsionSystem.Examples.Engines.IntegrateDesPtOffDes;
+within PropulsionSystem.Examples.Engines.IntegrateDesPtOffDes.saveFailed;
 
 model Turbojet_DP2Trans_ex01
   extends Modelica.Icons.Example;
@@ -27,7 +27,7 @@ model Turbojet_DP2Trans_ex01
     Placement(visible = true, transformation(origin = {0, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CmpCharTable02 Cmp(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-52, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharTable03 Trb(redeclare package Medium = engineAir, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
+  PropulsionSystem.Elements.BasicElements.TrbCharTable02 Trb(redeclare package Medium = engineAir, use_tableFile_Wc = true, use_tableFile_eff = true) annotation(
     Placement(visible = true, transformation(origin = {140, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Sources.NmechAtDesignPoint01 NmechDes(use_u_NmechDes = false)  annotation(
     Placement(visible = true, transformation(origin = {30, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));

@@ -8,9 +8,9 @@ function PropellerMechPower00
   input Units.AngularVelocity omega;
   input Units.Torque trq;
   //----------
-  output Units.Power pwr;
+  output Units.Power pwrMech;
   
 algorithm
-  pwr:= omega*trq;
+  pwrMech:= omega*trq;
   
 end PropellerMechPower00;

@@ -1,4 +1,6 @@
 TurbineFunctionPackage
+CompressorFunctionPackage
+NozzleFunctionPackage
 PropellerFunctionPackage
 CompressorFluidOperation00
 CompressorMechOperation00
