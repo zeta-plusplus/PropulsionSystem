@@ -1,5 +1,4 @@
 CmpCharFixed01
-CmpCharFixed00
 CmpCharTable02
 TrbCharFixed01
 TrbCharTable03
@@ -9,8 +8,6 @@ CombCharFixed01
 CombCharFixed00
 NzlCharFixed00
 NzlDefAeByFlowCharFixed02
-NzlDefAeByFlowCharFixed01
-NzlDefAeByFlowCharFixed00
 InltCharFixed00
 PistonCylinderNonidealOttoMV01
 PistonCylinderNonidealDieselMV01
@@ -31,10 +28,13 @@ IdealMixer00
 EnginePerformance00
 CmpCharTable01
 CmpCharTable00
+CmpCharFixed00
 TrbCharTable02
 TrbCharTable01
 TrbCharTable00
 TrbCharFixed00
+NzlDefAeByFlowCharFixed01
+NzlDefAeByFlowCharFixed00
 PropellerActDisk
 Compressor
 Compressor_Map_WcPReff

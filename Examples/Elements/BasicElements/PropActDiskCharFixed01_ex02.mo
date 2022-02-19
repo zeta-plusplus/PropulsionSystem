@@ -22,14 +22,18 @@ model PropActDiskCharFixed01_ex02
     Placement(visible = true, transformation(origin = {58, -10}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Sources.Ramp ramp_pwr(duration = 10, height = 5 * 1000, offset = 100 * 1000, startTime = 30) annotation(
     Placement(visible = true, transformation(origin = {58, -44}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  PropulsionSystem.Elements.BasicElements.PropActDiskCharFixed01 Prop(redeclare package Medium = engineAir, Jdes_paramInput = 2.0, printCmd = false, use_u_effProp = true) annotation(
+  PropulsionSystem.Elements.BasicElements.PropActDiskCharFixed01 Prop(redeclare package Medium = engineAir, Jdes_par = 2.0, printCmd = false, use_u_effProp = true) annotation(
     Placement(visible = true, transformation(origin = {-60, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = engineAir, T = 15 + 273.15, nPorts = 1, p = 101.325 * 1000) annotation(
     Placement(visible = true, transformation(origin = {-100, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-10, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  PropulsionSystem.Sources.NmechAtDesignPoint01 NmechDes annotation(
-    Placement(visible = true, transformation(origin = {10, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  PropulsionSystem.Utilities.ConstrainVariableDesignPoint constraintDesPt annotation(
+    Placement(visible = true, transformation(origin = {-20, -20}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Blocks.Sources.Ramp ramp_NmechDes(duration = 10, height = 0, offset = 3000, startTime = 30) annotation(
+    Placement(visible = true, transformation(origin = {-20, -80}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  Modelica.Blocks.Math.UnitConversions.From_rpm from_rpm annotation(
+    Placement(visible = true, transformation(origin = {-20, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 equation
   connect(Prop.flange_1, speedSensor1.flange) annotation(
     Line(points = {{-40, 20}, {-20, 20}}));
@@ -47,10 +51,14 @@ equation
     Line(points = {{58, 9}, {58, 9}, {58, 3}, {58, 3}}, color = {0, 0, 127}));
   connect(ramp_pwr.y, Constraint1.u_targetValue) annotation(
     Line(points = {{58, -33}, {58, -33}, {58, -23}, {58, -23}}, color = {0, 0, 127}));
-  connect(speedSensor1.flange, NmechDes.flange_1) annotation(
-    Line(points = {{-20, 20}, {0, 20}}));
-  connect(NmechDes.flange_2, powerSensor1.flange_b) annotation(
-    Line(points = {{20, 20}, {40, 20}}));
+  connect(speedSensor1.flange, powerSensor1.flange_b) annotation(
+    Line(points = {{-20, 20}, {40, 20}}));
+  connect(speedSensor1.w, constraintDesPt.u_variable) annotation(
+    Line(points = {{-20, 0}, {-20, -8}}, color = {0, 0, 127}));
+  connect(from_rpm.y, constraintDesPt.u_targetValue) annotation(
+    Line(points = {{-20, -38}, {-20, -32}}, color = {0, 0, 127}));
+  connect(ramp_NmechDes.y, from_rpm.u) annotation(
+    Line(points = {{-20, -68}, {-20, -62}}, color = {0, 0, 127}));
   annotation(
     experiment(StartTime = 0, StopTime = 50, Tolerance = 1e-06, Interval = 0.0166722),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),

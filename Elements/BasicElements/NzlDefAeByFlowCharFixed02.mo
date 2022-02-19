@@ -91,10 +91,7 @@ equation
   
   //--------------------
   when(sample(environment.timeRemoveDesConstraint,1.0)and(environment.timeRemoveDesConstraint<time))then
-    //if(switch_calcOnlyDes==false)then
-    //===== mode: des. pt. -> off des. =====
-      auxVar=1;
-    //end if;
+    auxVar=1;
   end when;
   /**/
   

@@ -17,6 +17,7 @@ function PropellerOperation00
   //----------
   output Real J;
   output Real effProp;
+  output Real CTqCP;
   output Units.Force Fn;
   output Units.Power pwrPropulsive;
   output Units.Power pwrMech;
@@ -24,6 +25,7 @@ function PropellerOperation00
 algorithm
   J:= Vinf/(Nmech_rps*diam);
   effProp:= J*CT/CP;
+  CTqCP:=CT/CP;
   Fn:= CT*(inFuncMedium.density(state_amb)*(Nmech_rps^2.0*diam^2.0)*diam^2.0);
   pwrMech:= CP*(inFuncMedium.density(state_amb)*(Nmech_rps^2.0*diam^2.0)*diam^2.0*(Nmech_rps*diam));
   pwrPropulsive:= Fn*Vinf;
