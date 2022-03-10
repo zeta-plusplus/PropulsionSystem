@@ -55,13 +55,21 @@ model PropActDiskCharFixed01
   /* ---------------------------------------------
           Internal variables    
   --------------------------------------------- */
-  discrete Real auxVar "";
+  discrete Real auxVar1 "";
+  Real k_Jdes;
+  Real k_Jvar;
   //discrete Real auxVar2 "";
+  
   
   /* ---------------------------------------------
       Internal objects
   --------------------------------------------- */
   
+  
+  /* ---------------------------------------------
+          Declare function objects
+  --------------------------------------------- */
+  function rel_J_Jdes= PropulsionSystem.Functions.PropellerFunctionPackage.relate_J_Jdes00;
   
   
   /* ---------------------------------------------
@@ -98,6 +106,7 @@ initial equation
     Jdes= u_Jdes;
   end if;
   //--------------------
+  auxVar1=1;
   
   
 //********************************************************************************
@@ -145,7 +154,7 @@ equation
   /* ---------------------------------------------
   Eqns describing physics
   --------------------------------------------- */
-  if (time<=environment.timeRemoveDesConstraint)then
+  /*if (time<=environment.timeRemoveDesConstraint)then
     J=Jdes;
     //diam=auxVar;
     //CTqCP=auxVar2;
@@ -155,15 +164,23 @@ equation
     //auxVar=1.0;
     //CTqCP=CTqCPdes;
   end if;
-  /**/
+  */
+  /*
+  J= rel_J_Jdes(
+      t=time, tSwitch=environment.timeRemoveDesConstraint, Jdes=Jdes, auxVar=auxVar1
+    );
+  */
+  
+  diam=diamDes;
   
   //--------------------
   
+  /*
   when(sample(environment.timeRemoveDesConstraint,1.0)and(environment.timeRemoveDesConstraint<time))then
     diam=diamDes;
     //auxVar2=1.0;
   end when;
-  /**/
+  */
   
 /********************************************************
   Graphics
