@@ -19,11 +19,11 @@ model CmpCharFixed00_ex01
     Placement(visible = true, transformation(origin = {70, 30}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.MassFlowSource_T boundary1(redeclare package Medium = engineAir, T = 288.15, m_flow = -1.0, nPorts = 1, use_m_flow_in = true) annotation(
     Placement(visible = true, transformation(origin = {30, 60}, extent = {{-10, 10}, {10, -10}}, rotation = 180)));
-  Modelica.Blocks.Sources.Ramp ramp_PR(duration = 10, height = 10, offset = 10, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_PR(duration = 10, height = 0, offset = 45, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-30, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_eff(duration = 5, height = 0, offset = 0.8, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-30, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_m_flow(duration = 10, height = ramp_m_flow.offset * 0.1, offset = -1, startTime = 10) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_m_flow(duration = 10, height = 0 *ramp_m_flow.offset * 0.1, offset = -1, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {70, 70}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
 equation
   connect(boundary1.m_flow_in, ramp_m_flow.y) annotation(
