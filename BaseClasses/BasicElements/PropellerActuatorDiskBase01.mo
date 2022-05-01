@@ -88,6 +88,7 @@ partial model PropellerActuatorDiskBase01
     h(start = hAmb_init, min=0.0+1.0e-10)
   ) "flow station of inlet";
   
+  inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
   
   
   /* ---------------------------------------------

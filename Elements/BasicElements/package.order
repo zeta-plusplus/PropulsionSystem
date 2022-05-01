@@ -11,9 +11,9 @@ NzlDefAeByFlowCharFixed02
 InltCharFixed00
 PistonCylinderNonidealOttoMV01
 PistonCylinderNonidealDieselMV01
-PropActDiskCharFixed01
 PropActDiskCharFixed00
 PropActDiskCharTable00
+PropActDiskCharFixed02
 PistonCylinderIdealOttoMV01
 PistonCylinderIdealOttoMV00
 DuctDpqpWcSecOrder00
@@ -26,6 +26,7 @@ MixierLossBasedOnEntropy00
 IdealMixer01
 IdealMixer00
 EnginePerformance00
+PropActDiskCharFixed01
 CmpCharTable01
 CmpCharTable00
 CmpCharFixed00
