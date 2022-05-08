@@ -26,9 +26,7 @@ model VariableBySolver
     Placement(visible = true, transformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
 algorithm
-  //y_independent:= independent;
-
-  
+//y_independent:= independent;
 equation
   independent = y_independent;
 
@@ -38,7 +36,7 @@ equation
   
   annotation(
     defaultComponentName= "VarBySolver",
-    Icon(graphics = {Rectangle(origin = {0, -1}, fillColor = {225, 225, 225}, fillPattern = FillPattern.Solid, extent = {{-100, 101}, {100, -99}}), Text(origin = {-12, -95}, extent = {{-88, 15}, {112, -5}}, textString = "%name"), Text(origin = {-37, -30}, extent = {{-63, 50}, {137, -10}}, textString = "Solver", fontSize = 40), Text(origin = {-37, 8}, extent = {{-63, 72}, {137, 10}}, textString = "By", fontSize = 40)}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Rectangle(origin = {0, -1}, fillColor = {225, 225, 225}, fillPattern = FillPattern.Solid, extent = {{-100, 101}, {100, -99}}), Text(origin = {-12, -95}, extent = {{-88, 15}, {112, -5}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)));
   
   
 end VariableBySolver;

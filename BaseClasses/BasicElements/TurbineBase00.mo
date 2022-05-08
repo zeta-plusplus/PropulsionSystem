@@ -194,8 +194,6 @@ partial model TurbineBase00
   Modelica.SIunits.MassFlowRate m_flow_min(start=m_flow2_init) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  
-  
   //********** variables of design point **********
   discrete Modelica.SIunits.MassFlowRate Wc_1_des(start=Wc_1_init) "corrected mass flow rate, fluid_1, design point" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
@@ -212,7 +210,6 @@ partial model TurbineBase00
   discrete Real effDes(start=eff_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  
   //********** variables relative to design point **********
   inner Real NcqNcDes_1(start=NcqNcDes_1_init) "ratio of corrected rotational speed with respect to design pt. speed" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
@@ -220,14 +217,12 @@ partial model TurbineBase00
   Real NqNdes(start=NqNdes_init) "ratio of mech. rotational speed with respect to design pt. speed" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  
   //********** triggers **********
   /*
-  Real triggerDesCalc(start=0) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  */
-  
+    Real triggerDesCalc(start=0) "" annotation(
+      Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+    );
+    */
   /* ---------------------------------------------
       Internal objects
   --------------------------------------------- */
@@ -261,7 +256,7 @@ partial model TurbineBase00
     h_outflow(start = h1_init, min=0.0+1.0e-10), 
     p(start=p1_init, min=0.0+1.0e-10)
   ) "" annotation(
-    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-58, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_b port_2
   (
     redeclare package Medium = Medium, 
@@ -269,7 +264,7 @@ partial model TurbineBase00
     h_outflow(start = h2_init, min=0.0+1.0e-10), 
     p(start=p2_init, min=0.0+1.0e-10)
   ) "" annotation(
-    Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {60, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1(
     tau(start=tau1_init), phi(start=phi1_init)
   ) "" annotation(
@@ -280,26 +275,18 @@ partial model TurbineBase00
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {100, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-    
-//******************************************************************************************
+  //******************************************************************************************
 protected
-  
-  
-//******************************************************************************************
+  //******************************************************************************************
 initial algorithm
-  
 //******************************************************************************************
 initial equation
-  
-  
-//******************************************************************************************  
+//******************************************************************************************
 algorithm
   
   if(printCmd==true)then
     assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
   end if;
-    
 //******************************************************************************************
 equation
   
@@ -307,7 +294,6 @@ equation
     assert(fluid_1.p <= 0.0, getInstanceName()+", fluid_1.p="+String(fluid_1.p), AssertionLevel.warning);
     assert(fluid_2.p <= 0.0, getInstanceName()+", fluid_2.p="+String(fluid_2.p), AssertionLevel.warning);
   end if;
-  
 /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
@@ -338,7 +324,6 @@ equation
       port_1.Xi_outflow= fluid_1.Xi;
     end if;
   end if;
-  
 //-- shaft --
   flange_1.phi = phi;
   flange_2.phi = phi;
@@ -405,7 +390,7 @@ equation
   Graphics
 ********************************************************/
   annotation(
-    Icon(graphics = {Polygon(origin = {30, 0}, fillColor = {255, 170, 0}, fillPattern = FillPattern.HorizontalCylinder, points = {{-90, 0}, {-90, -20}, {30, -80}, {30, 80}, {-90, 20}, {-90, 0}}), Rectangle(origin = {84, 6}, fillPattern = FillPattern.Solid, extent = {{-24, 4}, {16, -16}}), Rectangle(origin = {-86, 6}, fillPattern = FillPattern.Solid, extent = {{-12, 4}, {26, -16}}), Text(origin = {-43, 95}, extent = {{-37, 5}, {123, -15}}, textString = "%name"), Rectangle(origin = {-57, 30}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 52}, {1, -10}}), Rectangle(origin = {-99, 16}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-1, 66}, {43, 62}}), Rectangle(origin = {63, 16}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 66}, {37, 62}}), Text(origin = {-37, 11}, extent = {{-23, 9}, {97, -31}}, textString = "Trb")}, coordinateSystem(initialScale = 0.1)),
+    Icon(graphics = {Polygon(origin = {30, 0}, fillColor = {255, 170, 0}, fillPattern = FillPattern.HorizontalCylinder, points = {{-90, 0}, {-90, -20}, {30, -80}, {30, 80}, {-90, 20}, {-90, 0}}), Rectangle(origin = {84, 6}, fillPattern = FillPattern.Solid, extent = {{-24, 4}, {16, -16}}), Rectangle(origin = {-86, 6}, fillPattern = FillPattern.Solid, extent = {{-12, 4}, {26, -16}}), Text(origin = {-43, 115}, extent = {{-37, 5}, {123, -15}}, textString = "%name"), Rectangle(origin = {-57, 30}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 52}, {1, -10}})}, coordinateSystem(initialScale = 0.1)),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"));
   
   

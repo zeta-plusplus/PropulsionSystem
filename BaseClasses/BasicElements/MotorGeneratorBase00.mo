@@ -40,10 +40,7 @@ partial model MotorGeneratorBase00
     Placement(visible = true, transformation(origin = {0, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {90, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {60, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-  
-  
-//********************************************************************************
+  //********************************************************************************
 protected
   /* ---------------------------------------------
           Non-modifiable parameters
@@ -55,23 +52,20 @@ protected
   
   
 equation
-  
-  
-  
-  /* ---------------------------------------------
+/* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
-  //--------------------
+//--------------------
   if use_HeatPort_1 == true then
     Qloss = (-1.0) * HeatPort_1.Q_flow;
   end if;
-  //--------------------
+//--------------------
   phi = flange_1.phi;
   if flange_1.tau >= 0.0 then
-    // generator operation
+// generator operation
     trqIn = flange_1.tau;
   else
-    // motor operation
+// motor operation
     flange_1.tau = trqOut;
   end if;
   
@@ -94,5 +88,5 @@ equation
 ********************************************************/
   annotation(
     defaultComponentName = "MotGene",
-    Icon(graphics = {Rectangle(origin = {1, 1}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-101, 9}, {71, -11}}), Text(origin = {-45, 76}, extent = {{-35, 4}, {125, -16}}, textString = "%name"), Ellipse(origin = {-70, -4}, fillColor = {0, 170, 0}, pattern = LinePattern.None, fillPattern = FillPattern.HorizontalCylinder, lineThickness = 0.75, extent = {{-16, 64}, {18, -56}}, endAngle = 360), Rectangle(origin = {7, -1}, fillColor = {0, 170, 0}, pattern = LinePattern.None, fillPattern = FillPattern.HorizontalCylinder, extent = {{-76, 61}, {78, -59}}), Ellipse(origin = {85, -4}, fillColor = {0, 170, 0}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, lineThickness = 0.75, extent = {{-16, 64}, {16, -56}}, endAngle = 360), Text(origin = {-39, 21}, lineColor = {255, 255, 255}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-43, 3}, {139, -41}}, textString = "Motor/Gene.", fontSize = 40)}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Rectangle(origin = {1, 1}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-101, 9}, {71, -11}}), Text(origin = {-45, 88}, extent = {{-35, 4}, {125, -16}}, textString = "%name"), Ellipse(origin = {-70, -4}, fillColor = {0, 170, 0}, pattern = LinePattern.None, fillPattern = FillPattern.HorizontalCylinder, lineThickness = 0.75, extent = {{-16, 64}, {18, -56}}), Rectangle(origin = {7, -1}, fillColor = {0, 170, 0}, pattern = LinePattern.None, fillPattern = FillPattern.HorizontalCylinder, extent = {{-76, 61}, {78, -59}}), Ellipse(origin = {85, -4}, fillColor = {0, 170, 0}, pattern = LinePattern.None, fillPattern = FillPattern.Solid, lineThickness = 0.75, extent = {{-16, 64}, {16, -56}})}, coordinateSystem(initialScale = 0.1)));
 end MotorGeneratorBase00;

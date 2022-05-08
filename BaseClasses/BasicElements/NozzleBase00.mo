@@ -292,7 +292,7 @@ partial model NozzleBase00
     h_outflow(start = h1_init, min=0.0+1.0e-10), 
     p(start=p1_init, min=0.0+1.0e-10)
   ) "" annotation(
-    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-80, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_b port_2(
     redeclare package Medium = Medium, 
     m_flow(start = m_flow2_init, max=if allowFlowReversal then +Constants.inf else 0.0), 
@@ -445,7 +445,7 @@ equation
   Graphics
 ********************************************************/
   annotation(
-    Icon(graphics = {Polygon(origin = {0, 10}, fillColor = {255, 250, 80}, fillPattern = FillPattern.HorizontalCylinder, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-74, 108}, extent = {{-26, -8}, {154, -28}}, textString = "%name"), Rectangle(origin = {-94, 80}, fillColor = {112, 112, 112}, fillPattern = FillPattern.Solid, extent = {{-6, 2}, {14, -2}}), Text(origin = {56, 81}, extent = {{-40, -1}, {30, -21}}, textString = "after expansion"), Line(origin = {81.88, 37.0395}, points = {{-23, 2}, {17, 2}, {17, 42}}, pattern = LinePattern.Dot, thickness = 0.5), Text(origin = {-58, 22}, extent = {{-22, -2}, {78, -42}}, textString = "Nzl")}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Polygon(origin = {0, 10}, fillColor = {255, 250, 80}, fillPattern = FillPattern.HorizontalCylinder, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-71, 128}, extent = {{-29, -8}, {169, -28}}, textString = "%name"), Text(origin = {56, 81}, extent = {{-40, -1}, {30, -21}}, textString = "after expansion"), Line(origin = {81.88, 37.0395}, points = {{-23, 2}, {17, 2}, {17, 42}}, pattern = LinePattern.Dot, thickness = 0.5)}, coordinateSystem(initialScale = 0.1)));
   
   
 end NozzleBase00;

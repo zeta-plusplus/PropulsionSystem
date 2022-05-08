@@ -165,8 +165,6 @@ partial model TurbineBase01
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {100, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-  
   //******************************************************************************************
 protected
   //********** variables of design point **********
@@ -197,10 +195,7 @@ initial equation
   assert( noEvent(Modelica.Constants.small<fluid_1.p), getInstanceName()+", fluid_1.p="+String(fluid_1.p), AssertionLevel.error);
   assert( noEvent(Modelica.Constants.small<fluid_1.T), getInstanceName()+", fluid_1.T="+String(fluid_1.T), AssertionLevel.error);
   assert( noEvent(Modelica.Constants.small<fluid_1.h), getInstanceName()+", fluid_1.h="+String(fluid_1.h), AssertionLevel.error);
-  
-  
-  //assert((omega<Modelica.Constants.small) or (Modelica.Constants.small<omega), getInstanceName()+", omega="+String(omega), AssertionLevel.warning);
-  
+//assert((omega<Modelica.Constants.small) or (Modelica.Constants.small<omega), getInstanceName()+", omega="+String(omega), AssertionLevel.warning);
   Wc_1_des = Wc_1;
   Nc_1_des = Nc_1;
 //******************************************************************************************
@@ -256,21 +251,18 @@ equation
   when (noEvent(fluid_1.h<Modelica.Constants.small)) then
     reinit(fluid_1.h, h1_init);
   end when;
-  
-  
-  /* ---------------------------------------------
+/* ---------------------------------------------
     Connections, interface <-> internal variables
   --------------------------------------------- */
-  //-- fluidPort_1 --
+//-- fluidPort_1 --
   fluid_1.p = port_1.p;
   fluid_1.h = actualStream(port_1.h_outflow);
   fluid_1.Xi = actualStream(port_1.Xi_outflow);
-  //-- fluidPort_2 --
+//-- fluidPort_2 --
   fluid_2.p = port_2.p;
   fluid_2.h = actualStream(port_2.h_outflow);
   fluid_2.Xi = actualStream(port_2.Xi_outflow);
-  
-  // distinguish inlet side
+// distinguish inlet side
   m_flow_max = max(port_1.m_flow, port_2.m_flow);
   m_flow_min = min(port_1.m_flow, port_2.m_flow);
   if allowFlowReversal == false then
@@ -288,8 +280,7 @@ equation
       port_1.Xi_outflow = fluid_1.Xi;
     end if;
   end if;
-  
-  //-- shaft --
+//-- shaft --
   flange_1.phi = phi;
   flange_2.phi = phi;
   der(phi) = omega;
@@ -327,8 +318,7 @@ equation
   trq_inv = -1 * trq;
   s_fluid_1 = Medium.specificEntropy(fluid_1.state);
   s_fluid_2 = Medium.specificEntropy(fluid_2.state);
-  
-  //-- variables relative to design point --
+//-- variables relative to design point --
   NqNdes = Nmech / NmechDes;
   NcqNcDes_1 = Nc_1 / Nc_1_des;
   
@@ -338,6 +328,6 @@ equation
   Graphics
 ********************************************************/
   annotation(
-    Icon(graphics = {Polygon(origin = {30, 0}, fillColor = {255, 170, 0}, fillPattern = FillPattern.HorizontalCylinder, points = {{-90, 0}, {-90, -20}, {30, -80}, {30, 80}, {-90, 20}, {-90, 0}}), Rectangle(origin = {84, 6}, fillPattern = FillPattern.Solid, extent = {{-24, 4}, {16, -16}}), Rectangle(origin = {-86, 6}, fillPattern = FillPattern.Solid, extent = {{-12, 4}, {26, -16}}), Text(origin = {-43, 117}, extent = {{-57, 5}, {143, -15}}, textString = "%name"), Rectangle(origin = {-57, 30}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 52}, {1, -10}}),  Text(origin = {-37, 11}, extent = {{-23, 9}, {97, -31}}, textString = "Trb")}, coordinateSystem(initialScale = 0.1)),
+    Icon(graphics = {Polygon(origin = {30, 0}, fillColor = {255, 170, 0}, fillPattern = FillPattern.HorizontalCylinder, points = {{-90, 0}, {-90, -20}, {30, -80}, {30, 80}, {-90, 20}, {-90, 0}}), Rectangle(origin = {84, 6}, fillPattern = FillPattern.Solid, extent = {{-24, 4}, {16, -16}}), Rectangle(origin = {-86, 6}, fillPattern = FillPattern.Solid, extent = {{-12, 4}, {26, -16}}), Text(origin = {-43, 117}, extent = {{-57, 5}, {143, -15}}, textString = "%name"), Rectangle(origin = {-57, 30}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 52}, {1, -10}})}, coordinateSystem(initialScale = 0.1)),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"));
 end TurbineBase01;

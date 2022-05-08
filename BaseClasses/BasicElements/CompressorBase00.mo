@@ -194,8 +194,6 @@ partial model CompressorBase00
   Modelica.SIunits.SpecificEntropy s_fluid_2(start=s_fluid_2_init) "specific entropy, fluid_2" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  
-  
   //********** variables of design point **********
   discrete Modelica.SIunits.MassFlowRate Wc_1_des(start=Wc_1_init) "corrected mass flow rate, fluid_1, design point" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
@@ -212,8 +210,6 @@ partial model CompressorBase00
   discrete Real effDes(start=eff_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  
-  
   //********** variables relative to design point **********
   inner Real NcqNcDes_1(start=NcqNcDes_1_init) "ratio of corrected rotational speed with respect to design pt. speed" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
@@ -221,15 +217,12 @@ partial model CompressorBase00
   Real NqNdes(start=NqNdes_init) "ratio of mech. rotational speed with respect to design pt. speed" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  
   //********** triggers **********
   /*
-  Real triggerDesCalc(start=0) "" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  */
-  
-  
+        Real triggerDesCalc(start=0) "" annotation(
+          Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+        );
+        */
   //********** flags **********
   Integer flagEffVal "0:0<eff<1, 1:eff<=0, 2:1<=eff";
   
@@ -264,14 +257,14 @@ partial model CompressorBase00
     h_outflow(start = h1_init, min=0.0+1.0e-10), 
     p(start=p1_init, min=0.0+1.0e-10)
   ) "" annotation(
-    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-60, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_b port_2(
     redeclare package Medium = Medium, 
     m_flow(start = m_flow2_init, max=if allowFlowReversal then +Constants.inf else 0.0), 
     h_outflow(start = h2_init, min=0.0+1.0e-10), 
     p(start=p2_init, min=0.0+1.0e-10)
   ) "" annotation(
-    Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {58, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1(
     tau(start=tau1_init), phi(start=phi1_init)
   ) "" annotation(
@@ -282,23 +275,17 @@ partial model CompressorBase00
     Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
     Placement(visible = true, transformation(origin = {100, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = { 100, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-  
-//******************************************************************************************
+  //******************************************************************************************
 protected
-  
-//******************************************************************************************
+  //******************************************************************************************
 initial algorithm
-  
 //******************************************************************************************
 initial equation
-  
 //******************************************************************************************
 algorithm
   if(printCmd==true)then
     assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
   end if;
-  
 //******************************************************************************************
 equation
   
@@ -306,7 +293,6 @@ equation
     assert(fluid_1.p <= 0.0, getInstanceName()+", fluid_1.p="+String(fluid_1.p), AssertionLevel.warning);
     assert(fluid_2.p <= 0.0, getInstanceName()+", fluid_2.p="+String(fluid_2.p), AssertionLevel.warning);
   end if;
-  
 /* ---------------------------------------------
   Connections, interface <-> internal variables
   --------------------------------------------- */
@@ -337,7 +323,6 @@ equation
       port_1.Xi_outflow= fluid_1.Xi;
     end if;
   end if;
-  
 //-- shaft --
   flange_1.phi = phi;
   flange_2.phi = phi;
@@ -429,7 +414,7 @@ equation
   
   annotation(
     defaultComponentName="Cmp",
-    Icon(graphics = {Polygon(origin = {2, 36}, fillColor = {2, 154, 255}, fillPattern = FillPattern.HorizontalCylinder, points = {{-62, -38}, {-62, -116}, {58, -56}, {58, -16}, {-62, 44}, {-62, -38}}), Rectangle(origin = {-89, 6}, fillPattern = FillPattern.Solid, extent = {{-11, 4}, {29, -16}}), Rectangle(origin = {83, 2}, fillPattern = FillPattern.Solid, extent = {{-23, 8}, {17, -12}}), Rectangle(origin = {63, 86}, rotation = 180, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 66}, {7, 4}}), Rectangle(origin = {-94, 77}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{1, 6}, {5, -36}}), Rectangle(origin = {82, 75}, rotation = 90, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 26}, {7, -18}}), Text(origin = {-54, 99}, fillPattern = FillPattern.Solid, extent = {{-26, 1}, {134, -19}}, textString = "%name"), Text(origin = {-52, 11}, fillPattern = FillPattern.Solid, lineThickness = 0.5, extent = {{-8, 9}, {112, -31}}, textString = "Cmp")}, coordinateSystem(initialScale = 0.1)),
+    Icon(graphics = {Polygon(origin = {2, 36}, fillColor = {2, 154, 255}, fillPattern = FillPattern.HorizontalCylinder, points = {{-62, -38}, {-62, -116}, {58, -56}, {58, -16}, {-62, 44}, {-62, -38}}), Rectangle(origin = {-89, 6}, fillPattern = FillPattern.Solid, extent = {{-11, 4}, {29, -16}}), Rectangle(origin = {83, 2}, fillPattern = FillPattern.Solid, extent = {{-23, 8}, {17, -12}}), Rectangle(origin = {63, 86}, rotation = 180, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 66}, {7, 4}}), Text(origin = {-54, 119}, fillPattern = FillPattern.Solid, extent = {{-26, 1}, {134, -19}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)),
   Documentation(info = "<html>
   <a href=modelica://PropulsionSystem/docs/BaseClasses/BasicElements/CompressorBase00.html> Document html page</a>
   

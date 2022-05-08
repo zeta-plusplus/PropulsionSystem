@@ -285,5 +285,5 @@ equation
   Graphics
 ********************************************************/
   annotation(
-    Icon(graphics = {Polygon(origin = {0, 10}, fillColor = {255, 250, 80}, fillPattern = FillPattern.HorizontalCylinder, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-74, 130}, extent = {{-26, -8}, {174, -28}}, textString = "%name"), Text(origin = {38, 79}, extent = {{-40, -1}, {30, -21}}, textString = "after expansion"), Line(origin = {82.157, 37.8707}, points = {{-23, 2}, {-3, 2}, {-3, 42}}, pattern = LinePattern.Dot, thickness = 0.5), Text(origin = {-58, 22}, extent = {{-22, -2}, {78, -42}}, textString = "Nzl")}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Polygon(origin = {0, 10}, fillColor = {255, 250, 80}, fillPattern = FillPattern.HorizontalCylinder, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-74, 130}, extent = {{-26, -8}, {174, -28}}, textString = "%name"), Text(origin = {38, 79}, extent = {{-40, -1}, {30, -21}}, textString = "after expansion"), Line(origin = {82.157, 37.8707}, points = {{-23, 2}, {-3, 2}, {-3, 42}}, pattern = LinePattern.Dot, thickness = 0.5)}, coordinateSystem(initialScale = 0.1)));
 end NozzleBase01;

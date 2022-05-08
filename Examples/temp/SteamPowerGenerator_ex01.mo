@@ -1,4 +1,4 @@
-within PropulsionSystem.Examples.ThermoCycleSystems.DesignPoint;
+within PropulsionSystem.Examples.temp;
 
 model SteamPowerGenerator_ex01 ""
   extends Modelica.Icons.Example;
@@ -95,7 +95,6 @@ equation
     Line(points = {{88, 38}, {102, 38}}, color = {0, 0, 127}));
   connect(powerSensor.power, disp_pwrTrb.numberPort) annotation(
     Line(points = {{98, -70}, {98, -90}, {104, -90}}, color = {0, 0, 127}));
-  
   annotation(
     Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}), graphics = {Text(lineColor = {0, 0, 255}, extent = {{-151, 165}, {138, 102}}, textString = "%name")}),
     experiment(StopTime = 400, StartTime = 0, Tolerance = 1e-06, Interval = 0.01),

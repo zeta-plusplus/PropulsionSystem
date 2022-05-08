@@ -105,17 +105,12 @@ protected
     HideResult=false);
   parameter units.MassFlowRate Wc_1_des(fixed=false) "corrected mass flow rate, fluid_1, design point" annotation(
     HideResult=false);
-  
   //********************************************************************************
 initial equation
   Wc_1_des= Wc_1;
-  
-  
-  //********************************************************************************
+//********************************************************************************
 algorithm
-  
-  
-  //********************************************************************************
+//********************************************************************************
 equation
 /* ---------------------------------------------
   Connections, interface <-> internal variables
@@ -174,7 +169,7 @@ equation
   
   
   annotation(
-    Icon(graphics = {Rectangle(origin = {0, -6}, fillColor = {232, 232, 232}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 66}, {100, -54}}), Text(origin = {-26, 75}, fillPattern = FillPattern.Solid, extent = {{-74, 7}, {126, -11}}, textString = "%name"), Text(origin = {-16, 13}, fillPattern = FillPattern.Solid, extent = {{-54, 7}, {86, -23}}, textString = "Duct")}, coordinateSystem(initialScale = 0.1)));
+    Icon(graphics = {Rectangle(origin = {0, -6}, fillColor = {232, 232, 232}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-100, 66}, {100, -54}}), Text(origin = {-26, 93}, fillPattern = FillPattern.Solid, extent = {{-74, 7}, {126, -11}}, textString = "%name")}, coordinateSystem(initialScale = 0.1)));
   
   
 end DuctBase00;
