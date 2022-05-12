@@ -20,12 +20,10 @@ model SteamPowerGenerator_ex03 ""
     Placement(visible = true, transformation(extent = {{70, -10}, {90, -30}}, rotation = 0)));
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(extent = {{-160, 100}, {-140, 120}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_Q_flow_evaporator(duration = 10, height = 1e6, offset = 5e6, startTime = 100) annotation(
-    Placement(visible = true, transformation(origin = {-150, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_valveopen(duration = 10, height = -0.0, offset = 1, startTime = 300) annotation(
     Placement(visible = true, transformation(origin = {80, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Math.Gain fracLiquid(k = 1 / evaporator.V_t) annotation(
-    Placement(visible = true, transformation(origin = {-112, 15}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
+    Placement(visible = true, transformation(origin = {-112, 19}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_r_liquidLevel(duration = 100, height = 0, offset = 0.5, startTime = 100) annotation(
     Placement(visible = true, transformation(origin = {-80, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Continuous.PI ctrl_pump_pi(T = 30, k = 300) annotation(
@@ -123,22 +121,22 @@ model SteamPowerGenerator_ex03 ""
   Modelica.Blocks.Math.Sum sum_heat_evaporator(nin = 2) annotation(
     Placement(visible = true, transformation(origin = {-90, -86}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Utilities.ConstrainVariable constraint4(tgtValue_paramInput = 2 * 101.325 * 1000, use_u_targetVal = true) annotation(
-    Placement(visible = true, transformation(origin = {95, -90}, extent = {{-5, -5}, {5, 5}}, rotation = 180)));
+    Placement(visible = true, transformation(origin = {95, -85}, extent = {{-5, -5}, {5, 5}}, rotation = 180)));
   PropulsionSystem.Utilities.VariableBySolver varBySolver3 annotation(
     Placement(visible = true, transformation(origin = {-120, -115}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_m_flow_vapor(duration = 10, height = 1, offset = 1, startTime = 100) annotation(
-    Placement(visible = true, transformation(origin = {70, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {70, -85}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
   connect(ramp_valveopen.y, VaporValve.opening) annotation(
-    Line(points = {{80, -39}, {80, -28}}, color = {0, 0, 127}));
+    Line(points = {{80, -39}, {80, -28}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(evaporator.V, fracLiquid.u) annotation(
-    Line(points = {{-112, 2}, {-112, 9}}, color = {0, 0, 127}));
+    Line(points = {{-112, 2}, {-112, 13}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(fracLiquid.y, feedback.u2) annotation(
-    Line(points = {{-112, 20.5}, {-112, 42}}, color = {0, 0, 127}));
+    Line(points = {{-112, 24.5}, {-112, 42}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(ramp_r_liquidLevel.y, feedback.u1) annotation(
-    Line(points = {{-91, 50}, {-104, 50}}, color = {0, 0, 127}));
+    Line(points = {{-91, 50}, {-104, 50}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(ctrl_pump_pi.u, feedback.y) annotation(
-    Line(points = {{-148, 50}, {-121, 50}}, color = {0, 0, 127}));
+    Line(points = {{-148, 50}, {-121, 50}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(VaporValve.port_b, T_evaporatorOutlet.port) annotation(
     Line(points = {{90, -20}, {106, -20}, {106, 10}}, color = {0, 127, 255}));
   connect(VaporValve.port_b, massFlowVapor.port_a) annotation(
@@ -156,19 +154,19 @@ equation
   connect(powerPump.flange_b, pump.flange_1) annotation(
     Line(points = {{-202, -28}, {-184, -28}}));
   connect(constraint.u_variable, massFlowRate.m_flow) annotation(
-    Line(points = {{-220, 19.5}, {-220, 11}}, color = {0, 0, 127}));
+    Line(points = {{-220, 19.5}, {-220, 11}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(pump.u_PR, ramp_PR_pump.y) annotation(
-    Line(points = {{-178, -36}, {-178, -79}}, color = {0, 0, 127}));
+    Line(points = {{-178, -36}, {-178, -79}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(massFlowRate.port_b, pump.port_1) annotation(
     Line(points = {{-210, 0}, {-180, 0}, {-180, -20}}, color = {0, 127, 255}));
   connect(gain.y, realValue.numberPort) annotation(
-    Line(points = {{-195.5, -47}, {-188, -47}}, color = {0, 0, 127}));
+    Line(points = {{-195.5, -47}, {-188, -47}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(gain1.y, disp_pwrTrb.numberPort) annotation(
-    Line(points = {{175.5, -107}, {168, -107}}, color = {0, 0, 127}));
+    Line(points = {{175.5, -107}, {168, -107}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(powerPump.power, gain.u) annotation(
-    Line(points = {{-211, -33.5}, {-211, -47}, {-207, -47}}, color = {0, 0, 127}));
+    Line(points = {{-211, -33.5}, {-211, -47}, {-207, -47}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(powerTrb.power, gain1.u) annotation(
-    Line(points = {{211, -85.5}, {211, -107}, {187, -107}}, color = {0, 0, 127}));
+    Line(points = {{211, -85.5}, {211, -107}, {187, -107}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(trb.port_2, specificEnthalpy1.port) annotation(
     Line(points = {{172, -64}, {200, -64}, {200, -155}}, color = {0, 127, 255}));
   connect(specificEnthalpy1.port, temperature.port) annotation(
@@ -186,15 +184,15 @@ equation
   connect(boundary1.ports[1], pressure.port) annotation(
     Line(points = {{-230, -180}, {-190, -180}}, color = {0, 127, 255}));
   connect(massFlowVapor.m_flow, constraint1.u_targetValue) annotation(
-    Line(points = {{120, -31}, {120, -142}, {30, -142}, {30, -149}}, color = {0, 0, 127}));
+    Line(points = {{120, -31}, {120, -142}, {30, -142}, {30, -149}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(massFlowRate1.m_flow, constraint1.u_variable) annotation(
-    Line(points = {{30, -169}, {30, -161.5}}, color = {0, 0, 127}));
+    Line(points = {{30, -169}, {30, -161.5}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(varBySolver.y_independent, prescribedHeatFlow.Q_flow) annotation(
-    Line(points = {{80, -279.5}, {80, -261}}, color = {0, 0, 127}));
+    Line(points = {{80, -279.5}, {80, -261}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(varBySolver1.y_independent, prescribedHeatFlow1.Q_flow) annotation(
-    Line(points = {{-20, -279.5}, {-20, -270}}, color = {0, 0, 127}));
+    Line(points = {{-20, -279.5}, {-20, -270}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(temperature1.T, constraint2.u_variable) annotation(
-    Line(points = {{-57, -190}, {-60, -190}, {-60, -209.5}}, color = {0, 0, 127}));
+    Line(points = {{-57, -190}, {-60, -190}, {-60, -209.5}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(HeatRemover.ports[1], massFlowRate1.port_b) annotation(
     Line(points = {{-5, -180}, {20, -180}}, color = {0, 127, 255}));
   connect(temperature1.port, HeatRemover.ports[2]) annotation(
@@ -210,9 +208,9 @@ equation
   connect(HeatRemover.heatPort, heatFlowSensor1.port_b) annotation(
     Line(points = {{-20, -195}, {-20, -231}}, color = {191, 0, 0}));
   connect(heatFlowSensor1.Q_flow, sum_heat_Condenser.u[1]) annotation(
-    Line(points = {{-15, -235}, {30, -235}, {30, -258}}, color = {0, 0, 127}));
+    Line(points = {{-15, -235}, {30, -235}, {30, -258}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(heatFlowSensor.Q_flow, sum_heat_Condenser.u[2]) annotation(
-    Line(points = {{75, -225}, {30, -225}, {30, -258}}, color = {0, 0, 127}));
+    Line(points = {{75, -225}, {30, -225}, {30, -258}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(T_heater_out.port_b, VaporValve.port_a) annotation(
     Line(points = {{-10, -20}, {70, -20}}, color = {0, 127, 255}));
   connect(evaporator.port_b, T_evaporator_out.port_a) annotation(
@@ -222,15 +220,15 @@ equation
   connect(vaporHeater.ports[2], T_heater_out.port_a) annotation(
     Line(points = {{-45, -20}, {-30, -20}}, color = {0, 127, 255}));
   connect(T_heater_out.T, feedback1.u1) annotation(
-    Line(points = {{-20, -31}, {-20, -51}}, color = {0, 0, 127}));
+    Line(points = {{-20, -31}, {-20, -51}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(feedback1.y, constraint3.u_variable) annotation(
-    Line(points = {{-20, -59.5}, {-20, -80}, {-16.5, -80}}, color = {0, 0, 127}));
+    Line(points = {{-20, -59.5}, {-20, -80}, {-16.5, -80}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(feedback1.u2, const.y) annotation(
-    Line(points = {{-16, -55}, {-0.5, -55}}, color = {0, 0, 127}));
+    Line(points = {{-16, -55}, {-0.5, -55}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(constraint3.u_targetValue, ramp_T_heater_out.y) annotation(
-    Line(points = {{-5, -80}, {3, -80}}, color = {0, 0, 127}));
+    Line(points = {{-5, -80}, {3, -80}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(varBySolver2.y_independent, heatSupplyVaporHeater.Q_flow) annotation(
-    Line(points = {{-60, -109.5}, {-60, -99}}, color = {0, 0, 127}));
+    Line(points = {{-60, -109.5}, {-60, -99}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(vaporHeater.heatPort, heatFlowSensor2.port_b) annotation(
     Line(points = {{-60, -34}, {-60, -64}}, color = {191, 0, 0}));
   connect(heatFlowSensor2.port_a, heatSupplyVaporHeater.port) annotation(
@@ -240,17 +238,17 @@ equation
   connect(heatFlowSensor11.port_a, heatSupplyEvaporator.port) annotation(
     Line(points = {{-120, -70}, {-120, -78}}, color = {191, 0, 0}));
   connect(heatFlowSensor11.Q_flow, sum_heat_evaporator.u[1]) annotation(
-    Line(points = {{-115, -65}, {-90, -65}, {-90, -74}}, color = {0, 0, 127}));
+    Line(points = {{-115, -65}, {-90, -65}, {-90, -74}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(heatFlowSensor2.Q_flow, sum_heat_evaporator.u[2]) annotation(
-    Line(points = {{-65, -69}, {-90, -69}, {-90, -74}}, color = {0, 0, 127}));
+    Line(points = {{-65, -69}, {-90, -69}, {-90, -74}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(varBySolver3.y_independent, heatSupplyEvaporator.Q_flow) annotation(
-    Line(points = {{-120, -110}, {-120, -98}}, color = {0, 0, 127}));
+    Line(points = {{-120, -110}, {-120, -98}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(ctrl_pump_pi.y, constraint.u_targetValue) annotation(
-    Line(points = {{-170, 50}, {-220, 50}, {-220, 31}}, color = {0, 0, 127}));
+    Line(points = {{-170, 50}, {-220, 50}, {-220, 31}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(massFlowVapor.m_flow, constraint4.u_variable) annotation(
-    Line(points = {{120, -30}, {120, -90}, {100.5, -90}}, color = {0, 0, 127}));
+    Line(points = {{120, -30}, {120, -85}, {100.5, -85}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(ramp_m_flow_vapor.y, constraint4.u_targetValue) annotation(
-    Line(points = {{81, -90}, {89, -90}}, color = {0, 0, 127}));
+    Line(points = {{81, -85}, {89, -85}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   annotation(
     Icon(coordinateSystem(extent = {{-280, -300}, {260, 120}}), graphics = {Text(lineColor = {0, 0, 255}, extent = {{-151, 165}, {138, 102}}, textString = "%name")}),
     experiment(StopTime = 400, StartTime = 0, Tolerance = 1e-06, Interval = 0.01),
