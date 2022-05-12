@@ -21,13 +21,13 @@ model SteamPowerGenerator_ex03 ""
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(extent = {{-160, 100}, {-140, 120}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_Q_flow_evaporator(duration = 10, height = 1e6, offset = 5e6, startTime = 100) annotation(
-    Placement(visible = true, transformation(origin = {-120, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement(visible = true, transformation(origin = {-150, -120}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_valveopen(duration = 10, height = -0.0, offset = 1, startTime = 300) annotation(
     Placement(visible = true, transformation(origin = {80, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Math.Gain fracLiquid(k = 1 / evaporator.V_t) annotation(
     Placement(visible = true, transformation(origin = {-112, 15}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
-  Modelica.Blocks.Sources.Ramp ramp_r_liquidLevel(duration = 100, height = 0, offset = 0.4, startTime = 100) annotation(
-    Placement(visible = true, transformation(origin = {0, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Ramp ramp_r_liquidLevel(duration = 100, height = 0, offset = 0.5, startTime = 100) annotation(
+    Placement(visible = true, transformation(origin = {-80, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Continuous.PI ctrl_pump_pi(T = 30, k = 300) annotation(
     Placement(visible = true, transformation(origin = {-160, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Feedback feedback annotation(
@@ -41,7 +41,7 @@ model SteamPowerGenerator_ex03 ""
   Modelica.Mechanics.Rotational.Sensors.PowerSensor powerTrb annotation(
     Placement(visible = true, transformation(origin = {215, -80}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   PropulsionSystem.Utilities.ConstrainVariable constraint(tgtValue_paramInput = 2 * 101.325 * 1000, use_u_targetVal = true) annotation(
-    Placement(visible = true, transformation(origin = {-220, 30}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {-220, 25}, extent = {{5, -5}, {-5, 5}}, rotation = -90)));
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-30, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_PR_pump(duration = 10, height = 1, offset = 10, startTime = 200) annotation(
@@ -122,9 +122,13 @@ model SteamPowerGenerator_ex03 ""
     Placement(visible = true, transformation(origin = {-120, -65}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
   Modelica.Blocks.Math.Sum sum_heat_evaporator(nin = 2) annotation(
     Placement(visible = true, transformation(origin = {-90, -86}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  PropulsionSystem.Utilities.ConstrainVariable constraint4(tgtValue_paramInput = 2 * 101.325 * 1000, use_u_targetVal = true) annotation(
+    Placement(visible = true, transformation(origin = {95, -90}, extent = {{-5, -5}, {5, 5}}, rotation = 180)));
+  PropulsionSystem.Utilities.VariableBySolver varBySolver3 annotation(
+    Placement(visible = true, transformation(origin = {-120, -115}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
+  Modelica.Blocks.Sources.Ramp ramp_m_flow_vapor(duration = 10, height = 1, offset = 1, startTime = 100) annotation(
+    Placement(visible = true, transformation(origin = {70, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 equation
-  connect(ramp_Q_flow_evaporator.y, heatSupplyEvaporator.Q_flow) annotation(
-    Line(points = {{-120, -109}, {-120, -99}}, color = {0, 0, 127}));
   connect(ramp_valveopen.y, VaporValve.opening) annotation(
     Line(points = {{80, -39}, {80, -28}}, color = {0, 0, 127}));
   connect(evaporator.V, fracLiquid.u) annotation(
@@ -132,7 +136,7 @@ equation
   connect(fracLiquid.y, feedback.u2) annotation(
     Line(points = {{-112, 20.5}, {-112, 42}}, color = {0, 0, 127}));
   connect(ramp_r_liquidLevel.y, feedback.u1) annotation(
-    Line(points = {{-11, 50}, {-104, 50}}, color = {0, 0, 127}));
+    Line(points = {{-91, 50}, {-104, 50}}, color = {0, 0, 127}));
   connect(ctrl_pump_pi.u, feedback.y) annotation(
     Line(points = {{-148, 50}, {-121, 50}}, color = {0, 0, 127}));
   connect(VaporValve.port_b, T_evaporatorOutlet.port) annotation(
@@ -152,9 +156,7 @@ equation
   connect(powerPump.flange_b, pump.flange_1) annotation(
     Line(points = {{-202, -28}, {-184, -28}}));
   connect(constraint.u_variable, massFlowRate.m_flow) annotation(
-    Line(points = {{-220, 19}, {-220, 11}}, color = {0, 0, 127}));
-  connect(ctrl_pump_pi.y, constraint.u_targetValue) annotation(
-    Line(points = {{-171, 50}, {-220, 50}, {-220, 42}}, color = {0, 0, 127}));
+    Line(points = {{-220, 19.5}, {-220, 11}}, color = {0, 0, 127}));
   connect(pump.u_PR, ramp_PR_pump.y) annotation(
     Line(points = {{-178, -36}, {-178, -79}}, color = {0, 0, 127}));
   connect(massFlowRate.port_b, pump.port_1) annotation(
@@ -241,6 +243,14 @@ equation
     Line(points = {{-115, -65}, {-90, -65}, {-90, -74}}, color = {0, 0, 127}));
   connect(heatFlowSensor2.Q_flow, sum_heat_evaporator.u[2]) annotation(
     Line(points = {{-65, -69}, {-90, -69}, {-90, -74}}, color = {0, 0, 127}));
+  connect(varBySolver3.y_independent, heatSupplyEvaporator.Q_flow) annotation(
+    Line(points = {{-120, -110}, {-120, -98}}, color = {0, 0, 127}));
+  connect(ctrl_pump_pi.y, constraint.u_targetValue) annotation(
+    Line(points = {{-170, 50}, {-220, 50}, {-220, 31}}, color = {0, 0, 127}));
+  connect(massFlowVapor.m_flow, constraint4.u_variable) annotation(
+    Line(points = {{120, -30}, {120, -90}, {100.5, -90}}, color = {0, 0, 127}));
+  connect(ramp_m_flow_vapor.y, constraint4.u_targetValue) annotation(
+    Line(points = {{81, -90}, {89, -90}}, color = {0, 0, 127}));
   annotation(
     Icon(coordinateSystem(extent = {{-280, -300}, {260, 120}}), graphics = {Text(lineColor = {0, 0, 255}, extent = {{-151, 165}, {138, 102}}, textString = "%name")}),
     experiment(StopTime = 400, StartTime = 0, Tolerance = 1e-06, Interval = 0.01),
