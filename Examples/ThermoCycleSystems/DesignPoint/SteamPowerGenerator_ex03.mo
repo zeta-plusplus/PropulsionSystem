@@ -95,7 +95,7 @@ model SteamPowerGenerator_ex03 ""
   Modelica.Thermal.HeatTransfer.Sensors.HeatFlowSensor heatFlowSensor1 annotation(
     Placement(visible = true, transformation(origin = {-20, -235}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
   Modelica.Blocks.Math.Sum sum_heat_Condenser(nin = 2) annotation(
-    Placement(visible = true, transformation(origin = {30, -270}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {30, -254}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Fluid.Sensors.TemperatureTwoPort T_heater_out(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
     Placement(visible = true, transformation(origin = {-20, -20}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   Modelica.Fluid.Vessels.ClosedVolume vaporHeater(redeclare package Medium = Modelica.Media.Water.StandardWater,V = 1.0, energyDynamics = Modelica.Fluid.Types.Dynamics.SteadyState, massDynamics = Modelica.Fluid.Types.Dynamics.SteadyState, nPorts = 2, use_HeatTransfer = true, use_portsData = false) annotation(
@@ -126,6 +126,14 @@ model SteamPowerGenerator_ex03 ""
     Placement(visible = true, transformation(origin = {-120, -115}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_m_flow_vapor(duration = 10, height = 1, offset = 1, startTime = 100) annotation(
     Placement(visible = true, transformation(origin = {70, -85}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Gain gain11(k = 1 / 1000) annotation(
+    Placement(visible = true, transformation(origin = {-90, -121}, extent = {{5, -5}, {-5, 5}}, rotation = 90)));
+  Modelica.Blocks.Interaction.Show.RealValue disp_heatSupply(significantDigits = 5, use_numberPort = true) annotation(
+    Placement(visible = true, transformation(origin = {-115, -136}, extent = {{13, -7}, {-13, 7}}, rotation = 0)));
+  Modelica.Blocks.Interaction.Show.RealValue disp_heatRemove(significantDigits = 5, use_numberPort = true) annotation(
+    Placement(visible = true, transformation(origin = {9, -296}, extent = {{13, -7}, {-13, 7}}, rotation = 0)));
+  Modelica.Blocks.Math.Gain gain111(k = 1 / 1000) annotation(
+    Placement(visible = true, transformation(origin = {30, -281}, extent = {{5, -5}, {-5, 5}}, rotation = 90)));
 equation
   connect(ramp_valveopen.y, VaporValve.opening) annotation(
     Line(points = {{80, -39}, {80, -28}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
@@ -208,9 +216,9 @@ equation
   connect(HeatRemover.heatPort, heatFlowSensor1.port_b) annotation(
     Line(points = {{-20, -195}, {-20, -231}}, color = {191, 0, 0}));
   connect(heatFlowSensor1.Q_flow, sum_heat_Condenser.u[1]) annotation(
-    Line(points = {{-15, -235}, {30, -235}, {30, -258}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+    Line(points = {{-15, -235}, {30, -235}, {30, -242}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(heatFlowSensor.Q_flow, sum_heat_Condenser.u[2]) annotation(
-    Line(points = {{75, -225}, {30, -225}, {30, -258}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+    Line(points = {{75, -225}, {30, -225}, {30, -242}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(T_heater_out.port_b, VaporValve.port_a) annotation(
     Line(points = {{-10, -20}, {70, -20}}, color = {0, 127, 255}));
   connect(evaporator.port_b, T_evaporator_out.port_a) annotation(
@@ -249,6 +257,14 @@ equation
     Line(points = {{120, -30}, {120, -85}, {100.5, -85}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(ramp_m_flow_vapor.y, constraint4.u_targetValue) annotation(
     Line(points = {{81, -85}, {89, -85}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+  connect(sum_heat_evaporator.y, gain11.u) annotation(
+    Line(points = {{-90, -96}, {-90, -115}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+  connect(disp_heatSupply.numberPort, gain11.y) annotation(
+    Line(points = {{-100, -136}, {-90, -136}, {-90, -126.5}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+  connect(disp_heatRemove.numberPort, gain111.y) annotation(
+    Line(points = {{24, -296}, {30, -296}, {30, -286}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+  connect(gain111.u, sum_heat_Condenser.y) annotation(
+    Line(points = {{30, -274}, {30, -264}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   annotation(
     Icon(coordinateSystem(extent = {{-280, -300}, {260, 120}}), graphics = {Text(lineColor = {0, 0, 255}, extent = {{-151, 165}, {138, 102}}, textString = "%name")}),
     experiment(StopTime = 400, StartTime = 0, Tolerance = 1e-06, Interval = 0.01),
