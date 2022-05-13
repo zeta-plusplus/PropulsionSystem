@@ -266,7 +266,7 @@ equation
   connect(gain111.u, sum_heat_Condenser.y) annotation(
     Line(points = {{30, -274}, {30, -264}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   annotation(
-    Icon(coordinateSystem(extent = {{-280, -300}, {260, 120}}), graphics = {Text(lineColor = {0, 0, 255}, extent = {{-151, 165}, {138, 102}}, textString = "%name")}),
+    Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}), graphics = {Text(lineColor = {0, 0, 255}, extent = {{-151, 165}, {138, 102}}, textString = "%name")}),
     experiment(StopTime = 400, StartTime = 0, Tolerance = 1e-06, Interval = 0.01),
     Documentation(info = "<html>
 
