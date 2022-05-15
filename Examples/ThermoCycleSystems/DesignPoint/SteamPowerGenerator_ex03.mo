@@ -6,7 +6,7 @@ model SteamPowerGenerator_ex03 ""
   parameter Real s_pumpDisp = 0.1;
   parameter Real s_pumpHead = 0.1;
   //-----
-  Modelica.Fluid.Examples.DrumBoiler.BaseClasses.EquilibriumDrumBoiler evaporator(redeclare package Medium = Modelica.Media.Water.StandardWater, V_l(fixed = true), V_l_start = 0.5, V_t = 1, cp_D = 500, energyDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial, m_D = 1e-6, massDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial, p(fixed = false, start = 10 * 101.325 * 1000), p_start = 10 * 101.325 * 1000) annotation(
+  Modelica.Fluid.Examples.DrumBoiler.BaseClasses.EquilibriumDrumBoiler evaporator(redeclare package Medium = Modelica.Media.Water.StandardWater, V_l(fixed = true), V_l_start = 0.5, V_t = 1, cp_D = 500, energyDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial, m_D = 1e-6, massDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial, p(fixed = false, start = 10 * 101.325 * 1000), p_start = ramp_PR_pump.offset * tank_out.p) annotation(
     Placement(visible = true, transformation(origin = {-120, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow heatSupplyEvaporator annotation(
     Placement(visible = true, transformation(origin = {-120, -89}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
@@ -32,7 +32,7 @@ model SteamPowerGenerator_ex03 ""
     Placement(visible = true, transformation(origin = {-112, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.SpecificEnthalpy specificEnthalpy(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
     Placement(visible = true, transformation(origin = {140, -5}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharFixed00 trb(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
+  PropulsionSystem.Elements.BasicElements.TrbCharFixed00 trb(redeclare package Medium = Modelica.Media.Water.StandardWater, effDes_paramInput = 1.0) annotation(
     Placement(visible = true, transformation(origin = {160, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed(w_fixed = 3000 * 2.0 * Modelica.Constants.pi / 60.0) annotation(
     Placement(visible = true, transformation(origin = {235, -80}, extent = {{5, -5}, {-5, 5}}, rotation = 0)));
@@ -42,11 +42,11 @@ model SteamPowerGenerator_ex03 ""
     Placement(visible = true, transformation(origin = {-220, 25}, extent = {{5, -5}, {-5, 5}}, rotation = -90)));
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-30, 110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_PR_pump(duration = 10, height = 1, offset = 10, startTime = 200) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_PR_pump(duration = 10, height = 5, offset = 20, startTime = 200) annotation(
     Placement(visible = true, transformation(origin = {-178, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Interaction.Show.RealValue disp_pwrTrb(significantDigits = 5, use_numberPort = true) annotation(
-    Placement(visible = true, transformation(origin = {153, -107}, extent = {{13, -7}, {-13, 7}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.CmpCharFixed00 pump(redeclare package Medium = Modelica.Media.Water.StandardWater, PRdes_paramInput = 2, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) annotation(
+    Placement(visible = true, transformation(origin = {147, -107}, extent = {{13, -7}, {-13, 7}}, rotation = 0)));
+  PropulsionSystem.Elements.BasicElements.CmpCharFixed00 pump(redeclare package Medium = Modelica.Media.Water.StandardWater, PRdes_paramInput = 2, effDes_paramInput = 1, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) annotation(
     Placement(visible = true, transformation(origin = {-174, -28}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed1(w_fixed = 3000 * 2.0 * Modelica.Constants.pi / 60.0) annotation(
     Placement(visible = true, transformation(origin = {-227, -28}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
@@ -59,22 +59,22 @@ model SteamPowerGenerator_ex03 ""
   Modelica.Blocks.Math.Gain gain(k = 1 / 1000) annotation(
     Placement(visible = true, transformation(origin = {-201, -47}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain1(k = 1 / 1000) annotation(
-    Placement(visible = true, transformation(origin = {181, -107}, extent = {{5, -5}, {-5, 5}}, rotation = 0)));
-  Modelica.Fluid.Examples.DrumBoiler.BaseClasses.EquilibriumDrumBoiler Condenser(redeclare package Medium = Modelica.Media.Water.StandardWater, V_l(fixed = true), V_l_start = 0.5, V_t = 1, cp_D = 500, energyDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial, m_D = 1e-6, massDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial, p(fixed = false, start =  101.325 * 1000), p_start =  101.325 * 1000) annotation(
+    Placement(visible = true, transformation(origin = {183, -107}, extent = {{5, -5}, {-5, 5}}, rotation = 0)));
+  Modelica.Fluid.Examples.DrumBoiler.BaseClasses.EquilibriumDrumBoiler Condenser(redeclare package Medium = Modelica.Media.Water.StandardWater, V_l(fixed = true), V_l_start = 0.5, V_t = 1, cp_D = 500, energyDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial, m_D = 1e-6, massDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial, p(fixed = false, start =  101.325 * 1000), p_start =  tank_in.p) annotation(
     Placement(visible = true, transformation(origin = {80, -180}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Fluid.Sensors.Pressure pressure(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
     Placement(visible = true, transformation(origin = {-190, -190}, extent = {{10, 10}, {-10, -10}}, rotation = 0)));
-  Modelica.Fluid.Sensors.Temperature temperature(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
-    Placement(visible = true, transformation(origin = {205, -180}, extent = {{5, 5}, {-5, -5}}, rotation = 90)));
+  Modelica.Fluid.Sensors.Temperature T_condenser_in(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
+    Placement(visible = true, transformation(origin = {125, -185}, extent = {{5, 5}, {-5, -5}}, rotation = 0)));
   Modelica.Fluid.Sensors.SpecificEnthalpy specificEnthalpy1(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
-    Placement(visible = true, transformation(origin = {205, -155}, extent = {{-5, -5}, {5, 5}}, rotation = -90)));
-  Modelica.Fluid.Sensors.Temperature temperature1(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
+    Placement(visible = true, transformation(origin = {199, -180}, extent = {{-5, -5}, {5, 5}}, rotation = -90)));
+  Modelica.Fluid.Sensors.Temperature T_cooler_out(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
     Placement(visible = true, transformation(origin = {-50, -190}, extent = {{10, 10}, {-10, -10}}, rotation = 0)));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow annotation(
     Placement(visible = true, transformation(origin = {80, -250}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = Modelica.Media.Water.StandardWater, T = 15 + 273.15, p = 101.325 * 1000, nPorts = 1)  annotation(
+  Modelica.Fluid.Sources.Boundary_pT tank_out(redeclare package Medium = Modelica.Media.Water.StandardWater, T = 15 + 273.15, p = 101.325 * 1000, nPorts = 1)  annotation(
     Placement(visible = true, transformation(origin = {-260, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Sources.Boundary_pT boundary1(redeclare package Medium = Modelica.Media.Water.StandardWater, T = 15 + 273.15, p = 101.325 * 1000, nPorts = 1) annotation(
+  Modelica.Fluid.Sources.Boundary_pT tank_in(redeclare package Medium = Modelica.Media.Water.StandardWater, T = 15 + 273.15, p = 101.325 * 1000, nPorts = 1) annotation(
     Placement(visible = true, transformation(origin = {-240, -180}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate1(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
     Placement(visible = true, transformation(origin = {30, -180}, extent = {{-10, 10}, {10, -10}}, rotation = 180)));
@@ -134,6 +134,16 @@ model SteamPowerGenerator_ex03 ""
     Placement(visible = true, transformation(origin = {9, -296}, extent = {{13, -7}, {-13, 7}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain111(k = 1 / 1000) annotation(
     Placement(visible = true, transformation(origin = {30, -281}, extent = {{5, -5}, {-5, 5}}, rotation = 90)));
+  Modelica.Blocks.Math.Division effTherm annotation(
+    Placement(visible = true, transformation(origin = {212, -126}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interaction.Show.RealValue disp_effTherm(significantDigits = 3, use_numberPort = true) annotation(
+    Placement(visible = true, transformation(origin = {247, -126}, extent = {{-11, -7}, {11, 7}}, rotation = 0)));
+  Modelica.Fluid.Sensors.Temperature T_evaporator_in(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
+    Placement(visible = true, transformation(origin = {-155, -3}, extent = {{5, 5}, {-5, -5}}, rotation = 180)));
+  Modelica.Blocks.Interaction.Show.RealValue realValue1(significantDigits = 3, use_numberPort = true) annotation(
+    Placement(visible = true, transformation(origin = {249, -150}, extent = {{-11, -7}, {11, 7}}, rotation = 0)));
+  Modelica.Blocks.Sources.RealExpression effTherm_Carnot(y = 1.0 - T_condenser_in.T / (1 / 2 * (T_evaporator_in.T + T_heater_out.T))) annotation(
+    Placement(visible = true, transformation(origin = {213, -150}, extent = {{-11, -8}, {11, 8}}, rotation = 0)));
 equation
   connect(ramp_valveopen.y, VaporValve.opening) annotation(
     Line(points = {{80, -39}, {80, -28}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
@@ -170,18 +180,18 @@ equation
   connect(gain.y, realValue.numberPort) annotation(
     Line(points = {{-195.5, -47}, {-188, -47}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(gain1.y, disp_pwrTrb.numberPort) annotation(
-    Line(points = {{175.5, -107}, {168, -107}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+    Line(points = {{177.5, -107}, {162, -107}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(powerPump.power, gain.u) annotation(
     Line(points = {{-211, -33.5}, {-211, -47}, {-207, -47}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(powerTrb.power, gain1.u) annotation(
-    Line(points = {{211, -85.5}, {211, -107}, {187, -107}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+    Line(points = {{211, -85.5}, {211, -107}, {189, -107}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(trb.port_2, specificEnthalpy1.port) annotation(
-    Line(points = {{172, -64}, {200, -64}, {200, -155}}, color = {0, 127, 255}));
-  connect(specificEnthalpy1.port, temperature.port) annotation(
-    Line(points = {{200, -155}, {200, -181}}, color = {0, 127, 255}));
-  connect(Condenser.port_b, temperature.port) annotation(
-    Line(points = {{100, -180}, {200, -180}}, color = {0, 127, 255}));
-  connect(boundary.ports[1], massFlowRate.port_a) annotation(
+    Line(points = {{172, -64}, {194, -64}, {194, -180}}, color = {0, 127, 255}));
+  connect(specificEnthalpy1.port, T_condenser_in.port) annotation(
+    Line(points = {{194, -180}, {125, -180}}, color = {0, 127, 255}));
+  connect(Condenser.port_b, T_condenser_in.port) annotation(
+    Line(points = {{100, -180}, {125, -180}}, color = {0, 127, 255}));
+  connect(tank_out.ports[1], massFlowRate.port_a) annotation(
     Line(points = {{-250, 0}, {-230, 0}}, color = {0, 127, 255}));
   connect(trb.flange_2, powerTrb.flange_a) annotation(
     Line(points = {{180, -80}, {210, -80}}));
@@ -189,7 +199,7 @@ equation
     Line(points = {{220, -80}, {230, -80}}));
   connect(massFlowRate1.port_a, Condenser.port_a) annotation(
     Line(points = {{40, -180}, {60, -180}}, color = {0, 127, 255}));
-  connect(boundary1.ports[1], pressure.port) annotation(
+  connect(tank_in.ports[1], pressure.port) annotation(
     Line(points = {{-230, -180}, {-190, -180}}, color = {0, 127, 255}));
   connect(massFlowVapor.m_flow, constraint1.u_targetValue) annotation(
     Line(points = {{120, -31}, {120, -142}, {30, -142}, {30, -149}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
@@ -199,13 +209,13 @@ equation
     Line(points = {{80, -279.5}, {80, -261}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(varBySolver1.y_independent, prescribedHeatFlow1.Q_flow) annotation(
     Line(points = {{-20, -279.5}, {-20, -270}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
-  connect(temperature1.T, constraint2.u_variable) annotation(
+  connect(T_cooler_out.T, constraint2.u_variable) annotation(
     Line(points = {{-57, -190}, {-60, -190}, {-60, -209.5}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(HeatRemover.ports[1], massFlowRate1.port_b) annotation(
     Line(points = {{-5, -180}, {20, -180}}, color = {0, 127, 255}));
-  connect(temperature1.port, HeatRemover.ports[2]) annotation(
+  connect(T_cooler_out.port, HeatRemover.ports[2]) annotation(
     Line(points = {{-50, -180}, {-5, -180}}, color = {0, 127, 255}));
-  connect(pressure.port, temperature1.port) annotation(
+  connect(pressure.port, T_cooler_out.port) annotation(
     Line(points = {{-190, -180}, {-50, -180}}, color = {0, 127, 255}));
   connect(Condenser.heatPort, heatFlowSensor.port_b) annotation(
     Line(points = {{80, -200}, {80, -220}}, color = {191, 0, 0}));
@@ -265,8 +275,18 @@ equation
     Line(points = {{24, -296}, {30, -296}, {30, -286}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(gain111.u, sum_heat_Condenser.y) annotation(
     Line(points = {{30, -274}, {30, -264}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+  connect(effTherm.y, disp_effTherm.numberPort) annotation(
+    Line(points = {{223, -126}, {233, -126}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+  connect(gain1.y, effTherm.u1) annotation(
+    Line(points = {{177.5, -107}, {170, -107}, {170, -120}, {200, -120}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+  connect(gain11.y, effTherm.u2) annotation(
+    Line(points = {{-90, -126.5}, {-90, -132}, {200, -132}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+  connect(T_evaporator_in.port, evaporator.port_a) annotation(
+    Line(points = {{-155, -8}, {-155, -20}, {-140, -20}}, color = {0, 127, 255}));
+  connect(effTherm_Carnot.y, realValue1.numberPort) annotation(
+    Line(points = {{225, -150}, {235.1, -150}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   annotation(
-    Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}), graphics = {Text(lineColor = {0, 0, 255}, extent = {{-151, 165}, {138, 102}}, textString = "%name")}),
+    Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}), graphics = {Text(textColor = {0, 0, 255}, extent = {{-151, 165}, {138, 102}}, textString = "%name")}),
     experiment(StopTime = 400, StartTime = 0, Tolerance = 1e-06, Interval = 0.01),
     Documentation(info = "<html>
 
