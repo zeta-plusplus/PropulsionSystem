@@ -45,7 +45,7 @@ model SteamPowerGenerator_ex04 ""
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {-290, 130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interaction.Show.RealValue disp_pwrTrb(significantDigits = 5, use_numberPort = true) annotation(
-    Placement(visible = true, transformation(origin = {193, -87}, extent = {{13, -7}, {-13, 7}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {186, -87}, extent = {{20, -9}, {-20, 9}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CmpCharFixed00 pump(redeclare package Medium = Modelica.Media.Water.StandardWater, PRdes_paramInput = 2, effDes_paramInput = 1.0, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) annotation(
     Placement(visible = true, transformation(origin = {-160, -16}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed1(w_fixed = 3000 * 2.0 * Modelica.Constants.pi / 60.0) annotation(
@@ -55,7 +55,7 @@ model SteamPowerGenerator_ex04 ""
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
     Placement(visible = true, transformation(origin = {-214, 20}, extent = {{10, 10}, {-10, -10}}, rotation = 180)));
   Modelica.Blocks.Interaction.Show.RealValue realValue(significantDigits = 5, use_numberPort = true) annotation(
-    Placement(visible = true, transformation(origin = {-167, -43}, extent = {{-13, -7}, {13, 7}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-160, -46}, extent = {{-20, -10}, {20, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain(k = 1 / 1000) annotation(
     Placement(visible = true, transformation(origin = {-195, -43}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain1(k = 1 / 1000) annotation(
@@ -125,9 +125,9 @@ model SteamPowerGenerator_ex04 ""
   Modelica.Blocks.Math.Gain gain11(k = 1 / 1000) annotation(
     Placement(visible = true, transformation(origin = {-56, -101}, extent = {{5, -5}, {-5, 5}}, rotation = 90)));
   Modelica.Blocks.Interaction.Show.RealValue disp_heatSupply(significantDigits = 5, use_numberPort = true) annotation(
-    Placement(visible = true, transformation(origin = {-87, -118}, extent = {{13, -7}, {-13, 7}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-90, -121}, extent = {{20, -10}, {-20, 10}}, rotation = 0)));
   Modelica.Blocks.Interaction.Show.RealValue disp_heatRemove(significantDigits = 5, use_numberPort = true) annotation(
-    Placement(visible = true, transformation(origin = {49, -302}, extent = {{13, -7}, {-13, 7}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {40, -301}, extent = {{20, -10}, {-20, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain111(k = 1 / 1000) annotation(
     Placement(visible = true, transformation(origin = {70, -281}, extent = {{5, -5}, {-5, 5}}, rotation = 90)));
   Modelica.Fluid.Vessels.ClosedVolume tank(redeclare package Medium = Modelica.Media.Water.StandardWater, V = 1.0, energyDynamics = Modelica.Fluid.Types.Dynamics.SteadyState, massDynamics = Modelica.Fluid.Types.Dynamics.SteadyState, nPorts = 2, use_HeatTransfer = false, use_portsData = false) annotation(
@@ -141,7 +141,7 @@ model SteamPowerGenerator_ex04 ""
   Modelica.Blocks.Math.Division effTherm annotation(
     Placement(visible = true, transformation(origin = {240, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interaction.Show.RealValue disp_effTherm(significantDigits = 3, use_numberPort = true) annotation(
-    Placement(visible = true, transformation(origin = {283, -110}, extent = {{-11, -7}, {11, 7}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {278, -110}, extent = {{-18, -10}, {18, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.Pressure p_evaporator_in(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
     Placement(visible = true, transformation(origin = {-138, 30}, extent = {{5, 5}, {-5, -5}}, rotation = -90)));
   PropulsionSystem.Utilities.ConstrainVariable constraint5(tgtValue_paramInput = 2 * 101.325 * 1000, use_u_targetVal = true) annotation(
@@ -153,7 +153,7 @@ model SteamPowerGenerator_ex04 ""
   Modelica.Blocks.Sources.RealExpression effTherm_Carnot(y = 1.0 - T_condenser_in.T / (1 / 2 * (T_evaporator_in.T + T_vaporHeater_out.T))) annotation(
     Placement(visible = true, transformation(origin = {239, -134}, extent = {{-11, -8}, {11, 8}}, rotation = 0)));
   Modelica.Blocks.Interaction.Show.RealValue realValue1(significantDigits = 3, use_numberPort = true) annotation(
-    Placement(visible = true, transformation(origin = {283, -134}, extent = {{-11, -7}, {11, 7}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {278, -134}, extent = {{-18, -9}, {18, 9}}, rotation = 0)));
   Modelica.Fluid.Sensors.Temperature T_evaporator_in(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
     Placement(visible = true, transformation(origin = {-127, 11}, extent = {{5, 5}, {-5, -5}}, rotation = 180)));
   Modelica.Fluid.Sensors.SpecificEntropy s_evaporator_in(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
@@ -262,9 +262,9 @@ equation
   connect(massFlowRate.port_b, pump.port_1) annotation(
     Line(points = {{-204, 20}, {-172, 20}, {-172, 0}}, color = {0, 127, 255}, thickness = 1));
   connect(gain.y, realValue.numberPort) annotation(
-    Line(points = {{-189.5, -43}, {-182, -43}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+    Line(points = {{-189.5, -43}, {-185.75, -43}, {-185.75, -46}, {-183, -46}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(gain1.y, disp_pwrTrb.numberPort) annotation(
-    Line(points = {{225.5, -87}, {208, -87}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+    Line(points = {{225.5, -87}, {209, -87}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(powerPump.power, gain.u) annotation(
     Line(points = {{-207, -21.5}, {-207, -43}, {-201, -43}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(powerTrb.power, gain1.u) annotation(
@@ -340,9 +340,9 @@ equation
   connect(sum_heat_evaporator.y, gain11.u) annotation(
     Line(points = {{-56, -77}, {-56, -96}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(disp_heatSupply.numberPort, gain11.y) annotation(
-    Line(points = {{-72, -118}, {-56, -118}, {-56, -106.5}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+    Line(points = {{-67, -121}, {-56, -121}, {-56, -106.5}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(disp_heatRemove.numberPort, gain111.y) annotation(
-    Line(points = {{64, -302}, {69.95, -302}, {69.95, -286}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+    Line(points = {{63, -301}, {69.95, -301}, {69.95, -286}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(gain111.u, sum_heat_Condenser.y) annotation(
     Line(points = {{70, -275}, {70, -265}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(T_heatRemover_out.T, constraint2.u_variable) annotation(
@@ -368,13 +368,13 @@ equation
   connect(gain11.y, effTherm.u2) annotation(
     Line(points = {{-56, -106}, {-56, -116}, {228, -116}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(effTherm.y, disp_effTherm.numberPort) annotation(
-    Line(points = {{252, -110}, {270, -110}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+    Line(points = {{252, -110}, {257, -110}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(ramp_evaporator_p_in.y, constraint5.u_targetValue) annotation(
     Line(points = {{-169, 40}, {-160, 40}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(varBySolver4.y_independent, pump.u_PR) annotation(
     Line(points = {{-168, -55.5}, {-168, -32}}, color = {0, 0, 127}));
   connect(effTherm_Carnot.y, realValue1.numberPort) annotation(
-    Line(points = {{252, -134}, {270, -134}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+    Line(points = {{252, -134}, {257, -134}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(T_evaporator_in.port, evaporator.port_a) annotation(
     Line(points = {{-127, 6}, {-127, 0}, {-100, 0}}, color = {0, 127, 255}));
   connect(evaporator.port_a, s_evaporator_in.port) annotation(
