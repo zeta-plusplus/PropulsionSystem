@@ -54,10 +54,10 @@ model SteamPowerGenerator_ex04 ""
     Placement(visible = true, transformation(origin = {-203, -16}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
     Placement(visible = true, transformation(origin = {-214, 20}, extent = {{10, 10}, {-10, -10}}, rotation = 180)));
-  Modelica.Blocks.Interaction.Show.RealValue realValue(significantDigits = 5, use_numberPort = true) annotation(
+  Modelica.Blocks.Interaction.Show.RealValue disp_pwrPump(significantDigits = 5, use_numberPort = true) annotation(
     Placement(visible = true, transformation(origin = {-160, -46}, extent = {{-20, -10}, {20, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain(k = 1 / 1000) annotation(
-    Placement(visible = true, transformation(origin = {-195, -43}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-195, -46}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain1(k = 1 / 1000) annotation(
     Placement(visible = true, transformation(origin = {231, -87}, extent = {{5, -5}, {-5, 5}}, rotation = 0)));
   Modelica.Fluid.Examples.DrumBoiler.BaseClasses.EquilibriumDrumBoiler Condenser(redeclare package Medium = Modelica.Media.Water.StandardWater, V_l(fixed = true), V_l_start = 0.5, V_t = 1, cp_D = 500, energyDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial, m_D = 1e-6, massDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial, p(fixed = false, start = ramp_p_tank.offset), p_start = ramp_p_tank.offset) annotation(
@@ -128,7 +128,7 @@ model SteamPowerGenerator_ex04 ""
     Placement(visible = true, transformation(origin = {-90, -121}, extent = {{20, -10}, {-20, 10}}, rotation = 0)));
   Modelica.Blocks.Interaction.Show.RealValue disp_heatRemove(significantDigits = 5, use_numberPort = true) annotation(
     Placement(visible = true, transformation(origin = {40, -301}, extent = {{20, -10}, {-20, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.Gain gain111(k = 1 / 1000) annotation(
+  Modelica.Blocks.Math.Gain gain111(k = -1 / 1000) annotation(
     Placement(visible = true, transformation(origin = {70, -281}, extent = {{5, -5}, {-5, 5}}, rotation = 90)));
   Modelica.Fluid.Vessels.ClosedVolume tank(redeclare package Medium = Modelica.Media.Water.StandardWater, V = 1.0, energyDynamics = Modelica.Fluid.Types.Dynamics.SteadyState, massDynamics = Modelica.Fluid.Types.Dynamics.SteadyState, nPorts = 2, use_HeatTransfer = false, use_portsData = false) annotation(
     Placement(visible = true, transformation(origin = {-260, -110}, extent = {{-20, 20}, {20, -20}}, rotation = -90)));
@@ -261,12 +261,12 @@ equation
     Line(points = {{-214, 59.5}, {-214, 31}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(massFlowRate.port_b, pump.port_1) annotation(
     Line(points = {{-204, 20}, {-172, 20}, {-172, 0}}, color = {0, 127, 255}, thickness = 1));
-  connect(gain.y, realValue.numberPort) annotation(
-    Line(points = {{-189.5, -43}, {-185.75, -43}, {-185.75, -46}, {-183, -46}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+  connect(gain.y, disp_pwrPump.numberPort) annotation(
+    Line(points = {{-189.5, -46}, {-183, -46}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(gain1.y, disp_pwrTrb.numberPort) annotation(
     Line(points = {{225.5, -87}, {209, -87}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(powerPump.power, gain.u) annotation(
-    Line(points = {{-207, -21.5}, {-207, -43}, {-201, -43}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
+    Line(points = {{-207, -21.5}, {-207, -46}, {-201, -46}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(powerTrb.power, gain1.u) annotation(
     Line(points = {{249, -55.5}, {249, -87}, {237, -87}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(trb.port_2, h_condenser_in.port) annotation(
