@@ -1,7 +1,9 @@
 CmpCharFixed01
 CmpCharTable02
+CmpCharTable00
 TrbCharFixed01
 TrbCharTable03
+TrbCharTable00
 HeatInjector00
 CombCharFixed02
 CombCharFixed01
@@ -28,11 +30,9 @@ IdealMixer00
 EnginePerformance00
 PropActDiskCharFixed01
 CmpCharTable01
-CmpCharTable00
 CmpCharFixed00
 TrbCharTable02
 TrbCharTable01
-TrbCharTable00
 TrbCharFixed00
 NzlDefAeByFlowCharFixed01
 NzlDefAeByFlowCharFixed00

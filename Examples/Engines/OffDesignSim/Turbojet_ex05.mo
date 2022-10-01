@@ -35,7 +35,7 @@ equation
   connect(ramp_m_flow_fuel.y, boundary.m_flow_in) annotation(
     Line(points = {{-28, 20}, {-22, 20}, {-22, -2}, {-10, -2}, {-10, -2}}, color = {0, 0, 127}));
   connect(Cmp.flange_2, Trb.flange_1) annotation(
-    Line(points = {{-20, -80}, {100, -80}, {100, -80}, {100, -80}}));
+    Line(points = {{-20, -80}, {100, -80}}));
   connect(boundary.ports[1], Comb.port_fuel) annotation(
     Line(points = {{10, -10}, {24, -10}, {24, -24}, {24, -24}}, color = {0, 127, 255}));
   connect(Comb.y_m_flow_fuel, Perf.u_m_flow_fuel) annotation(
@@ -49,9 +49,9 @@ equation
   connect(Flt2Fluid.port_amb, Nzl.port_2) annotation(
     Line(points = {{-160, -40}, {-160, 50}, {200, 50}, {200, -64}}, color = {0, 127, 255}));
   connect(temperature.port, Trb.port_1) annotation(
-    Line(points = {{80, -40}, {100, -40}, {100, -64}}, color = {0, 127, 255}));
+    Line(points = {{80, -40}, {108, -40}, {108, -64}}, color = {0, 127, 255}));
   connect(Trb.port_2, Nzl.port_1) annotation(
-    Line(points = {{140, -64}, {160, -64}}, color = {0, 127, 255}));
+    Line(points = {{132, -64}, {160, -64}}, color = {0, 127, 255}));
   connect(Nzl.y_Fg, Perf.u_Fg) annotation(
     Line(points = {{190, -80}, {213, -80}, {213, -124}, {238, -124}}, color = {0, 0, 127}));
   connect(Flt2Fluid.y_V_inf, Inlt.u_V_infini) annotation(
