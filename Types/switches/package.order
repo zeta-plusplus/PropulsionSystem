@@ -8,3 +8,4 @@ switch_connector
 switch_input_ThermodynamicState
 switch_fuel
 switchPropellerThrustSaturation
+switchHeatPumpCoP

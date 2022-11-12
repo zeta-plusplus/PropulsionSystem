@@ -28,6 +28,7 @@ NonidealMixerBase00
 IdealSplitterBase00
 IdealMixerBase01
 IdealMixerBase00
+SimplestHeatPumpBase00
 Compressor_Base
 Turbine_Base
 HeatInjector_Base
