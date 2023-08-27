@@ -1,0 +1,7 @@
+within PropulsionSystem.Examples.Elements;
+
+model Turbine
+  extends Modelica.Icons.ExamplesPackage;
+equation
+
+end Turbine;

@@ -3,29 +3,29 @@ within PropulsionSystem.Functions.TurbineFunctionPackage;
 function TurbineFluidOperation00
   extends Modelica.Icons.Function;
   //****************************************
-  import Units= Modelica.SIunits;
+  import units= Modelica.Units.SI;
   //****************************************
-  replaceable package inFuncMedium = Modelica.Media.Interfaces.PartialMedium(fixedX=false) annotation(
+  replaceable package inFuncMedium = Modelica.Media.Interfaces.PartialMedium annotation(
     choicesAllMatching = true);
   //----------
   input inFuncMedium.ThermodynamicState state_1;
-  input Units.MassFlowRate m_flow1;
+  input units.MassFlowRate m_flow1;
   input Real PR;
   input Real eff;
   
   /*
   */
   //----------
-  output Units.Pressure p2;
-  output Units.SpecificEnthalpy h2;
+  output units.Pressure p2;
+  output units.SpecificEnthalpy h2;
   output inFuncMedium.MassFraction X2[:];
-  output Units.SpecificEnthalpy h_2is;
-  output Units.Power pwr;
+  output units.SpecificEnthalpy h_2is;
+  output units.Power pwr;
   //----------
   
 //*******************************************************
 protected
-  Units.SpecificEnthalpy h1;
+  units.SpecificEnthalpy h1;
   inFuncMedium.MassFraction X1[inFuncMedium.nX];
   /**/
 //*******************************************************
