@@ -3,37 +3,49 @@ within PropulsionSystem.Records;
 record CompressorVariables
   extends Modelica.Icons.Record;
   
+  /*--------------------------------------------------
+    imports
+  --------------------------------------------------*/
+  import units=Modelica.Units.SI;
+  import unitsNonSI=Modelica.Units.NonSI;
   
+  /*--------------------------------------------------
+    parameters
+  --------------------------------------------------*/
   parameter Boolean fixed=false;
   parameter Boolean HideResult=false;
   
-  Modelica.SIunits.Power pwr(fixed=fixed) annotation(
+  
+  /*--------------------------------------------------
+    variables
+  --------------------------------------------------*/
+  units.Power pwr(fixed=fixed) annotation(
     HideResult=false);
-  Modelica.SIunits.Torque trq(fixed=fixed) annotation(
+  units.Torque trq(fixed=fixed) annotation(
     HideResult=false);
-  Modelica.SIunits.Power pwr_inv(fixed=fixed) annotation(
+  units.Power pwr_inv(fixed=fixed) annotation(
     HideResult=false);
-  Modelica.SIunits.Torque trq_inv(fixed=fixed) annotation(
+  units.Torque trq_inv(fixed=fixed) annotation(
     HideResult=false);
-  Modelica.SIunits.Angle phi(fixed=fixed) annotation(
+  units.Angle phi(fixed=fixed) annotation(
     HideResult=false);
-  Modelica.SIunits.AngularVelocity omega(fixed=fixed) annotation(
+  units.AngularVelocity omega(fixed=fixed) annotation(
     HideResult=false);
-  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nmech(fixed=fixed) annotation(
+  unitsNonSI.AngularVelocity_rpm Nmech(fixed=fixed) annotation(
     HideResult=false);
-  Modelica.SIunits.MassFlowRate Wc_1(fixed=fixed) annotation(
+  units.MassFlowRate Wc_1(fixed=fixed) annotation(
     HideResult=false);
-  Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm Nc_1(fixed=fixed) annotation(
+  unitsNonSI.AngularVelocity_rpm Nc_1(fixed=fixed) annotation(
     HideResult=false);
   Real PR(fixed=fixed) annotation(
     HideResult=false);
   Real eff(fixed=fixed) annotation(
     HideResult=false);
-  Modelica.SIunits.SpecificEnthalpy dht(fixed=fixed) annotation(
+  units.SpecificEnthalpy dht(fixed=fixed) annotation(
     HideResult=false);
-  Modelica.SIunits.SpecificEnthalpy dht_is(fixed=fixed) annotation(
+  units.SpecificEnthalpy dht_is(fixed=fixed) annotation(
     HideResult=false);
-  Modelica.SIunits.SpecificEnthalpy h_2is(fixed=fixed) annotation(
+  units.SpecificEnthalpy h_2is(fixed=fixed) annotation(
     HideResult=false);
   
   
