@@ -6,7 +6,7 @@ partial model HeatInjectorBase00
   ********************************************************/
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
-  
+  import units=Modelica.Units.SI;
   
   /********************************************************
       Declaration
@@ -34,33 +34,33 @@ partial model HeatInjectorBase00
   --------------------------------------------- */
   //********** Initialization Parameters **********
   //--- fluid_1, port_1 ---
-  parameter Modelica.SIunits.MassFlowRate m_flow1_init(displayUnit = "kg/s") = 1.0 "" annotation(
+  parameter units.MassFlowRate m_flow1_init(displayUnit = "kg/s") = 1.0 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
-  parameter Modelica.SIunits.Pressure p1_init(displayUnit = "Pa") = 20*101.3 * 1000 "" annotation(
+  parameter units.Pressure p1_init(displayUnit = "Pa") = 20*101.3 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
-  parameter Modelica.SIunits.Temperature T1_init(displayUnit = "K") = 800 "" annotation(
+  parameter units.Temperature T1_init(displayUnit = "K") = 800 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
-  parameter Modelica.SIunits.SpecificEnthalpy h1_init(displayUnit = "J/kg") = T1_init*1.004 * 1000 "" annotation(
+  parameter units.SpecificEnthalpy h1_init(displayUnit = "J/kg") = T1_init*1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
   //--- fluid_2, port_2 ---
-  parameter Modelica.SIunits.MassFlowRate m_flow2_init(displayUnit = "kg/s") = -1.0 * m_flow1_init "" annotation(
+  parameter units.MassFlowRate m_flow2_init(displayUnit = "kg/s") = -1.0 * m_flow1_init "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.Pressure p2_init(displayUnit = "Pa") = p1_init "" annotation(
+  parameter units.Pressure p2_init(displayUnit = "Pa") = p1_init "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.Temperature T2_init(displayUnit = "K") = 1600.0 "" annotation(
+  parameter units.Temperature T2_init(displayUnit = "K") = 1600.0 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = T2_init*1.004 * 1000 "" annotation(
+  parameter units.SpecificEnthalpy h2_init(displayUnit = "J/kg") = T2_init*1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
   //--- HeatPort_1 ---
-  parameter Modelica.SIunits.HeatFlowRate Q_flow1_init=m_flow1_init*(h2_init-h1_init) "" annotation(
+  parameter units.HeatFlowRate Q_flow1_init=m_flow1_init*(h2_init-h1_init) "" annotation(
     Dialog(tab = "Initialization", group = "HeatPort_1"));
-  parameter Modelica.SIunits.Temperature Twall1_init= T2_init "" annotation(
+  parameter units.Temperature Twall1_init= T2_init "" annotation(
     Dialog(tab = "Initialization", group = "HeatPort_1"));
   //--- others ---
-  parameter Modelica.SIunits.SpecificEntropy s_fluid_1_init=7000.0 "" annotation(
+  parameter units.SpecificEntropy s_fluid_1_init=7000.0 "" annotation(
     Dialog(tab = "Initialization", group = "others")
   );
-  parameter Modelica.SIunits.SpecificEntropy s_fluid_2_init=7800.0 "" annotation(
+  parameter units.SpecificEntropy s_fluid_2_init=7800.0 "" annotation(
     Dialog(tab = "Initialization", group = "others")
   );
   
@@ -69,17 +69,17 @@ partial model HeatInjectorBase00
   /* ---------------------------------------------
       Internal variables
   --------------------------------------------- */
-  Modelica.SIunits.SpecificEntropy s_fluid_1(start=s_fluid_1_init) "specific entropy, fluid_1" annotation(
+  units.SpecificEntropy s_fluid_1(start=s_fluid_1_init) "specific entropy, fluid_1" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.SpecificEntropy s_fluid_2(start=s_fluid_2_init) "specific entropy, fluid_2" annotation(
+  units.SpecificEntropy s_fluid_2(start=s_fluid_2_init) "specific entropy, fluid_2" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
-  Modelica.SIunits.MassFlowRate m_flow_max(start=m_flow1_init) "" annotation(
+  units.MassFlowRate m_flow_max(start=m_flow1_init) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.MassFlowRate m_flow_min(start=m_flow2_init) "" annotation(
+  units.MassFlowRate m_flow_min(start=m_flow2_init) "" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   

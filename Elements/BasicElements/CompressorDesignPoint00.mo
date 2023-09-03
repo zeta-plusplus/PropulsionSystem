@@ -82,8 +82,10 @@ equation
   //--------------------
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     PRdes = PRdes_par;
+    PR=PRdes;
   elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
     PRdes = u_PR;
+    PR=PRdes;
   elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
     PRdes = PR;
   end if;
@@ -97,9 +99,7 @@ equation
   end if;
   //--------------------
   
-  
   eff=effDes;
-  PR=PRdes;
   
 /********************************************************
   Graphics

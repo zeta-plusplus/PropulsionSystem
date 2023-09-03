@@ -39,7 +39,7 @@ connect(ramp_PR.y, CmpDesPt.u_PR) annotation(
 connect(ramp_eff.y, CmpDesPt.u_eff) annotation(
     Line(points = {{-18, -30}, {-10, -30}, {-10, 24}}, color = {0, 0, 127}));
   annotation(
-    experiment(StartTime = 0, StopTime = 40, Tolerance = 1e-06, Interval = 0.08),
+    experiment(StartTime = 0, StopTime = 40, Tolerance = 1e-06, Interval = 0.02),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
     Documentation(info = "<html>
   
