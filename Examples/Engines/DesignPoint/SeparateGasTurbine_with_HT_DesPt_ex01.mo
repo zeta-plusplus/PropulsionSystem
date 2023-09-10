@@ -2,7 +2,6 @@ within PropulsionSystem.Examples.Engines.DesignPoint;
 
 model SeparateGasTurbine_with_HT_DesPt_ex01
   extends Modelica.Icons.Example;
-  extends Modelica.Icons.Example;
   //-----
   package engineAir = Modelica.Media.Air.DryAirNasa;
   //redeclare package Medium = engineAir
@@ -15,7 +14,7 @@ model SeparateGasTurbine_with_HT_DesPt_ex01
     Placement(visible = true, transformation(origin = {64, -58}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT boundary1(redeclare package Medium = engineAir, T = 288.15, p = 100*1000, nPorts = 1) annotation(
     Placement(visible = true, transformation(origin = {44, 77}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
-  PropulsionSystem.Elements.BasicElements.CompressorDesignPoint00 CmpDesPt(redeclare package Medium = engineAir, PRdes_par = 30) annotation(
+  PropulsionSystem.Elements.BasicElements.CompressorDesignPoint00 CmpDesPt(redeclare package Medium = engineAir, PRdes_par = 40, effDes_par = 1) annotation(
     Placement(visible = true, transformation(origin = {-5, -72}, extent = {{17, -17}, {-17, 17}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.HeatInjector00 HeatInjector(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {-47, 15}, extent = {{-15, -15}, {15, 15}}, rotation = 90)));
@@ -29,7 +28,7 @@ model SeparateGasTurbine_with_HT_DesPt_ex01
     Placement(visible = true, transformation(origin = {-72, -72}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interaction.Show.RealValue real_pwrCmp(significantDigits = 4) annotation(
     Placement(visible = true, transformation(origin = {-29, -89}, extent = {{-11, -7}, {11, 7}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TurbineDesignPoint00 TrbDesPt(redeclare package Medium = engineAir) annotation(
+  PropulsionSystem.Elements.BasicElements.TurbineDesignPoint00 TrbDesPt(redeclare package Medium = engineAir, effDes_par = 1) annotation(
     Placement(visible = true, transformation(origin = {12, 36}, extent = {{-18, -18}, {18, 18}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sensors.PowerSensor powerSensor1 annotation(
     Placement(visible = true, transformation(origin = {49, 36}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
@@ -40,7 +39,7 @@ model SeparateGasTurbine_with_HT_DesPt_ex01
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow pointHeatSource annotation(
     Placement(visible = true, transformation(origin = {-110, 36}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Sources.Ramp ramp_heat(duration = 1, height = 5e5, offset = 5e6, startTime = 10) annotation(
-    Placement(visible = true, transformation(origin = {-110, 64}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {-110, 74}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Thermal.HeatTransfer.Components.Convection convection annotation(
     Placement(visible = true, transformation(origin = {-89, 15}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
   HeatTransferComponents.ForcedConvection.Block_hFlatPlateTurbSmooth00 calc_hConv(redeclare package Medium = engineAir) annotation(
@@ -48,7 +47,7 @@ model SeparateGasTurbine_with_HT_DesPt_ex01
   Modelica.Blocks.Math.Product product annotation(
     Placement(visible = true, transformation(origin = {-78, -8}, extent = {{-6, -6}, {6, 6}}, rotation = 180)));
   Modelica.Blocks.Sources.Constant areaHeatTransfer(k = 10) annotation(
-    Placement(visible = true, transformation(origin = {-64, -34}, extent = {{6, -6}, {-6, 6}}, rotation = -90)));
+    Placement(visible = true, transformation(origin = {-64, -42}, extent = {{6, -6}, {-6, 6}}, rotation = -90)));
 equation
   connect(CmpDesPt.port_1, massFlowRate.port_b) annotation(
     Line(points = {{6, -58}, {28, -58}}, color = {0, 127, 255}));
@@ -73,7 +72,7 @@ equation
   connect(powerSensor1.flange_b, constantSpeed1.flange) annotation(
     Line(points = {{56, 36}, {72, 36}}));
   connect(ramp_heat.y, pointHeatSource.Q_flow) annotation(
-    Line(points = {{-110, 53}, {-110, 45}}, color = {0, 0, 127}));
+    Line(points = {{-110, 63}, {-110, 45}}, color = {0, 0, 127}));
   connect(convection.fluid, HeatInjector.HeatPort_1) annotation(
     Line(points = {{-79, 15}, {-62, 15}}, color = {191, 0, 0}));
   connect(convection.solid, pointHeatSource.port) annotation(
@@ -87,11 +86,12 @@ equation
   connect(product.u2, calc_hConv.y_h) annotation(
     Line(points = {{-71, -4}, {-56, -4}, {-56, -16}}, color = {0, 0, 127}));
   connect(product.u1, areaHeatTransfer.y) annotation(
-    Line(points = {{-71, -12}, {-64, -12}, {-64, -28}}, color = {0, 0, 127}));
+    Line(points = {{-71, -12}, {-71, -13}, {-64, -13}, {-64, -35}}, color = {0, 0, 127}));
   connect(calc_hConv.heatPort, convection.solid) annotation(
     Line(points = {{-54, -22}, {-99, -22}, {-99, 15}}, color = {191, 0, 0}));
   annotation(
     Diagram(coordinateSystem(extent = {{-160, -100}, {100, 100}})),
     Icon(coordinateSystem(extent = {{-160, -100}, {100, 100}})),
     experiment(StartTime = 0, StopTime = 100, Tolerance = 1e-06, Interval = 0.01));
+
 end SeparateGasTurbine_with_HT_DesPt_ex01;
