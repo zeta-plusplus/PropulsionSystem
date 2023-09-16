@@ -41,11 +41,11 @@ model SepaGasTurb_with_HT_DesPt_SimpleGasCoolReactor_ex01
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed1(w_fixed = 1000) annotation(
     Placement(visible = true, transformation(origin = {120, 80}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow ptHeatSrc_NormOp annotation(
-    Placement(visible = true, transformation(origin = {-46, 8}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-50, 8}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_heat(duration = 1, height = 1e5, offset = 1.0e6, startTime = 10) annotation(
     Placement(visible = true, transformation(origin = {-76, 108}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow ptHeatSrc_LostCoolant annotation(
-    Placement(visible = true, transformation(origin = {-146, -3}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-148, -3}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   HeatTransferComponents.ForcedConvection.HTflatPlateTurbSmooth00 reactor_NormOp(AreaHT_par = AreaHT, redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {12, 8}, extent = {{-20, 16}, {20, -16}}, rotation = 90)));
   HeatTransferComponents.NaturalConvection.HTverticalPlate00 reactor_LostCoolant(AreaHT_par = AreaHT, redeclare package Medium = engineAir) annotation(
@@ -80,35 +80,35 @@ model SepaGasTurb_with_HT_DesPt_SimpleGasCoolReactor_ex01
     Placement(visible = true, transformation(origin = {131, 44}, extent = {{-11, -7}, {11, 7}}, rotation = 0)));
 equation
   connect(CmpDesPt.port_1, massFlowRate.port_b) annotation(
-    Line(points = {{43.54, -58.4}, {65.54, -58.4}}, color = {0, 127, 255}));
+    Line(points = {{43.54, -58.4}, {65.54, -58.4}}, color = {0, 127, 255}, thickness = 0.75));
   connect(boundary.ports[1], massFlowRate.port_a) annotation(
-    Line(points = {{89, -110}, {89, -58}, {78, -58}}, color = {0, 127, 255}));
+    Line(points = {{89, -110}, {89, -58}, {78, -58}}, color = {0, 127, 255}, thickness = 0.75));
   connect(massFlowRate.m_flow, constraint_m_flow.u_variable) annotation(
     Line(points = {{72, -64.6}, {72, -70}}, color = {0, 0, 127}));
   connect(real_pwrCmp.numberPort, powerSensor.power) annotation(
     Line(points = {{7, -92}, {7, -79}}, color = {0, 0, 127}));
   connect(TrbDesPt.port_2, boundary1.ports[1]) annotation(
-    Line(points = {{61.16, 94.4}, {82.16, 94.4}, {82.16, 111.4}}, color = {0, 127, 255}));
+    Line(points = {{61.16, 94.4}, {82.16, 94.4}, {82.16, 111.4}}, color = {0, 127, 255}, thickness = 0.75));
   connect(real_pwrCmp1.numberPort, powerSensor1.power) annotation(
-    Line(points = {{90, 64}, {82, 64}, {82, 73}, {82.35, 73}}, color = {0, 0, 127}));
+    Line(points = {{90, 64}, {82, 64}, {82, 73}, {82.35, 73}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(TrbDesPt.flange_2, powerSensor1.flange_a) annotation(
-    Line(points = {{68, 80}, {82, 80}}));
+    Line(points = {{68, 80}, {82, 80}}, thickness = 1));
   connect(powerSensor1.flange_b, constantSpeed1.flange) annotation(
-    Line(points = {{93, 80}, {109, 80}}));
+    Line(points = {{93, 80}, {109, 80}}, thickness = 1));
   connect(ramp_heat.y, ptHeatSrc_NormOp.Q_flow) annotation(
-    Line(points = {{-76, 97}, {-76, 70}, {-56, 70}, {-56, 8}}, color = {0, 0, 127}));
+    Line(points = {{-76, 97}, {-76, 70}, {-60, 70}, {-60, 8}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(CmpDesPt.port_2, reactor_NormOp.port_1) annotation(
-    Line(points = {{24, -58}, {12, -58}, {12, -12}}, color = {0, 127, 255}));
+    Line(points = {{24, -58}, {12, -58}, {12, -12}}, color = {0, 127, 255}, thickness = 0.75));
   connect(TrbDesPt.port_1, reactor_NormOp.port_2) annotation(
-    Line(points = {{40, 94}, {12, 94}, {12, 28}}, color = {0, 127, 255}));
+    Line(points = {{40, 94}, {12, 94}, {12, 28}}, color = {0, 127, 255}, thickness = 0.75));
   connect(ptHeatSrc_NormOp.port, reactor_NormOp.heatPort) annotation(
-    Line(points = {{-36, 8}, {-4, 8}}, color = {191, 0, 0}));
+    Line(points = {{-40, 8}, {-4, 8}}, color = {191, 0, 0}, thickness = 0.75));
   connect(boundary.ports[2], reactor_LostCoolant.portStat) annotation(
-    Line(points = {{90, -110}, {-86, -110}, {-86, -19}}, color = {0, 127, 255}));
+    Line(points = {{90, -110}, {-86, -110}, {-86, -19}}, color = {0, 127, 255}, thickness = 0.75));
   connect(ptHeatSrc_LostCoolant.port, reactor_LostCoolant.heatPort) annotation(
-    Line(points = {{-136, -3}, {-103, -3}}, color = {191, 0, 0}));
+    Line(points = {{-138, -3}, {-103, -3}}, color = {191, 0, 0}, thickness = 0.75));
   connect(ramp_heat.y, ptHeatSrc_LostCoolant.Q_flow) annotation(
-    Line(points = {{-76, 98}, {-76, 64}, {-156, 64}, {-156, -3}}, color = {0, 0, 127}));
+    Line(points = {{-76, 98}, {-76, 64}, {-158, 64}, {-158, -3}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(temperature_reactorIn.port, reactor_NormOp.port_1) annotation(
     Line(points = {{20, -23.35}, {12, -23.35}, {12, -12.35}}, color = {0, 127, 255}));
   connect(temperature_reactorOut.port, reactor_NormOp.port_2) annotation(
@@ -136,9 +136,9 @@ equation
   connect(pwrAvail.y, real_pwrAvail.numberPort) annotation(
     Line(points = {{108.6, 44}, {118.6, 44}}, color = {0, 0, 127}));
   connect(powerSensor.flange_a, CmpDesPt.flange_2) annotation(
-    Line(points = {{8, -72}, {16, -72}}));
+    Line(points = {{8, -72}, {16, -72}}, thickness = 1));
   connect(constantSpeed.flange, powerSensor.flange_b) annotation(
-    Line(points = {{-24, -72}, {-4, -72}}));
+    Line(points = {{-24, -72}, {-4, -72}}, thickness = 1));
   connect(pwrAvail.u1, powerSensor1.power) annotation(
     Line(points = {{95, 48}, {82, 48}, {82, 74}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   connect(powerSensor.power, pwrAvail.u2) annotation(

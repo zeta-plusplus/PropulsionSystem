@@ -3,7 +3,7 @@ within PropulsionSystem.Examples.ThermoCycleSystems.DesignPoint;
 model SteamPowerGenerator_ex04 ""
   extends Modelica.Icons.Example;
   //-----
-  import units = Modelica.SIunits;
+  import units = Modelica.Units.SI;
   //-----
   parameter Real s_pumpDisp = 0.1;
   parameter Real s_pumpHead = 0.1;
@@ -28,13 +28,13 @@ model SteamPowerGenerator_ex04 ""
     Placement(visible = true, transformation(origin = {-72, 39}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_r_liquidLevel(duration = 100, height = 0, offset = 0.5, startTime = 100) annotation(
     Placement(visible = true, transformation(origin = {-40, 130}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Blocks.Continuous.PI ctrl_pump_pi(T = 30, k = 300) annotation(
+  Modelica.Blocks.Continuous.PI ctrl_pump_pi(T = 30, initType = Modelica.Blocks.Types.Init.InitialOutput, k = 300, x_start = 1, y_start = 2) annotation(
     Placement(visible = true, transformation(origin = {-120, 130}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Feedback feedback annotation(
     Placement(visible = true, transformation(origin = {-72, 130}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.SpecificEnthalpy specificEnthalpy(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
     Placement(visible = true, transformation(origin = {180, 15}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharFixed00 trb(redeclare package Medium = Modelica.Media.Water.StandardWater, effDes_paramInput = 1.0) annotation(
+  PropulsionSystem.Elements.BasicElements.TurbineDesignPoint00 trb(redeclare package Medium = Modelica.Media.Water.StandardWater, effDes_par = 1.0) annotation(
     Placement(visible = true, transformation(origin = {210, -50}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed(w_fixed = 3000 * 2.0 * Modelica.Constants.pi / 60.0) annotation(
     Placement(visible = true, transformation(origin = {275, -50}, extent = {{5, -5}, {-5, 5}}, rotation = 0)));
@@ -46,7 +46,7 @@ model SteamPowerGenerator_ex04 ""
     Placement(visible = true, transformation(origin = {-290, 130}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interaction.Show.RealValue disp_pwrTrb(significantDigits = 5, use_numberPort = true) annotation(
     Placement(visible = true, transformation(origin = {186, -87}, extent = {{20, -9}, {-20, 9}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.CmpCharFixed00 pump(redeclare package Medium = Modelica.Media.Water.StandardWater, PRdes_paramInput = 2, effDes_paramInput = 1.0, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) annotation(
+  PropulsionSystem.Elements.BasicElements.CompressorDesignPoint00 pump(redeclare package Medium = Modelica.Media.Water.StandardWater, PRdes_par = 2, effDes_par = 1.0, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) annotation(
     Placement(visible = true, transformation(origin = {-160, -16}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed1(w_fixed = 3000 * 2.0 * Modelica.Constants.pi / 60.0) annotation(
     Placement(visible = true, transformation(origin = {-223, -16}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
@@ -522,7 +522,7 @@ equation
     Line(points = {{140, -180}, {264, -180}}, color = {0, 127, 255}, thickness = 1));
   annotation(
     Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}), graphics = {Text(lineColor = {0, 0, 255}, extent = {{-151, 165}, {138, 102}}, textString = "%name")}),
-    experiment(StopTime = 400, StartTime = 0, Tolerance = 1e-06, Interval = 0.01),
+    experiment(StopTime = 400, StartTime = 0, Tolerance = 1e-06, Interval = 0.1),
     Documentation(info = "<html>
 
 </html>"),

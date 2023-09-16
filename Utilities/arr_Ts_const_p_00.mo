@@ -5,6 +5,8 @@ block arr_Ts_const_p_00
             imports
     ********************************************************/
   import Modelica.Constants;
+  import units= Modelica.Units.SI;
+  
   /********************************************************
             Declaration
     ********************************************************/
@@ -21,11 +23,11 @@ block arr_Ts_const_p_00
                 Internal variables
     --------------------------------------------- */
   Integer nPts;
-  Modelica.SIunits.Temperature arr_T[nPts_par];
-  Modelica.SIunits.SpecificEntropy arr_s[nPts_par];
-  Modelica.SIunits.SpecificEntropy ds;
-  Modelica.SIunits.Temperature TLower;
-  Modelica.SIunits.Temperature TUpper;
+  units.Temperature arr_T[nPts_par];
+  units.SpecificEntropy arr_s[nPts_par];
+  units.SpecificEntropy ds;
+  units.Temperature TLower;
+  units.Temperature TUpper;
   /* ---------------------------------------------
                 Internal objects
     --------------------------------------------- */

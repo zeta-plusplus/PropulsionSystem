@@ -32,7 +32,7 @@ model SteamPowerGenerator_ex03 ""
     Placement(visible = true, transformation(origin = {-112, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.SpecificEnthalpy specificEnthalpy(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
     Placement(visible = true, transformation(origin = {140, -5}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.TrbCharFixed00 trb(redeclare package Medium = Modelica.Media.Water.StandardWater, effDes_paramInput = 1.0) annotation(
+  PropulsionSystem.Elements.BasicElements.TurbineDesignPoint00 trb(redeclare package Medium = Modelica.Media.Water.StandardWater, effDes_par = 1.0) annotation(
     Placement(visible = true, transformation(origin = {160, -80}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed(w_fixed = 3000 * 2.0 * Modelica.Constants.pi / 60.0) annotation(
     Placement(visible = true, transformation(origin = {235, -80}, extent = {{5, -5}, {-5, 5}}, rotation = 0)));
@@ -46,7 +46,7 @@ model SteamPowerGenerator_ex03 ""
     Placement(visible = true, transformation(origin = {-178, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Blocks.Interaction.Show.RealValue disp_pwrTrb(significantDigits = 5, use_numberPort = true) annotation(
     Placement(visible = true, transformation(origin = {147, -107}, extent = {{13, -7}, {-13, 7}}, rotation = 0)));
-  PropulsionSystem.Elements.BasicElements.CmpCharFixed00 pump(redeclare package Medium = Modelica.Media.Water.StandardWater, PRdes_paramInput = 2, effDes_paramInput = 1, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) annotation(
+  PropulsionSystem.Elements.BasicElements.CompressorDesignPoint00 pump(redeclare package Medium = Modelica.Media.Water.StandardWater, PRdes_par = 2, effDes_par = 1, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput) annotation(
     Placement(visible = true, transformation(origin = {-174, -28}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed1(w_fixed = 3000 * 2.0 * Modelica.Constants.pi / 60.0) annotation(
     Placement(visible = true, transformation(origin = {-227, -28}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));

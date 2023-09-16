@@ -5,6 +5,7 @@ block arr_hs_const_p_00
           imports
   ********************************************************/
   import Modelica.Constants;
+  import units= Modelica.Units.SI;
   
   /********************************************************
           Declaration
@@ -25,11 +26,11 @@ block arr_hs_const_p_00
               Internal variables
   --------------------------------------------- */
   Integer nPts;
-  Modelica.SIunits.SpecificEnthalpy arr_h[nPts_par];
-  Modelica.SIunits.SpecificEntropy arr_s[nPts_par];
-  Modelica.SIunits.SpecificEntropy ds;
-  Modelica.SIunits.SpecificEnthalpy hLower;
-  Modelica.SIunits.SpecificEnthalpy hUpper;
+  units.SpecificEnthalpy arr_h[nPts_par];
+  units.SpecificEntropy arr_s[nPts_par];
+  units.SpecificEntropy ds;
+  units.SpecificEnthalpy hLower;
+  units.SpecificEnthalpy hUpper;
   
   
   /* ---------------------------------------------
