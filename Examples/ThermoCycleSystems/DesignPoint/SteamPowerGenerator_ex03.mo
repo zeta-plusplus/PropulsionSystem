@@ -26,7 +26,7 @@ model SteamPowerGenerator_ex03 ""
     Placement(visible = true, transformation(origin = {-112, 19}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
   Modelica.Blocks.Sources.Ramp ramp_r_liquidLevel(duration = 100, height = 0, offset = 0.5, startTime = 100) annotation(
     Placement(visible = true, transformation(origin = {-80, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Blocks.Continuous.PI ctrl_pump_pi(T = 30, k = 300) annotation(
+  Modelica.Blocks.Continuous.PI ctrl_pump_pi(T = 30, initType = Modelica.Blocks.Types.Init.InitialOutput, k = 300, y_start = 2) annotation(
     Placement(visible = true, transformation(origin = {-160, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Blocks.Math.Feedback feedback annotation(
     Placement(visible = true, transformation(origin = {-112, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
@@ -287,7 +287,7 @@ equation
     Line(points = {{225, -150}, {235.1, -150}}, color = {0, 0, 127}, pattern = LinePattern.Dash));
   annotation(
     Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}), graphics = {Text(textColor = {0, 0, 255}, extent = {{-151, 165}, {138, 102}}, textString = "%name")}),
-    experiment(StopTime = 400, StartTime = 0, Tolerance = 1e-06, Interval = 0.01),
+    experiment(StopTime = 400, StartTime = 0, Tolerance = 1e-06, Interval = 0.1),
     Documentation(info = "<html>
 
 </html>"),
