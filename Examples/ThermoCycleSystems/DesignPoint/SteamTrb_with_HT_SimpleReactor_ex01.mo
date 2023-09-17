@@ -74,7 +74,7 @@ model SteamTrb_with_HT_SimpleReactor_ex01
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature prescribedTemperature annotation(
     Placement(visible = true, transformation(origin = {25, -93}, extent = {{4, -4}, {-4, 4}}, rotation = -180)));
   Modelica.Blocks.Math.Add add annotation(
-    Placement(visible = true, transformation(origin = {-4, -93}, extent = {{4, -4}, {-4, 4}}, rotation = -180)));
+    Placement(visible = true, transformation(origin = {-6, -93}, extent = {{4, -4}, {-4, 4}}, rotation = -180)));
   Modelica.Blocks.Math.Gain gain2(k = 1/2) annotation(
     Placement(visible = true, transformation(origin = {10, -93}, extent = {{3, -3}, {-3, 3}}, rotation = -180)));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor annotation(
@@ -120,12 +120,10 @@ equation
     Line(points = {{-16, -34}, {-74, -34}}, color = {191, 0, 0}));
   connect(evaporator.heatPort, conv_evaporator.fluid) annotation(
     Line(points = {{30, -34}, {12, -34}}, color = {191, 0, 0}));
-  connect(calc_hConv_evaporator.heatPort, prescribedTemperature.port) annotation(
-    Line(points = {{37, -93.25}, {29, -93.25}}, color = {191, 0, 0}));
   connect(gain2.y, prescribedTemperature.T) annotation(
     Line(points = {{13.3, -93}, {20, -93}}, color = {0, 0, 127}));
   connect(gain2.u, add.y) annotation(
-    Line(points = {{6.4, -93}, {0.8, -93}}, color = {0, 0, 127}));
+    Line(points = {{6.4, -93}, {-2, -93}}, color = {0, 0, 127}));
   connect(trb.flange_2, powerTrb.flange_a) annotation(
     Line(points = {{140, 128}, {158, 128}}));
   connect(powerTrb.flange_b, constantSpeed.flange) annotation(
@@ -135,9 +133,7 @@ equation
   connect(evaporator.heatPort, temperatureSensor.port) annotation(
     Line(points = {{30, -34}, {30, -76}}, color = {191, 0, 0}));
   connect(temperatureSensor.T, add.u2) annotation(
-    Line(points = {{19.5, -76}, {-9, -76}, {-9, -91}}, color = {0, 0, 127}));
-  connect(calc_hConv_evaporator.y_T_fluid, add.u1) annotation(
-    Line(points = {{41.225, -109.5}, {-8.325, -109.5}, {-8.325, -95}}, color = {0, 0, 127}));
+    Line(points = {{19.5, -76}, {-11, -76}, {-11, -91}}, color = {0, 0, 127}));
   connect(pump.port_2, calc_hConv_evaporator.port_1) annotation(
     Line(points = {{50, -154}, {50, -109.5}}, color = {0, 127, 255}));
   connect(massFlowWater.port_b, pump.port_1) annotation(
@@ -149,7 +145,7 @@ equation
   connect(conv_evaporator.Gc, product.y) annotation(
     Line(points = {{-2, -48}, {-2, -60.5}}, color = {0, 0, 127}));
   connect(calc_hConv_evaporator.y_h, product.u2) annotation(
-    Line(points = {{36.025, -83.5}, {1.025, -83.5}, {1.025, -72}}, color = {0, 0, 127}));
+    Line(points = {{36, -83.5}, {36, -72}, {1.025, -72}}, color = {0, 0, 127}));
   connect(const_Area_HT_evaporator.y, product.u1) annotation(
     Line(points = {{-27, -72}, {-5, -72}}, color = {0, 0, 127}));
   connect(massFlowWater.m_flow, constraint.u_variable) annotation(
@@ -167,7 +163,7 @@ equation
   connect(pump.port_1, temperature_pump_in.port) annotation(
     Line(points = {{66, -154}, {86, -154}, {86, -163}}, color = {0, 127, 255}));
   connect(temperature_pump_out.port, calc_hConv_evaporator.port_1) annotation(
-    Line(points = {{58, -117.35}, {50, -117.35}, {50, -109.85}}, color = {0, 127, 255}));
+    Line(points = {{58, -117.35}, {58, -119}, {50, -119}, {50, -109.5}}, color = {0, 127, 255}));
   connect(temperature_evaporator_out.port, evaporator.port_b) annotation(
     Line(points = {{56, -3}, {50, -3}, {50, -14}}, color = {0, 127, 255}));
   connect(temperature_evaporator_wall.heatPort, conv_evaporator.solid) annotation(
@@ -184,6 +180,10 @@ equation
     Line(points = {{-54, 92}, {40, 92}}, color = {191, 0, 0}));
   connect(temperature_vaporHeater_wall.heatPort, volume.heatPort) annotation(
     Line(points = {{8, 106}, {30, 106}, {30, 92}, {40, 92}}, color = {191, 0, 0}));
+  connect(prescribedTemperature.port, calc_hConv_evaporator.heatPort) annotation(
+    Line(points = {{29, -93}, {37, -93}}, color = {191, 0, 0}));
+  connect(calc_hConv_evaporator.y_T_fluid, add.u1) annotation(
+    Line(points = {{42, -110}, {-11, -110}, {-11, -95}}, color = {0, 0, 127}));
   annotation(
     Icon(coordinateSystem(extent = {{-280, -200}, {260, 200}}), graphics = {Text(textColor = {0, 0, 255}, extent = {{-151, 165}, {138, 102}}, textString = "%name")}),
     experiment(StopTime = 400, StartTime = 0, Tolerance = 1e-06, Interval = 0.1),
