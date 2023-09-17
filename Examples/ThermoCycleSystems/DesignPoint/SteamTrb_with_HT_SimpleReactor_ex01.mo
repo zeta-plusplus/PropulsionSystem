@@ -21,7 +21,7 @@ model SteamTrb_with_HT_SimpleReactor_ex01
     Placement(visible = true, transformation(origin = {65, 144}, extent = {{5, 5}, {-5, -5}}, rotation = 180)));
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(origin = {378, -36}, extent = {{-160, 80}, {-140, 100}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_heat_evaporator(duration = 1, height = 1e5, offset = 5e6, startTime = 100) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_heat_evaporator(duration = 1, height = 0, offset = 5e6, startTime = 100) annotation(
     Placement(visible = true, transformation(origin = {-115, 118}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Math.Gain fracLiquid(k = 1/evaporator.V_t) annotation(
     Placement(visible = true, transformation(origin = {108, -26}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
@@ -65,32 +65,14 @@ model SteamTrb_with_HT_SimpleReactor_ex01
     Placement(visible = true, transformation(origin = {-84, 144}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow heat_vaporHeater annotation(
     Placement(visible = true, transformation(origin = {-65, 92}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  HeatTransferComponents.ForcedConvection.Block_hFlatPlateTurbSmooth00 calc_hConv_evaporator(Amech = 0.0005, Len = 2, redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
-    Placement(visible = true, transformation(origin = {50, -93.25}, extent = {{16.25, -13}, {-16.25, 13}}, rotation = -90)));
-  Modelica.Thermal.HeatTransfer.Components.Convection conv_evaporator annotation(
-    Placement(visible = true, transformation(origin = {-2, -34}, extent = {{-14, 14}, {14, -14}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant const_Area_HT_evaporator(k = 100) annotation(
-    Placement(visible = true, transformation(origin = {-34, -72}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature prescribedTemperature annotation(
-    Placement(visible = true, transformation(origin = {25, -93}, extent = {{4, -4}, {-4, 4}}, rotation = -180)));
-  Modelica.Blocks.Math.Add add annotation(
-    Placement(visible = true, transformation(origin = {-6, -93}, extent = {{4, -4}, {-4, 4}}, rotation = -180)));
-  Modelica.Blocks.Math.Gain gain2(k = 1/2) annotation(
-    Placement(visible = true, transformation(origin = {10, -93}, extent = {{3, -3}, {-3, 3}}, rotation = -180)));
-  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor annotation(
-    Placement(visible = true, transformation(origin = {25, -76}, extent = {{5, -5}, {-5, 5}}, rotation = 0)));
-  Modelica.Blocks.Math.Product product annotation(
-    Placement(visible = true, transformation(origin = {-2, -66}, extent = {{-5, -5}, {5, 5}}, rotation = 90)));
   FluidSystemComponents.Sensor.Temperature_degC_DispColor00 temperature_pump_in(redeclare package Medium = Modelica.Media.Water.StandardWater, valMax = valMaxTContour, valMin = valMinTContour) annotation(
     Placement(visible = true, transformation(origin = {97, -163}, extent = {{-11, -7}, {11, 7}}, rotation = 0)));
   FluidSystemComponents.Sensor.Temperature_degC_DispColor00 temperature_pump_out(redeclare package Medium = Modelica.Media.Water.StandardWater, valMax = valMaxTContour, valMin = valMinTContour) annotation(
-    Placement(visible = true, transformation(origin = {69, -117}, extent = {{-11, -7}, {11, 7}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {69, -133}, extent = {{-11, -7}, {11, 7}}, rotation = 0)));
   FluidSystemComponents.Sensor.Temperature_degC_DispColor00 temperature_evaporator_out(redeclare package Medium = Modelica.Media.Water.StandardWater, valMax = valMaxTContour, valMin = valMinTContour) annotation(
     Placement(visible = true, transformation(origin = {67, -3}, extent = {{-11, 7}, {11, -7}}, rotation = 0)));
   FluidSystemComponents.Sensor.Temperature_degC_DispColor00 temperature_vaporHeater_out(redeclare package Medium = Modelica.Media.Water.StandardWater, valMax = valMaxTContour, valMin = valMinTContour) annotation(
     Placement(visible = true, transformation(origin = {65, 125}, extent = {{-11, -7}, {11, 7}}, rotation = 0)));
-  HeatTransferComponents.Sensors.Temperature_degC_DispColor00 temperature_evaporator_wall(valMax = valMaxTContour, valMin = valMinTContour) annotation(
-    Placement(visible = true, transformation(origin = {-34, -31}, extent = {{-12, -6}, {12, 6}}, rotation = -90)));
   FluidSystemComponents.Sensor.Temperature_degC_DispColor00 temperature_trb_out(redeclare package Medium = Modelica.Media.Water.StandardWater, valMax = valMaxTContour, valMin = valMinTContour) annotation(
     Placement(visible = true, transformation(origin = {147, 153}, extent = {{-11, -7}, {11, 7}}, rotation = 0)));
   HeatTransferComponents.Sensors.Temperature_degC_DispColor00 temperature_vaporHeater_wall(valMax = valMaxTContour, valMin = valMinTContour) annotation(
@@ -124,38 +106,16 @@ equation
     Line(points = {{158, 122.5}, {158, 101}, {151, 101}}, color = {0, 0, 127}));
   connect(ramp_heat_vaporHeater.y, heat_vaporHeater.Q_flow) annotation(
     Line(points = {{-84, 133}, {-84, 92}, {-75, 92}}, color = {0, 0, 127}));
-  connect(conv_evaporator.solid, heat_evaporator.port) annotation(
-    Line(points = {{-16, -34}, {-74, -34}}, color = {191, 0, 0}));
-  connect(evaporator.heatPort, conv_evaporator.fluid) annotation(
-    Line(points = {{30, -34}, {12, -34}}, color = {191, 0, 0}));
-  connect(gain2.y, prescribedTemperature.T) annotation(
-    Line(points = {{13.3, -93}, {20, -93}}, color = {0, 0, 127}));
-  connect(gain2.u, add.y) annotation(
-    Line(points = {{6.4, -93}, {-2, -93}}, color = {0, 0, 127}));
   connect(trb.flange_2, powerTrb.flange_a) annotation(
     Line(points = {{140, 128}, {158, 128}}));
   connect(powerTrb.flange_b, constantSpeed.flange) annotation(
     Line(points = {{168, 128}, {178, 128}}));
-  connect(calc_hConv_evaporator.port_2, evaporator.port_a) annotation(
-    Line(points = {{50, -77}, {50, -54}}, color = {0, 127, 255}));
-  connect(evaporator.heatPort, temperatureSensor.port) annotation(
-    Line(points = {{30, -34}, {30, -76}}, color = {191, 0, 0}));
-  connect(temperatureSensor.T, add.u2) annotation(
-    Line(points = {{19.5, -76}, {-11, -76}, {-11, -91}}, color = {0, 0, 127}));
-  connect(pump.port_2, calc_hConv_evaporator.port_1) annotation(
-    Line(points = {{50, -154}, {50, -109.5}}, color = {0, 127, 255}));
   connect(massFlowWater.port_b, pump.port_1) annotation(
     Line(points = {{118, -154}, {66, -154}}, color = {0, 127, 255}));
   connect(powerPump.flange_a, pump.flange_2) annotation(
     Line(points = {{27, -164}, {45, -164}}));
   connect(constantSpeed1.flange, powerPump.flange_b) annotation(
     Line(points = {{11, -164}, {17, -164}}));
-  connect(conv_evaporator.Gc, product.y) annotation(
-    Line(points = {{-2, -48}, {-2, -60.5}}, color = {0, 0, 127}));
-  connect(calc_hConv_evaporator.y_h, product.u2) annotation(
-    Line(points = {{36, -83.5}, {36, -72}, {1.025, -72}}, color = {0, 0, 127}));
-  connect(const_Area_HT_evaporator.y, product.u1) annotation(
-    Line(points = {{-27, -72}, {-5, -72}}, color = {0, 0, 127}));
   connect(massFlowWater.m_flow, constraint.u_variable) annotation(
     Line(points = {{128, -143}, {128, -105}}, color = {0, 0, 127}));
   connect(fracLiquid.y, feedback.u2) annotation(
@@ -170,22 +130,14 @@ equation
     Line(points = {{128, -69}, {128, -82}}, color = {0, 0, 127}));
   connect(pump.port_1, temperature_pump_in.port) annotation(
     Line(points = {{66, -154}, {86, -154}, {86, -163}}, color = {0, 127, 255}));
-  connect(temperature_pump_out.port, calc_hConv_evaporator.port_1) annotation(
-    Line(points = {{58, -117.35}, {58, -119}, {50, -119}, {50, -109.5}}, color = {0, 127, 255}));
   connect(temperature_evaporator_out.port, evaporator.port_b) annotation(
     Line(points = {{56, -3}, {50, -3}, {50, -14}}, color = {0, 127, 255}));
-  connect(temperature_evaporator_wall.heatPort, conv_evaporator.solid) annotation(
-    Line(points = {{-34, -19}, {-24, -19}, {-24, -34}, {-16, -34}}, color = {191, 0, 0}));
   connect(temperature_trb_out.port, trb.port_2) annotation(
     Line(points = {{136, 153}, {132, 153}, {132, 144}}, color = {0, 127, 255}));
   connect(massFlowVapor.port_a, volume.ports[1]) annotation(
     Line(points = {{60, 144}, {50, 144}, {50, 82}}, color = {0, 127, 255}));
   connect(temperature_vaporHeater_out.port, volume.ports[2]) annotation(
     Line(points = {{54, 124}, {50, 124}, {50, 82}}, color = {0, 127, 255}));
-  connect(prescribedTemperature.port, calc_hConv_evaporator.heatPort) annotation(
-    Line(points = {{29, -93}, {37, -93}}, color = {191, 0, 0}));
-  connect(calc_hConv_evaporator.y_T_fluid, add.u1) annotation(
-    Line(points = {{42, -110}, {-11, -110}, {-11, -95}}, color = {0, 0, 127}));
   connect(calc_hConv_vaporHeater.port_2, volume.ports[3]) annotation(
     Line(points = {{50, 55}, {50, 82}}, color = {0, 127, 255}));
   connect(evaporator.port_b, calc_hConv_vaporHeater.port_1) annotation(
@@ -204,6 +156,12 @@ equation
     Line(points = {{4, 68}, {4, 78}}, color = {0, 0, 127}));
   connect(conv_vaporHeater.solid, calc_hConv_vaporHeater.heatPort) annotation(
     Line(points = {{-10, 92}, {-10, 39}, {37, 39}}, color = {191, 0, 0}));
+  connect(evaporator.port_a, pump.port_2) annotation(
+    Line(points = {{50, -54}, {50, -154}}, color = {0, 127, 255}));
+  connect(temperature_pump_out.port, pump.port_2) annotation(
+    Line(points = {{58, -133}, {50, -133}, {50, -154}}, color = {0, 127, 255}));
+  connect(heat_evaporator.port, evaporator.heatPort) annotation(
+    Line(points = {{-74, -34}, {30, -34}}, color = {191, 0, 0}));
   annotation(
     Icon(coordinateSystem(extent = {{-280, -200}, {260, 200}}), graphics = {Text(textColor = {0, 0, 255}, extent = {{-151, 165}, {138, 102}}, textString = "%name")}),
     experiment(StopTime = 400, StartTime = 0, Tolerance = 1e-06, Interval = 0.1),
