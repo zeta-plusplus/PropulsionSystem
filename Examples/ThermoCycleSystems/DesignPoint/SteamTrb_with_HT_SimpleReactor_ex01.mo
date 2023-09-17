@@ -7,27 +7,25 @@ model SteamTrb_with_HT_SimpleReactor_ex01
   //-----
   parameter units.Area AreaHT = 50 "";
   parameter Real valMinTContour = 0;
-  parameter Real valMaxTContour = 2500;
+  parameter Real valMaxTContour = 600;
   //-----
   //-----
   parameter Real s_pumpDisp = 0.1;
   parameter Real s_pumpHead = 0.1;
   //-----
-  Modelica.Fluid.Examples.DrumBoiler.BaseClasses.EquilibriumDrumBoiler evaporator(redeclare package Medium = Modelica.Media.Water.StandardWater, V_l(fixed = true), V_l_start = 0.5, V_t = 1, cp_D = 500, m_D = 1e-6, p(fixed = false, start = 2*101.325*1000), p_start = 25*100*1000) annotation(
+  Modelica.Fluid.Examples.DrumBoiler.BaseClasses.EquilibriumDrumBoiler evaporator(redeclare package Medium = Modelica.Media.Water.StandardWater, V_l(fixed = true), V_l_start = 0.7, V_t = 1, cp_D = 500, m_D = 1e-6, p(fixed = false, start = 2*101.325*1000), p_start = 25*100*1000) annotation(
     Placement(visible = true, transformation(origin = {50, -34}, extent = {{-20, 20}, {20, -20}}, rotation = 90)));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow heat_evaporator annotation(
-    Placement(visible = true, transformation(origin = {-84, -34}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {-6, -34}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.MassFlowRate massFlowVapor(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
     Placement(visible = true, transformation(origin = {65, 144}, extent = {{5, 5}, {-5, -5}}, rotation = 180)));
   inner Modelica.Fluid.System system annotation(
     Placement(visible = true, transformation(origin = {378, -36}, extent = {{-160, 80}, {-140, 100}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_heat_evaporator(duration = 1, height = 0, offset = 5e6, startTime = 100) annotation(
-    Placement(visible = true, transformation(origin = {-115, 118}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Blocks.Math.Gain fracLiquid(k = 1/evaporator.V_t) annotation(
     Placement(visible = true, transformation(origin = {108, -26}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_r_liquidLevel(duration = 100, height = 0, offset = 0.7, startTime = 300) annotation(
     Placement(visible = true, transformation(origin = {128, 4}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
-  Modelica.Blocks.Continuous.PI ctrl_pi(T = 30, initType = Modelica.Blocks.Types.Init.InitialOutput, k = 300, x_start = 2, y_start = 2) annotation(
+  Modelica.Blocks.Continuous.PI ctrl_pi(T = 5, initType = Modelica.Blocks.Types.Init.InitialOutput, k = -5e6, x_start = 0, y_start = 5e6) annotation(
     Placement(visible = true, transformation(origin = {128, -58}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   Modelica.Blocks.Math.Feedback feedback annotation(
     Placement(visible = true, transformation(origin = {128, -26}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
@@ -39,8 +37,8 @@ model SteamTrb_with_HT_SimpleReactor_ex01
     Placement(visible = true, transformation(origin = {185, 128}, extent = {{7, -7}, {-7, 7}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sensors.PowerSensor powerTrb annotation(
     Placement(visible = true, transformation(origin = {162, 128}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
-  PropulsionSystem.Utilities.ConstrainVariable constraint(tgtValue_paramInput = 2*101.325*1000, use_u_targetVal = true) annotation(
-    Placement(visible = true, transformation(origin = {128, -94}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
+  PropulsionSystem.Utilities.ConstrainVariable constraint(tgtValue_paramInput = 2, use_u_targetVal = false) annotation(
+    Placement(visible = true, transformation(origin = {128, -122}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
     Placement(visible = true, transformation(origin = {228, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interaction.Show.RealValue disp_pwrTrb(significantDigits = 5, use_numberPort = true) annotation(
@@ -61,7 +59,7 @@ model SteamTrb_with_HT_SimpleReactor_ex01
     Placement(visible = true, transformation(origin = {32, -185}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain1(k = 1/1000) annotation(
     Placement(visible = true, transformation(origin = {145, 101}, extent = {{5, -5}, {-5, 5}}, rotation = 0)));
-  Modelica.Blocks.Sources.Ramp ramp_heat_vaporHeater(duration = 1, height = 2e5, offset = 5e5, startTime = 200) annotation(
+  Modelica.Blocks.Sources.Ramp ramp_heat_vaporHeater(duration = 1, height = 4e5, offset = 5e5, startTime = 200) annotation(
     Placement(visible = true, transformation(origin = {-84, 144}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow heat_vaporHeater annotation(
     Placement(visible = true, transformation(origin = {-65, 92}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -88,8 +86,6 @@ model SteamTrb_with_HT_SimpleReactor_ex01
   Modelica.Thermal.HeatTransfer.Components.Convection conv_vaporHeater annotation(
     Placement(visible = true, transformation(origin = {4, 92}, extent = {{-14, 14}, {14, -14}}, rotation = 0)));
 equation
-  connect(ramp_heat_evaporator.y, heat_evaporator.Q_flow) annotation(
-    Line(points = {{-115, 107}, {-115, -34}, {-94, -34}}, color = {0, 0, 127}));
   connect(massFlowVapor.port_b, trb.port_1) annotation(
     Line(points = {{70, 144}, {108, 144}}, color = {0, 127, 255}));
   connect(tankOutlet.ports[1], massFlowWater.port_a) annotation(
@@ -117,7 +113,7 @@ equation
   connect(constantSpeed1.flange, powerPump.flange_b) annotation(
     Line(points = {{11, -164}, {17, -164}}));
   connect(massFlowWater.m_flow, constraint.u_variable) annotation(
-    Line(points = {{128, -143}, {128, -105}}, color = {0, 0, 127}));
+    Line(points = {{128, -143}, {128, -133}}, color = {0, 0, 127}));
   connect(fracLiquid.y, feedback.u2) annotation(
     Line(points = {{113.5, -26}, {119.5, -26}}, color = {0, 0, 127}));
   connect(feedback.y, ctrl_pi.u) annotation(
@@ -126,8 +122,6 @@ equation
     Line(points = {{128, -7}, {128, -19}}, color = {0, 0, 127}));
   connect(evaporator.V, fracLiquid.u) annotation(
     Line(points = {{72, -26}, {102, -26}}, color = {0, 0, 127}));
-  connect(ctrl_pi.y, constraint.u_targetValue) annotation(
-    Line(points = {{128, -69}, {128, -82}}, color = {0, 0, 127}));
   connect(pump.port_1, temperature_pump_in.port) annotation(
     Line(points = {{66, -154}, {86, -154}, {86, -163}}, color = {0, 127, 255}));
   connect(temperature_evaporator_out.port, evaporator.port_b) annotation(
@@ -161,10 +155,12 @@ equation
   connect(temperature_pump_out.port, pump.port_2) annotation(
     Line(points = {{58, -133}, {50, -133}, {50, -154}}, color = {0, 127, 255}));
   connect(heat_evaporator.port, evaporator.heatPort) annotation(
-    Line(points = {{-74, -34}, {30, -34}}, color = {191, 0, 0}));
+    Line(points = {{4, -34}, {30, -34}}, color = {191, 0, 0}));
+  connect(ctrl_pi.y, heat_evaporator.Q_flow) annotation(
+    Line(points = {{128, -68}, {128, -76}, {-16, -76}, {-16, -34}}, color = {0, 0, 127}));
   annotation(
     Icon(coordinateSystem(extent = {{-280, -200}, {260, 200}}), graphics = {Text(textColor = {0, 0, 255}, extent = {{-151, 165}, {138, 102}}, textString = "%name")}),
-    experiment(StopTime = 400, StartTime = 0, Tolerance = 1e-06, Interval = 0.1),
+    experiment(StopTime = 600, StartTime = 0, Tolerance = 1e-06, Interval = 0.1),
     Documentation(info = "<html>
 
 </html>"),
