@@ -8,8 +8,8 @@ model SepaGasTurb_with_HT_DesPt_SimpleGasCoolReactor_ex01
   package engineAir = Modelica.Media.Air.DryAirNasa;
   //redeclare package Medium = engineAir
   //-----
-  parameter units.Area AreaHT = 150 "";
-  parameter Real khconv = 30 "";
+  parameter units.Area AreaHT = 250 "";
+  parameter Real khconv = 20 "";
   parameter Real valMinTContour = 0;
   parameter Real valMaxTContour = 2500;
   //-----
@@ -23,7 +23,7 @@ model SepaGasTurb_with_HT_DesPt_SimpleGasCoolReactor_ex01
     Placement(visible = true, transformation(origin = {84, 115}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   PropulsionSystem.Elements.BasicElements.CompressorDesignPoint00 CmpDesPt(redeclare package Medium = engineAir, PRdes_par = 40, effDes_par = 1) annotation(
     Placement(visible = true, transformation(origin = {33, -72}, extent = {{17, -17}, {-17, 17}}, rotation = 0)));
-  PropulsionSystem.Utilities.ConstrainVariable constraint_m_flow(tgtValue_paramInput = 167.5, use_u_targetVal = false) annotation(
+  PropulsionSystem.Utilities.ConstrainVariable constraint_m_flow(tgtValue_paramInput = 350, use_u_targetVal = false) annotation(
     Placement(visible = true, transformation(origin = {72, -77}, extent = {{-6, -6}, {6, 6}}, rotation = -90)));
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate(redeclare package Medium = engineAir) annotation(
     Placement(visible = true, transformation(origin = {72, -58}, extent = {{6, 6}, {-6, -6}}, rotation = 0)));
