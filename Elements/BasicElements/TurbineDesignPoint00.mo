@@ -77,6 +77,8 @@ algorithm
 //##### none #####
 //******************************************************************************************
 equation
+  
+
 //--------------------
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     PRdes = PRdes_par;
@@ -96,10 +98,7 @@ equation
     effDes = eff;
   end if;
 //--------------------
-  
   eff=effDes;
-  
-
 /********************************************************
   Graphics
 ********************************************************/
@@ -124,5 +123,6 @@ equation
     <li><a href=\"modelica://PropulsionSystem.BaseClasses.BasicElements.TurbineBase00\"> PropulsionSystem.BaseClasses.BasicElements.TurbineBase00 </a> </li>
     </ul>
 
-</html>"));
+</html>"),
+  Icon(graphics = {Text(origin = {-41, 5}, textColor = {255, 255, 255}, extent = {{-19, 1}, {101, -11}}, textString = "TrbDesPt")}));
 end TurbineDesignPoint00;

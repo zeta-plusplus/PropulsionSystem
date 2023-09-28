@@ -230,7 +230,6 @@ equation
   fluid_2.Xi = fluid_1.Xi;
   pwr = -1.0 * (port_1.m_flow * fluid_1.h + port_2.m_flow * fluid_2.h);
   pwr = omega*trq;
-  
 //-----
   Wc_1 = port_1.m_flow * sqrt(fluid_1.T / environment.Tstd) / (fluid_1.p / environment.pStd);
   Nc_1 = Nmech / sqrt(fluid_1.T / environment.Tstd);
@@ -246,6 +245,6 @@ equation
   Graphics
 ********************************************************/
   annotation(
-    Icon(graphics = {Polygon(origin = {30, 0}, fillColor = {255, 170, 0}, fillPattern = FillPattern.HorizontalCylinder, points = {{-90, 0}, {-90, -20}, {30, -80}, {30, 80}, {-90, 20}, {-90, 0}}), Rectangle(origin = {84, 6}, fillPattern = FillPattern.Solid, extent = {{-24, 4}, {16, -16}}), Rectangle(origin = {-86, 6}, fillPattern = FillPattern.Solid, extent = {{-12, 4}, {26, -16}}), Text(origin = {-43, 121}, extent = {{-57, 5}, {143, -15}}, textString = "%name"), Rectangle(origin = {-57, 30}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 52}, {1, -10}}), Text(origin = {-41, 7}, textColor = {255, 255, 255}, extent = {{-19, 1}, {101, -11}}, textString = "Trb")}, coordinateSystem(initialScale = 0.1, extent = {{-100, -100}, {100, 100}})),
+    Icon(graphics = {Polygon(origin = {30, 0}, fillColor = {255, 170, 0}, fillPattern = FillPattern.HorizontalCylinder, points = {{-90, 0}, {-90, -20}, {30, -80}, {30, 80}, {-90, 20}, {-90, 0}}), Rectangle(origin = {84, 6}, fillPattern = FillPattern.Solid, extent = {{-24, 4}, {16, -16}}), Rectangle(origin = {-86, 6}, fillPattern = FillPattern.Solid, extent = {{-12, 4}, {26, -16}}), Text(origin = {-43, 121}, extent = {{-57, 5}, {143, -15}}, textString = "%name"), Rectangle(origin = {-57, 30}, fillColor = {165, 165, 165}, fillPattern = FillPattern.Solid, extent = {{-3, 52}, {1, -10}})}, coordinateSystem(initialScale = 0.1, extent = {{-100, -100}, {100, 100}})),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"));
 end TurbineBase02;

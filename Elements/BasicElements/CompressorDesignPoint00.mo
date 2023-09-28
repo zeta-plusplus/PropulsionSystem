@@ -79,7 +79,7 @@ algorithm
 //******************************************************************************************
 equation
   
-  //--------------------
+//--------------------
   if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     PRdes = PRdes_par;
     PR=PRdes;
@@ -89,7 +89,7 @@ equation
   elseif switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
     PRdes = PR;
   end if;
-  //--------------------
+//--------------------
   if switchDetermine_eff == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     effDes = effDes_par;
   elseif switchDetermine_eff == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
@@ -97,10 +97,8 @@ equation
   elseif switchDetermine_eff == PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated then
     effDes = eff;
   end if;
-  //--------------------
-  
+//--------------------
   eff=effDes;
-  
 /********************************************************
   Graphics
 ********************************************************/
@@ -125,5 +123,6 @@ equation
     <li><a href=\"modelica://PropulsionSystem.BaseClasses.BasicElements.CompressorBase00\"> PropulsionSystem.BaseClasses.BasicElements.CompressorBase00 </a> </li>
     </ul>
 
-</html>"));
+</html>"),
+  Icon(graphics = {Text(origin = {-41, 5}, textColor = {255, 255, 255}, extent = {{-19, 1}, {101, -11}}, textString = "CmpDesPt")}));
 end CompressorDesignPoint00;
