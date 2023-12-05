@@ -6,8 +6,9 @@ model SteamTrb_with_HT_SimpleReactor_ex01
   import units = Modelica.Units.SI;
   //-----
   parameter units.Area AreaHT = 50 "";
+  parameter Real khconv = 20 "";
   parameter Real valMinTContour = 0;
-  parameter Real valMaxTContour = 600;
+  parameter Real valMaxTContour = 2500;
   //-----
   //-----
   parameter Real s_pumpDisp = 0.1;
@@ -18,9 +19,9 @@ model SteamTrb_with_HT_SimpleReactor_ex01
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow heat_evaporator annotation(
     Placement(visible = true, transformation(origin = {-32, -34}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Fluid.Sensors.MassFlowRate massFlowVapor(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
-    Placement(visible = true, transformation(origin = {65, 144}, extent = {{5, 5}, {-5, -5}}, rotation = 180)));
+    Placement(visible = true, transformation(origin = {65, 126}, extent = {{5, 5}, {-5, -5}}, rotation = 180)));
   inner Modelica.Fluid.System system annotation(
-    Placement(visible = true, transformation(origin = {378, -36}, extent = {{-160, 80}, {-140, 100}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {378, -54}, extent = {{-160, 80}, {-140, 100}}, rotation = 0)));
   Modelica.Blocks.Math.Gain fracLiquid(k = 1/evaporator.V_t) annotation(
     Placement(visible = true, transformation(origin = {94, -26}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_r_liquidLevel(duration = 100, height = 0, offset = 0.7, startTime = 300) annotation(
@@ -30,19 +31,19 @@ model SteamTrb_with_HT_SimpleReactor_ex01
   Modelica.Blocks.Math.Feedback feedback annotation(
     Placement(visible = true, transformation(origin = {114, -26}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   PropulsionSystem.Elements.BasicElements.TurbineDesignPoint00 trb(redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
-    Placement(visible = true, transformation(origin = {120, 128}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {120, 110}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT boundaryAtm(redeclare package Medium = Modelica.Media.Water.StandardWater, nPorts = 1, p = 100*1000) annotation(
-    Placement(visible = true, transformation(origin = {184, 162}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {184, 144}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sources.ConstantSpeed constantSpeed(w_fixed = 3000*2.0*Modelica.Constants.pi/60.0) annotation(
-    Placement(visible = true, transformation(origin = {189, 128}, extent = {{9, -9}, {-9, 9}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {189, 110}, extent = {{9, -9}, {-9, 9}}, rotation = 0)));
   Modelica.Mechanics.Rotational.Sensors.PowerSensor powerTrb annotation(
-    Placement(visible = true, transformation(origin = {162, 128}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {162, 110}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   PropulsionSystem.Utilities.ConstrainVariable constraint(tgtValue_paramInput = 2, use_u_targetVal = false) annotation(
     Placement(visible = true, transformation(origin = {140, -86}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
   inner PropulsionSystem.EngineSimEnvironment environment annotation(
-    Placement(visible = true, transformation(origin = {228, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {228, 72}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   Modelica.Blocks.Interaction.Show.RealValue disp_pwrTrb(significantDigits = 5, use_numberPort = true) annotation(
-    Placement(visible = true, transformation(origin = {119, 101}, extent = {{13, -7}, {-13, 7}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {119, 83}, extent = {{13, -7}, {-13, 7}}, rotation = 0)));
   Modelica.Fluid.Sources.Boundary_pT tankOutlet(redeclare package Medium = Modelica.Media.Water.StandardWater, T = 15 + 273.15, nPorts = 2, p = 100*1000) annotation(
     Placement(visible = true, transformation(origin = {195, -118}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   PropulsionSystem.Elements.BasicElements.CompressorDesignPoint00 pump(redeclare package Medium = Modelica.Media.Water.StandardWater, PRdes_par = 25, effDes_par = 1, switchDetermine_PR = PropulsionSystem.Types.switches.switchHowToDetVar.param) annotation(
@@ -58,7 +59,7 @@ model SteamTrb_with_HT_SimpleReactor_ex01
   Modelica.Blocks.Math.Gain gain(k = 1/1000) annotation(
     Placement(visible = true, transformation(origin = {32, -149}, extent = {{-5, -5}, {5, 5}}, rotation = 0)));
   Modelica.Blocks.Math.Gain gain1(k = 1/1000) annotation(
-    Placement(visible = true, transformation(origin = {145, 101}, extent = {{5, -5}, {-5, 5}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {145, 83}, extent = {{5, -5}, {-5, 5}}, rotation = 0)));
   Modelica.Blocks.Sources.Ramp ramp_heat_vaporHeater(duration = 1, height = 4e5, offset = 5e5, startTime = 200) annotation(
     Placement(visible = true, transformation(origin = {-108, 144}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow heat_vaporHeater annotation(
@@ -72,12 +73,12 @@ model SteamTrb_with_HT_SimpleReactor_ex01
   FluidSystemComponents.Sensor.Temperature_degC_DispColor00 temperature_vaporHeater_out(redeclare package Medium = Modelica.Media.Water.StandardWater, valMax = valMaxTContour, valMin = valMinTContour) annotation(
     Placement(visible = true, transformation(origin = {65, 102}, extent = {{-11, -7}, {11, 7}}, rotation = 0)));
   FluidSystemComponents.Sensor.Temperature_degC_DispColor00 temperature_trb_out(redeclare package Medium = Modelica.Media.Water.StandardWater, valMax = valMaxTContour, valMin = valMinTContour) annotation(
-    Placement(visible = true, transformation(origin = {147, 153}, extent = {{-11, -7}, {11, 7}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {147, 135}, extent = {{-11, -7}, {11, 7}}, rotation = 0)));
   HeatTransferComponents.Sensors.Temperature_degC_DispColor00 temperature_vaporHeater_wall(valMax = valMaxTContour, valMin = valMinTContour) annotation(
     Placement(visible = true, transformation(origin = {-28, 93}, extent = {{-12, -6}, {12, 6}}, rotation = -90)));
   Modelica.Fluid.Vessels.ClosedVolume volume(redeclare package Medium = Modelica.Media.Water.StandardWater, T_start = 220 + 273.15, V = 2, nPorts = 3, p_start = 25*100*1000, use_HeatTransfer = true, use_portsData = false) annotation(
     Placement(visible = true, transformation(origin = {40, 82}, extent = {{-10, 10}, {10, -10}}, rotation = -90)));
-  HeatTransferComponents.ForcedConvection.Block_hFlatPlateTurbSmooth00 calc_hConv_vaporHeater(Amech = 0.005, Len = 2, redeclare package Medium = Modelica.Media.Water.StandardWater) annotation(
+  HeatTransferComponents.ForcedConvection.Block_hFlatPlateTurbSmooth00 calc_hConv_vaporHeater(Amech = 0.005, Len = 2, redeclare package Medium = Modelica.Media.Water.StandardWater, khconv = khconv) annotation(
     Placement(visible = true, transformation(origin = {50, 38.75}, extent = {{16.25, -13}, {-16.25, 13}}, rotation = -90)));
   Modelica.Blocks.Sources.Constant const_Area_HT_vaporHeater(k = 100) annotation(
     Placement(visible = true, transformation(origin = {-28, 56}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
@@ -91,7 +92,7 @@ model SteamTrb_with_HT_SimpleReactor_ex01
     Placement(visible = true, transformation(origin = {-63, 92}, extent = {{8, 8}, {-8, -8}}, rotation = 180)));
   Modelica.Blocks.Math.Add sum_ReactorHeat annotation(
     Placement(visible = true, transformation(origin = {-86, 28}, extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  HeatTransferComponents.NaturalConvection.HTverticalPlate00 reactor_LostCoolant(AreaHT_par = 2*const_Area_HT_vaporHeater.k, Lc = 2*calc_hConv_vaporHeater.Len, redeclare package Medium = Modelica.Media.Air.DryAirNasa) annotation(
+  HeatTransferComponents.NaturalConvection.HTverticalPlate00 reactor_LostCoolant(AreaHT_par = 2*const_Area_HT_vaporHeater.k, Lc = 2*calc_hConv_vaporHeater.Len, redeclare package Medium = Modelica.Media.Air.DryAirNasa, khconv = khconv) annotation(
     Placement(visible = true, transformation(origin = {-226.333, -45.3333}, extent = {{16.6667, -16.6667}, {-16.6667, 23.3333}}, rotation = 0)));
   Modelica.Blocks.Interaction.Show.RealValue real_hconv_reactor_LostCoolant(significantDigits = 4) annotation(
     Placement(visible = true, transformation(origin = {-189, -15}, extent = {{-13, -9}, {13, 9}}, rotation = 0)));
@@ -108,28 +109,34 @@ model SteamTrb_with_HT_SimpleReactor_ex01
   Modelica.Blocks.Interaction.Show.RealValue real_mass_flow_water(significantDigits = 3, use_numberPort = true) annotation(
     Placement(visible = true, transformation(origin = {162, -104}, extent = {{-9, -8}, {9, 8}}, rotation = 0)));
   Modelica.Blocks.Interaction.Show.RealValue real_mass_flow_vapor(significantDigits = 3, use_numberPort = true) annotation(
-    Placement(visible = true, transformation(origin = {82, 154}, extent = {{-9, -8}, {9, 8}}, rotation = 0)));
+    Placement(visible = true, transformation(origin = {82, 136}, extent = {{-9, -8}, {9, 8}}, rotation = 0)));
+  Modelica.Blocks.Interaction.Show.RealValue real_AreaHT(number = AreaHT, significantDigits = 6, use_numberPort = false) annotation(
+    Placement(visible = true, transformation(origin = {4, 212}, extent = {{-13, -8}, {13, 8}}, rotation = 0)));
+  Modelica.Blocks.Interaction.Show.RealValue real_khconv(number = khconv, significantDigits = 6, use_numberPort = false) annotation(
+    Placement(visible = true, transformation(origin = {4, 190}, extent = {{-13, -8}, {13, 8}}, rotation = 0)));
+  Modelica.Blocks.Interaction.Show.RealValue real_hconv_reactor_NormOp(significantDigits = 4) annotation(
+    Placement(visible = true, transformation(origin = {90, 63}, extent = {{-19, -9}, {19, 9}}, rotation = 0)));
 equation
   connect(massFlowVapor.port_b, trb.port_1) annotation(
-    Line(points = {{70, 144}, {108, 144}}, color = {0, 127, 255}, thickness = 0.75));
+    Line(points = {{70, 126}, {108, 126}}, color = {0, 127, 255}, thickness = 0.75));
   connect(tankOutlet.ports[1], massFlowWater.port_a) annotation(
     Line(points = {{185, -118}, {150, -118}}, color = {0, 127, 255}, thickness = 0.75));
   connect(trb.port_2, boundaryAtm.ports[1]) annotation(
-    Line(points = {{132, 144}, {132, 162}, {174, 162}}, color = {0, 127, 255}, thickness = 0.75));
+    Line(points = {{132.4, 126}, {132.4, 144}, {174.4, 144}}, color = {0, 127, 255}, thickness = 0.75));
   connect(gain.y, realValue.numberPort) annotation(
     Line(points = {{37.5, -149}, {45, -149}}, color = {0, 0, 127}));
   connect(gain1.y, disp_pwrTrb.numberPort) annotation(
-    Line(points = {{139.5, 101}, {134, 101}}, color = {0, 0, 127}));
+    Line(points = {{139.5, 83}, {134, 83}}, color = {0, 0, 127}));
   connect(powerPump.power, gain.u) annotation(
     Line(points = {{26, -133.5}, {26, -149}}, color = {0, 0, 127}));
   connect(powerTrb.power, gain1.u) annotation(
-    Line(points = {{158, 122.5}, {158, 101}, {151, 101}}, color = {0, 0, 127}));
+    Line(points = {{158, 104.5}, {158, 83}, {151, 83}}, color = {0, 0, 127}));
   connect(ramp_heat_vaporHeater.y, heat_vaporHeater.Q_flow) annotation(
     Line(points = {{-108, 133}, {-108, 92}, {-103, 92}}, color = {0, 0, 127}));
   connect(trb.flange_2, powerTrb.flange_a) annotation(
-    Line(points = {{140, 128}, {158, 128}}, thickness = 0.75));
+    Line(points = {{140, 110}, {158, 110}}, thickness = 0.75));
   connect(powerTrb.flange_b, constantSpeed.flange) annotation(
-    Line(points = {{168, 128}, {180, 128}}, thickness = 0.75));
+    Line(points = {{167, 110}, {179, 110}}, thickness = 0.75));
   connect(massFlowWater.port_b, pump.port_1) annotation(
     Line(points = {{130, -118}, {66, -118}}, color = {0, 127, 255}, thickness = 0.75));
   connect(powerPump.flange_a, pump.flange_2) annotation(
@@ -149,9 +156,9 @@ equation
   connect(temperature_evaporator_out.port, evaporator.port_b) annotation(
     Line(points = {{56, -3}, {50, -3}, {50, -14}}, color = {0, 127, 255}));
   connect(temperature_trb_out.port, trb.port_2) annotation(
-    Line(points = {{136, 153}, {132, 153}, {132, 144}}, color = {0, 127, 255}));
+    Line(points = {{136, 134.65}, {132, 134.65}, {132, 125.65}}, color = {0, 127, 255}));
   connect(massFlowVapor.port_a, volume.ports[1]) annotation(
-    Line(points = {{60, 144}, {50, 144}, {50, 82}}, color = {0, 127, 255}, thickness = 0.75));
+    Line(points = {{60, 126}, {50, 126}, {50, 82}}, color = {0, 127, 255}, thickness = 0.75));
   connect(temperature_vaporHeater_out.port, volume.ports[2]) annotation(
     Line(points = {{54, 102}, {50, 102}, {50, 82}}, color = {0, 127, 255}));
   connect(calc_hConv_vaporHeater.port_2, volume.ports[3]) annotation(
@@ -207,12 +214,14 @@ equation
   connect(real_mass_flow_water.numberPort, massFlowWater.m_flow) annotation(
     Line(points = {{152, -104}, {140, -104}, {140, -106}}, color = {0, 0, 127}));
   connect(real_mass_flow_vapor.numberPort, massFlowVapor.m_flow) annotation(
-    Line(points = {{72, 154}, {65, 154}, {65, 149.5}}, color = {0, 0, 127}));
+    Line(points = {{71.65, 136}, {64.65, 136}, {64.65, 131.5}}, color = {0, 0, 127}));
+  connect(real_hconv_reactor_NormOp.numberPort, calc_hConv_vaporHeater.y_h) annotation(
+    Line(points = {{68, 63}, {36, 63}, {36, 48}}, color = {0, 0, 127}));
   annotation(
     Icon(coordinateSystem(extent = {{-280, -200}, {260, 200}}), graphics = {Text(textColor = {0, 0, 255}, extent = {{-151, 165}, {138, 102}}, textString = "%name")}),
     experiment(StopTime = 600, StartTime = 0, Tolerance = 1e-06, Interval = 0.1),
     Documentation(info = "<html>
 
 </html>"),
-    Diagram(coordinateSystem(extent = {{-280, -200}, {260, 200}})));
+    Diagram(coordinateSystem(extent = {{-280, -200}, {260, 260}}), graphics = {Text(origin = {25, 211}, extent = {{-13, 3}, {13, -3}}, textString = "[m2]"), Text(origin = {29, 200}, extent = {{-65, 6}, {65, -6}}, textString = "Factor on convective heat transfer coefficient", horizontalAlignment = TextAlignment.Left), Rectangle(origin = {27, 205}, pattern = LinePattern.Dash, extent = {{-73, 29}, {73, -29}}), Text(origin = {11, 222}, extent = {{-47, 3}, {47, -3}}, textString = "Eff area of heat transfer", horizontalAlignment = TextAlignment.Left), Text(origin = {-19, 246}, extent = {{-65, 8}, {65, -8}}, textString = "Key design parameters;"), Text(origin = {28, 190}, extent = {{-13, 3}, {13, -3}}, textString = "[nond]"), Text(origin = {3, 156}, extent = {{-47, 8}, {47, -8}}, textString = "Normal Operation"), Rectangle(origin = {-197, -34}, pattern = LinePattern.Dash, extent = {{-61, 44}, {61, -44}}), Text(origin = {-203, 31}, extent = {{-69, 8}, {69, -8}}, textString = "Only coolant supplied is ambient air.", horizontalAlignment = TextAlignment.Left), Text(origin = {-209, 40}, extent = {{-63, 4}, {63, -4}}, textString = "Coolant water is lost.", horizontalAlignment = TextAlignment.Left), Text(origin = {-203, 21}, extent = {{-69, 7}, {69, -7}}, textString = "Heat removal is by natural convection.", horizontalAlignment = TextAlignment.Left), Text(origin = {-241, 54}, extent = {{-39, 6}, {39, -6}}, textString = "Failure Mode")}));
 end SteamTrb_with_HT_SimpleReactor_ex01;

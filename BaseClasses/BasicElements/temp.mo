@@ -1,6 +1,6 @@
 within PropulsionSystem.BaseClasses.BasicElements;
 
-partial model CompressorBase02
+partial model temp
   /********************************************************
           imports
       ********************************************************/
@@ -33,6 +33,7 @@ partial model CompressorBase02
     HideResult = true,
     choices(checkBox = true),
     Dialog(tab = "debug setting"));
+  
   /* ---------------------------------------------
           parameters
       --------------------------------------------- */
@@ -91,6 +92,7 @@ partial model CompressorBase02
   parameter units.SpecificEntropy s_fluid_2_init = 7000.0 "" annotation(
     Dialog(tab = "Initialization", group = "others"));
   
+  
   /* ---------------------------------------------
           Internal variables
       --------------------------------------------- */
@@ -133,113 +135,19 @@ partial model CompressorBase02
   //********** flags **********
   Integer flagEffVal "0:0<eff<1, 1:eff<=0, 2:1<=eff";
   
+  
   /* ---------------------------------------------
           Internal objects
       --------------------------------------------- */
-  outer EngineSimEnvironment environment;
-
-  Medium.BaseProperties fluid_1(p(start = p1_init, min = 0.0 + 1.0e-10), T(start = T1_init, min = 0.0 + 1.0e-10), state.p(start = p1_init, min = 0.0 + 1.0e-10), state.T(start = T1_init, min = 0.0 + 1.0e-10), h(start = h1_init, min = 0.0 + 1.0e-10)) "flow station of inlet";
+  
+  //inner outer PropulsionSystem.EngineSimEnvironment environment "System wide properties";
+  Medium.BaseProperties fluid_1(p.start = p1_init, p.min = 0.0 + 1.0e-10, T(start = T1_init, min = 0.0 + 1.0e-10), state.p(start = p1_init, min = 0.0 + 1.0e-10), state.T(start = T1_init, min = 0.0 + 1.0e-10), h(start = h1_init, min = 0.0 + 1.0e-10)) "flow station of inlet";
   Medium.BaseProperties fluid_2(p(start = p2_init, min = 0.0 + 1.0e-10), T(start = T2_init, min = 0.0 + 1.0e-10), state.p(start = p2_init, min = 0.0 + 1.0e-10), state.T(start = T2_init, min = 0.0 + 1.0e-10), h(start = h2_init, min = 0.0 + 1.0e-10)) "flow station of outlet";
-  
-  /* ---------------------------------------------
-          Interface
-      --------------------------------------------- */
-  Modelica.Fluid.Interfaces.FluidPort_a port_1(redeclare package Medium = Medium, m_flow(start = m_flow1_init, min = if allowFlowReversal then -Constants.inf else 0.0), h_outflow(start = h1_init, min = 0.0 + 1.0e-10), p(start = p1_init, min = 0.0 + 1.0e-10)) "" annotation(
-    Placement(visible = true, transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-62, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_b port_2(redeclare package Medium = Medium, m_flow(start = m_flow2_init, max = if allowFlowReversal then +Constants.inf else 0.0), h_outflow(start = h2_init, min = 0.0 + 1.0e-10), p(start = p2_init, min = 0.0 + 1.0e-10)) "" annotation(
-    Placement(visible = true, transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {58, 80}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Interfaces.Flange_a flange_1(tau(start = tau1_init), phi(start = phi1_init)) "" annotation(
-    Placement(visible = true, transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_2(tau(start = tau2_init), phi(start = phi2_init)) "" annotation(
-    Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  /**/
-  PropulsionSystem.Types.ElementBus infoBus1 annotation(
-    Placement(visible = true, transformation(origin = {100, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  
-  //******************************************************************************************
-protected
-//******************************************************************************************
-initial algorithm
-//******************************************************************************************
-initial equation
-//******************************************************************************************
-algorithm
-  if printCmd == true then
-    assert(PR < 0.0, getInstanceName() + ", PR got less than 0" + ", fluid_1.p=" + String(fluid_1.p) + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
-  end if;
-//******************************************************************************************
-equation
-  if printCmd == true then
-    assert(fluid_1.p <= 0.0, getInstanceName() + ", fluid_1.p=" + String(fluid_1.p), AssertionLevel.warning);
-    assert(fluid_2.p <= 0.0, getInstanceName() + ", fluid_2.p=" + String(fluid_2.p), AssertionLevel.warning);
-  end if;
-/* ---------------------------------------------
-  Connections, interface <-> internal variables
-  --------------------------------------------- */
-//-- fluidPort_1 --
-  fluid_1.p = port_1.p;
-  fluid_1.h = actualStream(port_1.h_outflow);
-  fluid_1.Xi = actualStream(port_1.Xi_outflow);
-//-- fluidPort_2 --
-  fluid_2.p = port_2.p;
-  fluid_2.h = actualStream(port_2.h_outflow);
-  fluid_2.Xi = actualStream(port_2.Xi_outflow);
-// distinguish inlet side
-  m_flow_max = max(port_1.m_flow, port_2.m_flow);
-  m_flow_min = min(port_1.m_flow, port_2.m_flow);
-  if allowFlowReversal == false then
-    port_1.h_outflow = fluid_1.h;
-    port_1.Xi_outflow = fluid_1.Xi;
-  else
-    if m_flow_max == port_1.m_flow then
-      port_1.h_outflow = fluid_1.h;
-      port_1.Xi_outflow = fluid_1.Xi;
-    elseif m_flow_max == port_2.m_flow then
-      port_2.h_outflow = fluid_2.h;
-      port_2.Xi_outflow = fluid_2.Xi;
-    else
-      port_1.h_outflow = fluid_1.h;
-      port_1.Xi_outflow = fluid_1.Xi;
-    end if;
-  end if;
-//-- shaft --
-  flange_1.phi = phi;
-  flange_2.phi = phi;
-/* ---------------------------------------------
-  Eqns describing physics
-  --------------------------------------------- */
-  Wc_1 = port_1.m_flow*sqrt(fluid_1.T/environment.Tstd)/(fluid_1.p/environment.pStd);
-  Nc_1 = Nmech/sqrt(fluid_1.T/environment.Tstd);
-  PR = fluid_2.p/fluid_1.p;
-  h_2is = Medium.isentropicEnthalpy(fluid_2.p, fluid_1.state);
-  dht_is = h_2is - fluid_1.h;
-  dht = fluid_2.h - fluid_1.h;
-  if 0 < dht then
-    eff = dht_is/dht;
-    if eff < 1 then
-      flagEffVal = 0;
-    else
-      flagEffVal = 2;
-    end if;
-  else
-    eff = 0.0;
-    flagEffVal = 1;
-  end if;
-  port_1.m_flow + port_2.m_flow = 0.0;
-  fluid_2.Xi = fluid_1.Xi;
-  trq = flange_1.tau + flange_2.tau;
-  pwr = -1.0*(port_1.m_flow*fluid_1.h + port_2.m_flow*fluid_2.h);
-  omega*trq = pwr;
-  Nmech = omega*60.0/(2.0*Modelica.Constants.pi);
-  pwr_inv = -1*pwr;
-  trq_inv = -1*trq;
-  s_fluid_1 = Medium.specificEntropy(fluid_1.state);
-  s_fluid_2 = Medium.specificEntropy(fluid_2.state);
-  
-  der(phi) = omega;
-/********************************************************
-  Graphics
-********************************************************/
+  /********************************************************
+    Graphics
+  ********************************************************/
+  inner outer EngineSimEnvironment environment annotation(
+    Placement(transformation(origin = {-64, 72}, extent = {{-10, -10}, {10, 10}})));
   annotation(
     defaultComponentName = "Cmp",
     Icon(graphics = {Polygon(origin = {2, 36}, fillColor = {2, 154, 255}, fillPattern = FillPattern.HorizontalCylinder, points = {{-62, -38}, {-62, -116}, {58, -56}, {58, -16}, {-62, 44}, {-62, -38}}), Rectangle(origin = {-89, 6}, fillPattern = FillPattern.Solid, extent = {{-11, 4}, {29, -16}}), Rectangle(origin = {83, 2}, fillPattern = FillPattern.Solid, extent = {{-23, 8}, {17, -12}}), Rectangle(origin = {63, 86}, rotation = 180, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 66}, {7, 4}}), Text(origin = {-68, 123}, extent = {{-32, 1}, {168, -19}}, textString = "%name")}, coordinateSystem(initialScale = 0.1, extent = {{-100, -100}, {100, 100}})),
@@ -259,4 +167,6 @@ equation
   
 
 </html>"));
-end CompressorBase02;
+
+
+end temp;
