@@ -6,6 +6,10 @@ model CombustorBase02
                             imports
   ********************************************************/
   import Modelica.Constants;
+  import units=Modelica.Units.SI;
+  import unitsNonSI=Modelica.Units.NonSI;
+  import unitConversions=Modelica.Units.Conversions;
+  
   import PropulsionSystem.Types.switches;
   /********************************************************
           Declaration
@@ -35,45 +39,45 @@ model CombustorBase02
       --------------------------------------------- */
   //********** Initialization Parameters **********
   //--- fluid_1, port_1 ---
-  parameter Modelica.SIunits.MassFlowRate m_flow1_init(displayUnit = "kg/s") = 1.0 "" annotation(
+  parameter units.MassFlowRate m_flow1_init(displayUnit = "kg/s") = 1.0 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
-  parameter Modelica.SIunits.Pressure p1_init(displayUnit = "Pa") = 20* 101.3 * 1000 "" annotation(
+  parameter units.Pressure p1_init(displayUnit = "Pa") = 20* 101.3 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
-  parameter Modelica.SIunits.Temperature T1_init(displayUnit = "K") = 800.0 "" annotation(
+  parameter units.Temperature T1_init(displayUnit = "K") = 800.0 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
-  parameter Modelica.SIunits.SpecificEnthalpy h1_init(displayUnit = "J/kg") = T1_init * 1.004 * 1000 "" annotation(
+  parameter units.SpecificEnthalpy h1_init(displayUnit = "J/kg") = T1_init * 1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_1"));
   //--- fluid_2, port_2 ---
-  parameter Modelica.SIunits.MassFlowRate m_flow2_init(displayUnit = "kg/s") = -1.0 * m_flow1_init "" annotation(
+  parameter units.MassFlowRate m_flow2_init(displayUnit = "kg/s") = -1.0 * m_flow1_init "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.Pressure p2_init(displayUnit = "Pa") = 20*101.3 * 1000 "" annotation(
+  parameter units.Pressure p2_init(displayUnit = "Pa") = 20*101.3 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.Temperature T2_init(displayUnit = "K") = 1600 "" annotation(
+  parameter units.Temperature T2_init(displayUnit = "K") = 1600 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
-  parameter Modelica.SIunits.SpecificEnthalpy h2_init(displayUnit = "J/kg") = T2_init*1.004 * 1000 "" annotation(
+  parameter units.SpecificEnthalpy h2_init(displayUnit = "J/kg") = T2_init*1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_2"));
   //--- fluid_fuel ---
-  parameter Modelica.SIunits.MassFlowRate m_flow_fuel_init(displayUnit = "kg/s") = 0.03 * m_flow1_init "" annotation(
+  parameter units.MassFlowRate m_flow_fuel_init(displayUnit = "kg/s") = 0.03 * m_flow1_init "" annotation(
     Dialog(tab = "Initialization", group = "fluid_fuel"));
-  parameter Modelica.SIunits.Pressure pfuel_init(displayUnit = "Pa") = p1_init "" annotation(
+  parameter units.Pressure pfuel_init(displayUnit = "Pa") = p1_init "" annotation(
     Dialog(tab = "Initialization", group = "fluid_fuel"));
-  parameter Modelica.SIunits.Temperature Tfuel_init(displayUnit = "K") = 400 "" annotation(
+  parameter units.Temperature Tfuel_init(displayUnit = "K") = 400 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_fuel"));
-  parameter Modelica.SIunits.SpecificEnthalpy hfuel_init(displayUnit = "J/kg") = Tfuel_init * 1000 "" annotation(
+  parameter units.SpecificEnthalpy hfuel_init(displayUnit = "J/kg") = Tfuel_init * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid_fuel"));
   //--- HeatInjector ---
-  parameter Modelica.SIunits.HeatFlowRate Q_flow_init=m_flow1_init*(h2_init-h1_init) "" annotation(
+  parameter units.HeatFlowRate Q_flow_init=m_flow1_init*(h2_init-h1_init) "" annotation(
     Dialog(tab = "Initialization", group = "HeatInjector"));
-  parameter Modelica.SIunits.Temperature Twall_init= T2_init "" annotation(
+  parameter units.Temperature Twall_init= T2_init "" annotation(
     Dialog(tab = "Initialization", group = "HeatInjector"));
   //--- others ---
   parameter Real effComb_init=0.999 "" annotation(
     Dialog(tab = "Initialization", group = "others")
   );
-  parameter Modelica.SIunits.SpecificEntropy s_fluid_1_init=7000.0 "" annotation(
+  parameter units.SpecificEntropy s_fluid_1_init=7000.0 "" annotation(
     Dialog(tab = "Initialization", group = "others")
   );
-  parameter Modelica.SIunits.SpecificEntropy s_fluid_2_init=7800.0 "" annotation(
+  parameter units.SpecificEntropy s_fluid_2_init=7800.0 "" annotation(
     Dialog(tab = "Initialization", group = "others")
   );
   
@@ -86,10 +90,10 @@ model CombustorBase02
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
-  Modelica.SIunits.SpecificEntropy s_fluid_1(start=s_fluid_1_init) "specific entropy, fluid_1" annotation(
+  units.SpecificEntropy s_fluid_1(start=s_fluid_1_init) "specific entropy, fluid_1" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.SpecificEntropy s_fluid_2(start=s_fluid_2_init) "specific entropy, fluid_2" annotation(
+  units.SpecificEntropy s_fluid_2(start=s_fluid_2_init) "specific entropy, fluid_2" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   

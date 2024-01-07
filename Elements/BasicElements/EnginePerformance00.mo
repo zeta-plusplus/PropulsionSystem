@@ -2,6 +2,11 @@ within PropulsionSystem.Elements.BasicElements;
 
 model EnginePerformance00
   import Modelica.Constants;
+  import units=Modelica.Units.SI;
+  import unitsNonSI=Modelica.Units.NonSI;
+  import unitConversions=Modelica.Units.Conversions;
+  
+  
   /********************************************************
      Declaration
     ********************************************************/
@@ -14,11 +19,11 @@ model EnginePerformance00
     HideResult = true,
     choices(checkBox = true), Dialog(group = "switch"));
   //********** Internal variables **********
-  Modelica.SIunits.Force Fg;
-  Modelica.SIunits.Force Fram;
-  Modelica.SIunits.Force FdScrub;
-  Modelica.SIunits.MassFlowRate m_flow_fuel;
-  Modelica.SIunits.Force Fn;
+  units.Force Fg;
+  units.Force Fram;
+  units.Force FdScrub;
+  units.MassFlowRate m_flow_fuel;
+  units.Force Fn;
   Real TSFC "";
   Real TSFC_Bt "";
   //********** Interfaces **********

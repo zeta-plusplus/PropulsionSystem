@@ -6,6 +6,10 @@ block AltMN2pTh00
               imports   
   ********************************************************/
   import Modelica.Constants;
+  import units=Modelica.Units.SI;
+  import unitsNonSI=Modelica.Units.NonSI;
+  import unitConversions=Modelica.Units.Conversions;
+  
   /********************************************************
                      Declaration
   ********************************************************/
@@ -21,34 +25,34 @@ block AltMN2pTh00
             parameters
   --------------------------------------------- */
   //--- fluid2Inlet ---
-  parameter Modelica.SIunits.MassFlowRate m_flow2Inlet_init(displayUnit = "kg/s") = -1.0 "" annotation(
+  parameter units.MassFlowRate m_flow2Inlet_init(displayUnit = "kg/s") = -1.0 "" annotation(
     Dialog(tab = "Initialization", group = "fluid2Inlet"));
-  parameter Modelica.SIunits.Pressure p2Inlet_init(displayUnit = "Pa") = 101.3 * 1000 "" annotation(
+  parameter units.Pressure p2Inlet_init(displayUnit = "Pa") = 101.3 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid2Inlet"));
-  parameter Modelica.SIunits.Temperature T2Inlet_init(displayUnit = "K") = 288.15 "" annotation(
+  parameter units.Temperature T2Inlet_init(displayUnit = "K") = 288.15 "" annotation(
     Dialog(tab = "Initialization", group = "fluid2Inlet"));
-  parameter Modelica.SIunits.SpecificEnthalpy h2Inlet_init(displayUnit = "J/kg") = T2Inlet_init*1.004 * 1000 "" annotation(
+  parameter units.SpecificEnthalpy h2Inlet_init(displayUnit = "J/kg") = T2Inlet_init*1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluid2Inlet"));
   //--- fluidAmb ---
-  parameter Modelica.SIunits.MassFlowRate m_flowAmb_init(displayUnit = "kg/s") = -1.0 * m_flow2Inlet_init "" annotation(
+  parameter units.MassFlowRate m_flowAmb_init(displayUnit = "kg/s") = -1.0 * m_flow2Inlet_init "" annotation(
     Dialog(tab = "Initialization", group = "fluidAmb"));
-  parameter Modelica.SIunits.Pressure pAmb_init(displayUnit = "Pa") = p2Inlet_init "" annotation(
+  parameter units.Pressure pAmb_init(displayUnit = "Pa") = p2Inlet_init "" annotation(
     Dialog(tab = "Initialization", group = "fluidAmb"));
-  parameter Modelica.SIunits.Temperature Tamb_init(displayUnit = "K") = T2Inlet_init "" annotation(
+  parameter units.Temperature Tamb_init(displayUnit = "K") = T2Inlet_init "" annotation(
     Dialog(tab = "Initialization", group = "fluidAmb"));
-  parameter Modelica.SIunits.SpecificEnthalpy hAmb_init(displayUnit = "J/kg") = Tamb_init*1.004 * 1000 "" annotation(
+  parameter units.SpecificEnthalpy hAmb_init(displayUnit = "J/kg") = Tamb_init*1.004 * 1000 "" annotation(
     Dialog(tab = "Initialization", group = "fluidAmb"));
   //--- others ---
   parameter Real MN_init=0.01 "" annotation(
     Dialog(tab = "Initialization", group = "others")
   );
-  parameter Modelica.SIunits.Length alt_init=1.0 "" annotation(
+  parameter units.Length alt_init=1.0 "" annotation(
     Dialog(tab = "Initialization", group = "others")
   );
-  parameter Modelica.SIunits.TemperatureDifference dTamb_init=0.01 "" annotation(
+  parameter units.TemperatureDifference dTamb_init=0.01 "" annotation(
     Dialog(tab = "Initialization", group = "others")
   );
-  parameter Modelica.SIunits.Velocity V_inf_init=0.01 "" annotation(
+  parameter units.Velocity V_inf_init=0.01 "" annotation(
     Dialog(tab = "Initialization", group = "others")
   );
   
@@ -57,30 +61,30 @@ block AltMN2pTh00
   /* ---------------------------------------------
           Internal variables
   --------------------------------------------- */
-  Modelica.SIunits.Length alt(start=alt_init) "altitude" annotation(
+  units.Length alt(start=alt_init) "altitude" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   Real MN(start=MN_init) "flight mach number" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.TemperatureDifference dTamb(start=dTamb_init) "deviation from std atmospheric temperature" annotation(
+  units.TemperatureDifference dTamb(start=dTamb_init) "deviation from std atmospheric temperature" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.Velocity V_inf(start=V_inf_init) "free stream velocity" annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  //----------
-  Modelica.SIunits.AbsolutePressure pAmb(start=pAmb_init) annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
-  Modelica.SIunits.Temperature Tamb(start=Tamb_init) annotation(
+  units.Velocity V_inf(start=V_inf_init) "free stream velocity" annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   //----------
-  Modelica.SIunits.AbsolutePressure pAmbStd(start=pAmb_init) annotation(
+  units.AbsolutePressure pAmb(start=pAmb_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
-  Modelica.SIunits.Temperature TambStd(start=Tamb_init) annotation(
+  units.Temperature Tamb(start=Tamb_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  //----------
+  units.AbsolutePressure pAmbStd(start=pAmb_init) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  units.Temperature TambStd(start=Tamb_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   //----------
