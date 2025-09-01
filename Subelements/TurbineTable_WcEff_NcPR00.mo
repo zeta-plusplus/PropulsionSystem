@@ -51,7 +51,7 @@ block TurbineTable_WcEff_NcPR00
   /* ---------------------------------------------
           Internal objects   
     --------------------------------------------- */
-  Modelica.Blocks.Tables.CombiTable2D combiTable2D_Wc
+  Modelica.Blocks.Tables.CombiTable2Ds combiTable2D_Wc
   (
   table = tableDefault_Wc_NcPR, 
   tableOnFile = use_tableFile_Wc, 
@@ -61,7 +61,7 @@ block TurbineTable_WcEff_NcPR00
   ) "" annotation(
     Placement(visible = true, transformation(origin = {-10, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   
-  Modelica.Blocks.Tables.CombiTable2D combiTable2D_eff
+  Modelica.Blocks.Tables.CombiTable2Ds combiTable2D_eff
   (
   table = tableDefault_eff_NcPR, 
   tableOnFile = use_tableFile_eff, 

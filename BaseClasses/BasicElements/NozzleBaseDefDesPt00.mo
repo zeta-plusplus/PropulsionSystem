@@ -1,6 +1,10 @@
 within PropulsionSystem.BaseClasses.BasicElements;
 
 partial model NozzleBaseDefDesPt00
+  import units=Modelica.Units.SI;
+  import unitsNonSI=Modelica.Units.NonSI;
+  import unitConversions=Modelica.Units.Conversions;
+  
   /********************************************************
       Declaration
   ********************************************************/
@@ -32,11 +36,11 @@ partial model NozzleBaseDefDesPt00
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
-  discrete Modelica.SIunits.Area AeThDes(start=AeTh_init) annotation(
+  discrete units.Area AeThDes(start=AeTh_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   
-  discrete Modelica.SIunits.Area AmechThDes(start=AmechTh_init) annotation(
+  discrete units.Area AmechThDes(start=AmechTh_init) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
   

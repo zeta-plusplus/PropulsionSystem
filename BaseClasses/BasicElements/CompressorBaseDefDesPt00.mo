@@ -1,6 +1,17 @@
 within PropulsionSystem.BaseClasses.BasicElements;
 
 partial model CompressorBaseDefDesPt00
+  import units=Modelica.Units.SI;
+  import unitsNonSI=Modelica.Units.NonSI;
+  import unitConversions=Modelica.Units.Conversions;
+  
+  /* ---------------------------------------------
+          Package
+      --------------------------------------------- */
+  replaceable package Medium = Modelica.Media.Interfaces.PartialMedium annotation(
+    choicesAllMatching = true);
+  
+  
   /********************************************************
       Declaration
   ********************************************************/
@@ -8,29 +19,34 @@ partial model CompressorBaseDefDesPt00
     fixed=false,
     HideResult=false,
     nX=Medium.nXi,
-    nC=Medium.nC,
-    m_flow(start=m_flow1_init),
+    nC=Medium.nC
+  ) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  /*
+  m_flow(start=m_flow1_init),
+  ,
     p(start=p1_init),
     T(start=T1_init),
     h(start=h1_init),
     s(start=s_fluid_1_init)
-  ) annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
+  */
   
   discrete PropulsionSystem.Records.ThermoFluidProperties fluid_2_des(
     fixed=false,
     HideResult=false,
     nX=Medium.nXi,
-    nC=Medium.nC,
-    m_flow(start=m_flow2_init),
+    nC=Medium.nC
+  ) annotation(
+    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
+  );
+  /*
+  m_flow(start=m_flow2_init),
     p(start=p2_init),
     T(start=T2_init),
     h(start=h2_init),
     s(start=s_fluid_2_init)
-  ) annotation(
-    Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
-  );
+  */
   
   discrete PropulsionSystem.Records.RotationalMachineVariables flange_1_des(
     fixed=false,
@@ -38,6 +54,7 @@ partial model CompressorBaseDefDesPt00
   ) annotation(
     Dialog(tab="Variables", group="start attribute" ,enable=false, showStartAttribute=true)
   );
+  
   
   discrete PropulsionSystem.Records.RotationalMachineVariables flange_2_des(
     fixed=false,

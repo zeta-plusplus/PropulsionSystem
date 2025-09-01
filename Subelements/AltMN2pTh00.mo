@@ -172,18 +172,19 @@ equation
   fluidTot.h = fluidAmb.h + V_inf ^ 2.0 / 2.0;
   fluidTot.h = Medium.isentropicEnthalpy(fluidTot.p, fluidAmb.state);
 algorithm
+  
 //-- regression curve of atmospheric table --
 // curves of T, P
   if environment.alt_ground <= alt and alt < environment.alt_UpBdTropos then
     TambStd := max((environment.T_ground - 0.0064878 * (alt - environment.alt_ground)), 1.0e-10);
     Tamb := max((TambStd + dTamb), 1.0e-10);
-    pAmbStd := max((environment.p_ground * (TambStd / environment.T_ground) ^ (-1.0 * environment.gravity / (environment.LapseR1 * fluidAmbStd.R))), 1.0e-10);
-    pAmb := max((environment.p_ground * (Tamb / environment.T_ground) ^ (-1.0 * environment.gravity / (environment.LapseR1 * fluidAmb.R))), 1.0e-10);
+    pAmbStd := max((environment.p_ground * (TambStd / environment.T_ground) ^ (-1.0 * environment.gravity / (environment.LapseR1 * fluidAmbStd.R_s))), 1.0e-10);
+    pAmb := max((environment.p_ground * (Tamb / environment.T_ground) ^ (-1.0 * environment.gravity / (environment.LapseR1 * fluidAmb.R_s))), 1.0e-10);
   elseif environment.alt_UpBdTropos <= alt and alt < environment.alt_UpBdStratos then
     TambStd := max(environment.T_UpBdTropos, 1.0e-10);
     Tamb := max((TambStd + dTamb), 1.0e-10);
-    pAmbStd := max((environment.p_UpBdTropos * exp(-1.0 * environment.gravity / (fluidAmbStd.R * TambStd) * (alt - environment.T_UpBdTropos))), 1.0e-10);
-    pAmb := max((environment.p_UpBdTropos * exp(-1.0 * environment.gravity / (fluidAmb.R * Tamb) * (alt - environment.T_UpBdTropos))), 1.0e-10);
+    pAmbStd := max((environment.p_UpBdTropos * exp(-1.0 * environment.gravity / (fluidAmbStd.R_s * TambStd) * (alt - environment.T_UpBdTropos))), 1.0e-10);
+    pAmb := max((environment.p_UpBdTropos * exp(-1.0 * environment.gravity / (fluidAmb.R_s * Tamb) * (alt - environment.T_UpBdTropos))), 1.0e-10);
   end if;
 
 

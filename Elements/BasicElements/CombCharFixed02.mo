@@ -6,6 +6,10 @@ model CombCharFixed02
                   imports
     ********************************************************/
   import Modelica.Constants;
+  import units=Modelica.Units.SI;
+  import unitsNonSI=Modelica.Units.NonSI;
+  import unitConversions=Modelica.Units.Conversions;
+  
   import PropulsionSystem.Types.switches;
   
   
@@ -31,7 +35,7 @@ model CombCharFixed02
   /* ---------------------------------------------
                  parameters
     --------------------------------------------- */
-  parameter Modelica.SIunits.SpecificEnthalpy LHV_fuel_paramInput = 42.8 * 10.0 ^ 6.0 "lower heatting value of fuel, valid only when use_u_LHV_fuel==false" annotation(
+  parameter units.SpecificEnthalpy LHV_fuel_paramInput = 42.8 * 10.0 ^ 6.0 "lower heatting value of fuel, valid only when use_u_LHV_fuel==false" annotation(
     Dialog(group = "Component characteristics"));
   parameter Real effComb_paramInput = 0.99 "combustion efficiency, valid only when use_u_effComb==false" annotation(
     Dialog(group = "Component characteristics"));

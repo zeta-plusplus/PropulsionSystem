@@ -6,8 +6,10 @@ block Combustion00
             imports   
   ********************************************************/
   import Modelica.Constants;
-  
-  
+  import units=Modelica.Units.SI;
+  import unitsNonSI=Modelica.Units.NonSI;
+  import unitConversions=Modelica.Units.Conversions;
+    
   
   /********************************************************
                    Declaration
@@ -15,10 +17,10 @@ block Combustion00
   /* ---------------------------------------------
         Internal variables    
   --------------------------------------------- */
-  Modelica.SIunits.MassFlowRate m_flow_fuel;
-  Modelica.SIunits.SpecificEnthalpy LHV_fuel;
+  units.MassFlowRate m_flow_fuel;
+  units.SpecificEnthalpy LHV_fuel;
   Real effComb;
-  Modelica.SIunits.HeatFlowRate Qcomb;
+  units.HeatFlowRate Qcomb;
   
   
   

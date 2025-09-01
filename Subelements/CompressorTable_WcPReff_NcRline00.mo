@@ -70,7 +70,7 @@ block CompressorTable_WcPReff_NcRline00
   /* ---------------------------------------------
         Internal objects   
   --------------------------------------------- */
-  Modelica.Blocks.Tables.CombiTable2D combiTable2D_Wc(
+  Modelica.Blocks.Tables.CombiTable2Ds combiTable2D_Wc(
     table =tableDefault_Wc_NcRline,
     tableOnFile= use_tableFile_Wc,
     fileName= fullPathName_tableFile_used,
@@ -80,7 +80,7 @@ block CompressorTable_WcPReff_NcRline00
   ""
     annotation(
     Placement(visible = true, transformation(origin = {-10, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Tables.CombiTable2D combiTable2D_PR(
+  Modelica.Blocks.Tables.CombiTable2Ds combiTable2D_PR(
     table= tableDefault_PR_NcRline,
     tableOnFile= use_tableFile_PR,
     fileName= fullPathName_tableFile_used,
@@ -90,7 +90,7 @@ block CompressorTable_WcPReff_NcRline00
   ""
    annotation(
     Placement(visible = true, transformation(origin = {-10, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Tables.CombiTable2D combiTable2D_eff(
+  Modelica.Blocks.Tables.CombiTable2Ds combiTable2D_eff(
     table=tableDefault_eff_NcRline,
     tableOnFile= use_tableFile_eff,
     fileName= fullPathName_tableFile_used,

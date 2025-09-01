@@ -17,6 +17,10 @@ model CmpCharTable00
                   imports
   ********************************************************/
   import Modelica.Constants;
+  import units=Modelica.Units.SI;
+  import unitsNonSI=Modelica.Units.NonSI;
+  import unitConversions=Modelica.Units.Conversions;
+  
   import PropulsionSystem.Types.switches;
   
   
@@ -88,13 +92,13 @@ model CmpCharTable00
   inner parameter Real effDes_paramInput = 0.80 "adiabatic efficiency, valid only when use_u_eff==false, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
   //----------
-  parameter Modelica.SIunits.MassFlowRate m_flow_1_des_paramInput = 1.0 "" annotation(
+  parameter units.MassFlowRate m_flow_1_des_paramInput = 1.0 "" annotation(
     Dialog(group = "Component sizing"));
-  parameter Modelica.SIunits.Pressure p1_des_paramInput(displayUnit="Pa")=101.325*1000 "" annotation(
+  parameter units.Pressure p1_des_paramInput(displayUnit="Pa")=101.325*1000 "" annotation(
     Dialog(group = "Component sizing"));
-  parameter Modelica.SIunits.Temperature T1_des_paramInput(displayUnit="K")=288.15 "" annotation(
+  parameter units.Temperature T1_des_paramInput(displayUnit="K")=288.15 "" annotation(
     Dialog(group = "Component sizing"));
-  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes_paramInput = 3000.0 "" annotation(
+  parameter unitsNonSI.AngularVelocity_rpm NmechDes_paramInput = 3000.0 "" annotation(
     Dialog(group = "Component sizing"));
   parameter Real NcTblDes_paramInput = 1.0 "design point definition on characteristics table" annotation(
     Dialog(group = "Component sizing"));

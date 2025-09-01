@@ -14,6 +14,10 @@ model TrbCharTable00
             imports   
     ********************************************************/
   import Modelica.Constants;
+  import units=Modelica.Units.SI;
+  import unitsNonSI=Modelica.Units.NonSI;
+  import unitConversions=Modelica.Units.Conversions;
+  
   import PropulsionSystem.Types.switches;
   /********************************************************
             Declaration   
@@ -65,13 +69,13 @@ model TrbCharTable00
     Dialog(group = "Component characteristics"));
   
   //----------
-  parameter Modelica.SIunits.MassFlowRate m_flow_1_des_paramInput=1.0 "" annotation(
+  parameter units.MassFlowRate m_flow_1_des_paramInput=1.0 "" annotation(
     Dialog(group = "Component sizing"));
-  parameter Modelica.SIunits.Pressure p1_des_paramInput(displayUnit="Pa")=10*101.325*1000 "" annotation(
+  parameter units.Pressure p1_des_paramInput(displayUnit="Pa")=10*101.325*1000 "" annotation(
     Dialog(group = "Component sizing"));
-  parameter Modelica.SIunits.Temperature T1_des_paramInput(displayUnit="K")=1600.0 "" annotation(
+  parameter units.Temperature T1_des_paramInput(displayUnit="K")=1600.0 "" annotation(
     Dialog(group = "Component sizing"));
-  parameter Modelica.SIunits.Conversions.NonSIunits.AngularVelocity_rpm NmechDes_paramInput=3000.0 "" annotation(
+  parameter unitsNonSI.AngularVelocity_rpm NmechDes_paramInput=3000.0 "" annotation(
     Dialog(group = "Component sizing"));
   parameter Real NcTblDes_paramInput = 1.0 "design point definition on characteristics table" annotation(
     Dialog(group = "Component sizing"));
