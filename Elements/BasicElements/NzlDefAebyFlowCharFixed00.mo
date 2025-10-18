@@ -10,10 +10,6 @@ model NzlDefAeByFlowCharFixed00
               imports   
         ********************************************************/
   import Modelica.Constants;
-  import units=Modelica.Units.SI;
-  import unitsNonSI=Modelica.Units.NonSI;
-  import unitConversions=Modelica.Units.Conversions;
-  
   /********************************************************
                            Declaration    
         ********************************************************/
@@ -44,7 +40,7 @@ model NzlDefAeByFlowCharFixed00
     Dialog(group = "Characteristics"));
   parameter Real CvDes_paramInput = 0.99 "flow velocity coefficient, valid only when use_u_Cv==false, value fixed through simulation" annotation(
     Dialog(group = "Characteristics"));
-  parameter units.MassFlowRate m_flow_1_des_paramInput = 1.0 "" annotation(
+  parameter Modelica.SIunits.MassFlowRate m_flow_1_des_paramInput = 1.0 "" annotation(
     Dialog(group = "Component sizing"));
   
   /* ---------------------------------------------
