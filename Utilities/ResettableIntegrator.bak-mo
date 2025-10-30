@@ -1,0 +1,7 @@
+within PropulsionSystem.Utilities;
+
+block ResettableIntegrator
+  annotation(
+    Diagram(coordinateSystem(preserveAspectRatio = false)),
+  Icon(coordinateSystem(preserveAspectRatio = false), graphics = {Rectangle(extent = {{-100, 100}, {100, -100}})}));
+end ResettableIntegrator;
