@@ -1,4 +1,4 @@
-within PropulsionSystem.Examples.temp;
+within PropulsionSystem.Examples.EngineeringStudies;
 
 model NuclearPulseEngine_01
   extends Modelica.Icons.Example;

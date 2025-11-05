@@ -2,6 +2,18 @@ within PropulsionSystem.Examples.EngineeringStudies;
 
 model NuclearPulseEngineByCor_01
   extends Modelica.Icons.Example;
+  //----------
+  import units = Modelica.Units.SI;
+  
+  //----------
+  parameter units.Time GlbPar_startTime = 0;
+  parameter units.Time GlbPar_timeWidth = 1e-7;
+  parameter units.Time GlbPar_periodRepeat = 1;
+  parameter Integer GlbPar_nperiod = -1;
+  parameter units.Pressure GlbPar_pulse_p_amp = 2.95e17;
+  parameter units.Velocity GlbPar_pulse_der_r_amp = 7.6e6;
+  //----------
+  
   PropulsionSystem.Elements.BasicElements.PointPressureReceivingPlate00 plate annotation(
     Placement(transformation(origin = {-68.4, 40}, extent = {{-11.4, -40}, {11.4, 40}})));
   Modelica.Mechanics.Translational.Components.Fixed fixed annotation(
