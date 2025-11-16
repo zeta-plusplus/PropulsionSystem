@@ -1,0 +1,118 @@
+within PropulsionSystem.Subelements;
+
+model TurboPassage
+  /********************************************************
+          imports
+  ********************************************************/
+  import units=Modelica.Units.SI;
+  import unitsNonSI=Modelica.Units.NonSI;
+  import cnst=Modelica.Constants;
+  
+  
+  
+  /********************************************************
+          Declaration
+  ********************************************************/
+  /* ---------------------------------------------
+          parameters
+  --------------------------------------------- */
+  parameter PropulsionSystem.Types.switches.switchConstraintTurboPassage swCnstrPass=PropulsionSystem.Types.switches.switchConstraintTurboPassage.constTipRad;
+  
+  parameter Real BR_in_par=0.55;
+  parameter Real AR_par=1.2;
+  parameter Integer nStgFoil_par=2;
+  parameter units.Length x1_par=0.0;
+  
+  
+  /* ---------------------------------------------
+          variables
+  --------------------------------------------- */
+  Real AR;
+  Real SR;
+  Real nStgFoil;
+  
+  Real BR_in;
+  Real BR_out;
+  
+  units.Area A_in;
+  units.Area A_out;
+  
+  units.Length r_i_in;
+  units.Length r_i_out;
+  units.Length r_o_in;
+  units.Length r_o_out;
+  
+  units.Length x[nStgFoil_par+1] "x, TE side";
+  units.Length r_i[nStgFoil_par+1] "r, TE side, inner";
+  units.Length r_o[nStgFoil_par+1] "r, TE side, outer";
+  units.Length b[nStgFoil_par+1] "blade/vane span";
+  units.Length cAx[nStgFoil_par] "axial length";
+  
+  
+  /* ---------------------------------------------
+              Interface
+  --------------------------------------------- */
+  Modelica.Blocks.Interfaces.RealInput u_A_in annotation(
+    Placement(transformation(origin = {-100, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {-100, 44}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Blocks.Interfaces.RealInput u_A_out annotation(
+    Placement(transformation(origin = {100, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {100, 44}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+
+
+equation
+  //------------------------------
+  BR_in= BR_in_par;
+  AR= AR_par;
+  nStgFoil= nStgFoil_par;
+  
+  
+  //------------------------------
+  A_in= u_A_in;
+  A_out= u_A_out;
+  
+  
+  //------------------------------
+  r_i_in=sqrt(A_in/(cnst.pi*(1/BR^2-1)));
+  r_o_in= r_i_in/BR;
+  
+  if(swCnstrPass==PropulsionSystem.Types.switches.switchConstraintTurboPassage.constTipRad)then
+    r_o_out= r_o_in;
+    r_i_out=sqrt(r_o_out^2-A_out/cnst.pi);
+  end if;
+  
+  
+  //-----
+  for i in 1:nStgFoil loop
+    
+    if(i==1)then
+      b[i]=r_o[i]-r_i[i];
+      x[i]=x1_par;
+      r_i[i]=r_i_in;
+      r_o[i]=r_o_in;
+    else
+      b[i]=b[i-1]*SR^(1/nStgFoil);
+      x[i]=x[i-1]+cAx[i-1];
+      
+      if(swCnstrPass==PropulsionSystem.Types.switches.switchConstraintTurboPassage.constTipRad)then
+        r_o[i]=r_o_in;
+        r_i[i]=r_o[i]-b[i];
+      end if;
+    
+    end if;
+    
+    cAx[i]=b[i]*(1+(SR)^(1/nStgFoil))/(2*AR);
+    
+  end for;
+  
+  //-----
+  x[nStgFoil+1]=x[nStgFoil]+cAx[nStgFoil];
+  r_i[nStgFoil+1]=r_i_out;
+  r_o[nStgFoil+1]=r_o_out;
+  b[nStgFoil+1]= r_o[nStgFoil+1]-r_i[nStgFoil+1];
+  
+  
+annotation(
+    defaultComponentName = "TrboPsg",
+    Icon(graphics = {Polygon(origin = {0, 1}, fillColor = {154, 153, 150}, fillPattern = FillPattern.Solid, lineThickness = 2, points = {{-100, 27}, {100, 27}, {100, 3}, {60, -1}, {20, -7}, {-20, -13}, {-60, -21}, {-100, -31}, {-100, 27}}), Text(origin = {0, -49}, extent = {{-100, 11}, {100, -11}}, textString = "%name")}, coordinateSystem(preserveAspectRatio=false, extent = {{-100, -40}, {100, 40}})));
+
+
+end TurboPassage;

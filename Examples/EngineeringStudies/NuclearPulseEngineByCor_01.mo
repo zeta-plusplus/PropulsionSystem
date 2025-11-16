@@ -4,82 +4,71 @@ model NuclearPulseEngineByCor_01
   extends Modelica.Icons.Example;
   //----------
   import units = Modelica.Units.SI;
-  
   //----------
-  parameter units.Time GlbPar_startTime = 0;
+  parameter units.Time GlbPar_startTime = 10;
   parameter units.Time GlbPar_timeWidth = 1e-7;
-  parameter units.Time GlbPar_periodRepeat = 1;
+  parameter units.Time GlbPar_periodRepeat = 10;
   parameter Integer GlbPar_nperiod = -1;
-  parameter units.Pressure GlbPar_pulse_p_amp = 2.95e17;
-  parameter units.Velocity GlbPar_pulse_der_r_amp = 7.6e6;
+  parameter units.Pressure GlbPar_pulse_p_amp = 2.94e17;
   //----------
-  
   PropulsionSystem.Elements.BasicElements.PointPressureReceivingPlate00 plate annotation(
-    Placement(transformation(origin = {-68.4, 40}, extent = {{-11.4, -40}, {11.4, 40}})));
+    Placement(transformation(origin = {35.6, 52}, extent = {{-11.4, -20}, {11.4, 20}})));
   Modelica.Mechanics.Translational.Components.Fixed fixed annotation(
-    Placement(transformation(origin = {-140, 40}, extent = {{-20, -20}, {20, 20}})));
+    Placement(transformation(origin = {-128, 52}, extent = {{-20, -20}, {20, 20}})));
   Modelica.Mechanics.Translational.Sensors.ForceSensor forceSensor annotation(
-    Placement(transformation(origin = {-114, 40}, extent = {{10, -10}, {-10, 10}})));
+    Placement(transformation(origin = {-72, 52}, extent = {{8, -8}, {-8, 8}})));
   Modelica.Blocks.Continuous.Integrator impluse annotation(
-    Placement(transformation(origin = {-106, 2}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
-  Modelica.Blocks.Math.Mean meanForce(f = 1000) annotation(
-    Placement(transformation(origin = {-106, -30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Blocks.Continuous.FirstOrder firstOrder_pCore_cor(T = 1.3e-8) annotation(
-    Placement(transformation(origin = {62, 40}, extent = {{10, -10}, {-10, 10}})));
-  Modelica.Blocks.Sources.Pulse pulse_p(amplitude = 2.95e17, nperiod = 5, period = 2, startTime = 7e-8, width = 1e-7) annotation(
-    Placement(transformation(origin = {96, 40}, extent = {{10, -10}, {-10, 10}})));
-  Modelica.Blocks.Continuous.Integrator integ_pCore_cor(use_reset = false) annotation(
-    Placement(transformation(origin = {24, 40}, extent = {{10, -10}, {-10, 10}})));
+    Placement(transformation(origin = {-66, 11}, extent = {{7, -7}, {-7, 7}}, rotation = 90)));
+  Modelica.Blocks.Continuous.FirstOrder firstOrder_pCore_cor(T = 1.7e-8) annotation(
+    Placement(transformation(origin = {90, 52}, extent = {{10, -10}, {-10, 10}})));
+  Modelica.Blocks.Sources.Pulse pulse_p(amplitude = GlbPar_pulse_p_amp, nperiod = GlbPar_nperiod, period = GlbPar_periodRepeat, startTime = GlbPar_startTime, width = GlbPar_timeWidth) annotation(
+    Placement(transformation(origin = {124, 52}, extent = {{10, -10}, {-10, 10}})));
   Modelica.Blocks.Math.Gain Pa2PPa_firstOrder_pCore_cor(k = 1e-15) annotation(
-    Placement(transformation(origin = {33, 65}, extent = {{5, -5}, {-5, 5}})));
-  Modelica.Blocks.Math.Gain Pa2PPa_integ_pCore_cor(k = 1e-15) annotation(
-    Placement(transformation(origin = {-9, 65}, extent = {{5, -5}, {-5, 5}})));
-  Modelica.Blocks.Continuous.FirstOrder firstOrder_vCoreExp_cor(T = 1.2e-7) annotation(
-    Placement(transformation(origin = {42, -14}, extent = {{10, -10}, {-10, 10}})));
-  Modelica.Blocks.Continuous.Integrator integ_vCoreExp_cor(use_reset = true) annotation(
-    Placement(transformation(origin = {-38, -14}, extent = {{10, -10}, {-10, 10}})));
-  Modelica.Blocks.Sources.Pulse pulse_der_r(amplitude = 7.6e6, nperiod = 5, period = 2, startTime = 7e-8, width = 0.2e-6) annotation(
-    Placement(transformation(origin = {76, -14}, extent = {{10, -10}, {-10, 10}})));
-  Modelica.Blocks.Math.Gain mps2Mmps_firstOrder_vCoreExp_cor(k = 1e-6) annotation(
-    Placement(transformation(origin = {-11, 12}, extent = {{5, -5}, {-5, 5}})));
-  Modelica.Blocks.Logical.LessEqual lessEqual0 annotation(
-    Placement(transformation(origin = {-2, -44}, extent = {{10, -10}, {-10, 10}})));
-  Modelica.Blocks.Sources.Constant const(k = 0) annotation(
-    Placement(transformation(origin = {42, -52}, extent = {{10, -10}, {-10, 10}})));
+    Placement(transformation(origin = {61, 73}, extent = {{5, -5}, {-5, 5}})));
+  Modelica.Blocks.Math.Division meanThrust annotation(
+    Placement(transformation(origin = {-40, -12}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.RealExpression realExpression(y = time) annotation(
+    Placement(transformation(origin = {-130, -18}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Logical.GreaterThreshold greaterThreshold annotation(
+    Placement(transformation(origin = {-102, -18}, extent = {{-4, -4}, {4, 4}})));
+  Modelica.Blocks.Logical.Switch switch1 annotation(
+    Placement(transformation(origin = {-72, -18}, extent = {{-8, -8}, {8, 8}})));
+  Modelica.Blocks.Sources.Constant const(k = 1) annotation(
+    Placement(transformation(origin = {-65, -33}, extent = {{-5, -5}, {5, 5}})));
+  Modelica.Blocks.Math.ContinuousMean continuousMean annotation(
+    Placement(transformation(origin = {-8.35, -11.9286}, extent = {{-8.5, -7.65}, {8.5, 7.65}})));
+  Modelica.Blocks.Math.ContinuousMean continuousMean1 annotation(
+    Placement(transformation(origin = {-44.35, 27.0714}, extent = {{-6.5, -6.65}, {6.5, 6.65}})));
 equation
   connect(forceSensor.flange_b, fixed.flange) annotation(
-    Line(points = {{-124, 40}, {-140, 40}}, color = {0, 127, 0}));
+    Line(points = {{-80, 52}, {-128, 52}}, color = {0, 127, 0}));
   connect(plate.flange, forceSensor.flange_a) annotation(
-    Line(points = {{-80, 40}, {-104.6, 40}}, color = {0, 127, 0}));
+    Line(points = {{24, 52}, {-64, 52}}, color = {0, 127, 0}));
   connect(forceSensor.f, impluse.u) annotation(
-    Line(points = {{-106, 29}, {-106, 13}}, color = {0, 0, 127}));
-  connect(impluse.y, meanForce.u) annotation(
-    Line(points = {{-106, -9}, {-106, -19}}, color = {0, 0, 127}));
+    Line(points = {{-65.6, 43.2}, {-65.6, 19.2}}, color = {0, 0, 127}));
   connect(pulse_p.y, firstOrder_pCore_cor.u) annotation(
-    Line(points = {{85, 40}, {73, 40}}, color = {0, 0, 127}));
-  connect(firstOrder_pCore_cor.y, integ_pCore_cor.u) annotation(
-    Line(points = {{51, 40}, {36, 40}}, color = {0, 0, 127}));
+    Line(points = {{113, 52}, {101, 52}}, color = {0, 0, 127}));
   connect(Pa2PPa_firstOrder_pCore_cor.u, firstOrder_pCore_cor.y) annotation(
-    Line(points = {{39, 65}, {44, 65}, {44, 40}, {52, 40}}, color = {0, 0, 127}));
-  connect(integ_pCore_cor.y, Pa2PPa_integ_pCore_cor.u) annotation(
-    Line(points = {{13, 40}, {5, 40}, {5, 65}, {-3, 65}}, color = {0, 0, 127}));
-  connect(integ_pCore_cor.y, plate.u_p) annotation(
-    Line(points = {{13, 40}, {-58, 40}}, color = {0, 0, 127}));
-  connect(firstOrder_vCoreExp_cor.y, integ_vCoreExp_cor.u) annotation(
-    Line(points = {{31, -14}, {-26, -14}}, color = {0, 0, 127}));
-  connect(firstOrder_vCoreExp_cor.u, pulse_der_r.y) annotation(
-    Line(points = {{54, -14}, {65, -14}}, color = {0, 0, 127}));
-  connect(mps2Mmps_firstOrder_vCoreExp_cor.u, firstOrder_vCoreExp_cor.y) annotation(
-    Line(points = {{-5, 12}, {3, 12}, {3, -14}, {31, -14}}, color = {0, 0, 127}));
-  connect(const.y, lessEqual0.u2) annotation(
-    Line(points = {{31, -52}, {10, -52}}, color = {0, 0, 127}));
-  connect(lessEqual0.y, integ_vCoreExp_cor.reset) annotation(
-    Line(points = {{-13, -44}, {-44, -44}, {-44, -26}}, color = {255, 0, 255}));
-  connect(firstOrder_vCoreExp_cor.y, lessEqual0.u1) annotation(
-    Line(points = {{31, -14}, {23, -14}, {23, -44}, {9, -44}}, color = {0, 0, 127}));
-  connect(integ_vCoreExp_cor.y, plate.u_rCore) annotation(
-    Line(points = {{-49, -14}, {-65, -14}, {-65, 13}}, color = {0, 0, 127}));
+    Line(points = {{67, 73}, {72, 73}, {72, 52}, {79, 52}}, color = {0, 0, 127}));
+  connect(plate.u_p, firstOrder_pCore_cor.y) annotation(
+    Line(points = {{46, 52}, {80.05, 52}}, color = {0, 0, 127}));
+  connect(realExpression.y, greaterThreshold.u) annotation(
+    Line(points = {{-119, -18}, {-107, -18}}, color = {0, 0, 127}));
+  connect(greaterThreshold.y, switch1.u2) annotation(
+    Line(points = {{-97.6, -18}, {-81.6, -18}}, color = {255, 0, 255}));
+  connect(realExpression.y, switch1.u1) annotation(
+    Line(points = {{-119, -18}, {-115, -18}, {-115, -12}, {-82, -12}}, color = {0, 0, 127}));
+  connect(const.y, switch1.u3) annotation(
+    Line(points = {{-59.5, -33}, {-55.5, -33}, {-55.5, -24}, {-82, -24}}, color = {0, 0, 127}));
+  connect(meanThrust.u1, impluse.y) annotation(
+    Line(points = {{-52, -6}, {-66, -6}, {-66, 3}}, color = {0, 0, 127}));
+  connect(switch1.y, meanThrust.u2) annotation(
+    Line(points = {{-63.2, -18}, {-52.2, -18}}, color = {0, 0, 127}));
+  connect(meanThrust.y, continuousMean.u) annotation(
+    Line(points = {{-29, -12}, {-19, -12}}, color = {0, 0, 127}));
+  connect(continuousMean1.u, forceSensor.f) annotation(
+    Line(points = {{-52.15, 27.0714}, {-66.15, 27.0714}, {-66.15, 43.0714}}, color = {0, 0, 127}));
   annotation(
-    experiment(StartTime = 0, StopTime = 10, Tolerance = 1e-06, Interval = 1e-09),
+    experiment(StartTime = 0, StopTime = 500, Tolerance = 1e-09, Interval = 0.001),
     Diagram(coordinateSystem(extent = {{-160, -100}, {160, 100}})));
 end NuclearPulseEngineByCor_01;
