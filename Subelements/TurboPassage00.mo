@@ -16,7 +16,7 @@ model TurboPassage00
   parameter Types.switches.switchConstraintTurboPassage swCnstrPass = Types.switches.switchConstraintTurboPassage.constTipRad;
   parameter Real BR_in_par = 0.55;
   parameter Real AR_par = 1.2;
-  parameter Integer nStgFoil_par = 6;
+  parameter Integer nStgFoil_par = 12;
   parameter units.Length x1_par = 0.0;
   parameter units.Length rCtr_par=0.0;
   /* ---------------------------------------------
@@ -66,17 +66,19 @@ equation
   A_out = u_A_out;
 //------------------------------
   r_i_in = sqrt(A_in/(cnst.pi*(1/BR_in^2 - 1))) + rCtr;
-  r_o_in = r_i_in/BR_in + rCtr;
+  BR_in= (r_i_in-rCtr)/(r_o_in-rCtr);
+  
   r_m_in =1/2*(r_i_in+r_o_in);
   
   //-----
   if (swCnstrPass == Types.switches.switchConstraintTurboPassage.constTipRad) then
-    r_o_out = r_o_in + rCtr;
+    r_o_out = r_o_in;
   elseif (swCnstrPass == Types.switches.switchConstraintTurboPassage.constHubRad) then
-    r_i_out= r_i_in + rCtr;
+    r_i_out= r_i_in;
   end if;
   
-  r_i_out = sqrt(r_o_out^2 - A_out/cnst.pi) + rCtr;
+  A_out=cnst.pi*((r_o_out-rCtr)^2-(r_i_out-rCtr)^2);
+  
   r_m_out =1/2*(r_i_out+r_o_out);
     
   //-----
