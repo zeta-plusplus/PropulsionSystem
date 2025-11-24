@@ -45,6 +45,9 @@ model TurboPassage00
   units.Length arr4plot_x[3*(nStgFoil_par+1)+3];
   units.Length arr4plot_r[3*(nStgFoil_par+1)+3];
   
+  units.Length arr4plot_CtrLine_x[2];
+  units.Length arr4plot_CtrLine_r[2];
+  
   /* ---------------------------------------------
                 Interface
     --------------------------------------------- */
@@ -66,17 +69,19 @@ equation
   A_out = u_A_out;
 //------------------------------
   r_i_in = sqrt(A_in/(cnst.pi*(1/BR_in^2 - 1))) + rCtr;
-  r_o_in = r_i_in/BR_in + rCtr;
+  BR_in= (r_i_in-rCtr)/(r_o_in-rCtr);
+  
   r_m_in =1/2*(r_i_in+r_o_in);
   
   //-----
   if (swCnstrPass == Types.switches.switchConstraintTurboPassage.constTipRad) then
-    r_o_out = r_o_in + rCtr;
+    r_o_out = r_o_in;
   elseif (swCnstrPass == Types.switches.switchConstraintTurboPassage.constHubRad) then
-    r_i_out= r_i_in + rCtr;
+    r_i_out= r_i_in;
   end if;
   
-  r_i_out = sqrt(r_o_out^2 - A_out/cnst.pi) + rCtr;
+  A_out=cnst.pi*((r_o_out-rCtr)^2-(r_i_out-rCtr)^2);
+  
   r_m_out =1/2*(r_i_out+r_o_out);
     
   //-----

@@ -45,6 +45,9 @@ model TurboPassage00
   units.Length arr4plot_x[3*(nStgFoil_par+1)+3];
   units.Length arr4plot_r[3*(nStgFoil_par+1)+3];
   
+  units.Length arr4plot_CtrLine_x[2];
+  units.Length arr4plot_CtrLine_r[2];
+  
   /* ---------------------------------------------
                 Interface
     --------------------------------------------- */
@@ -135,6 +138,11 @@ equation
   arr4plot_r[3*(nStgFoil+1)+1]=r_o[nStgFoil+1];
   arr4plot_r[3*(nStgFoil+1)+2]=r_o[1];
   arr4plot_r[3*(nStgFoil+1)+3]=r_i[1];
+  
+  arr4plot_CtrLine_x[1]=x1;
+  arr4plot_CtrLine_x[2]=x[nStgFoil_par + 1];
+  arr4plot_CtrLine_r[1]=rCtr;
+  arr4plot_CtrLine_r[2]=rCtr;
   
   
   annotation(

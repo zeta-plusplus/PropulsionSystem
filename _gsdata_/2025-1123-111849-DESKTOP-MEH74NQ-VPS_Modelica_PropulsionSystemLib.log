@@ -1,0 +1,66 @@
+2025-11-23 11:18:50: Server: SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.14
+2025-11-23 11:18:50: Server KEXes: sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256,ext-info-s,kex-strict-s-v00@openssh.com
+2025-11-23 11:18:50: Server Host Keys: rsa-sha2-512,rsa-sha2-256,ecdsa-sha2-nistp256,ssh-ed25519
+2025-11-23 11:18:50: Chosen Host Key: ssh-ed25519
+2025-11-23 11:18:50: Ciphers: chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com
+2025-11-23 11:18:50: MACs: umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1
+2025-11-23 11:18:50: Auth: start: publickey
+2025-11-23 11:18:50: Auth: publickey: no keys available
+2025-11-23 11:18:50: Auth: start: password
+2025-11-23 11:18:51: -- Analysis Started by On File Change, After Delay
+2025-11-23 11:18:51: Changes: 17, Conflicts: 0, CopyTime: 0, FixState: 0, Errors: 0, All: 3057
+2025-11-23 11:18:51: Left to Right: Copy File: 17 
+2025-11-23 11:18:51: == Sync Started by On File Change, After Delay
+2025-11-23 11:18:51: ConnectCloned connected to file:///~grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem
+2025-11-23 11:18:51: ConnectCloned connected to file:///~grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem
+2025-11-23 11:18:51: ConnectCloned connected to file:///~grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem
+2025-11-23 11:18:51: Server: SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.14
+2025-11-23 11:18:51: Server: SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.14
+2025-11-23 11:18:51: Server: SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.14
+2025-11-23 11:18:51: Server KEXes: sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256,ext-info-s,kex-strict-s-v00@openssh.com
+2025-11-23 11:18:51: Server Host Keys: rsa-sha2-512,rsa-sha2-256,ecdsa-sha2-nistp256,ssh-ed25519
+2025-11-23 11:18:51: Chosen Host Key: ssh-ed25519
+2025-11-23 11:18:51: Ciphers: chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com
+2025-11-23 11:18:51: MACs: umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1
+2025-11-23 11:18:51: Server KEXes: sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256,ext-info-s,kex-strict-s-v00@openssh.com
+2025-11-23 11:18:51: Server Host Keys: rsa-sha2-512,rsa-sha2-256,ecdsa-sha2-nistp256,ssh-ed25519
+2025-11-23 11:18:51: Chosen Host Key: ssh-ed25519
+2025-11-23 11:18:51: Ciphers: chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com
+2025-11-23 11:18:51: MACs: umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1
+2025-11-23 11:18:51: Server KEXes: sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256,ext-info-s,kex-strict-s-v00@openssh.com
+2025-11-23 11:18:51: Server Host Keys: rsa-sha2-512,rsa-sha2-256,ecdsa-sha2-nistp256,ssh-ed25519
+2025-11-23 11:18:51: Chosen Host Key: ssh-ed25519
+2025-11-23 11:18:51: Ciphers: chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com
+2025-11-23 11:18:51: MACs: umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1
+2025-11-23 11:18:51: Auth: start: publickey
+2025-11-23 11:18:51: Auth: publickey: no keys available
+2025-11-23 11:18:51: Auth: start: password
+2025-11-23 11:18:51: Auth: start: publickey
+2025-11-23 11:18:51: Auth: start: publickey
+2025-11-23 11:18:51: Auth: publickey: no keys available
+2025-11-23 11:18:51: Auth: publickey: no keys available
+2025-11-23 11:18:51: Auth: start: password
+2025-11-23 11:18:51: Auth: start: password
+2025-11-23 11:18:52: GsConnectAndSetRoot1 connected to sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem
+2025-11-23 11:18:52: GsConnectAndSetRoot1 connected to sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem
+2025-11-23 11:18:52: GsConnectAndSetRoot1 connected to sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem
+2025-11-23 11:18:52: Copy Over 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/COMMIT_EDITMSG' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/COMMIT_EDITMSG' (11)
+2025-11-23 11:18:52: Copy Over 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/logs/HEAD' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/logs/HEAD' (9,486)
+2025-11-23 11:18:52: Copy Over 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/index' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/index' (240,904)
+2025-11-23 11:18:53: Copy New 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/2b/3939111ee2ee6eadf5391ad680ee5981e754a7' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/2b/3939111ee2ee6eadf5391ad680ee5981e754a7' (1,315)
+2025-11-23 11:18:53: Copy New 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/50/6ab37f470628407634451fb18a6ee8158b777b' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/50/6ab37f470628407634451fb18a6ee8158b777b' (77,517)
+2025-11-23 11:18:53: Copy New 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/3a/c0739658d18bc8ab7c36a52d834c5f6a2b4482' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/3a/c0739658d18bc8ab7c36a52d834c5f6a2b4482' (115)
+2025-11-23 11:18:53: Copy Over 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/logs/refs/heads/master' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/logs/refs/heads/master' (9,486)
+2025-11-23 11:18:53: Copy New 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/6f/d62168d3ae39e9661e65b21094e699b81e8947' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/6f/d62168d3ae39e9661e65b21094e699b81e8947' (173)
+2025-11-23 11:18:53: Copy New 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/7b/4ea8ac1c9cef2220dc713c711f56ab0f6a67a1' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/7b/4ea8ac1c9cef2220dc713c711f56ab0f6a67a1' (1,203)
+2025-11-23 11:18:53: Copy New 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/7d/91332be69042029485aaeadbdbeb58d1330184' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/7d/91332be69042029485aaeadbdbeb58d1330184' (123)
+2025-11-23 11:18:53: Copy New 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/95/ed0cd1738e45e4c33ad209698493a598d2b3b6' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/95/ed0cd1738e45e4c33ad209698493a598d2b3b6' (4,752)
+2025-11-23 11:18:53: Copy New 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/b1/946b6c052dd0bbc9d12c18be69fb7f0c424b13' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/b1/946b6c052dd0bbc9d12c18be69fb7f0c424b13' (172)
+2025-11-23 11:18:53: Copy New 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/bf/6a1d4bf84a96863e8d5127095e53ad167d4c86' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/objects/bf/6a1d4bf84a96863e8d5127095e53ad167d4c86' (4,939)
+2025-11-23 11:18:53: Copy Over 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/logs/refs/remotes/PropulsionSystem/master' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/logs/refs/remotes/PropulsionSystem/master' (8,637)
+2025-11-23 11:18:53: Copy Over 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/refs/heads/master' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/refs/heads/master' (41)
+2025-11-23 11:18:53: Copy Over 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/sourcetreeconfig.json' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/sourcetreeconfig.json' (842)
+2025-11-23 11:18:53: Copy Over 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/refs/remotes/PropulsionSystem/master' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/refs/remotes/PropulsionSystem/master' (41)
+2025-11-23 11:18:53: Save State File C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_file_state_v4._gs
+2025-11-23 11:18:53: Save State File sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_file_state_v4._gs
+2025-11-23 11:18:56: == Sync Complete. Time: 00:00:05, Speed: 0.00/s, OK: 17, Errors: 0
