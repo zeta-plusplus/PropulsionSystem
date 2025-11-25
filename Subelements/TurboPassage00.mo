@@ -13,12 +13,13 @@ model TurboPassage00
   /* ---------------------------------------------
             parameters
     --------------------------------------------- */
+  parameter Boolean swInvFwBw=false;
   parameter Types.switches.switchConstraintTurboPassage swCnstrPass = Types.switches.switchConstraintTurboPassage.constTipRad;
   parameter Real BR_in_par = 0.55;
   parameter Real AR_par = 1.2;
   parameter Integer nStgFoil_par = 12;
-  parameter units.Length x1_par = 0.0;
-  parameter units.Length rCtr_par=0.0;
+  parameter units.Length x1_4plot_par = 0.0;
+  parameter units.Length rCtr_4plot_par=0.0;
   /* ---------------------------------------------
             variables
     --------------------------------------------- */
@@ -28,8 +29,8 @@ model TurboPassage00
   Real BR_in;
   units.Area A_in;
   units.Area A_out;
-  units.Length x1 "x of inlet";
-  units.Length rCtr "r of center line";
+  units.Length x1_4plot "x of inlet";
+  units.Length rCtr_4plot "r of center line";
   units.Length r_i_in;
   units.Length r_i_out;
   units.Length r_m_in;
@@ -62,14 +63,15 @@ equation
   BR_in = BR_in_par;
   AR = AR_par;
   nStgFoil = nStgFoil_par;
-  x1= x1_par;
-  rCtr=rCtr_par;
+  x1_4plot= x1_4plot_par;
+  rCtr_4plot=rCtr_4plot_par;
 //------------------------------
   A_in = u_A_in;
   A_out = u_A_out;
 //------------------------------
-  r_i_in = sqrt(A_in/(cnst.pi*(1/BR_in^2 - 1))) + rCtr;
-  BR_in= (r_i_in-rCtr)/(r_o_in-rCtr);
+  r_i_in = sqrt(A_in/(cnst.pi*(1/BR_in^2 - 1)));
+  BR_in= r_i_in/r_o_in;
+  
   
   r_m_in =1/2*(r_i_in+r_o_in);
   
@@ -80,7 +82,7 @@ equation
     r_i_out= r_i_in;
   end if;
   
-  A_out=cnst.pi*((r_o_out-rCtr)^2-(r_i_out-rCtr)^2);
+  A_out=cnst.pi*(r_o_out^2-r_i_out^2);
   
   r_m_out =1/2*(r_i_out+r_o_out);
     
@@ -91,58 +93,58 @@ equation
   for i in 1:nStgFoil_par loop
     if (i == 1) then
       b[i] = r_o[i] - r_i[i];
-      x[i] = x1;
-      r_i[i] = r_i_in + rCtr;
-      r_o[i] = r_o_in + rCtr;
+      x[i] = 0;
+      r_i[i] = r_i_in;
+      r_o[i] = r_o_in;
     else
       b[i] = b[i - 1]*SR^(1/nStgFoil);
       x[i] = x[i - 1] + cAx[i - 1];
       //-----
       if (swCnstrPass == Types.switches.switchConstraintTurboPassage.constTipRad) then
-        r_o[i] = r_o_in + rCtr;
+        r_o[i] = r_o_in;
       elseif (swCnstrPass == Types.switches.switchConstraintTurboPassage.constHubRad) then
-        r_i[i] = r_i_in + rCtr;
+        r_i[i] = r_i_in;
       end if;
-      r_i[i] = r_o[i] - b[i] + rCtr;
+      r_i[i] = r_o[i] - b[i];
     end if;
     cAx[i] = b[i]*(1 + (SR)^(1/nStgFoil))/(2*AR);
     
     //-----
-    arr4plot_x[3*i-2]=x[i];
-    arr4plot_x[3*i-1]=x[i];
-    arr4plot_x[3*i-0]=x[i];
+    arr4plot_x[3*i-2]=x[i]+x1_4plot;
+    arr4plot_x[3*i-1]=x[i]+x1_4plot;
+    arr4plot_x[3*i-0]=x[i]+x1_4plot;
     
-    arr4plot_r[3*i-2]=r_i[i];
-    arr4plot_r[3*i-1]=r_o[i];
-    arr4plot_r[3*i-0]=r_i[i];
+    arr4plot_r[3*i-2]=r_i[i]+rCtr_4plot;
+    arr4plot_r[3*i-1]=r_o[i]+rCtr_4plot;
+    arr4plot_r[3*i-0]=r_i[i]+rCtr_4plot;
   end for;
 //-----
   x[nStgFoil + 1] = x[nStgFoil] + cAx[nStgFoil];
-  r_i[nStgFoil + 1] = r_i_out + rCtr;
-  r_o[nStgFoil + 1] = r_o_out + rCtr;
+  r_i[nStgFoil + 1] = r_i_out;
+  r_o[nStgFoil + 1] = r_o_out;
   b[nStgFoil + 1] = r_o[nStgFoil + 1] - r_i[nStgFoil + 1];
   
   //-----
-  arr4plot_x[3*(nStgFoil+1)-2]=x[nStgFoil+1];
-  arr4plot_x[3*(nStgFoil+1)-1]=x[nStgFoil+1];
-  arr4plot_x[3*(nStgFoil+1)-0]=x[nStgFoil+1];
+  arr4plot_x[3*(nStgFoil+1)-2]=x[nStgFoil+1]+x1_4plot;
+  arr4plot_x[3*(nStgFoil+1)-1]=x[nStgFoil+1]+x1_4plot;
+  arr4plot_x[3*(nStgFoil+1)-0]=x[nStgFoil+1]+x1_4plot;
   
-  arr4plot_r[3*(nStgFoil+1)-2]=r_i[nStgFoil+1];
-  arr4plot_r[3*(nStgFoil+1)-1]=r_o[nStgFoil+1];
-  arr4plot_r[3*(nStgFoil+1)-0]=r_i[nStgFoil+1];
+  arr4plot_r[3*(nStgFoil+1)-2]=r_i[nStgFoil+1]+rCtr_4plot;
+  arr4plot_r[3*(nStgFoil+1)-1]=r_o[nStgFoil+1]+rCtr_4plot;
+  arr4plot_r[3*(nStgFoil+1)-0]=r_i[nStgFoil+1]+rCtr_4plot;
   
-  arr4plot_x[3*(nStgFoil+1)+1]=x[nStgFoil+1];
-  arr4plot_x[3*(nStgFoil+1)+2]=x[1];
-  arr4plot_x[3*(nStgFoil+1)+3]=x[1];
+  arr4plot_x[3*(nStgFoil+1)+1]=x[nStgFoil+1]+x1_4plot;
+  arr4plot_x[3*(nStgFoil+1)+2]=x[1]+x1_4plot;
+  arr4plot_x[3*(nStgFoil+1)+3]=x[1]+x1_4plot;
   
-  arr4plot_r[3*(nStgFoil+1)+1]=r_o[nStgFoil+1];
-  arr4plot_r[3*(nStgFoil+1)+2]=r_o[1];
-  arr4plot_r[3*(nStgFoil+1)+3]=r_i[1];
+  arr4plot_r[3*(nStgFoil+1)+1]=r_o[nStgFoil+1]+rCtr_4plot;
+  arr4plot_r[3*(nStgFoil+1)+2]=r_o[1]+rCtr_4plot;
+  arr4plot_r[3*(nStgFoil+1)+3]=r_i[1]+rCtr_4plot;
   
-  arr4plot_CtrLine_x[1]=x1;
-  arr4plot_CtrLine_x[2]=x[nStgFoil_par + 1];
-  arr4plot_CtrLine_r[1]=rCtr;
-  arr4plot_CtrLine_r[2]=rCtr;
+  arr4plot_CtrLine_x[1]=-0.1*(x[nStgFoil + 1]-x[1])+x1_4plot;
+  arr4plot_CtrLine_x[2]=x[nStgFoil + 1]+0.1*(x[nStgFoil + 1]-x[1])+x1_4plot;
+  arr4plot_CtrLine_r[1]=rCtr_4plot;
+  arr4plot_CtrLine_r[2]=rCtr_4plot;
   
   
   annotation(
