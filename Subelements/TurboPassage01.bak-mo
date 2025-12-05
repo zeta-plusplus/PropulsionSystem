@@ -1,0 +1,6 @@
+within PropulsionSystem.Subelements;
+
+model TurboPassage01
+equation
+
+end TurboPassage01;

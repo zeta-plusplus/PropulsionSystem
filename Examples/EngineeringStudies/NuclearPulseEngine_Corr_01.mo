@@ -11,7 +11,7 @@ model NuclearPulseEngine_Corr_01
   parameter Integer GlbPar_nperiod = -1;
   parameter units.Pressure GlbPar_pulse_p_amp = 3.3e16;
   //----------
-  PropulsionSystem.Elements.BasicElements.PointPressureReceivingPlate00 plate(d2core_par = 55*9.725^(1/3))  annotation(
+  PropulsionSystem.Elements.BasicElements.PointPressureReceivingPlate00 plate(d2core_par = 55*9.725^(1/3)) annotation(
     Placement(transformation(origin = {-20.4, 72}, extent = {{-11.4, -20}, {11.4, 20}})));
   Modelica.Mechanics.Translational.Components.Fixed fixed annotation(
     Placement(transformation(origin = {-104, 72}, extent = {{-20, -20}, {20, 20}})));
@@ -21,7 +21,7 @@ model NuclearPulseEngine_Corr_01
     Placement(transformation(origin = {-54, 45}, extent = {{7, -7}, {-7, 7}}, rotation = 90)));
   NuclearSystem.Kinetics.Components.ExtremeFastFission.FissionExplosionDeviceCore00 FissionCore annotation(
     Placement(transformation(origin = {56, 72}, extent = {{20, -20}, {-20, 20}})));
-  PropulsionSystem.Elements.BasicElements.PointPressureReceivingPlate00 plate1(d2core_par = plate.d2core_par)  annotation(
+  PropulsionSystem.Elements.BasicElements.PointPressureReceivingPlate00 plate1(d2core_par = plate.d2core_par) annotation(
     Placement(transformation(origin = {-34.4, -20}, extent = {{-11.4, -20}, {11.4, 20}})));
   Modelica.Mechanics.Translational.Sensors.ForceSensor forceSensor1 annotation(
     Placement(transformation(origin = {-69, -20}, extent = {{8, -8}, {-8, 8}})));
@@ -47,6 +47,6 @@ equation
   connect(pulse_p.y, plate1.u_p) annotation(
     Line(points = {{5, -20}, {-24, -20}}, color = {0, 0, 127}));
   annotation(
-    experiment(StartTime = 0, StopTime = 0.5e-06, Tolerance = 1e-06, Interval = 1.0005e-09),
+    experiment(StartTime = 0, StopTime = 5e-07, Tolerance = 1e-06, Interval = 1.002e-09),
     Diagram(coordinateSystem(extent = {{-160, -80}, {160, 100}})));
 end NuclearPulseEngine_Corr_01;
