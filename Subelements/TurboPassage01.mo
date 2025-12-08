@@ -14,12 +14,29 @@ model TurboPassage01
             parameters
     --------------------------------------------- */
   parameter Boolean swInvFwBw=false;
-  parameter Types.switches.switchConstraintTurboPassage swCnstrPass = Types.switches.switchConstraintTurboPassage.constTipRad;
+  parameter PropulsionSystem.Types.switches.switchConstraintTurboPassage swCnstrPass = PropulsionSystem.Types.switches.switchConstraintTurboPassage.constTipRad;
+  parameter PropulsionSystem.Types.switches.switchConstraintTurbomechRotation swCnstrRot = PropulsionSystem.Types.switches.switchConstraintTurbomechRotation.None;
   parameter Real BR_in_par = 0.55;
   parameter Real AR_par = 1.2;
   parameter Integer nStgFoil_par = 12;
   parameter units.Length x1_4plot_par = 0.0;
   parameter units.Length rCtr_4plot_par=0.0;
+  
+  parameter Real Mnt_o_in_par=0.8;
+  parameter Real Mnt_m_in_par=0.8;
+  parameter Real Mnt_i_in_par=0.8;
+  parameter Real Mnt_o_out_par=0.8;
+  parameter Real Mnt_m_out_par=0.8;
+  parameter Real Mnt_i_out_par=0.8;
+  
+  parameter Real MnRel_o_in_par=0.95;
+  parameter Real MnRel_m_in_par=0.95;
+  parameter Real MnRel_i_in_par=0.95;
+  parameter Real MnRel_o_out_par=0.95;
+  parameter Real MnRel_m_out_par=0.95;
+  parameter Real MnRel_i_out_par=0.95;
+  
+  
   /* ---------------------------------------------
             variables
     --------------------------------------------- */
@@ -35,7 +52,7 @@ model TurboPassage01
   units.Length r_i_out;
   units.Length r_m_in;
   units.Length r_m_out;
-  units.Length r_o_in;
+  units.Length r_o_in(start=0.5);
   units.Length r_o_out;
   units.Length x[nStgFoil_par + 1] "x, TE side";
   units.Length r_i[nStgFoil_par + 1] "r, TE side, inner";
@@ -63,6 +80,13 @@ model TurboPassage01
   Real Mnt_i_out "Mach tangential";
   Real Mnt_m_out "Mach tangential";
   Real Mnt_o_out "Mach tangential";
+  
+  Real MnRel_i_in "Mach relative";
+  Real MnRel_m_in "Mach relative";
+  Real MnRel_o_in "Mach relative";
+  Real MnRel_i_out "Mach relative";
+  Real MnRel_m_out "Mach relative";
+  Real MnRel_o_out "Mach relative";
   
   /* ---------------------------------------------
                                 Interface
@@ -97,6 +121,13 @@ equation
     r_i_out= r_i_in;
   end if;
   
+  //-----
+  if(swCnstrRot==PropulsionSystem.Types.switches.switchConstraintTurbomechRotation.Mnt_o_in)then
+    Mnt_o_in= Mnt_o_in_par;
+  end if;
+  
+  
+  //-----
   A_out=cnst.pi*(r_o_out^2-r_i_out^2);
   
   r_m_out =1/2*(r_i_out+r_o_out);
@@ -175,6 +206,14 @@ for i in 1:nStgFoil_par loop
   Mnt_i_out= Vt_i_out/portStatIn_outlet.Vsound;
   Mnt_m_out= Vt_m_out/portStatIn_outlet.Vsound;
   Mnt_o_out= Vt_o_out/portStatIn_outlet.Vsound;
+  
+  MnRel_i_in^2=Mnt_i_in^2 + portStatIn_inlet.Mn^2;
+  MnRel_m_in^2=Mnt_m_in^2 + portStatIn_inlet.Mn^2;
+  MnRel_o_in^2=Mnt_o_in^2 + portStatIn_inlet.Mn^2;
+  
+  MnRel_i_out^2=Mnt_i_out^2 + portStatIn_outlet.Mn^2;
+  MnRel_m_out^2=Mnt_m_out^2 + portStatIn_outlet.Mn^2;
+  MnRel_o_out^2=Mnt_o_out^2 + portStatIn_outlet.Mn^2;
   
   
   annotation(
