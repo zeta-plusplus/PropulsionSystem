@@ -11,6 +11,7 @@ model CompressorDesignPoint00
   import Modelica.Constants;
   import PropulsionSystem.Types.switches;
   
+  
   /********************************************************
           Declaration   
     ********************************************************/
@@ -44,6 +45,7 @@ model CompressorDesignPoint00
   inner parameter Real effDes_par = 0.80 "adiabatic efficiency, valid only when use_u_eff==false, value fixed through simulation" annotation(
     Dialog(group = "Component characteristics"));
   
+  
   /* ---------------------------------------------
           Internal variables
       --------------------------------------------- */
@@ -52,6 +54,7 @@ model CompressorDesignPoint00
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Real effDes(start = eff_init, min = 0.0, max = 1.0) "adiabatic efficiency" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  
   
   /* ---------------------------------------------
           Interface   
@@ -130,7 +133,7 @@ equation
   Graphics
 ********************************************************/
   annotation(
-    defaultComponentName = "CmpDesPt",
+    defaultComponentName = "Cmp",
     Documentation(info = "<html>
   <a href=modelica://PropulsionSystem/docs/Elements/BasicElements/CmpCharFixed00.html> Document html page</a>
   

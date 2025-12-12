@@ -1,0 +1,24 @@
+within PropulsionSystem.Examples.Elements.JetNozzles;
+
+model NozzleDesignPoint02_ex00
+  extends Modelica.Icons.Example;
+  //-----
+  package engineAir = Modelica.Media.Air.DryAirNasa;
+  //package engineAir = PropulsionSystem.Media.EngineBreathingAir.DryAirMethaneMixture00;
+  //redeclare package Medium = engineAir
+  //-----
+  inner EngineSimEnvironment environment annotation(
+    Placement(visible = true, transformation(origin = {-50, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Fluid.Sources.Boundary_pT boundary(redeclare package Medium = engineAir, T = 1600, nPorts = 0, p = 20*101.325*1000) annotation(
+    Placement(visible = true, transformation(origin = {-66, 52}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Fluid.Sources.MassFlowSource_T boundary1(redeclare package Medium = engineAir, T = 288.15, m_flow = -1.0, nPorts = 0) annotation(
+    Placement(visible = true, transformation(origin = {52, 52}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+  inner Modelica.Fluid.System system annotation(
+    Placement(visible = true, transformation(origin = {-30, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+equation
+
+  annotation(
+    experiment(StartTime = 0, StopTime = 40, Tolerance = 1e-06, Interval = 0.02),
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", outputFormat = "mat", s = "dassl"),
+    Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}})));
+end NozzleDesignPoint02_ex00;

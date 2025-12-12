@@ -10,3 +10,4 @@ switch_fuel
 switchPropellerThrustSaturation
 switchHeatPumpCoP
 switchConstraintTurboPassage
+switchConstraintTurbomechRotation

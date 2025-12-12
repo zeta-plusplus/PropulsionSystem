@@ -103,7 +103,7 @@ equation
   Graphics
 ********************************************************/
   annotation(
-    defaultComponentName = "TrbDesPt",
+    defaultComponentName = "Trb",
     Documentation(info = "<html>
   <a href=modelica://PropulsionSystem/docs/Elements/BasicElements/TrbCharFixed00.html> Document html page</a>
   
