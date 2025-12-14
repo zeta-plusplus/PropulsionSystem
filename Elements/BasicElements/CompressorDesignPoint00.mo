@@ -134,6 +134,7 @@ equation
 ********************************************************/
   annotation(
     defaultComponentName = "Cmp",
+    coordinateSystem(preserveAspectRatio=false),
     Documentation(info = "<html>
   <a href=modelica://PropulsionSystem/docs/Elements/BasicElements/CmpCharFixed00.html> Document html page</a>
   

@@ -18,13 +18,19 @@ model NozzleDesignPoint00
   /* ---------------------------------------------
           switches
     --------------------------------------------- */
-  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_m_flow_1= PropulsionSystem.Types.switches.switchHowToDetVar.param "switch how to determine m_flow_1" annotation(
+  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_m_flow_1= PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated "switch how to determine m_flow_1" annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
     Evaluate = true,
     HideResult = true); 
   
   parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_AmechTh= PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated "switch how to determine Amech of throat" annotation(
+    Dialog(group = "switch"),
+    choicesAllMatching = true,
+    Evaluate = true,
+    HideResult = true);
+  
+  parameter PropulsionSystem.Types.switches.switchHowToDetVar switchDetermine_Amech2= PropulsionSystem.Types.switches.switchHowToDetVar.asCalculated "switch how to determine Amech after expand to ambient pressure" annotation(
     Dialog(group = "switch"),
     choicesAllMatching = true,
     Evaluate = true,
@@ -92,25 +98,25 @@ model NozzleDesignPoint00
           Interface   
     --------------------------------------------- */
   Modelica.Blocks.Interfaces.RealInput u_m_flow_1 if switchDetermine_m_flow_1 == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "m_flow_1 input, valid only when switchDetermine_m_flow_1==viaRealInput" annotation(
-    Placement(transformation(origin = {-100, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {-100, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement(transformation(origin = {-100, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {-120, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   Modelica.Blocks.Interfaces.RealInput u_AmechTh if switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "eff input, valid only when switchDetermine_eff==viaRealInput" annotation(
-    Placement( transformation(origin = {-60, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {40, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement( transformation(origin = {-60, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {-20, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   Modelica.Blocks.Interfaces.RealInput u_Amech2 if switchDetermine_AmechTh == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "eff input, valid only when switchDetermine_eff==viaRealInput" annotation(
-    Placement( transformation(origin = {-60, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {40, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement( transformation(origin = {20, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {120, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   Modelica.Blocks.Interfaces.RealInput u_Cv if switchDetermine_Cv == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "PR input, valid only when switchDetermine_PR==viaRealInput" annotation(
-    Placement( transformation(origin = {-20, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {110, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+    Placement( transformation(origin = {-20, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {130, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   
   Modelica.Blocks.Interfaces.RealInput u_CdTh if switchDetermine_CdTh == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "PR input, valid only when switchDetermine_PR==viaRealInput" annotation(
-    Placement( transformation(origin = {-40, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {20, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement( transformation(origin = {-40, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {-40, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   Modelica.Blocks.Interfaces.RealInput u_Cd2 if switchDetermine_CdTh == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "PR input, valid only when switchDetermine_PR==viaRealInput" annotation(
-    Placement( transformation(origin = {0, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {80, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement( transformation(origin = {0, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {100, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
     
   Modelica.Blocks.Interfaces.RealInput u_PR if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput "PR input, valid only when switchDetermine_PR==viaRealInput" annotation(
-    Placement( transformation(origin = {-80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {-60, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+    Placement( transformation(origin = {-80, -110}, extent = {{-10, -10}, {10, 10}}, rotation = 90), iconTransformation(origin = {-80, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   
     
@@ -133,6 +139,15 @@ equation
     AmechTh = u_AmechTh;
   end if;
   
+  
+  //--------------------
+  if switchDetermine_Amech2 == PropulsionSystem.Types.switches.switchHowToDetVar.param then
+    Amech2 = Amech2_par;
+  elseif switchDetermine_Amech2 == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
+    Amech2 = u_Amech2;
+  end if;
+  
+  
   //--------------------
   if switchDetermine_Cv == PropulsionSystem.Types.switches.switchHowToDetVar.param then
     CvDes = Cv_par;
@@ -150,4 +165,32 @@ equation
   
   
   //--------------------
-  if switchDetermine_Cd2 == PropulsionSystem.Types.switches.switchHowToD
+  if switchDetermine_Cd2 == PropulsionSystem.Types.switches.switchHowToDetVar.param then
+    Cd2des = Cd2_par;
+  elseif switchDetermine_Cv == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
+    Cd2des = u_Cd2;
+  end if;
+  
+  
+  //--------------------
+  if switchDetermine_PR == PropulsionSystem.Types.switches.switchHowToDetVar.param then
+    PR = PR_par;
+  elseif switchDetermine_Cv == PropulsionSystem.Types.switches.switchHowToDetVar.viaRealInput then
+    PR = u_PR;
+  end if;
+  
+  
+  //--------------------
+  port_1.m_flow= m_flow_1_des;
+  Cv=CvDes;
+  CdTh=CdThDes;
+  Cd2= Cd2des;
+  
+  
+  
+  annotation(
+    defaultComponentName = "Nzl"
+    );
+  
+  
+end NozzleDesignPoint00;

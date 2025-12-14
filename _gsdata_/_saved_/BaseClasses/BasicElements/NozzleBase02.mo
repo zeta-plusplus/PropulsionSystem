@@ -30,6 +30,10 @@ partial model NozzleBase02
   parameter Boolean use_flangeThrust = false "" annotation(
     Dialog(group = "switch"),
     Evaluate = true);
+  parameter Boolean show_divergentSection = false "" annotation(
+    Dialog(group = "switch"),
+    Evaluate = true);
+  
   parameter Boolean printCmd = false "" annotation(
     Evaluate = true,
     HideResult = true,
@@ -141,6 +145,8 @@ partial model NozzleBase02
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   units.Velocity V_th(start = V_th_init, min = if allowFlowReversal then -Constants.inf else 0.0 + 1.0e-10) "" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
+  units.Velocity VsoundTh(start = V_th_init, min = if allowFlowReversal then -Constants.inf else 0.0 + 1.0e-10) "" annotation(
+    Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Real MNth(start = MNth_init) "" annotation(
     Dialog(tab = "Variables", group = "start attribute", enable = false, showStartAttribute = true));
   Real MN2(start = MNth_init) "" annotation(
@@ -175,15 +181,15 @@ partial model NozzleBase02
               Interface
           --------------------------------------------- */
   Modelica.Fluid.Interfaces.FluidPort_a port_1(redeclare package Medium = Medium, m_flow(start = m_flow1_init, min = if allowFlowReversal then -Constants.inf else 0.0), h_outflow(start = h1_init, min = 0.0 + 1.0e-10), p(start = p1_init, min = 0.0 + 1.0e-10)) "" annotation(
-    Placement(transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-120, 80}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_2(redeclare package Medium = Medium, m_flow(start = m_flow2_init, max = if allowFlowReversal then +Constants.inf else 0.0), h_outflow(start = h2_init, min = 0.0 + 1.0e-10), p(start = p2_init, min = 0.0 + 1.0e-10)) "flow sink port after expansion" annotation(
-    Placement(transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {99, 80}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {100, 80}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {119, 80}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_amb(redeclare package Medium = Medium, h_outflow(min = 0.0 + 1.0e-10, start = h2_init), m_flow(max = if allowFlowReversal then +Constants.inf else 0.0, start = m_flow2_init), p(min = 0.0 + 1.0e-10, start = p2_init)) "fluid node of ambient air" annotation(
-    Placement(transformation(origin = {60, 100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {60, 90}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {60, 100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {80, 100}, extent = {{-10, -10}, {10, 10}})));
   PropulsionSystem.Types.ElementBus elementBus1 annotation(
-    Placement(transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-100, -40}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {70, -100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-120, -40}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Translational.Interfaces.Flange_a flangeThrust if (use_flangeThrust == true) annotation(
-    Placement(transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {40, 0}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {100, -1}, extent = {{-10, -10}, {10, 10}})));
   
   //********************************************************************************
 equation
@@ -273,15 +279,19 @@ equation
 //case of unchoked
   end if;
 //--- throat state ---
-  MNth = V_th/Medium.velocityOfSound(fluidStat_th.state);
-  MN2 = V_2/Medium.velocityOfSound(fluid_2.state);
-  MN2wrtAmb = V_2/Medium.velocityOfSound(fluid_amb.state);
+  VsoundTh= Medium.velocityOfSound(fluidStat_th.state);
+  MNth = V_th/VsoundTh;
   fluidStat_th.h = fluid_1.h - 1.0/2.0*(sign(V_th)*abs(V_th)^2.0);
   fluidStat_th.h = Medium.isentropicEnthalpy(fluidStat_th.p, fluid_1.state);
   m_flow_th = fluid_th.d*V_th*AeTh;
   m_flow_th = port_1.m_flow;
   m_flow_th = fluid_2.d*V_2*Ae2;
   AeTh = AmechTh*CdTh;
+  //-----
+  Vsound2= Medium.velocityOfSound(fluid_2.state);
+  MN2 = V_2/Vsound2;
+  VsoundAmb= Medium.velocityOfSound(fluid_amb.state);
+  MN2wrtAmb = V_2/VsoundAmb;
   Ae2 = Amech2*Cd2;
   s_fluid_1 = Medium.specificEntropy(fluid_1.state);
   s_fluid_2 = Medium.specificEntropy(fluid_2.state);
@@ -299,4 +309,6 @@ equation
     Graphics
   ********************************************************/
   annotation(
-    Icon(graphics = {Polygon(origin = {-20, 10}, fillColor = {255, 250, 80}, fillPattern = FillPattern.HorizontalCylinder, points = {{-80, 70}, {-80, -90}, {60, -50}, {60, 30}, {-80, 70}}), Text(origin = {-74, 130}, extent = {{-26, -8}, {174, -28}}, textString = "%name"), T
+    Icon(graphics = {Text(origin = {-74, 130}, extent = {{-26, -8}, {174, -28}}, textString = "%name"), Text(origin = {139, 69}, extent = {{-17, -1}, {15, -14}}, textString = "sink"), Line(origin = {123.16, -2.13}, points = {{-145, 2}, {-3, 2}, {-3, 82}}, pattern = LinePattern.Dash, thickness = 1), Text(origin = {55, 101}, extent = {{-19, -1}, {17, -14}}, textString = "amb"), Rectangle(origin = {-112, 80}, rotation = 180, fillColor = {184, 184, 184}, fillPattern = FillPattern.Solid, extent = {{3, 66}, {7, 4}}), Polygon(origin = {-40, 10}, fillColor = {255, 250, 80}, fillPattern = FillPattern.HorizontalCylinder, points = {{-80, 50}, {-80, -70}, {20, -30}, {20, 10}, {-80, 50}}), Line(origin = {33, 20}, points = {{-33, 0}, {27, 0}}, arrow = {Arrow.None, Arrow.Open}, arrowSize = 6), Line(origin = {33, -20}, points = {{-33, 0}, {27, 0}}, arrow = {Arrow.None, Arrow.Open}, arrowSize = 6), Line(origin = {33, 0}, points = {{-33, 0}, {27, 0}}, arrow = {Arrow.None, Arrow.Open}, arrowSize = 6), Polygon(visible = show_divergentSection, origin = {124, -20}, fillColor = {255, 250, 80}, fillPattern = FillPattern.HorizontalCylinder, points = {{-144, 40}, {-144, 0}, {-24, -60}, {-24, 102}, {-144, 40}}), Line(origin = {30, 0}, points = {{-30, 0}, {30, 0}}, thickness = 0.5, arrow = {Arrow.None, Arrow.Open}, arrowSize = 6)}, coordinateSystem(initialScale = 0.1, extent = {{-120, -100}, {120, 100}})),
+  Diagram(graphics));
+end NozzleBase02;
