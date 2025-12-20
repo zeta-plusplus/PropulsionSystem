@@ -1,0 +1,12 @@
+2025-12-17 22:33:38: Server: SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.14
+2025-12-17 22:33:38: Server KEXes: sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256,ext-info-s,kex-strict-s-v00@openssh.com
+2025-12-17 22:33:38: Server Host Keys: rsa-sha2-512,rsa-sha2-256,ecdsa-sha2-nistp256,ssh-ed25519
+2025-12-17 22:33:38: Chosen Host Key: ssh-ed25519
+2025-12-17 22:33:38: Ciphers: chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com
+2025-12-17 22:33:38: MACs: umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1
+2025-12-17 22:33:38: Auth: start: publickey
+2025-12-17 22:33:38: Auth: publickey: no keys available
+2025-12-17 22:33:38: Auth: start: password
+2025-12-17 22:33:39: -- Analysis Started by Trying Locks Again
+2025-12-17 22:33:39: Error analyzing sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem: Another job is Syncing in folder sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem,
+it was started by: By: VPS-sync--HDV-CCDU3A.grabacr@DESKTOP-P9AGV3G at: 2025.12.17 22:13:38 ìåãû (ïWèÄéû).

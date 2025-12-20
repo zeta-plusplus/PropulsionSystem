@@ -1,0 +1,59 @@
+2025-12-16 23:39:49: Server: SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.14
+2025-12-16 23:39:49: Server KEXes: sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256,ext-info-s,kex-strict-s-v00@openssh.com
+2025-12-16 23:39:49: Server Host Keys: rsa-sha2-512,rsa-sha2-256,ecdsa-sha2-nistp256,ssh-ed25519
+2025-12-16 23:39:49: Chosen Host Key: ssh-ed25519
+2025-12-16 23:39:49: Ciphers: chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com
+2025-12-16 23:39:49: MACs: umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1
+2025-12-16 23:39:49: Auth: start: publickey
+2025-12-16 23:39:49: Auth: publickey: no keys available
+2025-12-16 23:39:49: Auth: start: password
+2025-12-16 23:39:50: -- Analysis Started by On File Change, After Delay
+2025-12-16 23:39:51: Changes: 1 (3), Conflicts: 0, CopyTime: 0, FixState: 0, Errors: 0, All: 3992
+2025-12-16 23:39:51: Left to Right: Copy File: 1 
+2025-12-16 23:39:51: == Sync Started by On File Change, After Delay
+2025-12-16 23:39:51: Start only 1 threads, limited by tasks to run
+2025-12-16 23:39:51: Copy Over 'C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/FETCH_HEAD' -> 'sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/.git/FETCH_HEAD' (0)
+2025-12-16 23:39:51: Save State File C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_file_state_v4._gs
+2025-12-16 23:39:52: Save State File sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_file_state_v4._gs
+2025-12-16 23:39:52: Deleted Recycled: C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/Examples/Subelements/TurboPassage00_ex01.mo
+2025-12-16 23:39:52: Deleted Recycled: C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/Types/switches/switchConstraintTurboPassage.mo
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/0c/dba0199ff19b7f4ccdd764c6e63c046ec6ddc4
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/17/6a9880a30bcc467527b36d127ed0abae27a124
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/22/bf20c0dc7436abca791b6a48b65260871202a4
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/31/025d06f2dfa65c596b67c329858d685196968f
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/46/be851fc0ceb4f5ccaca177231bff0ebb9f71c2
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/50/b21cea644c40831bc7dcf73de0f5486530e68d
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/53/e88c2e05d016244bc26fc2a1ed3e8a6392792a
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/5e/9f7df3d04f04dae085baac39d3661ae06d873b
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/63/5aa16ea93e03656c447fc46d7bb4b2a23c99d3
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/6c/7beca93ca1b7f43f0c421a4e17eacc5119dbe8
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/7d/8055dac1db17893fcbab45ff051879dde7b0a7
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/84/54a0107d75246557067756949a83ca0c2b052d
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/9d/9d4ab9cd925f235f835504b521e32651b5321b
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/9d/c50b950e436f1f91d5e48d7e941e0354edd370
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/a1/2dc61e81f25a2fc070987bfde2da716fee1412
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/a7/4c762416a14d4b6d8f74fb262bbbebee24b3ec
+2025-12-16 23:39:52: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/ae/da83c0e534c55a554527fa556f2431a32bfe4a
+2025-12-16 23:39:53: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/b9/c300c0f8372f87f7b19b746584513a29d4acdc
+2025-12-16 23:39:53: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/cc/49277ac21be5cc37e56855f66d678cb55e7732
+2025-12-16 23:39:53: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/d4/447b781be5b739b8711681fba56d69f257797b
+2025-12-16 23:39:53: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/d9/cabd83267d2899c05d83a67ead22e6a072dfa4
+2025-12-16 23:39:53: Deleted Recycled: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_saved_/.git/objects/de/8e6ccb6b595609aabb204ee6652f3a365c10e4
+2025-12-16 23:39:54: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/a7
+2025-12-16 23:39:55: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/22
+2025-12-16 23:39:56: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/9d
+2025-12-16 23:39:56: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/de
+2025-12-16 23:39:57: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/5e
+2025-12-16 23:39:57: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/d9
+2025-12-16 23:39:58: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/ae
+2025-12-16 23:39:59: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/d4
+2025-12-16 23:39:59: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/b9
+2025-12-16 23:40:00: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/17
+2025-12-16 23:40:00: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/6c
+2025-12-16 23:40:01: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/46
+2025-12-16 23:40:02: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/50
+2025-12-16 23:40:03: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/53
+2025-12-16 23:40:03: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/0c
+2025-12-16 23:40:04: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/cc
+2025-12-16 23:40:04: GsDeleteEmptyFoldersFS: /_gsdata_/_saved_/.git/objects/84
+2025-12-16 23:40:06: == Sync Complete. Time: 00:00:15, Speed: 0.00/s, OK: 1, Errors: 0
