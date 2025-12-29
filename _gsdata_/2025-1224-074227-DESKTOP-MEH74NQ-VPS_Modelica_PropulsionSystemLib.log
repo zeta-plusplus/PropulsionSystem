@@ -1,0 +1,18 @@
+2025-12-24 07:42:28: Server: SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.14
+2025-12-24 07:42:28: Server KEXes: sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256,ext-info-s,kex-strict-s-v00@openssh.com
+2025-12-24 07:42:28: Server Host Keys: rsa-sha2-512,rsa-sha2-256,ecdsa-sha2-nistp256,ssh-ed25519
+2025-12-24 07:42:28: Chosen Host Key: ssh-ed25519
+2025-12-24 07:42:28: Ciphers: chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com
+2025-12-24 07:42:28: MACs: umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1
+2025-12-24 07:42:28: Auth: start: publickey
+2025-12-24 07:42:28: Auth: publickey: no keys available
+2025-12-24 07:42:28: Auth: start: password
+2025-12-24 07:42:29: -- Analysis Started by Trying Locks Again
+2025-12-24 07:42:29: R: State File has changed, so re-read it: sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_file_state_v4._gs
+2025-12-24 07:42:29: R: Reading State File sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_file_state_v4._gs
+2025-12-24 07:42:30: Changes: 0, Conflicts: 0, CopyTime: 0, FixState: 4,494, Errors: 0, All: 4494
+2025-12-24 07:42:30: == Sync Started by Trying Locks Again
+2025-12-24 07:42:30: Start only 0 threads, limited by tasks to run
+2025-12-24 07:42:30: Save State File C:/Users/grabacr/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_file_state_v4._gs
+2025-12-24 07:42:31: Save State File sftp://os3-310-44666.vs.sakura.ne.jp/home/ubuntu/VPSsync/01-WorkspaceSync/modelica-shared/CustomLib/PropulsionSystem/_gsdata_/_file_state_v4._gs
+2025-12-24 07:42:51: == Sync Complete. Time: 00:00:21, Speed: 0.00/s, OK: 4,494, Errors: 0
